@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ "task/CICD" ]
+    branches: [ "**" ]
 
 jobs:
   build:
@@ -21,17 +21,23 @@ jobs:
 
       - name: create application.yml
         run: |
-          ## create application.yml
+          ## create application-local.yml
           cd ./src/main/resources
           
-          # application.yml 파일 생성
-          touch ./application.yml
+          # application-local.yml 파일 생성
+          touch ./application-local.yml
+          
+          # application-secret.properties 파일 생성
+          touch ./application-secret.properties
+          
+          # GitHub-Actions 에서 설정한 값을 application-local.yml 파일에 쓰기
+          echo "${{ secrets.CI_APPLICATION }}" >> ./application-local.yml
           
           # GitHub-Actions 에서 설정한 값을 application.yml 파일에 쓰기
-          echo "${{ secrets.CI_APPLICATION }}" >> ./application.yml
+          echo "${{ secrets.PROPERTIES_APPLICATION }}" >> ./application-secret.properties
           
           # application.yml 파일 확인
-          cat ./application.yml
+          cat ./application-local.yml
         shell: bash
 
       - name: build
