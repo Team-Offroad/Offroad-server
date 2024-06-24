@@ -1,1 +1,18 @@
-spring.application.name=offloadserver
+spring:
+  config:
+    import: application-secret.properties
+    activate:
+      on-profile: dev
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DATABASE.ENDPOINT_URL.dev}:3306/${DATABASE.NAME.dev}
+    username: ${DATABASE.USERNAME.dev}
+    password: ${DATABASE.PASSWORD.dev}
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
