@@ -1,16 +1,17 @@
 spring:
   config:
+    import: application-secret.properties
     activate:
-      on-profile: dev
+      on-profile: local
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://offroad.cvoamy0mckur.ap-northeast-2.rds.amazonaws.com:3306/offroad
-    username: offroadserver
-    password: dhvmfhem1**
+    driver-class-name: org.h2.Driver
+    url : jdbc:h2:mem:testdb
+    username: sa
+    password:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
