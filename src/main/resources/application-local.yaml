@@ -1,13 +1,12 @@
 spring:
   config:
-    import: application-secret.properties
     activate:
       on-profile: dev
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${DATABASE.ENDPOINT_URL.dev}:3306/${DATABASE.NAME.dev}
-    username: ${DATABASE.USERNAME.dev}
-    password: ${DATABASE.PASSWORD.dev}
+    url: jdbc:mysql://offroad.cvoamy0mckur.ap-northeast-2.rds.amazonaws.com:3306/offroad
+    username: offroadserver
+    password: dhvmfhem1**
   jpa:
     show-sql: true
     hibernate:
