@@ -41,4 +41,4 @@ out/
 .DS_Store
 
 ### secret ###
-.properties
+application-secret.properties
