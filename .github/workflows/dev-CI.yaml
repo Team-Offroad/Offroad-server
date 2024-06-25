@@ -32,14 +32,14 @@ jobs:
 
       - name: create application.yml
         run: |
-          ## create application.yml
+          ## create application-dev.yml
           cd ./src/main/resources
           
-          # application.yml 파일 생성
-          touch ./application.yml 
+          # application-dev.yml 파일 생성
+          touch ./application-dev.yml 
           
-          # GitHub-Actions 에서 설정한 값을 application.yml 파일에 쓰기
-          echo "${{ secrets.CI_APPLICATION }}" >> ./application.yml
+          # GitHub-Actions 에서 설정한 값을 application-dev.yml 파일에 쓰기
+          echo "${{ secrets.CI_APPLICATION_DEV }}" >> ./application-dev.yml
 
         shell: bash
 
