@@ -1,6 +1,5 @@
 spring:
   config:
-    import: application-secret.properties
     activate:
       on-profile: local
   datasource:
