@@ -43,8 +43,6 @@ jobs:
 
           # GitHub-Actions 에서 설정한 값을 application-dev.yml 파일에 쓰기
           echo "${{ secrets.CD_APPLICATION_DEV }}" > ./application-dev.yml
-          
-          cat ./application-dev.yml
         working-directory: ${{ env.working-directory }}
 
       - name: 빌드
