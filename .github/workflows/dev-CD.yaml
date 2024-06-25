@@ -24,6 +24,7 @@ jobs:
       - name: create application-secret.properties
         run: |
           ## create application-secret.properties
+          mkdir -p ./src/main/resources
           cd ./src/main/resources
 
           # application-secret.properties 파일 생성

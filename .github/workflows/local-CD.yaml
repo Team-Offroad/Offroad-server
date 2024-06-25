@@ -24,6 +24,7 @@ jobs:
       - name: create application.yml
         run: |
           ## create application-local.yml
+          mkdir -p ./src/main/resources
           cd ./src/main/resources
 
           # application-local.yml 파일 생성
