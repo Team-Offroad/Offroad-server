@@ -62,12 +62,12 @@ jobs:
           password: ${{ secrets.DOCKER_LOGIN_ACCESSTOKEN }}
 
       - name: docker image 빌드 및 푸시
+        uses: docker/build-push-action@v4
         with:
-          file: ./Dockerfile-dev
-        run: |
-          docker build --platform linux/amd64 -t offroadserver/offroad .
-          docker push offroadserver/offroad
-  
+          context: .
+          file: ./Dockerfile-local
+          push: true
+          tags: offroadserver/offroad
 
   cd:
     needs: ci
