@@ -21,6 +21,20 @@ jobs:
           distribution: 'corretto'
           java-version: '21'
 
+      - name: create application-secret.properties
+        run: |
+          ## create application-secret.properties
+          mkdir -p ./src/main/resources
+          cd ./src/main/resources
+
+          # application-secret.properties 파일 생성
+          touch ./application-secret.properties
+
+          # GitHub-Actions 에서 설정한 값을 application-secret.properties 파일에 쓰기
+          echo "${{ secrets.PROPERTIES_APPLICATION }}" > ./application-secret.properties
+          
+          cat ./application-secret.properties
+
       - name: create application.yml
         run: |
           ## create application-dev.yml
@@ -30,7 +44,7 @@ jobs:
           touch ./application-dev.yml 
 
           # GitHub-Actions 에서 설정한 값을 application-dev.yml 파일에 쓰기
-          echo "${{ secrets.APPLICATION_DEV }}" > ./application-dev.yml
+          echo "${{ secrets.CD_APPLICATION_DEV }}" > ./application-dev.yml
           
           cat ./application-dev.yml
         working-directory: ${{ env.working-directory }}
