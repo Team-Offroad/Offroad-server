@@ -29,7 +29,7 @@ jobs:
           touch ./application-local.yml 
           
           # GitHub-Actions 에서 설정한 값을 application-local.yml 파일에 쓰기
-          echo "${{ secrets.CI_APPLICATION_LOCAL }}" > ./application-local.yml
+          echo "${{ secrets.APPLICATION_LOCAL }}" > ./application-local.yml
 
         shell: bash
 
