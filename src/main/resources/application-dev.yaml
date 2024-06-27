@@ -1,0 +1,18 @@
+spring:
+  config:
+    import: application-secret.properties
+    activate:
+      on-profile: dev
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DATABASE_ENDPOINT_URL_DEV}:3306/${DATABASE_NAME_DEV}
+    username: ${DATABASE_USERNAME_DEV}
+    password: ${DATABASE_PASSWORD_DEV}
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
