@@ -101,6 +101,8 @@
 
 ---
 
+🌱 단일 모듈 프로젝트에서 멀티 모듈 프로젝트로 확장을 고려하여 구조를 생각했습니다.
+
 ```bash
 📦site.offload.offloadserver
  ┣ 📂api
