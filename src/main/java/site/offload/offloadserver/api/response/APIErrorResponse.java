@@ -1,7 +1,5 @@
-package site.offload.offloadserver.common.api.response;
+package site.offload.offloadserver.api.response;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 public record APIErrorResponse(
