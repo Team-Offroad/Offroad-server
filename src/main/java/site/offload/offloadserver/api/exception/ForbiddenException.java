@@ -4,7 +4,7 @@ import site.offload.offloadserver.api.message.ErrorMessage;
 
 public class ForbiddenException extends OffroadException{
 
-    public ForbiddenException(ErrorMessage errorMessage) {
+    public ForbiddenException(final ErrorMessage errorMessage) {
         super(errorMessage);
     }
 }

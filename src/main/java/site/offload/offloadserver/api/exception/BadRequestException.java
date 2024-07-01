@@ -4,7 +4,7 @@ import site.offload.offloadserver.api.message.ErrorMessage;
 
 public class BadRequestException extends OffroadException{
 
-    public BadRequestException(ErrorMessage errorMessage) {
+    public BadRequestException(final ErrorMessage errorMessage) {
         super(errorMessage);
     }
 }

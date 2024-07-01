@@ -4,7 +4,7 @@ import site.offload.offloadserver.api.message.ErrorMessage;
 
 public class NotFoundException extends OffroadException{
 
-    public NotFoundException(ErrorMessage errorMessage) {
+    public NotFoundException(final ErrorMessage errorMessage) {
         super(errorMessage);
     }
 }
