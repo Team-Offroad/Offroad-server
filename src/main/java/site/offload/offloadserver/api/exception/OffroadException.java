@@ -7,10 +7,10 @@ import site.offload.offloadserver.api.message.ErrorMessage;
 @Getter
 public class OffroadException extends RuntimeException {
 
-    private String message;
-    private HttpStatus httpStatus;
+    private final String message;
+    private final HttpStatus httpStatus;
 
-    public OffroadException(ErrorMessage errorMessage) {
+    public OffroadException(final ErrorMessage errorMessage) {
         super(errorMessage.getMessage());
         this.message = errorMessage.getMessage();
         this.httpStatus = errorMessage.getHttpStatus();

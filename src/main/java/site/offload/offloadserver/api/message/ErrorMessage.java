@@ -10,11 +10,12 @@ import org.springframework.http.HttpStatus;
 public enum ErrorMessage {
 
     /* 400 Bad Request */
-    BAD_REQUEST("bad request", HttpStatus.BAD_REQUEST);
 
     /* 401 UnAuthorized */
 
     /* 403 Forbidden */
+
+    /* 404 Not Found */
 
     /* 500 Internal Server Error */
 
