@@ -1,4 +1,4 @@
-package site.offload.offloadserver.common.api.message;
+package site.offload.offloadserver.api.message;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

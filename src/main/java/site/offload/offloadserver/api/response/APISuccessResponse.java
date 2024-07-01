@@ -1,4 +1,4 @@
-package site.offload.offloadserver.common.api.response;
+package site.offload.offloadserver.api.response;
 
 import org.springframework.http.ResponseEntity;
 
