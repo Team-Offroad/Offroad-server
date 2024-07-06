@@ -16,7 +16,7 @@ public class Member extends BaseTime {
     private Long id;
 
     /**
-     * 소셜 로그인 기반 정보 : name(필수), email(필수), gender(선택), age(선택)
+     * 소셜 로그인 기반 정보 : name(필수), email(필수)
      */
     @Column(nullable = false, columnDefinition = "TEXT")
     private String name;
