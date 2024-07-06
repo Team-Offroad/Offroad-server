@@ -23,6 +23,9 @@ public class Character extends BaseTime {
     @Column(nullable = false, unique = true, columnDefinition = "TEXT")
     private String characterBaseImageUrl;
 
+    @Column(nullable = false, unique = true, columnDefinition = "TEXT")
+    private String CharacterCode;
+
     @Builder
     private Character(String name, String description, String characterBaseImageUrl) {
         this.name = name;
