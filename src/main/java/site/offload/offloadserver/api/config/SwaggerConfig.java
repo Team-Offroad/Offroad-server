@@ -1,4 +1,4 @@
-package site.offload.offloadserver.common.api.config;
+package site.offload.offloadserver.api.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

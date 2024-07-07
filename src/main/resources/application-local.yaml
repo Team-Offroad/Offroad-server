@@ -1,5 +1,6 @@
 spring:
   config:
+    import: application-secret.properties
     activate:
       on-profile: local
   datasource:
@@ -15,3 +16,6 @@ spring:
       hibernate:
         format_sql: true
         show_sql: true
+
+discord:
+  webhook-url: ${DISCORD_WEBHOOK_URL_DEV}
