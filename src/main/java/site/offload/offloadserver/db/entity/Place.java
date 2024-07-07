@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 //서비스에 등록된 장소
 @Entity
 @NoArgsConstructor(access =  AccessLevel.PROTECTED)
-public class Place extends BaseTime {
+public class Place extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

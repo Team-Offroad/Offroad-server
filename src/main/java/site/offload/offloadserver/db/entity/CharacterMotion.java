@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 //각 캐릭터의 모션
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CharacterMotion extends BaseTime{
+public class CharacterMotion extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

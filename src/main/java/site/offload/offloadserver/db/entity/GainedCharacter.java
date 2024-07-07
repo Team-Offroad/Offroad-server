@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 //사용자가 얻은 캐릭터
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class GainedCharacter extends BaseTime {
+public class GainedCharacter extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

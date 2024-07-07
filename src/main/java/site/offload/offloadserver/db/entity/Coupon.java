@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 //보상으로 얻을 수 있는 쿠폰
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Coupon extends BaseTime {
+public class Coupon extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
