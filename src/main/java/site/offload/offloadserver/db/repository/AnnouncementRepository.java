@@ -1,7 +1,7 @@
 package site.offload.offloadserver.db.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 import site.offload.offloadserver.db.entity.Announcement;
 
-public interface AnnouncementRepository extends JpaRepository<Announcement, Long> {
+public interface AnnouncementRepository extends CrudRepository<Announcement, Long> {
 }

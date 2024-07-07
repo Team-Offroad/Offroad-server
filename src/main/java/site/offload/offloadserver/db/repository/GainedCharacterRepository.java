@@ -1,7 +1,7 @@
 package site.offload.offloadserver.db.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 import site.offload.offloadserver.db.entity.GainedCharacter;
 
-public interface GainedCharacterRepository extends JpaRepository<GainedCharacter, Long> {
+public interface GainedCharacterRepository extends CrudRepository<GainedCharacter, Long> {
 }
