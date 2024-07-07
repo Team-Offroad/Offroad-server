@@ -18,26 +18,25 @@ public class Member extends BaseTime {
     /**
      * 소셜 로그인 기반 정보 : name(필수), email(필수)
      */
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false)
     private String email;
 
-    @Column(columnDefinition = "TEXT")
     @Enumerated(EnumType.STRING)
     private MemberGender gender;
 
     @Column(columnDefinition = "integer CHECK (age >= 0)")
     private int age;
 
-    @Column(unique = true, columnDefinition = "TEXT")
+    @Column(unique = true)
     private String nickName;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(nullable = false)
     private String currentCharacterName;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(nullable = false)
     private String currentEmblemName;
 
     @Builder

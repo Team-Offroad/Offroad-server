@@ -14,7 +14,7 @@ public class Announcement extends BaseTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false)
     private String writer;
 
     @Column(nullable = false, columnDefinition = "TEXT")

@@ -14,17 +14,17 @@ public class Place extends BaseTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false)
     private String address;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String shortIntroduction;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false)
     private PlaceCategory placeCategory;
 
     @Column(nullable = false, columnDefinition = "float CHECK (latitude >= -90 AND latitude <= 90)")

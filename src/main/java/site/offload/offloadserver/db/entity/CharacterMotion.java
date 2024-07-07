@@ -19,7 +19,7 @@ public class CharacterMotion extends BaseTime{
     private Character character;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false)
     private PlaceCategory placeCategory;
 
     @Column(nullable = false, unique = true, columnDefinition = "TEXT")
