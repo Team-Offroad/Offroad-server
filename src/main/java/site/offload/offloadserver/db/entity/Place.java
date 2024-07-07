@@ -32,15 +32,4 @@ public class Place extends BaseTimeEntity {
 
     @Column(nullable = false, columnDefinition = "float CHECK (longitude >= -180 AND longitude <= 180)")
     private float longitude;
-
-    @Builder
-    private Place(String name, String address, String shortIntroduction,
-     PlaceCategory placeCategory, float latitude, float longitude) {
-        this.name = name;
-        this.address = address;
-        this.shortIntroduction = shortIntroduction;
-        this.placeCategory = placeCategory;
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
 }

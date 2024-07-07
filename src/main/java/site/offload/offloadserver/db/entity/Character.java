@@ -25,11 +25,4 @@ public class Character extends BaseTimeEntity {
 
     @Column(nullable = false, unique = true)
     private String CharacterCode;
-
-    @Builder
-    private Character(String name, String description, String characterBaseImageUrl) {
-        this.name = name;
-        this.description = description;
-        this.characterBaseImageUrl = characterBaseImageUrl;
-    }
 }

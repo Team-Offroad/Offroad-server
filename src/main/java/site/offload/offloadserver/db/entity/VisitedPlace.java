@@ -25,10 +25,4 @@ public class VisitedPlace {
     //사용자가 방문한 장소이므로, 기본값을 1로 설정
     @Column(columnDefinition = "integer CHECK (visit_count >= 1)")
     private static int visitCount = 1;
-
-    @Builder
-    private VisitedPlace(Member member, Place place) {
-        this.member = member;
-        this.place = place;
-    }
 }

@@ -25,12 +25,4 @@ public class Coupon extends BaseTimeEntity {
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String couponImageUrl;
-
-    @Builder
-    private Coupon(String name, String couponCode, String description, String couponImageUrl) {
-        this.name = name;
-        this.couponCode = couponCode;
-        this.description = description;
-        this.couponImageUrl = couponImageUrl;
-    }
 }
