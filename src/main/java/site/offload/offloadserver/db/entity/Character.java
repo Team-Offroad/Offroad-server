@@ -14,7 +14,7 @@ public class Character extends BaseTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false)
     private String name;
 
     @Column(nullable = false, columnDefinition = "TEXT")
@@ -23,7 +23,7 @@ public class Character extends BaseTime {
     @Column(nullable = false, unique = true, columnDefinition = "TEXT")
     private String characterBaseImageUrl;
 
-    @Column(nullable = false, unique = true, columnDefinition = "TEXT")
+    @Column(nullable = false, unique = true)
     private String CharacterCode;
 
     @Builder

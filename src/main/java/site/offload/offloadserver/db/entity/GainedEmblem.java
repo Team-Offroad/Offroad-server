@@ -18,7 +18,7 @@ public class GainedEmblem {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Emblem emblemName;
 
