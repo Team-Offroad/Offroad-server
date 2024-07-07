@@ -23,7 +23,7 @@ public class GainedCoupon extends BaseTimeEntity {
     @JoinColumn(name = "coupon_id", nullable = false)
     private Coupon coupon;
 
-    private boolean isUsed;
+    private boolean isUsed = false;
 
     @Builder
     private GainedCoupon(Member member, Coupon coupon) {
