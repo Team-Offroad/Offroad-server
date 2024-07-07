@@ -1,10 +1,10 @@
-package site.offload.offloadserver;
+package site.offload.offloadserver.api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import site.offload.offloadserver.common.api.response.APISuccessResponse;
+import site.offload.offloadserver.api.response.APISuccessResponse;
 
 public interface HealthCheckControllerSwagger {
 
