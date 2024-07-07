@@ -24,11 +24,4 @@ public class GainedCoupon extends BaseTimeEntity {
     private Coupon coupon;
 
     private boolean isUsed = false;
-
-    @Builder
-    private GainedCoupon(Member member, Coupon coupon) {
-        this.member = member;
-        this.coupon = coupon;
-        this.isUsed = false;
-    }
 }

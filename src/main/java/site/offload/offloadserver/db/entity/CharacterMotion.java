@@ -24,11 +24,4 @@ public class CharacterMotion extends BaseTimeEntity {
 
     @Column(nullable = false, unique = true, columnDefinition = "TEXT")
     private String motionImageUrl;
-
-    @Builder
-    private CharacterMotion(Character character, PlaceCategory placeCategory, String motionImageUrl) {
-        this.character = character;
-        this.placeCategory = placeCategory;
-        this.motionImageUrl = motionImageUrl;
-    }
 }

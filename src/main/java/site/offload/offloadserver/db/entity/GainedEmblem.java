@@ -21,10 +21,4 @@ public class GainedEmblem {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Emblem emblemName;
-
-    @Builder
-    private GainedEmblem(Member member, Emblem emblemName) {
-        this.member = member;
-        this.emblemName = emblemName;
-    }
 }

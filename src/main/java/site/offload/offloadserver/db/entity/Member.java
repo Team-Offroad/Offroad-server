@@ -38,13 +38,4 @@ public class Member extends BaseTimeEntity {
 
     @Column(nullable = false)
     private String currentEmblemName;
-
-    @Builder
-    private Member(String nickName, String name, String email, MemberGender gender, int age) {
-        this.nickName = nickName;
-        this.name = name;
-        this.email = email;
-        this.gender = gender;
-        this.age = age;
-    }
 }

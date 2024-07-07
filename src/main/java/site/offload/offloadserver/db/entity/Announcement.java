@@ -22,11 +22,4 @@ public class Announcement extends BaseTimeEntity {
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
-
-    @Builder
-    private Announcement(String writer, String title, String content) {
-        this.writer = writer;
-        this.title = title;
-        this.content = content;
-    }
 }
