@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 //캐릭터
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Character extends BaseTime {
+public class Character extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
