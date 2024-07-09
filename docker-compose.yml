@@ -6,12 +6,14 @@ services:
     ports:
       - 6379:6379
   springboot:
-    image: offroadserver/offroad:latest
+    image: ${DOCKER_IMAGE}:latest
     container_name: springboot
     depends_on:
       - redis
     build:
-      context: ../../../
+      context: src/main/java
       dockerfile: ./Dockerfile-dev
     ports:
       - 8080:8080
+    env_file:
+      - ./src/main/resources/application-secrets.properties
