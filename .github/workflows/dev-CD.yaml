@@ -49,9 +49,6 @@ jobs:
 
       - name: create docker-compose.yml
         run: |
-          ## create docker-compose.yml
-          cd ./src/main/resources
-          
           # docker-compose.yml 파일 생성
           touch ./docker-compose.yml
           
