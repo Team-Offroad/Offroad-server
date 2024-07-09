@@ -12,6 +12,6 @@ services:
       - redis
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: ./Dockerfile-dev
     ports:
       - 8080:8080
