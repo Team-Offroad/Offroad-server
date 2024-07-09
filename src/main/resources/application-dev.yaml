@@ -19,3 +19,10 @@ spring:
 
 discord:
   webhook-url: ${DISCORD_WEBHOOK_URL_DEV}
+
+sentry:
+  dsn: ${SENTRY_DSN}
+  environment: dev
+  traces-sample-rate: 1.0
+  enable-tracing: true
+  exception-resolver-order: -2147483647
