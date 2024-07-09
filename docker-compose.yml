@@ -6,11 +6,11 @@ services:
     ports:
       - 6379:6379
   springboot:
+    env_file:
+    - /home/ubuntu/application-secrets.properties
     image: ${DOCKER_IMAGE}
     container_name: springboot
     depends_on:
       - redis
     ports:
       - 8080:8080
-    env_file:
-      - ./application-secrets.properties
