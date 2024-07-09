@@ -1,4 +1,5 @@
 services:
+
   redis:
     container_name: redis
     image: redis:alpine
@@ -11,9 +12,7 @@ services:
     depends_on:
       - redis
     build:
-      context: src/main/java
+      context: .
       dockerfile: ./Dockerfile-dev
     ports:
       - 8080:8080
-    env_file:
-      - ./src/main/resources/application-secrets.properties
