@@ -3,11 +3,14 @@ package site.offload.offloadserver.db.member.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.offload.offloadserver.db.BaseTimeEntity;
 
 //로그인 유저
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseTimeEntity {
 
@@ -38,4 +41,10 @@ public class Member extends BaseTimeEntity {
 
     @Column(nullable = false)
     private String currentEmblemName;
+
+    @Builder
+    public Member(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
 }

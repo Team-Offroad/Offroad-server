@@ -20,9 +20,23 @@ spring:
 discord:
   webhook-url: ${DISCORD_WEBHOOK_URL_DEV}
 
+
 sentry:
   dsn: ${SENTRY_DSN}
   environment: dev
   traces-sample-rate: 1.0
   enable-tracing: true
   exception-resolver-order: -2147483647
+
+google:
+  client-id: ${GOOGLE_CLIENT_ID_DEV}
+  client-secret: ${GOOGLE_CLIENT_SECRET_DEV}
+  redirect-url: ${GOOGLE_REDIRECT_URL_DEV}
+
+jwt:
+  secret: ${JWT_SECRET_DEV}
+
+redis:
+  host: ${REDIS_HOST_DEV}
+  port: ${REDIS_PORT_DEV}
+
