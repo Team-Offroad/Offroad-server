@@ -1,9 +1,8 @@
 name: CD
 
 on:
-  push:
+  pull_request:
     branches: [ "develop" ]
-
 jobs:
   ci:
     runs-on: ubuntu-22.04
