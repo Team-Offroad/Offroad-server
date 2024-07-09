@@ -11,7 +11,7 @@ services:
     depends_on:
       - redis
     build:
-      context: .
+      context: ../../
       dockerfile: ./Dockerfile-dev
     ports:
       - 8080:8080
