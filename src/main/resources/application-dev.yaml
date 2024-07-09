@@ -16,6 +16,10 @@ spring:
       hibernate:
         format_sql: false
         show_sql: false
+  data:
+    redis:
+      host: redis
+      port: 6379
 
 discord:
   webhook-url: ${DISCORD_WEBHOOK_URL_DEV}

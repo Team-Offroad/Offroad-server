@@ -10,7 +10,6 @@ jobs:
     env:
       working-directory: .
 
-
     steps:
       - name: 체크아웃
         uses: actions/checkout@v3
@@ -49,13 +48,26 @@ jobs:
           cat ./application-dev.yml
         working-directory: ${{ env.working-directory }}
 
+      - name: create docker-compose.yml
+        run: |
+          ## create docker-compose.yml
+          cd ./src/main/resources
+          
+          # docker-compose.yml 파일 생성
+          touch ./docker-compose.yml
+          
+          # GitHub-Actions 에서 설정한 값을 docker-compose.yml 파일에 쓰기
+          echo "${{ secrets.CD_APPLICATION_DEV_DOCKER_COMPOSE}}" > ./docker-compose.yml
+          
+          cat ./docker-compose.yml
+        working-directory: ${{ env.working-directory }}
+
       - name: 빌드
         run: |
           chmod +x gradlew
           ./gradlew build -x test
         working-directory: ${{ env.working-directory }}
         shell: bash
-
 
       - name: docker 로그인
         uses: docker/setup-buildx-action@v2.9.1
@@ -72,7 +84,7 @@ jobs:
           context: .
           file: ./Dockerfile-dev
           push: true
-          tags: offroadserver/offroad
+          tags: ${{secrets.DOCKER_USER_NAME}}/${{secrets.DOCKER_SERVER_NAME}}
 
   cd:
     needs: ci
