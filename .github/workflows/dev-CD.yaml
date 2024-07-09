@@ -47,17 +47,6 @@ jobs:
           cat ./application-dev.yml
         working-directory: ${{ env.working-directory }}
 
-      - name: create docker-compose.yml
-        run: |
-          # docker-compose.yml 파일 생성
-          touch ./docker-compose.yml
-          
-          # GitHub-Actions 에서 설정한 값을 docker-compose.yml 파일에 쓰기
-          echo "${{ secrets.CD_APPLICATION_DEV_DOCKER_COMPOSE}}" > ./docker-compose.yml
-          
-          cat ./docker-compose.yml
-        working-directory: ${{ env.working-directory }}
-
       - name: 빌드
         run: |
           chmod +x gradlew
