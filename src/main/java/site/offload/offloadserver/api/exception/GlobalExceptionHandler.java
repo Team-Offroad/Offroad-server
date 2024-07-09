@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ForbiddenException.class)
     public ResponseEntity<APIErrorResponse> handleForbiddenException(final RuntimeException exception) {
-        return APIErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR.value(), exception.getMessage());
+        return APIErrorResponse.of(HttpStatus.FORBIDDEN.value(), exception.getMessage());
     }
 
     @ExceptionHandler(NotFoundException.class)
