@@ -6,13 +6,10 @@ services:
     ports:
       - 6379:6379
   springboot:
-    image: ${DOCKER_IMAGE}:latest
+    image: ${DOCKER_IMAGE}
     container_name: springboot
     depends_on:
       - redis
-    build:
-      context: src/main/java
-      dockerfile: ./Dockerfile-dev
     ports:
       - 8080:8080
     env_file:
