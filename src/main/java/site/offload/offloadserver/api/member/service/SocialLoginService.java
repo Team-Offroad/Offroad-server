@@ -13,7 +13,7 @@ public class SocialLoginService {
 
     private final GoogleSocialLoginService googleSocialLoginService;
 
-    public TokenResponse dologin(SocialLoginRequest socialLoginRequest) {
+    public TokenResponse login(SocialLoginRequest socialLoginRequest) {
         if (socialLoginRequest.socialPlatform().equals(SocialPlatform.GOOGLE)) {
             return googleSocialLoginService.login(socialLoginRequest);
         }
