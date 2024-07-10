@@ -22,7 +22,7 @@ public class SecurityConfig {
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
 
-    private static final String[] AUTH_WHITE_LIST = {"/", "/api/oauth/login", "/auth/refresh"};
+    private static final String[] AUTH_WHITE_LIST = {"/", "/api/oauth/login"};
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

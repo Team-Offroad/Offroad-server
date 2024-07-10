@@ -11,6 +11,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+import site.offload.offloadserver.api.exception.OffroadException;
 import site.offload.offloadserver.api.exception.UnAuthorizedException;
 import site.offload.offloadserver.api.message.ErrorMessage;
 import site.offload.offloadserver.common.jwt.JwtTokenProvider;
@@ -37,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-        } catch (Exception exception) {
+        } catch (OffroadException exception) {
             throw new UnAuthorizedException(ErrorMessage.JWT_UNAUTHORIZED_EXCEPTION);
         }
         filterChain.doFilter(request, response);
