@@ -33,6 +33,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(OffroadException.class)
     public ResponseEntity<APIErrorResponse> handleCustomException(final OffroadException exception) {
         Sentry.captureException(exception);
-        return APIErrorResponse.of(exception.getHttpStatus().value(), exception.getMessage());
+        return APIErrorResponse.of(exception.getHttpStatus().value(), exception.getMessage(), exception.getCustomErrorCode());
     }
 }

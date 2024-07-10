@@ -18,7 +18,8 @@ public enum ErrorMessage {
     /* 404 Not Found */
 
     /* 500 Internal Server Error */
-    ERROR_MESSAGE("example",HttpStatus.INTERNAL_SERVER_ERROR);
+    ERROR_MESSAGE("example",HttpStatus.INTERNAL_SERVER_ERROR, CustomErrorCode.CUSTOM_ERROR_CODE);
     private final String message;
     private final HttpStatus httpStatus;
+    private final CustomErrorCode customErrorCode;
 }
