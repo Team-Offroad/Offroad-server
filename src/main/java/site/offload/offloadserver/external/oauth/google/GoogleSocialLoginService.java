@@ -5,14 +5,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestClient;
 import site.offload.offloadserver.api.member.dto.request.SocialLoginRequest;
-import site.offload.offloadserver.api.member.service.validator.MemberValidator;
-import site.offload.offloadserver.common.jwt.JwtTokenProvider;
-import site.offload.offloadserver.common.jwt.TokenResponse;
 import site.offload.offloadserver.db.member.entity.Member;
-import site.offload.offloadserver.db.member.repository.MemberRepository;
 import site.offload.offloadserver.external.oauth.google.request.GoogleAuthRequest;
 import site.offload.offloadserver.external.oauth.google.response.GoogleAuthResponse;
 import site.offload.offloadserver.external.oauth.google.response.GoogleInfoResponse;
@@ -31,11 +26,7 @@ public class GoogleSocialLoginService {
     @Value("${google.redirect-url}")
     private String googleRedirectUrl;
 
-    private final MemberRepository memberRepository;
-    private final JwtTokenProvider jwtTokenProvider;
-
-    @Transactional
-    public TokenResponse login(SocialLoginRequest socialLoginRequest) {
+    public Member login(SocialLoginRequest socialLoginRequest) {
         RestClient googleAuthRestClient = RestClient.create();
         GoogleAuthResponse googleAuthResponse = googleAuthRestClient.post()
                 .uri("https://oauth2.googleapis.com/token")
@@ -52,21 +43,12 @@ public class GoogleSocialLoginService {
                 .retrieve()
                 .body(GoogleInfoResponse.class);
 
-        Optional<Member> findMember = memberRepository.findByEmail(googleInfoResponse.email());
-        Member member;
-        if (MemberValidator.isNewMember(findMember)) {
-            Member newMember = Member.builder()
-                    .name(googleInfoResponse.name())
-                    .email(googleInfoResponse.email())
-                    .sub(googleInfoResponse.sub())
-                    .socialPlatform(socialLoginRequest.socialPlatform())
-                    .build();
-            memberRepository.save(newMember);
-            member = newMember;
-        } else {
-            member = findMember.get();
-        }
-
-        return TokenResponse.of(jwtTokenProvider.generateAccessToken(member.getId()), jwtTokenProvider.generateRefreshToken(member.getId()));
+        return Member.builder()
+                .name(googleInfoResponse.name())
+                .email(googleInfoResponse.email())
+                .sub(googleInfoResponse.sub())
+                .socialPlatform(socialLoginRequest.socialPlatform())
+                .build();
     }
+
 }
