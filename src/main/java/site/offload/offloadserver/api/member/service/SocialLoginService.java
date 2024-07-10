@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import site.offload.offloadserver.api.member.dto.request.SocialLoginRequest;
 import site.offload.offloadserver.api.member.dto.request.SocialPlatform;
 import site.offload.offloadserver.common.jwt.TokenResponse;
+import site.offload.offloadserver.external.oauth.google.GoogleSocialLoginService;
 
 @Service
 @RequiredArgsConstructor

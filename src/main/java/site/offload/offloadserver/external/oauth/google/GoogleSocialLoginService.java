@@ -1,4 +1,4 @@
-package site.offload.offloadserver.api.member.service;
+package site.offload.offloadserver.external.oauth.google;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -61,7 +61,7 @@ public class GoogleSocialLoginService {
                     .build();
             memberRepository.save(newMember);
             member = newMember;
-        }else{
+        } else {
             member = findMember.get();
         }
 
