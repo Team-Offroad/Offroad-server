@@ -12,7 +12,7 @@ public enum ErrorMessage {
     /* 400 Bad Request */
 
     /* 401 UnAuthorized */
-    JWT_UNAUTHORIZED_EXCEPTION("사용자 검증을 실패했습니다.",HttpStatus.UNAUTHORIZED, CustomErrorCode.NOT_EXISTS_MEMBER),
+    JWT_UNAUTHORIZED_EXCEPTION("사용자 검증을 실패했습니다.",HttpStatus.UNAUTHORIZED, CustomErrorCode.INVALID_AUTHORIZATION_JWT),
     /* 403 Forbidden */
 
     /* 404 Not Found */
