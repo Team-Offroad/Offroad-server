@@ -37,11 +37,11 @@ public class Member extends BaseTimeEntity {
     @Column(unique = true)
     private String nickName;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String currentCharacterName;
 
     @Column(nullable = false)
-    private String currentEmblemName;
+    private String currentEmblemName = "오프로드 스타터";
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String sub;
