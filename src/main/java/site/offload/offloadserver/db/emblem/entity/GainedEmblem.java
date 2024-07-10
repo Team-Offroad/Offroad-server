@@ -8,6 +8,9 @@ import site.offload.offloadserver.db.member.entity.Member;
 //사용자가 얻은 칭호
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"member_id", "emblemName"})
+})
 public class GainedEmblem {
 
     @Id

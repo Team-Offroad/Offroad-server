@@ -8,6 +8,9 @@ import site.offload.offloadserver.db.member.entity.Member;
 //사용자가 방문한 장소
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"member_id", "place_id"})
+})
 public class VisitedPlace {
 
     @Id

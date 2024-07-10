@@ -8,6 +8,9 @@ import site.offload.offloadserver.db.member.entity.Member;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"member_id", "character_motion_id"})
+})
 public class GainedCharacterMotion extends BaseTimeEntity {
 
     @Id
