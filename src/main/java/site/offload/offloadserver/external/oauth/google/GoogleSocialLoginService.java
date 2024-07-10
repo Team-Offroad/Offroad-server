@@ -58,6 +58,8 @@ public class GoogleSocialLoginService {
             Member newMember = Member.builder()
                     .name(googleInfoResponse.name())
                     .email(googleInfoResponse.email())
+                    .sub(googleInfoResponse.sub())
+                    .socialPlatform(socialLoginRequest.socialPlatform())
                     .build();
             memberRepository.save(newMember);
             member = newMember;
