@@ -62,9 +62,5 @@ public class MemberUseCase {
     private boolean isMemberGainedMotion(final CharacterMotion characterMotion, final Member member) {
         return gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotion, member);
     }
-
-    private boolean isExistsPlaceCategory(final PlaceCategory placeCategory) {
-        return PlaceCategory.isExistsCategory(placeCategory);
-    }
 }
 
