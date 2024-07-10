@@ -16,7 +16,10 @@ public enum ErrorMessage {
     /* 403 Forbidden */
 
     /* 404 Not Found */
-
+    MEMBER_NOTFOUND_EXCEPTION("해당 ID의 유저가 존재하지 않습니다.", HttpStatus.NOT_FOUND),
+    CHARACTER_NOTFOUND_EXCEPTION("해당 ID의 캐릭터가 존재하지 않습니다.", HttpStatus.NOT_FOUND),
+    PLACE_CATEGORY_NOTFOUND_EXCEPTION("존재하지 않는 카테고리 유형입니다.", HttpStatus.NOT_FOUND),
+    CHARACTER_MOTION_NOTFOUND_EXCEPTION("캐릭터 모션이 존재하지 않습니다", HttpStatus.NOT_FOUND),
     /* 500 Internal Server Error */
     ERROR_MESSAGE("example",HttpStatus.INTERNAL_SERVER_ERROR, CustomErrorCode.CUSTOM_ERROR_CODE);
     private final String message;
