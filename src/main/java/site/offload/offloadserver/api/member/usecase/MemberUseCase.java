@@ -9,7 +9,6 @@ import site.offload.offloadserver.api.member.dto.MemberAdventureInformationRespo
 import site.offload.offloadserver.api.character.service.CharacterService;
 import site.offload.offloadserver.api.member.service.MemberService;
 import site.offload.offloadserver.api.place.service.PlaceService;
-import site.offload.offloadserver.api.response.APISuccessResponse;
 import site.offload.offloadserver.db.character.entity.Character;
 import site.offload.offloadserver.db.charactermotion.entity.CharacterMotion;
 import site.offload.offloadserver.db.member.entity.Member;
@@ -27,11 +26,12 @@ public class MemberUseCase {
 
     public MemberAdventureInformationResponse getMemberAdventureInformation(final MemberAdventureInformationRequest request) {
         final Member findMember = memberService.findById(request.memberId());
-        final String nickname = findMember.getNickName();
-        final String emblemName = findMember.getCurrentEmblemName();
         final Character findCharacter = characterService.findById(request.characterId());
         final PlaceCategory findPlaceCategory = placeService.getPlaceCategory(request.category());
-        final String imageUrl = getMotionImageUrl(findPlaceCategory,findCharacter, findMember);
+
+        final String nickname = findMember.getNickName();
+        final String emblemName = findMember.getCurrentEmblemName();
+        final String imageUrl = getMotionImageUrl(findPlaceCategory, findCharacter, findMember);
 
         return MemberAdventureInformationResponse.of(nickname, emblemName, imageUrl);
     }
