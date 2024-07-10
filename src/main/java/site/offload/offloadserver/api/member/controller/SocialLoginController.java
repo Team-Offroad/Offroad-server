@@ -24,6 +24,6 @@ public class SocialLoginController {
     public ResponseEntity<APISuccessResponse<TokenResponse>> login(
             @RequestBody SocialLoginRequest socialLoginRequest
     ) {
-        return APISuccessResponse.of(HttpStatus.CREATED.value(), SuccessMessage.SOCIAL_LOGIN_SUCCESS.getMessage(), socialLoginService.dologin(socialLoginRequest));
+        return APISuccessResponse.of(HttpStatus.CREATED.value(), SuccessMessage.SOCIAL_LOGIN_SUCCESS.getMessage(), socialLoginService.login(socialLoginRequest));
     }
 }
