@@ -23,7 +23,7 @@ public class SecurityConfig {
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
 
-    private static final String[] AUTH_WHITE_LIST = {"/", "/api/oauth/login"};
+    private static final String[] AUTH_WHITE_LIST = {"/api/oauth/login"};
 
     @Bean
     @Profile("dev")
