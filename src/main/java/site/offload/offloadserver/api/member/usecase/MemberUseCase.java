@@ -4,11 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import site.offload.offloadserver.api.characterMotion.service.CharacterMotionService;
 import site.offload.offloadserver.api.characterMotion.service.GainedCharacterMotionService;
+import site.offload.offloadserver.api.exception.NotFoundException;
 import site.offload.offloadserver.api.member.dto.MemberAdventureInformationRequest;
 import site.offload.offloadserver.api.member.dto.MemberAdventureInformationResponse;
 import site.offload.offloadserver.api.character.service.CharacterService;
 import site.offload.offloadserver.api.member.service.MemberService;
-import site.offload.offloadserver.api.place.service.PlaceService;
+import site.offload.offloadserver.api.message.ErrorMessage;
 import site.offload.offloadserver.db.character.entity.Character;
 import site.offload.offloadserver.db.charactermotion.entity.CharacterMotion;
 import site.offload.offloadserver.db.member.entity.Member;
@@ -20,18 +21,21 @@ public class MemberUseCase {
 
     private final MemberService memberService;
     private final CharacterService characterService;
-    private final PlaceService placeService;
     private final CharacterMotionService characterMotionService;
     private final GainedCharacterMotionService gainedCharacterMotionService;
 
     public MemberAdventureInformationResponse getMemberAdventureInformation(final MemberAdventureInformationRequest request) {
         final Member findMember = memberService.findById(request.memberId());
-        final Character findCharacter = characterService.findById(request.characterId());
-        final PlaceCategory findPlaceCategory = placeService.getPlaceCategory(request.category());
-
         final String nickname = findMember.getNickName();
         final String emblemName = findMember.getCurrentEmblemName();
-        final String imageUrl = getMotionImageUrl(findPlaceCategory, findCharacter, findMember);
+        final Character findCharacter = characterService.findById(request.characterId());
+        PlaceCategory placeCategory = Enum.valueOf(PlaceCategory.class, request.category());
+
+        if(PlaceCategory.isExistsCategory(placeCategory)) {
+            throw new NotFoundException(ErrorMessage.PLACE_CATEGORY_NOTFOUND_EXCEPTION);
+        }
+
+        final String imageUrl = getMotionImageUrl(placeCategory, findCharacter, findMember);
 
         return MemberAdventureInformationResponse.of(nickname, emblemName, imageUrl);
     }
@@ -57,6 +61,10 @@ public class MemberUseCase {
 
     private boolean isMemberGainedMotion(final CharacterMotion characterMotion, final Member member) {
         return gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotion, member);
+    }
+
+    private boolean isExistsPlaceCategory(final PlaceCategory placeCategory) {
+        return PlaceCategory.isExistsCategory(placeCategory);
     }
 }
 
