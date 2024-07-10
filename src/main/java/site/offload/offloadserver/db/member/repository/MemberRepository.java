@@ -6,5 +6,6 @@ import site.offload.offloadserver.db.member.entity.Member;
 import java.util.Optional;
 
 public interface MemberRepository extends CrudRepository<Member, Long> {
-    Optional<Member> findByEmail(String email);
+    boolean existsBySub(String sub);
+    Member findBySub(String sub);
 }
