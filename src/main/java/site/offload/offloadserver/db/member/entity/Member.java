@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import site.offload.offloadserver.api.member.dto.request.SocialPlatform;
 import site.offload.offloadserver.db.BaseTimeEntity;
 
 //로그인 유저
@@ -42,9 +43,17 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false)
     private String currentEmblemName;
 
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String sub;
+
+    @Enumerated(EnumType.STRING)
+    private SocialPlatform socialPlatform;
+
     @Builder
-    public Member(String name, String email) {
+    public Member(String name, String email, String sub, SocialPlatform socialPlatform) {
         this.name = name;
         this.email = email;
+        this.sub = sub;
+        this.socialPlatform = socialPlatform;
     }
 }
