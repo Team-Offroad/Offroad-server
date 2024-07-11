@@ -7,5 +7,14 @@ public enum PlaceCategory {
     RESTAURANT,
     CULTURE,
     SPORT,
-    NONE
+    NONE;
+
+    public static boolean isExistsCategory(PlaceCategory placeCategory) {
+        for (PlaceCategory category : PlaceCategory.values()) {
+            if (category.equals(placeCategory)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

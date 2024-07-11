@@ -2,12 +2,14 @@ package site.offload.offloadserver.db.character.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.offload.offloadserver.db.BaseTimeEntity;
 
 //캐릭터
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class Character extends BaseTimeEntity {
 
     @Id

@@ -23,8 +23,4 @@ public class VisitedPlace {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_id", nullable = false)
     private Place place;
-
-    //사용자가 방문한 장소이므로, 기본값을 1로 설정
-    @Column(columnDefinition = "integer CHECK (visit_count >= 1)")
-    private int visitCount = 1;
 }
