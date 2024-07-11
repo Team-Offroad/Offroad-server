@@ -9,6 +9,7 @@ import site.offload.offloadserver.api.exception.NotFoundException;
 import site.offload.offloadserver.api.member.dto.MemberAdventureInformationRequest;
 import site.offload.offloadserver.api.member.dto.MemberAdventureInformationResponse;
 import site.offload.offloadserver.api.character.service.CharacterService;
+import site.offload.offloadserver.api.member.dto.request.MemberProfileUpdateRequest;
 import site.offload.offloadserver.api.member.service.MemberService;
 import site.offload.offloadserver.api.message.ErrorMessage;
 import site.offload.offloadserver.db.character.entity.Character;
@@ -55,7 +56,7 @@ public class MemberUseCase {
         //유저가 획득한 모션인지 확인
         if (isMemberGainedMotion(findCharacterMotion, member)) {
             return findCharacterMotion.getMotionImageUrl();
-        //아니라면 기본 이미지 반환
+            //아니라면 기본 이미지 반환
         } else {
             return character.getCharacterBaseImageUrl();
         }
@@ -63,6 +64,12 @@ public class MemberUseCase {
 
     private boolean isMemberGainedMotion(final CharacterMotion characterMotion, final Member member) {
         return gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotion, member);
+    }
+
+    @Transactional
+    public void updateMemberProfile(Long memberId, MemberProfileUpdateRequest memberProfileUpdateRequest) {
+        final Member findMember = memberService.findById(memberId);
+        findMember.updateProfile(memberProfileUpdateRequest.nickName(), memberProfileUpdateRequest.year(), memberProfileUpdateRequest.month(), memberProfileUpdateRequest.day(), memberProfileUpdateRequest.gender());
     }
 }
 

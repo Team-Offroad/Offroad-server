@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import site.offload.offloadserver.api.member.dto.MemberAdventureInformationRequest;
 import site.offload.offloadserver.api.member.dto.MemberAdventureInformationResponse;
+import site.offload.offloadserver.api.member.dto.request.MemberProfileUpdateRequest;
 import site.offload.offloadserver.api.member.usecase.MemberUseCase;
 import site.offload.offloadserver.api.message.SuccessMessage;
 import site.offload.offloadserver.api.response.APISuccessResponse;
@@ -26,5 +27,13 @@ public class MemberController implements MemberControllerSwagger {
         return APISuccessResponse.of(HttpStatus.OK.value(),
                 SuccessMessage.MEMBER_ADVENTURE_INFORMATION_SUCCESS.toString(),
                 memberUseCase.getMemberAdventureInformation(MemberAdventureInformationRequest.of(memberId, category, characterId)));
+    }
+
+    @PatchMapping("/profiles")
+    public ResponseEntity<APISuccessResponse<Object>> updateMemberProfile(@RequestBody MemberProfileUpdateRequest memberProfileUpdateRequest) {
+        final Long memberId = principalHandler.getMemberIdFromPrincipal();
+        memberUseCase.updateMemberProfile(memberId, memberProfileUpdateRequest);
+        return APISuccessResponse.of(HttpStatus.OK.value(),
+                SuccessMessage.MEMBER_PROFILE_UPDATE_SUCCESS.getMessage(), null);
     }
 }
