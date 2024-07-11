@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import site.offload.offloadserver.api.member.dto.response.TokenReissueResponse;
-import site.offload.offloadserver.api.member.service.MemberUseCase;
+import site.offload.offloadserver.api.member.usecase.MemberUseCase;
 import site.offload.offloadserver.api.message.SuccessMessage;
 import site.offload.offloadserver.api.response.APISuccessResponse;
 import site.offload.offloadserver.common.auth.PrincipalHandler;

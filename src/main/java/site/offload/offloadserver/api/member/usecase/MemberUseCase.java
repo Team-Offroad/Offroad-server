@@ -1,17 +1,22 @@
 package site.offload.offloadserver.api.member.usecase;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.offload.offloadserver.api.characterMotion.service.CharacterMotionService;
 import site.offload.offloadserver.api.characterMotion.service.GainedCharacterMotionService;
 import site.offload.offloadserver.api.exception.NotFoundException;
+import site.offload.offloadserver.api.exception.UnAuthorizedException;
 import site.offload.offloadserver.api.member.dto.MemberAdventureInformationRequest;
 import site.offload.offloadserver.api.member.dto.MemberAdventureInformationResponse;
 import site.offload.offloadserver.api.character.service.CharacterService;
 import site.offload.offloadserver.api.member.dto.request.MemberProfileUpdateRequest;
+import site.offload.offloadserver.api.member.dto.response.TokenReissueResponse;
 import site.offload.offloadserver.api.member.service.MemberService;
 import site.offload.offloadserver.api.message.ErrorMessage;
+import site.offload.offloadserver.common.jwt.JwtTokenProvider;
+import site.offload.offloadserver.common.jwt.TokenResponse;
 import site.offload.offloadserver.db.character.entity.Character;
 import site.offload.offloadserver.db.charactermotion.entity.CharacterMotion;
 import site.offload.offloadserver.db.member.entity.Member;
@@ -25,6 +30,8 @@ public class MemberUseCase {
     private final CharacterService characterService;
     private final CharacterMotionService characterMotionService;
     private final GainedCharacterMotionService gainedCharacterMotionService;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final RedisTemplate<String, String> redisTemplate;
 
     @Transactional(readOnly = true)
     public MemberAdventureInformationResponse getMemberAdventureInformation(final MemberAdventureInformationRequest request) {
@@ -70,6 +77,20 @@ public class MemberUseCase {
     public void updateMemberProfile(Long memberId, MemberProfileUpdateRequest memberProfileUpdateRequest) {
         final Member findMember = memberService.findById(memberId);
         findMember.updateProfile(memberProfileUpdateRequest);
+    }
+
+    public TokenReissueResponse reissueTokens(final Long memberId, final String refreshToken) {
+        if (isRefreshTokenValidate(memberId, refreshToken)) {
+            TokenResponse tokenResponse = jwtTokenProvider.reissueToken(memberId);
+            return TokenReissueResponse.of(tokenResponse.accessToken(), tokenResponse.refreshToken());
+        } else {
+            throw new UnAuthorizedException(ErrorMessage.JWT_REISSUE_EXCEPTION);
+        }
+    }
+
+    private boolean isRefreshTokenValidate(final Long memberId, final String refreshToken) {
+        final String findRefreshToken = redisTemplate.opsForValue().get(String.valueOf(memberId));
+        return refreshToken.equals(findRefreshToken);
     }
 }
 
