@@ -23,7 +23,10 @@ public class SecurityConfig {
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
 
-    private static final String[] AUTH_WHITE_LIST = {"/api/oauth/login"};
+    private static final String[] AUTH_WHITE_LIST = {"/api/oauth/login", "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/v2/api-docs/**",
+            "/swagger-resources/**"};
 
     @Bean
     @Profile("dev")
@@ -39,6 +42,27 @@ public class SecurityConfig {
                 });
 
 
+        http.authorizeHttpRequests(auth -> {
+                    auth.requestMatchers(AUTH_WHITE_LIST).permitAll();
+                    auth.anyRequest().authenticated();
+                })
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
+    }
+
+    @Bean
+    @Profile("local")
+    SecurityFilterChain securityFilterChainLocal(HttpSecurity http) throws Exception {
+        http.csrf(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
+                .requestCache(RequestCacheConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .exceptionHandling(exception ->
+                {
+                    exception.authenticationEntryPoint(customJwtAuthenticationEntryPoint);
+                    exception.accessDeniedHandler(customAccessDeniedHandler);
+                });
         http.authorizeHttpRequests(auth -> {
                     auth.requestMatchers(AUTH_WHITE_LIST).permitAll();
                     auth.anyRequest().authenticated();

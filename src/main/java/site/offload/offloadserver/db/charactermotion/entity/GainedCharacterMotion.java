@@ -1,27 +1,27 @@
-package site.offload.offloadserver.db.emblem.entity;
+package site.offload.offloadserver.db.charactermotion.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import site.offload.offloadserver.db.BaseTimeEntity;
 import site.offload.offloadserver.db.member.entity.Member;
 
-//사용자가 얻은 칭호
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"member_id", "emblemName"})
+        @UniqueConstraint(columnNames = {"member_id", "character_motion_id"})
 })
-public class GainedEmblem {
+public class GainedCharacterMotion extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Emblem emblemName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "character_motion_id", nullable = false)
+    private CharacterMotion characterMotion;
 }

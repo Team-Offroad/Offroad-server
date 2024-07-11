@@ -1,0 +1,1 @@
+GET localhost:8080/api/users/adventures/informations?category=park?characterId=1

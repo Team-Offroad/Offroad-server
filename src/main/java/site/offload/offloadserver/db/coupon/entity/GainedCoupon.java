@@ -9,7 +9,9 @@ import site.offload.offloadserver.db.member.entity.Member;
 //사용자가 얻은 쿠폰
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"member_id", "coupon_id"})
+})
 public class GainedCoupon extends BaseTimeEntity {
 
     @Id

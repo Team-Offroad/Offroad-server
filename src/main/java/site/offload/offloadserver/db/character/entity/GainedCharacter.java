@@ -9,6 +9,9 @@ import site.offload.offloadserver.db.member.entity.Member;
 //사용자가 얻은 캐릭터
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"member_id", "character_id"})
+})
 public class GainedCharacter extends BaseTimeEntity {
 
     @Id
