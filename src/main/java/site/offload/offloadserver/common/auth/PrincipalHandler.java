@@ -9,7 +9,7 @@ import site.offload.offloadserver.api.message.ErrorMessage;
 public class PrincipalHandler {
     private static final String ANONYMOUS_USER = "anonymousUser";
 
-    public Long getUserIdFromPrincipal() {
+    public Long getMemberIdFromPrincipal() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         isPrincipalNull(principal);
         return Long.valueOf(principal.toString());
