@@ -18,4 +18,8 @@ public class MemberService {
                 () -> new NotFoundException(ErrorMessage.MEMBER_NOTFOUND_EXCEPTION)
         );
     }
+
+    public boolean findByNickname(final String nickname) {
+        return memberRepository.existsByNickName(nickname);
+    }
 }

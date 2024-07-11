@@ -92,5 +92,13 @@ public class MemberUseCase {
         final String findRefreshToken = redisTemplate.opsForValue().get(String.valueOf(memberId));
         return refreshToken.equals(findRefreshToken);
     }
+
+    @Transactional(readOnly = true)
+    public boolean checkNickname(String nickname) {
+        if (memberService.findByNickname(nickname)) {
+            return true;
+        }
+        return false;
+    }
 }
 

@@ -36,4 +36,11 @@ public class MemberController implements MemberControllerSwagger {
         return APISuccessResponse.of(HttpStatus.OK.value(),
                 SuccessMessage.MEMBER_PROFILE_UPDATE_SUCCESS.getMessage(), null);
     }
+
+    @GetMapping("/nickname/check")
+    public ResponseEntity<APISuccessResponse<Object>> checkNickname(@RequestParam(value = "nickname") String nickname) {
+
+        return APISuccessResponse.of(HttpStatus.OK.value(),
+                SuccessMessage.MEMBER_PROFILE_UPDATE_SUCCESS.getMessage(), memberUseCase.checkNickname(nickname));
+    }
 }
