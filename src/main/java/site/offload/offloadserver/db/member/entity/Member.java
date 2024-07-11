@@ -81,5 +81,8 @@ public class Member extends BaseTimeEntity {
         this.gender = memberProfileUpdateRequest.gender();
     }
 
+    public void chooseCharacter(String characterName) {
+        this.currentCharacterName = characterName;
+    }
 
 }
