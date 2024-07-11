@@ -51,11 +51,28 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private SocialPlatform socialPlatform;
 
+    @Column(nullable = false)
+    private int birthYear = 0;
+
+    @Column(nullable = false)
+    private int birthMonth = 0;
+
+    @Column(nullable = false)
+    private int birthDay = 0;
+
     @Builder
     public Member(String name, String email, String sub, SocialPlatform socialPlatform) {
         this.name = name;
         this.email = email;
         this.sub = sub;
         this.socialPlatform = socialPlatform;
+    }
+
+    public void updateProfile(String nickName, int year, int month, int day, MemberGender gender) {
+        this.nickName = nickName;
+        this.birthYear = year;
+        this.birthMonth = month;
+        this.birthDay = day;
+        this.gender = gender;
     }
 }
