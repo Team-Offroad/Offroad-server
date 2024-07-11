@@ -37,7 +37,7 @@ public class MemberUseCase {
     public MemberAdventureInformationResponse getMemberAdventureInformation(final MemberAdventureInformationRequest request) {
         final Member findMember = memberService.findById(request.memberId());
         final String nickname = findMember.getNickName();
-        final String emblemName = findMember.getCurrentEmblemName().getEmblemName();
+        final String emblemName = findMember.getCurrentEmblemName();
         final Character findCharacter = characterService.findById(request.characterId());
         final PlaceCategory placeCategory = PlaceCategory.valueOf(request.category());
 

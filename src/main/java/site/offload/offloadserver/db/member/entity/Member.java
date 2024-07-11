@@ -18,7 +18,7 @@ import site.offload.offloadserver.db.member.embeddable.Birthday;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseTimeEntity {
 
-    private static final Emblem DEFAULT_EMBLEM_NAME = Emblem.DEFAULT_EMBLEM;
+    private static final String DEFAULT_EMBLEM_NAME = Emblem.DEFAULT_EMBLEM.getEmblemName();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,7 +50,7 @@ public class Member extends BaseTimeEntity {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Emblem currentEmblemName = DEFAULT_EMBLEM_NAME;
+    private String currentEmblemName = DEFAULT_EMBLEM_NAME;
 
     @Enumerated(EnumType.STRING)
     private SocialPlatform socialPlatform;
@@ -83,8 +83,8 @@ public class Member extends BaseTimeEntity {
         this.gender = memberProfileUpdateRequest.gender();
     }
 
-    public void updateEmblem(Emblem emblem) {
-        this.currentEmblemName = emblem;
+    public void updateEmblemName(Emblem emblem) {
+        this.currentEmblemName = emblem.getEmblemName();
     }
 
 }

@@ -20,7 +20,7 @@ public class EmblemUseCase {
     public void updateCurrentEmblem(UpdateCurrentEmblemRequest request) {
         if (isExistsEmblem(request.emblemName())) {
             Member findMember = memberService.findById(request.memberId());
-            findMember.updateEmblem(Emblem.valueOf(request.emblemName()));
+            findMember.updateEmblemName(Emblem.valueOf(request.emblemName()));
         } else {
             throw new NotFoundException(ErrorMessage.EMBLEM_NOTFOUND_EXCEPTION);
         }
