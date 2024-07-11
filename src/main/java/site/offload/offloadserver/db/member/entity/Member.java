@@ -15,6 +15,9 @@ import site.offload.offloadserver.db.BaseTimeEntity;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseTimeEntity {
 
+    @Getter(AccessLevel.PUBLIC)
+    private static String currentEmblemName = "오프로드 스타터";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -39,9 +42,6 @@ public class Member extends BaseTimeEntity {
 
     @Column(nullable = true)
     private String currentCharacterName;
-
-    @Column(nullable = false)
-    private String currentEmblemName = "오프로드 스타터";
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String sub;
