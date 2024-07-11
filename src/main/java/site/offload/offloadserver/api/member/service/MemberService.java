@@ -19,7 +19,7 @@ public class MemberService {
         );
     }
 
-    public boolean findByNickname(final String nickname) {
+    public boolean isExistsByNickname(final String nickname) {
         return memberRepository.existsByNickName(nickname);
     }
 }

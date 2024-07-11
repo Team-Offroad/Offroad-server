@@ -12,7 +12,8 @@ public enum SuccessMessage {
     ACCESS_TOKEN_REFRESH_SUCCESS("Access Token 재발급 성공"),
     MEMBER_ADVENTURE_INFORMATION_SUCCESS("모험 정보 조회 성공"),
     CHECK_REGISTERED_PLACES_SUCCESS("장소 리스트 정보 조회 성공"),
-    MEMBER_PROFILE_UPDATE_SUCCESS("프로필 업데이트 성공");
+    MEMBER_PROFILE_UPDATE_SUCCESS("프로필 업데이트 성공"),
+    CHECK_DUPLICATED_NICKNAME("닉네임 중복 확인 완료");
 
 
     private final String message;
