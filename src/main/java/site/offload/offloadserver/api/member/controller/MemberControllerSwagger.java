@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import site.offload.offloadserver.api.member.dto.MemberAdventureInformationResponse;
@@ -24,14 +25,20 @@ public interface MemberControllerSwagger {
     @ApiResponse(responseCode = "200",
             description = "프로필 업데이트 성공",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponse.class)))
-    public ResponseEntity<APISuccessResponse<Object>> updateMemberProfile(@RequestBody MemberProfileUpdateRequest memberProfileUpdateRequest);
+    public ResponseEntity<APISuccessResponse<Void>> updateMemberProfile(@RequestBody MemberProfileUpdateRequest memberProfileUpdateRequest);
 
 
     @Operation(summary = "닉네임 중복 확인 API", description = "중복된 닉네임이 있는지 확인하는 API")
     @ApiResponse(responseCode = "200",
             description = "닉네임 중복 확인 성공",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponse.class)))
-    public ResponseEntity<APISuccessResponse<Object>> checkNickname(@RequestParam(value = "nickname") String nickname);
+    public ResponseEntity<APISuccessResponse<Boolean>> checkNickname(@RequestParam(value = "nickname") String nickname);
+
+    @Operation(summary = "캐릭터 선택 API", description = "캐릭터를 선택하는 API")
+    @ApiResponse(responseCode = "200",
+            description = "캐릭터 선택 성공",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponse.class)))
+    public ResponseEntity<APISuccessResponse<Void>> chooseCharacter(@PathVariable(value = "characterId") Integer characterId);
 
 
-}
+    }
