@@ -3,11 +3,9 @@ package site.offload.offloadserver.api.emblem.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import site.offload.offloadserver.api.emblem.dto.request.UpdateCurrentEmblemRequest;
+import site.offload.offloadserver.api.emblem.dto.response.GainedEmblemListResponse;
 import site.offload.offloadserver.api.emblem.usecase.EmblemUseCase;
 import site.offload.offloadserver.api.message.SuccessMessage;
 import site.offload.offloadserver.api.response.APISuccessResponse;
@@ -27,5 +25,12 @@ public class EmblemController implements EmblemControllSwawgger{
         emblemUseCase.updateCurrentEmblem(UpdateCurrentEmblemRequest.of(emblemCode, memberId));
         return APISuccessResponse.of(HttpStatus.OK.value(),
          SuccessMessage.MEMBER_CURRENT_EMBLEM_UPDATE_SUCCESS.getMessage(), null);
+    }
+
+    @GetMapping
+    public ResponseEntity<APISuccessResponse<GainedEmblemListResponse>> getGainedEmblem() {
+        final Long memberId = principalHandler.getMemberIdFromPrincipal();
+        return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.GET_GAINED_EMBLEM_SUCCESS.getMessage(),
+                                     emblemUseCase.getGainedEmblems(memberId));
     }
 }

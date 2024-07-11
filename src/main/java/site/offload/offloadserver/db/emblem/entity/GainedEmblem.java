@@ -2,6 +2,7 @@ package site.offload.offloadserver.db.emblem.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.offload.offloadserver.db.member.entity.Member;
 
@@ -11,6 +12,7 @@ import site.offload.offloadserver.db.member.entity.Member;
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {"member_id", "emblemName"})
 })
+@Getter
 public class GainedEmblem {
 
     @Id
