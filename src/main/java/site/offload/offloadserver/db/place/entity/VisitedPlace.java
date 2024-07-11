@@ -2,11 +2,13 @@ package site.offload.offloadserver.db.place.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.offload.offloadserver.db.member.entity.Member;
 
 //사용자가 방문한 장소
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class VisitedPlace {
 

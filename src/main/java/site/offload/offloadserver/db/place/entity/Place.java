@@ -2,12 +2,14 @@ package site.offload.offloadserver.db.place.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.offload.offloadserver.db.BaseTimeEntity;
 
 //서비스에 등록된 장소
 @Entity
-@NoArgsConstructor(access =  AccessLevel.PROTECTED)
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Place extends BaseTimeEntity {
 
     @Id
@@ -28,8 +30,8 @@ public class Place extends BaseTimeEntity {
     private PlaceCategory placeCategory;
 
     @Column(nullable = false, columnDefinition = "float CHECK (latitude >= -90 AND latitude <= 90)")
-    private float latitude;
+    private double latitude;
 
     @Column(nullable = false, columnDefinition = "float CHECK (longitude >= -180 AND longitude <= 180)")
-    private float longitude;
+    private double longitude;
 }
