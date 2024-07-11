@@ -30,8 +30,8 @@ public class Place extends BaseTimeEntity {
     private PlaceCategory placeCategory;
 
     @Column(nullable = false, columnDefinition = "float CHECK (latitude >= -90 AND latitude <= 90)")
-    private float latitude;
+    private double latitude;
 
     @Column(nullable = false, columnDefinition = "float CHECK (longitude >= -180 AND longitude <= 180)")
-    private float longitude;
+    private double longitude;
 }
