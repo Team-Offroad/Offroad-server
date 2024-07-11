@@ -15,5 +15,6 @@ public enum SuccessMessage {
     MEMBER_PROFILE_UPDATE_SUCCESS("프로필 업데이트 성공"),
     CHECK_DUPLICATED_NICKNAME("닉네임 중복 확인 완료"),
     MEMBER_CURRENT_EMBLEM_UPDATE_SUCCESS("칭호 변경 성공");
+    CHOOSE_CHARACTER_SUCCESS("캐릭터 선택 완료");
     private final String message;
 }

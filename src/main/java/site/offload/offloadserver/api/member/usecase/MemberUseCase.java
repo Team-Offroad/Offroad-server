@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import site.offload.offloadserver.api.character.service.GainedCharacterService;
 import site.offload.offloadserver.api.characterMotion.service.CharacterMotionService;
 import site.offload.offloadserver.api.characterMotion.service.GainedCharacterMotionService;
 import site.offload.offloadserver.api.exception.NotFoundException;
@@ -32,6 +33,7 @@ public class MemberUseCase {
     private final GainedCharacterMotionService gainedCharacterMotionService;
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate<String, String> redisTemplate;
+    private final GainedCharacterService gainedCharacterService;
 
     @Transactional(readOnly = true)
     public MemberAdventureInformationResponse getMemberAdventureInformation(final MemberAdventureInformationRequest request) {
@@ -99,6 +101,14 @@ public class MemberUseCase {
             return true;
         }
         return false;
+    }
+
+    @Transactional
+    public void chooseCharacter(Long memberId, Integer characterId) {
+        final Member findMember = memberService.findById(memberId);
+        final Character findCharacter = characterService.findById(characterId);
+        findMember.chooseCharacter(findCharacter.getName());
+        gainedCharacterService.saveGainedCharacter(findMember, findCharacter);
     }
 }
 

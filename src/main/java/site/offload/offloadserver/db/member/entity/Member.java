@@ -85,6 +85,9 @@ public class Member extends BaseTimeEntity {
 
     public void updateEmblemName(Emblem emblem) {
         this.currentEmblemName = emblem.getEmblemName();
+
+    public void chooseCharacter(String characterName) {
+        this.currentCharacterName = characterName;
     }
 
 }
