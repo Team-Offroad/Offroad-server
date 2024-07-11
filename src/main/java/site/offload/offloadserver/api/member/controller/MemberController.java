@@ -39,8 +39,15 @@ public class MemberController implements MemberControllerSwagger {
 
     @GetMapping("/nickname/check")
     public ResponseEntity<APISuccessResponse<Object>> checkNickname(@RequestParam(value = "nickname") String nickname) {
-
         return APISuccessResponse.of(HttpStatus.OK.value(),
                 SuccessMessage.CHECK_DUPLICATED_NICKNAME.getMessage(), memberUseCase.checkNickname(nickname));
+    }
+
+    @PostMapping("/characters/{characterId}")
+    public ResponseEntity<APISuccessResponse<Object>> chooseCharacter(@PathVariable(value = "characterId") Integer characterId) {
+        final Long memberId = principalHandler.getMemberIdFromPrincipal();
+        memberUseCase.chooseCharacter(memberId, characterId);
+        return APISuccessResponse.of(HttpStatus.CREATED.value(),
+                SuccessMessage.CHOOSE_CHARACTER_SUCCESS.getMessage(), null);
     }
 }

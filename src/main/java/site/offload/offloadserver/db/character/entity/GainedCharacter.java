@@ -2,7 +2,9 @@ package site.offload.offloadserver.db.character.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
+import site.offload.offloadserver.api.member.dto.request.SocialPlatform;
 import site.offload.offloadserver.db.BaseTimeEntity;
 import site.offload.offloadserver.db.member.entity.Member;
 
@@ -25,4 +27,10 @@ public class GainedCharacter extends BaseTimeEntity {
     @JoinColumn(name = "character_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Character character;
+
+    @Builder
+    public GainedCharacter(Member member, Character character) {
+        this.member = member;
+        this.character = character;
+    }
 }
