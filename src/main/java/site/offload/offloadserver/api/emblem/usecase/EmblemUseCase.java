@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.offload.offloadserver.api.emblem.dto.request.UpdateCurrentEmblemRequest;
+import site.offload.offloadserver.api.emblem.dto.response.GainedEmblemListResponse;
+import site.offload.offloadserver.api.emblem.dto.response.GainedEmblemResponse;
 import site.offload.offloadserver.api.emblem.service.GainedEmblemService;
 import site.offload.offloadserver.api.exception.BadRequestException;
 import site.offload.offloadserver.api.exception.NotFoundException;
@@ -37,5 +39,12 @@ public class EmblemUseCase {
 
     private boolean isExistsEmblem(String emblemName) {
         return Emblem.isExistsEmblem(Emblem.valueOf(emblemName));
+    }
+
+    @Transactional(readOnly = true)
+    public GainedEmblemListResponse getGainedEmblems(Long memberId) {
+        return GainedEmblemListResponse.of(gainedEmblemService.findAllByMemberId(memberId).stream().map(
+                gainedEmblem -> GainedEmblemResponse.of(gainedEmblem.getEmblemName().getEmblemCodeName(),
+                        gainedEmblem.getEmblemName().getEmblemName())).toList());
     }
 }
