@@ -6,8 +6,10 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import site.offload.offloadserver.api.member.dto.request.MemberProfileUpdateRequest;
 import site.offload.offloadserver.api.member.dto.request.SocialPlatform;
 import site.offload.offloadserver.db.BaseTimeEntity;
+import site.offload.offloadserver.db.member.embeddable.Birthday;
 
 //로그인 유저
 @Entity
@@ -60,6 +62,9 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false)
     private int birthDay = 0;
 
+    @Embedded
+    private Birthday birthday;
+
     @Builder
     public Member(String name, String email, String sub, SocialPlatform socialPlatform) {
         this.name = name;
@@ -68,11 +73,13 @@ public class Member extends BaseTimeEntity {
         this.socialPlatform = socialPlatform;
     }
 
-    public void updateProfile(String nickName, int year, int month, int day, MemberGender gender) {
-        this.nickName = nickName;
-        this.birthYear = year;
-        this.birthMonth = month;
-        this.birthDay = day;
-        this.gender = gender;
+    public void updateProfile(MemberProfileUpdateRequest memberProfileUpdateRequest) {
+        this.nickName = memberProfileUpdateRequest.nickName();
+        this.birthYear = memberProfileUpdateRequest.year();
+        this.birthMonth = memberProfileUpdateRequest.month();
+        this.birthDay = memberProfileUpdateRequest.day();
+        this.gender = memberProfileUpdateRequest.gender();
     }
+
+
 }
