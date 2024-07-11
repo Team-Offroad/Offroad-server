@@ -8,7 +8,11 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum SuccessMessage {
 
-    SOCIAL_LOGIN_SUCCESS("로그인 요청 성공");
+    //do GoogleSocialLogin
+    SOCIAL_LOGIN_SUCCESS("로그인 요청 성공"),
+
+    //check RegisteredPlaces
+    CHECK_REGISTERED_PLACES_SUCCESS("장소 리스트 정보 조회 성공");
 
     private final String message;
 }
