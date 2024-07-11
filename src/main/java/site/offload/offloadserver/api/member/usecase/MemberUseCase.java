@@ -69,7 +69,7 @@ public class MemberUseCase {
     @Transactional
     public void updateMemberProfile(Long memberId, MemberProfileUpdateRequest memberProfileUpdateRequest) {
         final Member findMember = memberService.findById(memberId);
-        findMember.updateProfile(memberProfileUpdateRequest.nickName(), memberProfileUpdateRequest.year(), memberProfileUpdateRequest.month(), memberProfileUpdateRequest.day(), memberProfileUpdateRequest.gender());
+        findMember.updateProfile(memberProfileUpdateRequest);
     }
 }
 
