@@ -29,7 +29,7 @@ public class MemberUseCase {
     public MemberAdventureInformationResponse getMemberAdventureInformation(final MemberAdventureInformationRequest request) {
         final Member findMember = memberService.findById(request.memberId());
         final String nickname = findMember.getNickName();
-        final String emblemName = Member.getCurrentEmblemName();
+        final String emblemName = findMember.getCurrentEmblemName();
         final Character findCharacter = characterService.findById(request.characterId());
         final PlaceCategory placeCategory = PlaceCategory.valueOf(request.category());
 
@@ -39,7 +39,7 @@ public class MemberUseCase {
 
         final String imageUrl = getMotionImageUrl(placeCategory, findCharacter, findMember);
 
-        return MemberAdventureInformationResponse.of(nickname, emblemName, imageUrl);
+        return MemberAdventureInformationResponse.of(nickname, emblemName, imageUrl, findCharacter.getName());
     }
 
     private String getMotionImageUrl(final PlaceCategory placeCategory, final Character character, final Member member) {

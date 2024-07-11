@@ -1,8 +1,9 @@
 package site.offload.offloadserver.api.member.dto;
 
-public record MemberAdventureInformationResponse(String nickname, String emblemName, String characterImgUrl) {
+public record MemberAdventureInformationResponse(String nickname, String emblemName, String characterImgUrl,
+                                                 String characterName) {
 
-    public static MemberAdventureInformationResponse of(final String nickname, final String emblemName, final String characterImgUrl) {
-        return new MemberAdventureInformationResponse(nickname, emblemName, characterImgUrl);
+    public static MemberAdventureInformationResponse of(final String nickname, final String emblemName, final String characterImgUrl, final String characterName) {
+        return new MemberAdventureInformationResponse(nickname, emblemName, characterImgUrl, characterName);
     }
 }
