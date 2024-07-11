@@ -20,10 +20,18 @@ public interface MemberControllerSwagger {
     ResponseEntity<APISuccessResponse<MemberAdventureInformationResponse>> getAdventureInformation(@RequestParam(value = "category") final String category,
                                                                                                    @RequestParam(value = "characterId") final Integer characterId);
 
-    @Operation(summary = "모험 정보 인증 API", description = "메인 홈에서 모험 인증 정보(닉네임, 캐릭터 이미지 or 모션 이미지, 칭호)반환")
+    @Operation(summary = "프로필 업데이트 API", description = "프로필 업데이트 정보를 받아 멤버 업데이트")
     @ApiResponse(responseCode = "200",
-            description = "모험 인증 정보 요청 성공",
+            description = "프로필 업데이트 성공",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponse.class)))
     public ResponseEntity<APISuccessResponse<Object>> updateMemberProfile(@RequestBody MemberProfileUpdateRequest memberProfileUpdateRequest);
+
+
+    @Operation(summary = "닉네임 중복 확인 API", description = "중복된 닉네임이 있는지 확인하는 API")
+    @ApiResponse(responseCode = "200",
+            description = "닉네임 중복 확인 성공",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponse.class)))
+    public ResponseEntity<APISuccessResponse<Object>> checkNickname(@RequestParam(value = "nickname") String nickname);
+
 
 }
