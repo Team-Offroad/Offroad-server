@@ -13,6 +13,9 @@ import site.offload.offloadserver.api.message.SuccessMessage;
 import site.offload.offloadserver.api.response.APISuccessResponse;
 import site.offload.offloadserver.common.jwt.TokenResponse;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -23,7 +26,7 @@ public class SocialLoginController {
     @PostMapping("/oauth/login")
     public ResponseEntity<APISuccessResponse<TokenResponse>> login(
             @RequestBody SocialLoginRequest socialLoginRequest
-    ) {
+    ) throws NoSuchAlgorithmException, InvalidKeySpecException {
         return APISuccessResponse.of(HttpStatus.CREATED.value(), SuccessMessage.SOCIAL_LOGIN_SUCCESS.getMessage(), socialLoginService.login(socialLoginRequest));
     }
 }
