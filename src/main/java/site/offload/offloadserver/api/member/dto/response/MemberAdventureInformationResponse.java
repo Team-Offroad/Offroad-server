@@ -1,4 +1,4 @@
-package site.offload.offloadserver.api.member.dto;
+package site.offload.offloadserver.api.member.dto.response;
 
 public record MemberAdventureInformationResponse(String nickname, String emblemName, String characterImgUrl,
                                                  String characterName) {

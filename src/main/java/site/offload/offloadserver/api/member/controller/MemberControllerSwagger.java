@@ -7,8 +7,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import site.offload.offloadserver.api.member.dto.MemberAdventureInformationResponse;
 import site.offload.offloadserver.api.member.dto.request.MemberProfileUpdateRequest;
+import site.offload.offloadserver.api.member.dto.response.MemberAdventureInformationResponse;
 import site.offload.offloadserver.api.response.APISuccessResponse;
 
 public interface MemberControllerSwagger {

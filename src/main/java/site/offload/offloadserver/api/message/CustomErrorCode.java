@@ -7,5 +7,6 @@ public enum CustomErrorCode {
     NOT_EXISTS_PLACE_CATEGORY, // 존재하지 않은 장소 카테고리
     NOT_EXISTS_CHARACTER, // 존재하지 않는 캐릭터
     NOT_EXISTS_CHARACTER_MOTION, // 존재하지 않는 캐릭터 모션
+    NOT_EXISTS_EMBLEM,
     INVALID_AUTHORIZATION_JWT;
 }

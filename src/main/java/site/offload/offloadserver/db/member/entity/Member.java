@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import site.offload.offloadserver.api.member.dto.request.MemberProfileUpdateRequest;
 import site.offload.offloadserver.api.member.dto.request.SocialPlatform;
 import site.offload.offloadserver.db.BaseTimeEntity;
+import site.offload.offloadserver.db.emblem.entity.Emblem;
 import site.offload.offloadserver.db.member.embeddable.Birthday;
 
 //로그인 유저
@@ -17,7 +18,7 @@ import site.offload.offloadserver.db.member.embeddable.Birthday;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseTimeEntity {
 
-    private static final String DEFAULT_EMBLEM_NAME = "오프로드 스타터";
+    private static final Emblem DEFAULT_EMBLEM_NAME = Emblem.DEFAULT_EMBLEM;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,7 +49,8 @@ public class Member extends BaseTimeEntity {
     private String sub;
 
     @Column(nullable = false)
-    private String currentEmblemName = DEFAULT_EMBLEM_NAME;
+    @Enumerated(EnumType.STRING)
+    private Emblem currentEmblemName = DEFAULT_EMBLEM_NAME;
 
     @Enumerated(EnumType.STRING)
     private SocialPlatform socialPlatform;
@@ -81,5 +83,8 @@ public class Member extends BaseTimeEntity {
         this.gender = memberProfileUpdateRequest.gender();
     }
 
+    public void updateEmblem(Emblem emblem) {
+        this.currentEmblemName = emblem;
+    }
 
 }
