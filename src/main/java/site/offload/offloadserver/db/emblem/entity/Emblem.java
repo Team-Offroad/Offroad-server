@@ -12,7 +12,7 @@ public enum Emblem  {
     private final String emblemCodeName;
     private final String emblemName;
 
-    public static boolean isExistsEmblem(Emblem emblem) {
+    public static boolean isExistsEmblem(final Emblem emblem) {
         for (Emblem thisEmblem : Emblem.values()) {
             if (emblem.equals(thisEmblem)) {
                 return true;

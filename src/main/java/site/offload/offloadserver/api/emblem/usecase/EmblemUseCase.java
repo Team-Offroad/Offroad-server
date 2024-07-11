@@ -17,9 +17,9 @@ public class EmblemUseCase {
     private final MemberService memberService;
 
     @Transactional
-    public void updateCurrentEmblem(UpdateCurrentEmblemRequest request) {
+    public void updateCurrentEmblem(final UpdateCurrentEmblemRequest request) {
         if (isExistsEmblem(request.emblemName())) {
-            Member findMember = memberService.findById(request.memberId());
+            final Member findMember = memberService.findById(request.memberId());
             findMember.updateEmblemName(Emblem.valueOf(request.emblemName()));
         } else {
             throw new NotFoundException(ErrorMessage.EMBLEM_NOTFOUND_EXCEPTION);
