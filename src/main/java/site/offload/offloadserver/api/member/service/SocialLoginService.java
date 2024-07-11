@@ -9,7 +9,11 @@ import site.offload.offloadserver.common.jwt.JwtTokenProvider;
 import site.offload.offloadserver.common.jwt.TokenResponse;
 import site.offload.offloadserver.db.member.entity.Member;
 import site.offload.offloadserver.db.member.repository.MemberRepository;
+import site.offload.offloadserver.external.oauth.apple.AppleSocialLoginService;
 import site.offload.offloadserver.external.oauth.google.GoogleSocialLoginService;
+
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 @Service
 @RequiredArgsConstructor
@@ -18,13 +22,24 @@ public class SocialLoginService {
     private final GoogleSocialLoginService googleSocialLoginService;
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberRepository memberRepository;
+    private final AppleSocialLoginService appleSocialLoginService;
 
     @Transactional
-    public TokenResponse login(SocialLoginRequest socialLoginRequest) {
+    public TokenResponse login(SocialLoginRequest socialLoginRequest) throws NoSuchAlgorithmException, InvalidKeySpecException {
         if (socialLoginRequest.socialPlatform().equals(SocialPlatform.GOOGLE)) {
             Member member = googleSocialLoginService.login(socialLoginRequest);
 
             //없으면 저장
+            if (!memberRepository.existsBySub(member.getSub())) {
+                memberRepository.save(member);
+            } else {
+                member = memberRepository.findBySub(member.getSub());
+            }
+            return signUp(member.getId());
+        }
+        if (socialLoginRequest.socialPlatform().equals(SocialPlatform.APPLE)) {
+            Member member = appleSocialLoginService.login(socialLoginRequest);
+
             if (!memberRepository.existsBySub(member.getSub())) {
                 memberRepository.save(member);
             } else {
