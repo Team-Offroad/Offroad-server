@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum SuccessMessage {
 
-    SOCIAL_LOGIN_SUCCESS("로그인 요청 성공");
-
+    SOCIAL_LOGIN_SUCCESS("로그인 요청 성공"),
+    ACCESS_TOKEN_REFRESH_SUCCESS("Access Token 재발급 성공");
     private final String message;
 }
