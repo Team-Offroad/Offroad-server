@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import site.offload.offloadserver.api.member.dto.MemberAdventureInformationRequest;
-import site.offload.offloadserver.api.member.dto.MemberAdventureInformationResponse;
 import site.offload.offloadserver.api.member.dto.request.MemberProfileUpdateRequest;
+import site.offload.offloadserver.api.member.dto.request.MemberAdventureInformationRequest;
+import site.offload.offloadserver.api.member.dto.response.MemberAdventureInformationResponse;
 import site.offload.offloadserver.api.member.usecase.MemberUseCase;
 import site.offload.offloadserver.api.message.SuccessMessage;
 import site.offload.offloadserver.api.response.APISuccessResponse;
@@ -25,7 +25,7 @@ public class MemberController implements MemberControllerSwagger {
                                                                                                           @RequestParam(value = "characterId") final Integer characterId) {
         final Long memberId = principalHandler.getMemberIdFromPrincipal();
         return APISuccessResponse.of(HttpStatus.OK.value(),
-                SuccessMessage.MEMBER_ADVENTURE_INFORMATION_SUCCESS.toString(),
+                SuccessMessage.MEMBER_ADVENTURE_INFORMATION_SUCCESS.getMessage(),
                 memberUseCase.getMemberAdventureInformation(MemberAdventureInformationRequest.of(memberId, category, characterId)));
     }
 

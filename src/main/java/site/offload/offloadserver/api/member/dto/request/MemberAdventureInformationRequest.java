@@ -1,4 +1,4 @@
-package site.offload.offloadserver.api.member.dto;
+package site.offload.offloadserver.api.member.dto.request;
 
 public record MemberAdventureInformationRequest(Long memberId, String category, Integer characterId) {
 

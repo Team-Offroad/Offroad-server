@@ -9,8 +9,8 @@ import site.offload.offloadserver.api.characterMotion.service.CharacterMotionSer
 import site.offload.offloadserver.api.characterMotion.service.GainedCharacterMotionService;
 import site.offload.offloadserver.api.exception.NotFoundException;
 import site.offload.offloadserver.api.exception.UnAuthorizedException;
-import site.offload.offloadserver.api.member.dto.MemberAdventureInformationRequest;
-import site.offload.offloadserver.api.member.dto.MemberAdventureInformationResponse;
+import site.offload.offloadserver.api.member.dto.request.MemberAdventureInformationRequest;
+import site.offload.offloadserver.api.member.dto.response.MemberAdventureInformationResponse;
 import site.offload.offloadserver.api.character.service.CharacterService;
 import site.offload.offloadserver.api.member.dto.request.MemberProfileUpdateRequest;
 import site.offload.offloadserver.api.member.dto.response.TokenReissueResponse;
@@ -65,7 +65,7 @@ public class MemberUseCase {
         //유저가 획득한 모션인지 확인
         if (isMemberGainedMotion(findCharacterMotion, member)) {
             return findCharacterMotion.getMotionImageUrl();
-            //아니라면 기본 이미지 반환
+        //아니라면 기본 이미지 반환
         } else {
             return character.getCharacterBaseImageUrl();
         }
