@@ -7,6 +7,8 @@ import site.offload.offloadserver.api.message.ErrorMessage;
 import site.offload.offloadserver.db.character.entity.Character;
 import site.offload.offloadserver.db.character.repository.CharacterRepository;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class CharacterService {
@@ -17,5 +19,9 @@ public class CharacterService {
         return characterRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(ErrorMessage.CHARACTER_NOTFOUND_EXCEPTION)
         );
+    }
+
+    public Iterable<Character> findAll() {
+        return characterRepository.findAll();
     }
 }

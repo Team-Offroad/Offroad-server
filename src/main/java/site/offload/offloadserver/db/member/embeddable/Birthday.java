@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Birthday {
-    private int year;
-    private int month;
-    private int day;
+    private int yearValue;
+    private int monthValue;
+    private int dayValue;
 }
