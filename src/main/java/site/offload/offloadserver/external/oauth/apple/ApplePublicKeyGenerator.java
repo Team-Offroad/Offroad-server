@@ -37,7 +37,7 @@ public class ApplePublicKeyGenerator {
             KeyFactory keyFactory = KeyFactory.getInstance(publicKey.kty());
             return keyFactory.generatePublic(publicKeySpec);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new UnAuthorizedException(ErrorMessage.JWT_UNAUTHORIZED_EXCEPTION);
+            throw new UnAuthorizedException(ErrorMessage.SOCAIL_LOGIN_UNAUTHORIZED_EXCEPTION);
         }
 
     }
