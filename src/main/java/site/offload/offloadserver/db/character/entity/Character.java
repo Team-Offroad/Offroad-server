@@ -10,6 +10,7 @@ import site.offload.offloadserver.db.BaseTimeEntity;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Table(name = "characters")
 public class Character extends BaseTimeEntity {
 
     @Id
