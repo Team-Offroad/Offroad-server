@@ -10,6 +10,6 @@ public class HealthCheckController implements HealthCheckControllerSwagger{
 
     @GetMapping("/api/health")
     public String healthCheck() {
-        return "okkkk";
+        return "okkkkk";
     }
 }
