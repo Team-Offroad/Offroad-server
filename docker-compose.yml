@@ -1,21 +1,15 @@
-#services:
-#  redis:
-#    container_name: redis
-#    image: redis:alpine
-#    hostname: redis
-#    ports:
-#      - 6379:6379
-#  springboot:
-#    image: ${DOCKER_IMAGE}
-#    container_name: springboot
-#    depends_on:
-#      - redis
-#    build:
-#      context: .
-#      dockerfile: ./Dockerfile-dev
-#    ports:
-#      - "${SPRINGBOOT_PORT}:8080"
-#    environment:
-#      SPRING_BOOT_PORT: ${SPRINGBOOT_PORT}
-#
-#
+version: "3"
+services:
+  redis:
+    container_name: redis
+    image: redis:alpine
+    hostname: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - wascomposenet
+networks:
+  wascomposenent:
+    external: true
+
+
