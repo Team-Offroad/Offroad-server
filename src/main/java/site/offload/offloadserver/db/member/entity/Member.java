@@ -49,20 +49,10 @@ public class Member extends BaseTimeEntity {
     private String sub;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
     private String currentEmblemName = DEFAULT_EMBLEM_NAME;
 
     @Enumerated(EnumType.STRING)
     private SocialPlatform socialPlatform;
-
-    @Column(nullable = false)
-    private int birthYear = 0;
-
-    @Column(nullable = false)
-    private int birthMonth = 0;
-
-    @Column(nullable = false)
-    private int birthDay = 0;
 
     @Embedded
     private Birthday birthday;
@@ -77,14 +67,13 @@ public class Member extends BaseTimeEntity {
 
     public void updateProfile(MemberProfileUpdateRequest memberProfileUpdateRequest) {
         this.nickName = memberProfileUpdateRequest.nickName();
-        this.birthYear = memberProfileUpdateRequest.year();
-        this.birthMonth = memberProfileUpdateRequest.month();
-        this.birthDay = memberProfileUpdateRequest.day();
+        this.birthday = new Birthday(memberProfileUpdateRequest.year(), memberProfileUpdateRequest.month(), memberProfileUpdateRequest.day());
         this.gender = memberProfileUpdateRequest.gender();
     }
 
     public void updateEmblemName(Emblem emblem) {
         this.currentEmblemName = emblem.getEmblemName();
+    }
 
     public void chooseCharacter(String characterName) {
         this.currentCharacterName = characterName;

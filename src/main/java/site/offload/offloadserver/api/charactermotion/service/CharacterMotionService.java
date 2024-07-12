@@ -1,7 +1,6 @@
-package site.offload.offloadserver.api.characterMotion.service;
+package site.offload.offloadserver.api.charactermotion.service;
 
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.stereotype.Component;
 import site.offload.offloadserver.api.exception.NotFoundException;
 import site.offload.offloadserver.api.message.ErrorMessage;

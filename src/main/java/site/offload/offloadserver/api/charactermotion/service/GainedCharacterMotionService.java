@@ -1,4 +1,4 @@
-package site.offload.offloadserver.api.characterMotion.service;
+package site.offload.offloadserver.api.charactermotion.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
