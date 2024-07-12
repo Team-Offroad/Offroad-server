@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 services:
   redis:
     container_name: redis
@@ -6,10 +6,25 @@ services:
     hostname: redis
     ports:
       - "6379:6379"
-    networks:
-      - wascomposenet
-networks:
-  wascomposenet:
-    external: true
-
-
+  blue:
+    container_name: blue
+    image : offroadserver/offroad
+    expose:
+      - 8080
+    ports:
+      - "8081:8080"
+    environment:
+      - TZ=Asia/Seoul
+    depends_on:
+      - redis
+  green:
+    container_name: green
+    image: offroadserver/offroad
+    expose:
+      - 8080
+    ports:
+      - "8082:8080"
+    environment:
+      - TZ=Asia/Seoul
+    depends_on:
+      - redis
