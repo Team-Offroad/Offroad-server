@@ -9,7 +9,7 @@ services:
     networks:
       - wascomposenet
 networks:
-  wascomposenent:
+  wascomposenet:
     external: true
 
 
