@@ -26,7 +26,8 @@ public class SecurityConfig {
     private static final String[] AUTH_WHITE_LIST = {"/api/oauth/login", "/v3/api-docs/**",
             "/swagger-ui/**",
             "/v2/api-docs/**",
-            "/swagger-resources/**"};
+            "/swagger-resources/**",
+            "/api/health"};
 
     @Bean
     @Profile("dev")
