@@ -12,6 +12,7 @@ public enum ErrorMessage {
     /* 400 Bad Request */
     MEMBER_EMBLEM_UPDATE_EXCEPTION("사용자가 얻은 칭호가 아닙니다.", HttpStatus.BAD_REQUEST, CustomErrorCode.FAIL_EMBLEM_UPDATE),
     /* 401 UnAuthorized */
+    SOCAIL_LOGIN_UNAUTHORIZED_EXCEPTION("응답을 받는 데 실패했습니다.", HttpStatus.UNAUTHORIZED, CustomErrorCode.INVALID_AUTHORIZATION_JWT),
     JWT_UNAUTHORIZED_EXCEPTION("사용자 검증을 실패했습니다.",HttpStatus.UNAUTHORIZED, CustomErrorCode.INVALID_AUTHORIZATION_JWT),
     JWT_REISSUE_EXCEPTION("토큰 재발급에 실패했습니다.", HttpStatus.UNAUTHORIZED, CustomErrorCode.FAIL_REISSUE_TOKEN),
     /* 403 Forbidden */
