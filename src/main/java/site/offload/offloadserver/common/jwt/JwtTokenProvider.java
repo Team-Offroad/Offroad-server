@@ -81,6 +81,12 @@ public class JwtTokenProvider {
             return JwtValidationType.VALID_JWT;
         } catch (MalformedJwtException ex) {
             return JwtValidationType.INVALID_JWT_TOKEN;
+        } catch (ExpiredJwtException ex) {
+            return JwtValidationType.EXPIRED_JWT_TOKEN;
+        } catch (UnsupportedJwtException ex) {
+            return JwtValidationType.UNSUPPORTED_JWT_TOKEN;
+        } catch (IllegalArgumentException ex) {
+            return JwtValidationType.EMPTY_JWT;
         }
     }
 
