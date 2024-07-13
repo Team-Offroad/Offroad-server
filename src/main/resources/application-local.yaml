@@ -5,9 +5,9 @@ spring:
       on-profile: local
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:testdb
+    url:  jdbc:h2:tcp://localhost/~/offroad
     username: sa
-    password:
+    password: 1
   jpa:
     show-sql: true
     hibernate:
