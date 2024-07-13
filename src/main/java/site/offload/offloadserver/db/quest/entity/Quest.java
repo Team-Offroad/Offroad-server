@@ -1,8 +1,29 @@
 package site.offload.offloadserver.db.quest.entity;
 
-public enum Quest {
 
-    //예시 퀘스트 코드
-    QUEST_CODE;
-    private String QuestCode;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import site.offload.offloadserver.db.place.entity.PlaceArea;
+import site.offload.offloadserver.db.place.entity.PlaceCategory;
+
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Quest {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(nullable = false, unique = true)
+    private String name;
+
+    @Enumerated(EnumType.STRING)
+    private PlaceCategory placeCategory;
+
+    @Enumerated(EnumType.STRING)
+    private PlaceArea placeArea;
+
+    @Column(nullable = false)
+    private int totalRequiredClearCount;
 }
