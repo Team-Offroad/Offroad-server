@@ -17,6 +17,7 @@ public enum SuccessMessage {
     MEMBER_CURRENT_EMBLEM_UPDATE_SUCCESS("칭호 변경 성공"),
     CHOOSE_CHARACTER_SUCCESS("캐릭터 선택 완료"),
     GET_GAINED_EMBLEM_SUCCESS("칭호 조회 완료"),
-    GET_CHARACTERS_LIST_SUCCESS("캐릭터 목록 조회 완료");
+    GET_CHARACTERS_LIST_SUCCESS("캐릭터 목록 조회 완료"),
+    GET_QUEST_INFORMATION_SUCCESS("퀘스트 정보 조회 성공");
     private final String message;
 }
