@@ -14,7 +14,7 @@ public class QuestService {
     private final ProceedingQuestRepository proceedingQuestRepository;
 
     public List<ProceedingQuest> findProceedingQuests(Long memberId) {
-        return proceedingQuestRepository.findAllByMemberIdOrderByUpdatedAt(memberId);
+        return proceedingQuestRepository.findAllByMemberIdOrderByUpdatedAtDesc(memberId);
     }
 
 }

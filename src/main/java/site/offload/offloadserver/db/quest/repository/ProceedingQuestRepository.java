@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface ProceedingQuestRepository extends JpaRepository<ProceedingQuest, Long> {
 
-    List<ProceedingQuest> findAllByMemberIdOrderByUpdatedAt(Long memberId);
+    List<ProceedingQuest> findAllByMemberIdOrderByUpdatedAtDesc(Long memberId);
 }
