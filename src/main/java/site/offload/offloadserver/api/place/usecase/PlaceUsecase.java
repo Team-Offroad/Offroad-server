@@ -26,10 +26,7 @@ public class PlaceUsecase {
         List<Long> visitCounts = findPlaces.stream()
                 .map(place -> placeService.countVisitedPlace(memberId, place))
                 .toList();
-        List<RegisteredPlaceResponse> registeredPlaces = new ArrayList<RegisteredPlaceResponse>();
-
-
-        IntStream.range(0, findPlaces.size())
+        List<RegisteredPlaceResponse> registeredPlaces = IntStream.range(0, findPlaces.size())
                 .mapToObj(i -> {
                     Place place = findPlaces.get(i);
                     Long count = visitCounts.get(i);

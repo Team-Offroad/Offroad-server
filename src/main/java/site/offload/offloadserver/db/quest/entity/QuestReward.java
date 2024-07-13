@@ -13,7 +13,7 @@ public class QuestReward {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, columnDefinition = "integer CHECK (questId > 0)")
+    @Column(nullable = false, columnDefinition = "integer CHECK (quest_id > 0)")
     private int questId;
 
     @Embedded
