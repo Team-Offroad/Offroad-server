@@ -24,11 +24,11 @@ public class EmblemUseCase {
     @Transactional
     public void updateCurrentEmblem(final UpdateCurrentEmblemRequest request) {
         //존재하는 칭호인지 확인
-        if (isExistsEmblem(request.emblemName())) {
+        if (isExistsEmblem(request.emblemCode())) {
             final Member findMember = memberService.findById(request.memberId());
             //유저가 얻은 칭호인지 확인
-            if (gainedEmblemService.isExistsByMemberAndEmblem(findMember, Emblem.valueOf(request.emblemName()))) {
-                findMember.updateEmblemName(Emblem.valueOf(request.emblemName()));
+            if (gainedEmblemService.isExistsByMemberAndEmblemCode(findMember, request.emblemCode())) {
+                findMember.updateEmblemName(Emblem.getEmblemByCode(request.emblemCode()));
             } else {
                 throw new BadRequestException(ErrorMessage.MEMBER_EMBLEM_UPDATE_EXCEPTION);
             }
@@ -37,14 +37,14 @@ public class EmblemUseCase {
         }
     }
 
-    private boolean isExistsEmblem(String emblemName) {
-        return Emblem.isExistsEmblem(Emblem.valueOf(emblemName));
+    private boolean isExistsEmblem(String emblemCode) {
+        return Emblem.isExistsEmblem(emblemCode);
     }
 
     @Transactional(readOnly = true)
     public GainedEmblemListResponse getGainedEmblems(Long memberId) {
         return GainedEmblemListResponse.of(gainedEmblemService.findAllByMemberId(memberId).stream().map(
-                gainedEmblem -> GainedEmblemResponse.of(gainedEmblem.getEmblemName().getEmblemCodeName(),
-                        gainedEmblem.getEmblemName().getEmblemName())).toList());
+                gainedEmblem -> GainedEmblemResponse.of(gainedEmblem.getEmblemCode(),
+                        Emblem.getEmblemByCode(gainedEmblem.getEmblemCode()).getEmblemName())).toList());
     }
 }

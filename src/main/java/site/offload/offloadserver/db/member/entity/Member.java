@@ -18,7 +18,7 @@ import site.offload.offloadserver.db.member.embeddable.Birthday;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseTimeEntity {
 
-    private static final String DEFAULT_EMBLEM_NAME = Emblem.DEFAULT_EMBLEM.getEmblemName();
+    private static final java.lang.String DEFAULT_EMBLEM_NAME = Emblem.DEFAULT_EMBLEM.getEmblemName();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
