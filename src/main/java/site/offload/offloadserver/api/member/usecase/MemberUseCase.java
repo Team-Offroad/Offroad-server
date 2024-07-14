@@ -162,11 +162,15 @@ public class MemberUseCase {
     private List<Quest> getQuests(final Place findPlace) {
         final List<Quest> quests = new ArrayList<>();
 
-        //조건이 카테고리
-        quests.addAll(questService.findAllByPlaceCategory(findPlace.getPlaceCategory()));
+        //조건이 NONE이 아닌 카테고리
+        if (findPlace.getPlaceCategory() != PlaceCategory.NONE) {
+            quests.addAll(questService.findAllByPlaceCategory(findPlace.getPlaceCategory()));
+        }
 
-        //조건이 구역
-        quests.addAll(questService.findAllByPlaceArea(findPlace.getPlaceArea()));
+        //조건이 NONE이 아닌 구역
+        if (findPlace.getPlaceArea() != PlaceArea.NONE) {
+            quests.addAll(questService.findAllByPlaceArea(findPlace.getPlaceArea()));
+        }
 
         //그외
         quests.addAll(questService.findAllByPlaceAreaAndPlaceCategory(PlaceCategory.NONE, PlaceArea.NONE));
