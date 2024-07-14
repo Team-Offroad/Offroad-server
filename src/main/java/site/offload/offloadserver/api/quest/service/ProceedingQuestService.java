@@ -34,4 +34,12 @@ public class ProceedingQuestService {
                 () -> new NotFoundException(ErrorMessage.PROCEEDING_QUEST_NOTFOUND_EXCEPTION)
         );
     }
+
+    public void addCurrentClearCount(ProceedingQuest proceedingQuest) {
+        proceedingQuest.addCurrentClearCount();
+    }
+
+    public void updateCurrentClearCount(ProceedingQuest proceedingQuest, int count) {
+        proceedingQuest.updateCurrentClearCount(count);
+    }
 }
