@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import site.offload.offloadserver.api.member.dto.request.AuthAdventureRequest;
 import site.offload.offloadserver.api.member.dto.request.MemberProfileUpdateRequest;
+import site.offload.offloadserver.api.member.dto.response.AuthAdventureResponse;
 import site.offload.offloadserver.api.member.dto.response.MemberAdventureInformationResponse;
 import site.offload.offloadserver.api.response.APISuccessResponse;
 
@@ -40,5 +42,14 @@ public interface MemberControllerSwagger {
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponse.class)))
     public ResponseEntity<APISuccessResponse<Void>> chooseCharacter(@PathVariable(value = "characterId") Integer characterId);
 
+    @Operation(summary = "탐험 인증 API", description = "QR코드로 탐험인증 하는 API")
+    @ApiResponse(responseCode = "200",
+            description = "탐험 인증 성공",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponse.class)))
+    ResponseEntity<APISuccessResponse<AuthAdventureResponse>> authAdventure(final @RequestBody AuthAdventureRequest request);
 
     }
+
+
+
+

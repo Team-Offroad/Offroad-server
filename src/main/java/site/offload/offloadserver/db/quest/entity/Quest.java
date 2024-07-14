@@ -26,6 +26,8 @@ public class Quest {
     @Enumerated(EnumType.STRING)
     private PlaceArea placeArea;
 
+    private boolean isQuestSamePlace = false;
+
     @Column(nullable = false)
     private int totalRequiredClearCount;
 }

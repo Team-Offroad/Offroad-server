@@ -23,6 +23,8 @@ public enum ErrorMessage {
     PLACE_CATEGORY_NOTFOUND_EXCEPTION("존재하지 않는 카테고리 유형입니다.", HttpStatus.NOT_FOUND, CustomErrorCode.NOT_EXISTS_PLACE_CATEGORY),
     CHARACTER_MOTION_NOTFOUND_EXCEPTION("캐릭터 모션이 존재하지 않습니다", HttpStatus.NOT_FOUND, CustomErrorCode.NOT_EXISTS_CHARACTER_MOTION),
     EMBLEM_NOTFOUND_EXCEPTION("칭호가 존재하지 않습니다.", HttpStatus.NOT_FOUND, CustomErrorCode.NOT_EXISTS_EMBLEM),
+    PLACE_NOTFOUND_EXCEPTION("해당 ID의 장소가 존재하지 않습니다.", HttpStatus.NOT_FOUND, CustomErrorCode.NOT_EXISTS_PLACE),
+    PROCEEDING_QUEST_NOTFOUND_EXCEPTION("진행 중인 해당 ID의 퀘스트가 존재하지 않습니다.", HttpStatus.NOT_FOUND, CustomErrorCode.NOT_EXISTS_PROCEEDING_QUEST),
     /* 500 Internal Server Error */
     ERROR_MESSAGE("example",HttpStatus.INTERNAL_SERVER_ERROR, CustomErrorCode.CUSTOM_ERROR_CODE);
     private final String message;
