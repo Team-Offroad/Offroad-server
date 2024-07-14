@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import site.offload.offloadserver.api.member.dto.request.AuthAdventureRequest;
 import site.offload.offloadserver.api.member.dto.request.MemberProfileUpdateRequest;
 import site.offload.offloadserver.api.member.dto.request.MemberAdventureInformationRequest;
+import site.offload.offloadserver.api.member.dto.response.AuthAdventureResponse;
 import site.offload.offloadserver.api.member.dto.response.MemberAdventureInformationResponse;
 import site.offload.offloadserver.api.member.usecase.MemberUseCase;
 import site.offload.offloadserver.api.message.SuccessMessage;
@@ -49,5 +51,11 @@ public class MemberController implements MemberControllerSwagger {
         memberUseCase.chooseCharacter(memberId, characterId);
         return APISuccessResponse.of(HttpStatus.CREATED.value(),
                 SuccessMessage.CHOOSE_CHARACTER_SUCCESS.getMessage(), null);
+    }
+
+    @PostMapping("/adventures/authentication")
+    public ResponseEntity<APISuccessResponse<AuthAdventureResponse>> authAdventure(final @RequestBody AuthAdventureRequest request) {
+        final Long memberId = principalHandler.getMemberIdFromPrincipal();
+        return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.AUTHENTICATE_ADVENTURE_REQUEST_SUCCESS.getMessage(), memberUseCase.authAdventure(memberId, request));
     }
 }

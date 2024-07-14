@@ -2,6 +2,8 @@ package site.offload.offloadserver.api.place.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import site.offload.offloadserver.api.exception.NotFoundException;
+import site.offload.offloadserver.api.message.ErrorMessage;
 import site.offload.offloadserver.api.place.dto.constans.PlaceConstants;
 import site.offload.offloadserver.api.place.dto.request.RegisteredPlacesRequest;
 import site.offload.offloadserver.db.member.entity.Member;
@@ -26,7 +28,12 @@ public class PlaceService {
     }
 
     public Long countVisitedPlace(Long memberId, Place findPlace) {
-
         return visitedPlaceRepositoiry.countByMemberIdAndPlaceId(memberId, findPlace.getId());
+    }
+
+    public Place findPlaceById(final Long placeId) {
+        return placeRepository.findById(placeId).orElseThrow(
+                () -> new NotFoundException(ErrorMessage.PLACE_NOTFOUND_EXCEPTION)
+        );
     }
 }

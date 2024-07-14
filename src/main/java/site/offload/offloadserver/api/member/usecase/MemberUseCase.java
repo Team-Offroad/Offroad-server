@@ -9,19 +9,33 @@ import site.offload.offloadserver.api.charactermotion.service.CharacterMotionSer
 import site.offload.offloadserver.api.charactermotion.service.GainedCharacterMotionService;
 import site.offload.offloadserver.api.exception.NotFoundException;
 import site.offload.offloadserver.api.exception.UnAuthorizedException;
+import site.offload.offloadserver.api.member.dto.request.AuthAdventureRequest;
 import site.offload.offloadserver.api.member.dto.request.MemberAdventureInformationRequest;
+import site.offload.offloadserver.api.member.dto.response.AuthAdventureResponse;
 import site.offload.offloadserver.api.member.dto.response.MemberAdventureInformationResponse;
 import site.offload.offloadserver.api.character.service.CharacterService;
 import site.offload.offloadserver.api.member.dto.request.MemberProfileUpdateRequest;
 import site.offload.offloadserver.api.member.dto.response.TokenReissueResponse;
 import site.offload.offloadserver.api.member.service.MemberService;
 import site.offload.offloadserver.api.message.ErrorMessage;
+import site.offload.offloadserver.api.place.service.PlaceService;
+import site.offload.offloadserver.api.place.service.VisitedPlaceService;
+import site.offload.offloadserver.api.quest.service.ProceedingQuestService;
+import site.offload.offloadserver.api.quest.service.QuestService;
 import site.offload.offloadserver.common.jwt.JwtTokenProvider;
 import site.offload.offloadserver.common.jwt.TokenResponse;
 import site.offload.offloadserver.db.character.entity.Character;
 import site.offload.offloadserver.db.charactermotion.entity.CharacterMotion;
 import site.offload.offloadserver.db.member.entity.Member;
+import site.offload.offloadserver.db.place.entity.Place;
+import site.offload.offloadserver.db.place.entity.PlaceArea;
 import site.offload.offloadserver.db.place.entity.PlaceCategory;
+import site.offload.offloadserver.db.place.entity.VisitedPlace;
+import site.offload.offloadserver.db.quest.entity.ProceedingQuest;
+import site.offload.offloadserver.db.quest.entity.Quest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +48,10 @@ public class MemberUseCase {
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate<String, String> redisTemplate;
     private final GainedCharacterService gainedCharacterService;
+    private final PlaceService placeService;
+    private final VisitedPlaceService visitedPlaceService;
+    private final QuestService questService;
+    private final ProceedingQuestService proceedingQuestService;
 
     @Transactional(readOnly = true)
     public MemberAdventureInformationResponse getMemberAdventureInformation(final MemberAdventureInformationRequest request) {
@@ -109,6 +127,62 @@ public class MemberUseCase {
         final Character findCharacter = characterService.findById(characterId);
         findMember.chooseCharacter(findCharacter.getName());
         gainedCharacterService.saveGainedCharacter(findMember, findCharacter);
+    }
+
+    @Transactional
+    public AuthAdventureResponse authAdventure(final Long memberId, final AuthAdventureRequest request) {
+        final Place findPlace = placeService.findPlaceById(request.placeId());
+        final Member findMember = memberService.findById(memberId);
+        if (request.qrCode().equals(findPlace.getOffroadCode())) {
+            // VisitedPlace 테이블 컬럼 추가
+            visitedPlaceService.save(VisitedPlace.create(findMember, findPlace));
+
+            // findPlace의 '카테고리'에 해당하는 '카테고리' 컬럼을 가진 퀘스트 전부 가져오기
+            final List<Quest> findQuestsByPlaceCategory = questService.findAllByPlaceCategory(findPlace.getPlaceCategory());
+
+            // findPlace의 '구역'에 해당하는 '구역' 컬럼을 가진 퀘스트 전부 가져오기
+            final List<Quest> findQuestsByPlaceArea = questService.findAllByPlaceArea(findPlace.getPlaceArea());
+
+            //PlaceCategory, PlaceArea가 'None'인 퀘스트 전부 가져오기
+            final List<Quest> findQuestByPlaceAndCategoryWithNone = questService.findAllByPlaceAreaAndPlaceCategory(PlaceCategory.NONE, PlaceArea.NONE);
+
+            //받아온 퀘스트들 모으기
+            List<Quest> quests = new ArrayList<>();
+            quests.addAll(findQuestsByPlaceCategory);
+            quests.addAll(findQuestsByPlaceArea);
+            quests.addAll(findQuestByPlaceAndCategoryWithNone);
+
+
+            // ProceedingQuest 테이블 컬럼 추가
+            quests.forEach(
+                    quest -> {
+                        ProceedingQuest proceedingQuest;
+                        if (proceedingQuestService.existsByMemberAndQuest(findMember, quest)) {
+                            // 퀘스트 진행도 올리기
+                            proceedingQuest = proceedingQuestService.findByMemberAndQuest(findMember, quest);
+                            // 같은 장소 조건이 있는 퀘스트가 아닐 경우
+                            if (!quest.isQuestSamePlace()) {
+                                proceedingQuest.updateCurrentClearCount();
+                            // 같은 장소 조건이 있는 퀘스트 -> visistedPlace에서 count로 가져온 값을 set
+                            } else {
+                                final long count = visitedPlaceService.countByMemberAndPlace(findMember, findPlace);
+                                proceedingQuest.setCurrentClearCount((int) count);
+                            }
+                        } else {
+                            // 아직 퀘스트 진행 전이면, 컬럼 생성 (진행도는 엔티티에서 기본 값 1로 설정)
+                            final Long proceedingQuestId = proceedingQuestService.save(ProceedingQuest.create(findMember, quest));
+                            proceedingQuest = proceedingQuestService.findById(proceedingQuestId);
+                        }
+                        //유저의 퀘스트 진행도와 퀘스트 총 달성도가 같으면, 퀘스트 달성 && 보상 주기 -> 앱잼 이후 구현
+                        if (proceedingQuest.getCurrentClearCount() == quest.getTotalRequiredClearCount()) {
+                            // 로직
+                        }
+                    }
+            );
+            return AuthAdventureResponse.of(true);
+        } else {
+            return AuthAdventureResponse.of(false);
+        }
     }
 }
 

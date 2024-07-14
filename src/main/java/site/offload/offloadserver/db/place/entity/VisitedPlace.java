@@ -2,6 +2,7 @@ package site.offload.offloadserver.db.place.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.offload.offloadserver.db.member.entity.Member;
@@ -23,4 +24,13 @@ public class VisitedPlace {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_id", nullable = false)
     private Place place;
+
+    private VisitedPlace(Member member, Place place) {
+        this.member = member;
+        this.place = place;
+    }
+
+    public static VisitedPlace create(Member member, Place place) {
+        return new VisitedPlace(member, place);
+    }
 }
