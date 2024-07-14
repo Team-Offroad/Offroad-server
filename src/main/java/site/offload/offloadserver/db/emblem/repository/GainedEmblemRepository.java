@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface GainedEmblemRepository extends CrudRepository<GainedEmblem, Integer> {
 
-    boolean existsByMemberAndEmblemName(Member member, Emblem emblem);
+    boolean existsByMemberAndEmblemCode(Member member, String emblemCode);
 
     List<GainedEmblem> findAllByMemberId(Long memberId);
 }

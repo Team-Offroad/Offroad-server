@@ -10,7 +10,7 @@ import site.offload.offloadserver.db.member.entity.Member;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"member_id", "emblemName"})
+        @UniqueConstraint(columnNames = {"member_id", "emblem_code"})
 })
 @Getter
 public class GainedEmblem {
@@ -24,6 +24,5 @@ public class GainedEmblem {
     private Member member;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Emblem emblemName;
+    private String emblemCode;
 }

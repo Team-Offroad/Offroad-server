@@ -15,8 +15,8 @@ public class GainedEmblemService {
 
     private final GainedEmblemRepository gainedEmblemRepository;
 
-    public boolean isExistsByMemberAndEmblem(Member member, Emblem emblem) {
-        return gainedEmblemRepository.existsByMemberAndEmblemName(member, emblem);
+    public boolean isExistsByMemberAndEmblemCode(Member member, String emblemCode) {
+        return gainedEmblemRepository.existsByMemberAndEmblemCode(member, emblemCode);
     }
 
     public List<GainedEmblem> findAllByMemberId(Long memberId) {
