@@ -61,7 +61,7 @@ public class MemberUseCase {
         final Character findCharacter = characterService.findById(request.characterId());
         final PlaceCategory placeCategory = PlaceCategory.valueOf(request.category());
 
-        if (PlaceCategory.isExistsCategory(placeCategory)) {
+        if (!PlaceCategory.isExistsCategory(placeCategory)) {
             throw new NotFoundException(ErrorMessage.PLACE_CATEGORY_NOTFOUND_EXCEPTION);
         }
 
