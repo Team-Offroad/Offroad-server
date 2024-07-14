@@ -133,56 +133,91 @@ public class MemberUseCase {
     public AuthAdventureResponse authAdventure(final Long memberId, final AuthAdventureRequest request) {
         final Place findPlace = placeService.findPlaceById(request.placeId());
         final Member findMember = memberService.findById(memberId);
-        if (request.qrCode().equals(findPlace.getOffroadCode())) {
-            // VisitedPlace 테이블 컬럼 추가
-            visitedPlaceService.save(VisitedPlace.create(findMember, findPlace));
 
-            // findPlace의 '카테고리'에 해당하는 '카테고리' 컬럼을 가진 퀘스트 전부 가져오기
-            final List<Quest> findQuestsByPlaceCategory = questService.findAllByPlaceCategory(findPlace.getPlaceCategory());
+        //qr코드 일치 확인
+        if (isValidQrCode(request.qrCode(), findPlace)) {
+            //방문한 장소 컬럼 추가
+            handleVisitedPlace(findMember, findPlace);
 
-            // findPlace의 '구역'에 해당하는 '구역' 컬럼을 가진 퀘스트 전부 가져오기
-            final List<Quest> findQuestsByPlaceArea = questService.findAllByPlaceArea(findPlace.getPlaceArea());
+            //관련된 퀘스트 모두 불러오기
+            final List<Quest> quests = getQuests(findPlace);
 
-            //PlaceCategory, PlaceArea가 'None'인 퀘스트 전부 가져오기
-            final List<Quest> findQuestByPlaceAndCategoryWithNone = questService.findAllByPlaceAreaAndPlaceCategory(PlaceCategory.NONE, PlaceArea.NONE);
+            //퀘스트 달성도, 인증 업데이트
+            processQuests(findMember, findPlace, quests);
 
-            //받아온 퀘스트들 모으기
-            List<Quest> quests = new ArrayList<>();
-            quests.addAll(findQuestsByPlaceCategory);
-            quests.addAll(findQuestsByPlaceArea);
-            quests.addAll(findQuestByPlaceAndCategoryWithNone);
-
-
-            // ProceedingQuest 테이블 컬럼 추가
-            quests.forEach(
-                    quest -> {
-                        ProceedingQuest proceedingQuest;
-                        if (proceedingQuestService.existsByMemberAndQuest(findMember, quest)) {
-                            // 퀘스트 진행도 올리기
-                            proceedingQuest = proceedingQuestService.findByMemberAndQuest(findMember, quest);
-                            // 같은 장소 조건이 있는 퀘스트가 아닐 경우
-                            if (!quest.isQuestSamePlace()) {
-                                proceedingQuest.updateCurrentClearCount();
-                            // 같은 장소 조건이 있는 퀘스트 -> visistedPlace에서 count로 가져온 값을 set
-                            } else {
-                                final long count = visitedPlaceService.countByMemberAndPlace(findMember, findPlace);
-                                proceedingQuest.setCurrentClearCount((int) count);
-                            }
-                        } else {
-                            // 아직 퀘스트 진행 전이면, 컬럼 생성 (진행도는 엔티티에서 기본 값 1로 설정)
-                            final Long proceedingQuestId = proceedingQuestService.save(ProceedingQuest.create(findMember, quest));
-                            proceedingQuest = proceedingQuestService.findById(proceedingQuestId);
-                        }
-                        //유저의 퀘스트 진행도와 퀘스트 총 달성도가 같으면, 퀘스트 달성 && 보상 주기 -> 앱잼 이후 구현
-                        if (proceedingQuest.getCurrentClearCount() == quest.getTotalRequiredClearCount()) {
-                            // 로직
-                        }
-                    }
-            );
             return AuthAdventureResponse.of(true);
         } else {
             return AuthAdventureResponse.of(false);
         }
     }
+
+    private boolean isValidQrCode(final String qrCode, final Place findPlace) {
+        return qrCode.equals(findPlace.getOffroadCode());
+    }
+
+    private void handleVisitedPlace(final Member findMember, final Place findPlace) {
+        visitedPlaceService.save(VisitedPlace.create(findMember, findPlace));
+    }
+
+    private List<Quest> getQuests(final Place findPlace) {
+        final List<Quest> quests = new ArrayList<>();
+
+        //조건이 카테고리
+        quests.addAll(questService.findAllByPlaceCategory(findPlace.getPlaceCategory()));
+
+        //조건이 구역
+        quests.addAll(questService.findAllByPlaceArea(findPlace.getPlaceArea()));
+
+        //그외
+        quests.addAll(questService.findAllByPlaceAreaAndPlaceCategory(PlaceCategory.NONE, PlaceArea.NONE));
+
+        return quests;
+    }
+
+    private void processQuests(final Member findMember, final Place findPlace, final List<Quest> quests) {
+        for (Quest quest : quests) {
+            ProceedingQuest proceedingQuest;
+
+            //퀘스트 진행 내역이 존재하면
+            if (proceedingQuestService.existsByMemberAndQuest(findMember, quest)) {
+                proceedingQuest = updateProceedingQuest(findMember, findPlace, quest);
+
+            //퀘스트 진행 내역이 없다면
+            } else {
+                proceedingQuest = createProceedingQuest(findMember, quest);
+            }
+
+            //퀘스트 필요 달성도와 진행도가 일치할 경우
+            if (proceedingQuest.getCurrentClearCount() == quest.getTotalRequiredClearCount()) {
+                handleQuestComplete(proceedingQuest);
+            }
+        }
+    }
+
+    private ProceedingQuest updateProceedingQuest(final Member findMember, final Place findPlace, final Quest quest) {
+        final ProceedingQuest proceedingQuest = proceedingQuestService.findByMemberAndQuest(findMember, quest);
+
+        //'같은 장소' 여러번 방문이 조건인 퀘스트가 아닌 경우
+        if (!quest.isQuestSamePlace()) {
+            proceedingQuestService.addCurrentClearCount(proceedingQuest);
+
+        //'같은 장소' 여러번 방문이 조건인 퀘스트인 경우
+        } else {
+            final long count = visitedPlaceService.countByMemberAndPlace(findMember, findPlace);
+            //VisitedPlace의 컬럼 수를 count후 진행도에 set
+            proceedingQuestService.updateCurrentClearCount(proceedingQuest, (int) count);
+        }
+        return proceedingQuest;
+    }
+
+    private ProceedingQuest createProceedingQuest(final Member findMember, final Quest quest) {
+        final Long proceedingQuestId = proceedingQuestService.save(ProceedingQuest.create(findMember, quest));
+        return proceedingQuestService.findById(proceedingQuestId);
+    }
+
+    //TODO : 앱잼 이후 구현 필수
+    private void handleQuestComplete(final ProceedingQuest proceedingQuest) {
+    }
+
 }
 

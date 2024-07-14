@@ -25,7 +25,6 @@ public class ProceedingQuest extends BaseTimeEntity {
     @JoinColumn(nullable = false, name = "quest_id")
     private Quest quest;
 
-    @Setter
     @Column(nullable = false)
     private int currentClearCount = 1;
 
@@ -38,8 +37,11 @@ public class ProceedingQuest extends BaseTimeEntity {
         return new ProceedingQuest(member, quest);
     }
 
-    public void updateCurrentClearCount() {
+    public void addCurrentClearCount() {
         this.currentClearCount++;
     }
 
+    public void updateCurrentClearCount(int currentClearCount) {
+        this.currentClearCount = currentClearCount;
+    }
 }
