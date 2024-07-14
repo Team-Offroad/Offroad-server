@@ -29,6 +29,6 @@ public class CharacterMotion extends BaseTimeEntity {
     @Column(nullable = false)
     private PlaceCategory placeCategory;
 
-    @Column(nullable = false, unique = true, columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String motionImageUrl;
 }

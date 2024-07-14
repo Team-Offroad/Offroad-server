@@ -23,7 +23,7 @@ public class Character extends BaseTimeEntity {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
-    @Column(nullable = false, unique = true, columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String characterBaseImageUrl;
 
     @Column(nullable = false, unique = true)

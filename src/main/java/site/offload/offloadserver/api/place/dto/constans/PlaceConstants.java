@@ -8,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public enum PlaceConstants {
 
-    RANGE_LATITUDE(0.01),
-    RANGE_LONGITUDE(0.005);
+    RANGE_LATITUDE(0.085),
+    RANGE_LONGITUDE(0.085);
 
     private final double range;
 }
