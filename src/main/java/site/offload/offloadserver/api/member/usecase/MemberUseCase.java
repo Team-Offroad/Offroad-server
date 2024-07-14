@@ -180,11 +180,11 @@ public class MemberUseCase {
 
             //퀘스트 진행 내역이 존재하면
             if (proceedingQuestService.existsByMemberAndQuest(findMember, quest)) {
-                proceedingQuest = updateProceedingQuest(findMember, findPlace, quest);
+                proceedingQuest = proceedingQuestService.findById(updateProceedingQuest(findMember, findPlace, quest));
 
             //퀘스트 진행 내역이 없다면
             } else {
-                proceedingQuest = createProceedingQuest(findMember, quest);
+                proceedingQuest =  proceedingQuestService.findById(createProceedingQuest(findMember, quest));
             }
 
             //퀘스트 필요 달성도와 진행도가 일치할 경우
@@ -194,7 +194,7 @@ public class MemberUseCase {
         }
     }
 
-    private ProceedingQuest updateProceedingQuest(final Member findMember, final Place findPlace, final Quest quest) {
+    private Long updateProceedingQuest(final Member findMember, final Place findPlace, final Quest quest) {
         final ProceedingQuest proceedingQuest = proceedingQuestService.findByMemberAndQuest(findMember, quest);
 
         //'같은 장소' 여러번 방문이 조건인 퀘스트가 아닌 경우
@@ -207,12 +207,11 @@ public class MemberUseCase {
             //VisitedPlace의 컬럼 수를 count후 진행도에 set
             proceedingQuestService.updateCurrentClearCount(proceedingQuest, (int) count);
         }
-        return proceedingQuest;
+        return proceedingQuest.getId();
     }
 
-    private ProceedingQuest createProceedingQuest(final Member findMember, final Quest quest) {
-        final Long proceedingQuestId = proceedingQuestService.save(ProceedingQuest.create(findMember, quest));
-        return proceedingQuestService.findById(proceedingQuestId);
+    private Long createProceedingQuest(final Member findMember, final Quest quest) {
+        return proceedingQuestService.save(ProceedingQuest.create(findMember, quest));
     }
 
     //TODO : 앱잼 이후 구현 필수
