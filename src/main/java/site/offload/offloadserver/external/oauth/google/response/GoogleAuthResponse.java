@@ -6,9 +6,10 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public record GoogleAuthResponse(
         String accessToken,
-        String refreshToken
+        String scope,
+        String id_token
 ) {
-    public static GoogleAuthResponse of(String accessToken, String refreshToken){
-        return new GoogleAuthResponse(accessToken, refreshToken);
+    public static GoogleAuthResponse of(String accessToken, String scope, String id_token){
+        return new GoogleAuthResponse(accessToken, scope, id_token);
     }
 }

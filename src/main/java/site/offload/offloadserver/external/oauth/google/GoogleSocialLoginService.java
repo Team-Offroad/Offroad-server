@@ -1,6 +1,7 @@
 package site.offload.offloadserver.external.oauth.google;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -8,13 +9,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import site.offload.offloadserver.api.member.dto.request.SocialLoginRequest;
 import site.offload.offloadserver.db.member.entity.Member;
+import site.offload.offloadserver.external.oauth.google.request.GoogleApiClient;
+import site.offload.offloadserver.external.oauth.google.request.GoogleAuthApiClient;
 import site.offload.offloadserver.external.oauth.google.request.GoogleAuthRequest;
 import site.offload.offloadserver.external.oauth.google.response.GoogleAuthResponse;
 import site.offload.offloadserver.external.oauth.google.response.GoogleInfoResponse;
 
 import java.util.Optional;
 
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class GoogleSocialLoginService {
@@ -26,27 +29,38 @@ public class GoogleSocialLoginService {
     @Value("${google.redirect-url}")
     private String googleRedirectUrl;
 
-    public Member login(SocialLoginRequest socialLoginRequest) {
-        RestClient googleAuthRestClient = RestClient.create();
-        GoogleAuthResponse googleAuthResponse = googleAuthRestClient.post()
-                .uri("https://oauth2.googleapis.com/token")
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(GoogleAuthRequest.of(socialLoginRequest.code(), googleClientId, googleClientSecret, googleRedirectUrl, "authorization_code"))
-                .retrieve()
-                .body(GoogleAuthResponse.class);
+    private final GoogleAuthApiClient googleAuthApiClient;
+    private final GoogleApiClient googleApiClient;
 
-        RestClient googleInfoRestClient = RestClient.builder()
-                .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + googleAuthResponse.accessToken())
-                .build();
-        GoogleInfoResponse googleInfoResponse = googleInfoRestClient.get()
-                .uri("https://www.googleapis.com/oauth2/v3/userinfo")
-                .retrieve()
-                .body(GoogleInfoResponse.class);
+    public Member login(SocialLoginRequest socialLoginRequest) {
+        GoogleAuthResponse tokenResponse = googleAuthApiClient.googleAuth(
+                socialLoginRequest.code(),
+                googleClientId,
+                googleClientSecret,
+                googleRedirectUrl,
+                "authorization_code"
+        );
+
+        log.info(tokenResponse.accessToken());
+        log.info(tokenResponse.scope());
+
+        GoogleInfoResponse userResponse = googleApiClient.googleInfo("Bearer " + tokenResponse.accessToken());
+
+        log.info(userResponse.toString());
+
+        if (userResponse.name() == null) {
+            return Member.builder()
+                    .name("오프로드")
+                    .email(userResponse.email())
+                    .sub(userResponse.id())
+                    .socialPlatform(socialLoginRequest.socialPlatform())
+                    .build();
+        }
 
         return Member.builder()
-                .name(googleInfoResponse.name())
-                .email(googleInfoResponse.email())
-                .sub(googleInfoResponse.sub())
+                .name(userResponse.name())
+                .email(userResponse.email())
+                .sub(userResponse.id())
                 .socialPlatform(socialLoginRequest.socialPlatform())
                 .build();
     }
