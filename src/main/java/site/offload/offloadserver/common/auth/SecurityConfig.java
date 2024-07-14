@@ -27,7 +27,9 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/v2/api-docs/**",
             "/swagger-resources/**",
-            "/api/health"};
+            "/api/health",
+            "/oauth/google/**"
+    };
 
     @Bean
     @Profile("dev")

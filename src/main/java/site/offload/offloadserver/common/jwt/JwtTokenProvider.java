@@ -66,8 +66,8 @@ public class JwtTokenProvider {
                 .compact();
 
         redisTemplate.opsForValue().set(
-                String.valueOf(memberId),
                 refreshToken,
+                String.valueOf(memberId),
                 REFRESH_TOKEN_EXPIRATION_TIME,
                 TimeUnit.MILLISECONDS
         );
