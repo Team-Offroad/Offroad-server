@@ -33,13 +33,6 @@ redis:
   port: ${REDIS_PORT_DEV}
 
 apple:
-  auth:
-    token-url: https://appleid.apple.com/auth/token
-    public-key-url: https://appleid.apple.com/auth/keys
-  redirect-uri: ${APPLE_REDIRECT_URL}
-  iss: https://appleid.apple.com
-  aud: ${APPLE_CLIENT_ID}
-  team-id: ${APPLE_TEAM_ID}
-  key:
-    id: ${APPLE_KEY_ID}
-    path: classpath:/apple/AuthKey_${APPLE_KEY_ID}.p8
+  public-key-url: ${APPLE_PUBLIC_KEY_URL}
+  iss: ${APPLE_ISS}
+  client-id: ${APPLE_CLIENT_ID}
