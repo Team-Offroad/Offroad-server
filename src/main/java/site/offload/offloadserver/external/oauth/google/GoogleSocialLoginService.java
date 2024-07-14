@@ -3,19 +3,13 @@ package site.offload.offloadserver.external.oauth.google;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
-import site.offload.offloadserver.api.member.dto.request.SocialLoginRequest;
+import site.offload.offloadserver.api.member.dto.request.GoogleSocialLoginRequest;
 import site.offload.offloadserver.db.member.entity.Member;
 import site.offload.offloadserver.external.oauth.google.request.GoogleApiClient;
 import site.offload.offloadserver.external.oauth.google.request.GoogleAuthApiClient;
-import site.offload.offloadserver.external.oauth.google.request.GoogleAuthRequest;
 import site.offload.offloadserver.external.oauth.google.response.GoogleAuthResponse;
 import site.offload.offloadserver.external.oauth.google.response.GoogleInfoResponse;
-
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -32,9 +26,9 @@ public class GoogleSocialLoginService {
     private final GoogleAuthApiClient googleAuthApiClient;
     private final GoogleApiClient googleApiClient;
 
-    public Member login(SocialLoginRequest socialLoginRequest) {
+    public Member login(GoogleSocialLoginRequest googleSocialLoginRequest) {
         GoogleAuthResponse tokenResponse = googleAuthApiClient.googleAuth(
-                socialLoginRequest.code(),
+                googleSocialLoginRequest.code(),
                 googleClientId,
                 googleClientSecret,
                 googleRedirectUrl,
@@ -48,20 +42,11 @@ public class GoogleSocialLoginService {
 
         log.info(userResponse.toString());
 
-        if (userResponse.name() == null) {
-            return Member.builder()
-                    .name("오프로드")
-                    .email(userResponse.email())
-                    .sub(userResponse.id())
-                    .socialPlatform(socialLoginRequest.socialPlatform())
-                    .build();
-        }
-
         return Member.builder()
                 .name(userResponse.name())
                 .email(userResponse.email())
                 .sub(userResponse.id())
-                .socialPlatform(socialLoginRequest.socialPlatform())
+                .socialPlatform(googleSocialLoginRequest.socialPlatform())
                 .build();
     }
 

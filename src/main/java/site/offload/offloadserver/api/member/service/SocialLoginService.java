@@ -3,8 +3,8 @@ package site.offload.offloadserver.api.member.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import site.offload.offloadserver.api.member.dto.request.SocialLoginRequest;
-import site.offload.offloadserver.api.member.dto.request.SocialPlatform;
+import site.offload.offloadserver.api.member.dto.request.AppleSocialLoginRequest;
+import site.offload.offloadserver.api.member.dto.request.GoogleSocialLoginRequest;
 import site.offload.offloadserver.common.jwt.JwtTokenProvider;
 import site.offload.offloadserver.common.jwt.TokenResponse;
 import site.offload.offloadserver.db.member.entity.Member;
@@ -25,11 +25,12 @@ public class SocialLoginService {
     private final AppleSocialLoginService appleSocialLoginService;
 
     @Transactional
-    public TokenResponse login(SocialLoginRequest socialLoginRequest) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        if (socialLoginRequest.socialPlatform().equals(SocialPlatform.GOOGLE)) {
-            Member member = googleSocialLoginService.login(socialLoginRequest);
+    public TokenResponse googleLogin(GoogleSocialLoginRequest googleSocialLoginRequest) throws NoSuchAlgorithmException, InvalidKeySpecException {
 
-            //없으면 저장
+        Member member = googleSocialLoginService.login(googleSocialLoginRequest);
+
+        //없으면 저장
+        if (member != null) {
             if (!memberRepository.existsBySub(member.getSub())) {
                 memberRepository.save(member);
             } else {
@@ -37,9 +38,16 @@ public class SocialLoginService {
             }
             return signUp(member.getId());
         }
-        if (socialLoginRequest.socialPlatform().equals(SocialPlatform.APPLE)) {
-            Member member = appleSocialLoginService.login(socialLoginRequest);
 
+        return TokenResponse.of(null, null);
+    }
+
+    @Transactional
+    public TokenResponse appleLogin(AppleSocialLoginRequest appleSocialLoginRequest) throws NoSuchAlgorithmException, InvalidKeySpecException {
+
+        Member member = appleSocialLoginService.login(appleSocialLoginRequest);
+
+        if (member != null) {
             if (!memberRepository.existsBySub(member.getSub())) {
                 memberRepository.save(member);
             } else {

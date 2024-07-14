@@ -2,47 +2,39 @@ package site.offload.offloadserver.external.oauth.apple;
 
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
 import site.offload.offloadserver.api.exception.UnAuthorizedException;
-import site.offload.offloadserver.api.member.dto.request.SocialLoginRequest;
+import site.offload.offloadserver.api.member.dto.request.AppleSocialLoginRequest;
 import site.offload.offloadserver.api.message.ErrorMessage;
 import site.offload.offloadserver.db.member.entity.Member;
 
-import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
-import java.security.spec.InvalidKeySpecException;
 import java.util.Map;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AppleSocialLoginService {
-
-    @Value("${apple.auth.public-key-url}")
-    private String applePublicKeyUrl;
-
+    private final AppleFeignClient appleFeignClient;
     private final AppleIdentityTokenParser appleIdentityTokenParser;
     private final ApplePublicKeyGenerator applePublicKeyGenerator;
     private final AppleIdentityTokenValidator appleIdentityTokenValidator;
 
-    public Member login(SocialLoginRequest socialLoginRequest) throws NoSuchAlgorithmException, InvalidKeySpecException {
-
-        Map<String, String> headers = appleIdentityTokenParser.parseHeaders(socialLoginRequest.code());
-        RestClient appleKeysRestClient = RestClient.create();
-        ApplePublicKeysResponse applePublicKeysResponse = appleKeysRestClient.get()
-                .uri(applePublicKeyUrl)
-                .retrieve()
-                .body(ApplePublicKeysResponse.class);
-        PublicKey publicKey = applePublicKeyGenerator.generatePublicKey(headers, applePublicKeysResponse);
-        Claims claims = appleIdentityTokenParser.parseWithPublicKeyAndGetclaims(socialLoginRequest.code(), publicKey);
+    public Member login(AppleSocialLoginRequest appleSocialLoginRequest) {
+        Map<String, String> headers = appleIdentityTokenParser.parseHeaders(appleSocialLoginRequest.code());
+        ApplePublicKeys applePublicKeys = appleFeignClient.getApplePublicKeys();
+        PublicKey publicKey = applePublicKeyGenerator.generatePublicKeyWithApplePublicKeys(headers, applePublicKeys);
+        Claims claims = appleIdentityTokenParser.parseWithPublicKeyAndGetclaims(appleSocialLoginRequest.code(), publicKey);
         validateClaims(claims);
 
+        log.info(claims.toString());
+
         return Member.builder()
-                .name(claims.get("name", String.class))
+                .name(appleSocialLoginRequest.name())
                 .email(claims.get("email", String.class))
-                .sub(claims.getSubject())
-                .socialPlatform(socialLoginRequest.socialPlatform())
+                .sub(claims.get("sub", String.class))
+                .socialPlatform(appleSocialLoginRequest.socialPlatform())
                 .build();
 
     }

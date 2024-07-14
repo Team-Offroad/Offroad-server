@@ -40,3 +40,7 @@ redis:
   host: ${REDIS_HOST_DEV}
   port: ${REDIS_PORT_DEV}
 
+apple:
+  public-key-url: ${APPLE_PUBLIC_KEY_URL}
+  iss: ${APPLE_ISS}
+  client-id: ${APPLE_CLIENT_ID}
