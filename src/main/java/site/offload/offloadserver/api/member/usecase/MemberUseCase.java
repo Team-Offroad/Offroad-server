@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import site.offload.offloadserver.api.character.service.GainedCharacterService;
 import site.offload.offloadserver.api.charactermotion.service.CharacterMotionService;
 import site.offload.offloadserver.api.charactermotion.service.GainedCharacterMotionService;
+import site.offload.offloadserver.api.exception.BadRequestException;
 import site.offload.offloadserver.api.exception.NotFoundException;
 import site.offload.offloadserver.api.exception.UnAuthorizedException;
 import site.offload.offloadserver.api.member.dto.request.AuthAdventureRequest;
@@ -141,7 +142,7 @@ public class MemberUseCase {
 
         // 클라이언트에서 받은 위도 경도 값을 카테고리 별 오차 범위 계산해서 PlaceId에 해당하는 장소의 위도 경도값과 비교
         if (!isValidLocation(request.latitude(), request.longitude(), findPlace.getLatitude(), findPlace.getLongitude(), findPlace.getPlaceCategory())) {
-            return AuthAdventureResponse.of(false);
+            throw new BadRequestException(ErrorMessage.NOT_ALLOWED_DISTANCE_EXCEPTION);
         }
 
         //qr코드 일치 확인
