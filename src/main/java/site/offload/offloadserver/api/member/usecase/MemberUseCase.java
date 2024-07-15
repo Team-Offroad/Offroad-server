@@ -83,7 +83,7 @@ public class MemberUseCase {
         //유저가 획득한 모션인지 확인
         if (isMemberGainedMotion(findCharacterMotion, member)) {
             return findCharacterMotion.getMotionImageUrl();
-        //아니라면 기본 이미지 반환
+            //아니라면 기본 이미지 반환
         } else {
             return character.getCharacterBaseImageUrl();
         }
@@ -186,9 +186,9 @@ public class MemberUseCase {
             if (proceedingQuestService.existsByMemberAndQuest(findMember, quest)) {
                 proceedingQuest = proceedingQuestService.findById(updateProceedingQuest(findMember, findPlace, quest));
 
-            //퀘스트 진행 내역이 없다면
+                //퀘스트 진행 내역이 없다면
             } else {
-                proceedingQuest =  proceedingQuestService.findById(createProceedingQuest(findMember, quest));
+                proceedingQuest = proceedingQuestService.findById(createProceedingQuest(findMember, quest));
             }
 
             //퀘스트 필요 달성도와 진행도가 일치할 경우
@@ -205,7 +205,7 @@ public class MemberUseCase {
         if (!quest.isQuestSamePlace()) {
             proceedingQuestService.addCurrentClearCount(proceedingQuest);
 
-        //'같은 장소' 여러번 방문이 조건인 퀘스트인 경우
+            //'같은 장소' 여러번 방문이 조건인 퀘스트인 경우
         } else {
             final long count = visitedPlaceService.countByMemberAndPlace(findMember, findPlace);
             //VisitedPlace의 컬럼 수를 count후 진행도에 set

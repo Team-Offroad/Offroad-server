@@ -10,7 +10,7 @@ import site.offload.offloadserver.api.place.dto.response.RegisteredPlacesRespons
 import site.offload.offloadserver.api.response.APISuccessResponse;
 
 public interface PlaceControllerSwagger {
-    @Operation(summary = "CheckRegisteredPlaces API", description = "오프로드 등록 장소 조회 API입니다.")
+    @Operation(summary = "오프로드 등록 장소 조회 API", description = "오프로드 등록 장소 조회 API입니다.")
     @ApiResponse(responseCode = "200",
             description = "오프로드 등록 장소 조회 완료",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponse.class)))
