@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import site.offload.offloadserver.db.BaseTimeEntity;
 import site.offload.offloadserver.db.member.entity.Member;
 
 //사용자가 얻은 칭호
@@ -13,7 +14,7 @@ import site.offload.offloadserver.db.member.entity.Member;
         @UniqueConstraint(columnNames = {"member_id", "emblem_code"})
 })
 @Getter
-public class GainedEmblem {
+public class GainedEmblem extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
