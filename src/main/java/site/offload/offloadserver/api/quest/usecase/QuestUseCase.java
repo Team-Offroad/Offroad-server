@@ -3,14 +3,13 @@ package site.offload.offloadserver.api.quest.usecase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import site.offload.offloadserver.api.quest.dto.response.HomeQuestResponse;
+import site.offload.offloadserver.api.quest.dto.response.QuestResponse;
 import site.offload.offloadserver.api.quest.dto.response.QuestInformationResponse;
 import site.offload.offloadserver.api.quest.service.QuestService;
 import site.offload.offloadserver.db.quest.entity.ProceedingQuest;
 import site.offload.offloadserver.db.quest.entity.Quest;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
@@ -20,11 +19,11 @@ public class QuestUseCase {
     private final QuestService questService;
 
     @Transactional(readOnly = true)
-    public HomeQuestResponse getHomeQuestInformation(Long memberId) {
+    public QuestResponse getQuestInformation(Long memberId) {
         List<ProceedingQuest> proceedingQuests = questService.findProceedingQuests(memberId);
         List<Quest> quests = proceedingQuests.stream()
-                .map(quest -> quest.getQuest())
-                .collect(Collectors.toList());
+                .map(ProceedingQuest::getQuest)
+                .toList();
 
         List<Double> achievement = IntStream.range(0, proceedingQuests.size())
                 .mapToObj(i -> {
@@ -40,7 +39,7 @@ public class QuestUseCase {
         ProceedingQuest almostProceedingQuest = proceedingQuests.get(almost);
         Quest almostQuest = quests.get(almost);
 
-        return HomeQuestResponse.of(QuestInformationResponse.of(recentQuest.getName(), recentProceedingQuest.getCurrentClearCount(), recentQuest.getTotalRequiredClearCount()), QuestInformationResponse.of(almostQuest.getName(), almostProceedingQuest.getCurrentClearCount(), almostQuest.getTotalRequiredClearCount()));
+        return QuestResponse.of(QuestInformationResponse.of(recentQuest.getName(), recentProceedingQuest.getCurrentClearCount(), recentQuest.getTotalRequiredClearCount()), QuestInformationResponse.of(almostQuest.getName(), almostProceedingQuest.getCurrentClearCount(), almostQuest.getTotalRequiredClearCount()));
     }
 
     private Double calculateAchievement(int current, int goal) {

@@ -18,13 +18,12 @@ import site.offload.offloadserver.common.auth.PrincipalHandler;
 @RequestMapping("/api")
 public class TokenController implements TokenControllerSwagger {
 
-    private final PrincipalHandler principalHandler;
     private final MemberUseCase memberUseCase;
 
     @PostMapping("/auth/refresh")
     public ResponseEntity<APISuccessResponse<TokenReissueResponse>> refreshToken(@RequestHeader("Authorization") String tokenHeaderValue) {
         final String refreshToken = tokenHeaderValue.substring("Bearer ".length());
-        final Long memberId = principalHandler.getMemberIdFromPrincipal();
+        final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
         return APISuccessResponse.of(HttpStatus.CREATED.value(), SuccessMessage.ACCESS_TOKEN_REFRESH_SUCCESS.getMessage(), memberUseCase.reissueTokens(memberId, refreshToken));
     }
 }

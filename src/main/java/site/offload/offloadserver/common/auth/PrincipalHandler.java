@@ -9,17 +9,17 @@ import site.offload.offloadserver.api.message.ErrorMessage;
 public class PrincipalHandler {
     private static final String ANONYMOUS_USER = "anonymousUser";
 
-    public Long getMemberIdFromPrincipal() {
+    public static Long getMemberIdFromPrincipal() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         isPrincipalNull(principal);
         return Long.valueOf(principal.toString());
     }
 
-    public void isPrincipalNull(
+    public static void isPrincipalNull(
             final Object principal
     ) {
         if (principal.toString().equals(ANONYMOUS_USER)) {
-            throw new UnAuthorizedException(ErrorMessage.JWT_UNAUTHORIZED_EXCEPTION);
+            throw new UnAuthorizedException(ErrorMessage.MEMBER_NOTFOUND_EXCEPTION);
         }
     }
 }

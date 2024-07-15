@@ -1,11 +1,13 @@
-package site.offload.offloadserver.api.member.service;
+package site.offload.offloadserver.api.member.usecase;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.offload.offloadserver.api.emblem.service.GainedEmblemService;
-import site.offload.offloadserver.api.member.dto.request.AppleSocialLoginRequest;
-import site.offload.offloadserver.api.member.dto.request.GoogleSocialLoginRequest;
+import site.offload.offloadserver.api.exception.OffroadException;
+import site.offload.offloadserver.api.member.dto.request.SocialLoginRequest;
+import site.offload.offloadserver.api.member.dto.request.SocialPlatform;
+import site.offload.offloadserver.api.message.ErrorMessage;
 import site.offload.offloadserver.common.jwt.JwtTokenProvider;
 import site.offload.offloadserver.common.jwt.TokenResponse;
 import site.offload.offloadserver.db.emblem.entity.Emblem;
@@ -19,7 +21,7 @@ import java.security.spec.InvalidKeySpecException;
 
 @Service
 @RequiredArgsConstructor
-public class SocialLoginService {
+public class SocialLoginUseCase {
 
     private final GoogleSocialLoginService googleSocialLoginService;
     private final JwtTokenProvider jwtTokenProvider;
@@ -28,43 +30,29 @@ public class SocialLoginService {
     private final GainedEmblemService gainedEmblemService;
 
     @Transactional
-    public TokenResponse googleLogin(GoogleSocialLoginRequest googleSocialLoginRequest) throws NoSuchAlgorithmException, InvalidKeySpecException {
-
-        Member member = googleSocialLoginService.login(googleSocialLoginRequest);
-
-        //없으면 저장
-        if (member != null) {
-            if (!memberRepository.existsBySub(member.getSub())) {
-                memberRepository.save(member);
-            } else {
-                member = memberRepository.findBySub(member.getSub());
-            }
-            return signUp(member.getId());
+    public TokenResponse login(SocialLoginRequest socialLoginRequest) {
+        Member member = null;
+        if (socialLoginRequest.socialPlatform().equals(SocialPlatform.GOOGLE)) {
+            member = googleSocialLoginService.login(socialLoginRequest);
+        } else if (socialLoginRequest.socialPlatform().equals(SocialPlatform.APPLE)) {
+            member = appleSocialLoginService.login(socialLoginRequest);
         }
 
-        //기본 칭호(오프로드 스타터) 획득
-        getDefaultEmblem(member);
-
-        return TokenResponse.of(null, null);
+        try {
+            return signUp(checkMember(member).getId());
+        } catch (NullPointerException e){
+            throw new OffroadException(ErrorMessage.MEMBER_NOTFOUND_EXCEPTION);
+        }
     }
 
-    @Transactional
-    public TokenResponse appleLogin(AppleSocialLoginRequest appleSocialLoginRequest) throws NoSuchAlgorithmException, InvalidKeySpecException {
-
-        Member member = appleSocialLoginService.login(appleSocialLoginRequest);
-
-        if (member != null) {
-            if (!memberRepository.existsBySub(member.getSub())) {
-                memberRepository.save(member);
-            } else {
-                member = memberRepository.findBySub(member.getSub());
-            }
-            return signUp(member.getId());
+    private Member checkMember(Member member) {
+        if (!memberRepository.existsBySub(member.getSub())) {
+            memberRepository.save(member);
+            getDefaultEmblem(member);
+        } else {
+            member = memberRepository.findBySub(member.getSub());
         }
-
-        getDefaultEmblem(member);
-
-        return TokenResponse.of(null, null);
+        return member;
     }
 
     public TokenResponse signUp(Long memberId) {

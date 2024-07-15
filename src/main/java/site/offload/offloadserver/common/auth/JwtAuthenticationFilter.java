@@ -1,5 +1,6 @@
 package site.offload.offloadserver.common.auth;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import site.offload.offloadserver.api.exception.UnAuthorizedException;
 import site.offload.offloadserver.api.message.ErrorMessage;
 import site.offload.offloadserver.common.jwt.JwtTokenProvider;
 
+import javax.security.sasl.AuthenticationException;
 import java.io.IOException;
 
 import static site.offload.offloadserver.common.jwt.JwtValidationType.VALID_JWT;
@@ -44,6 +46,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         } catch (OffroadException exception) {
             log.info(exception.getMessage());
             // throw new UnAuthorizedException(ErrorMessage.JWT_UNAUTHORIZED_EXCEPTION);
+        } catch (ExpiredJwtException e) {
+            throw new UnAuthorizedException(ErrorMessage.INVALID_EXPIRATION_JWT_EXCEPTION);
         }
         filterChain.doFilter(request, response);
     }

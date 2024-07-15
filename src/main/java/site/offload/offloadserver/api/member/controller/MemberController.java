@@ -20,12 +20,11 @@ import site.offload.offloadserver.common.auth.PrincipalHandler;
 public class MemberController implements MemberControllerSwagger {
 
     private final MemberUseCase memberUseCase;
-    private final PrincipalHandler principalHandler;
 
     @GetMapping("/adventures/informations")
     public ResponseEntity<APISuccessResponse<MemberAdventureInformationResponse>> getAdventureInformation(@RequestParam(value = "category") final String category,
                                                                                                           @RequestParam(value = "characterId") final Integer characterId) {
-        final Long memberId = principalHandler.getMemberIdFromPrincipal();
+        final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
         return APISuccessResponse.of(HttpStatus.OK.value(),
                 SuccessMessage.MEMBER_ADVENTURE_INFORMATION_SUCCESS.getMessage(),
                 memberUseCase.getMemberAdventureInformation(MemberAdventureInformationRequest.of(memberId, category, characterId)));
@@ -33,7 +32,7 @@ public class MemberController implements MemberControllerSwagger {
 
     @PatchMapping("/profiles")
     public ResponseEntity<APISuccessResponse<Void>> updateMemberProfile(@RequestBody MemberProfileUpdateRequest memberProfileUpdateRequest) {
-        final Long memberId = principalHandler.getMemberIdFromPrincipal();
+        final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
         memberUseCase.updateMemberProfile(memberId, memberProfileUpdateRequest);
         return APISuccessResponse.of(HttpStatus.OK.value(),
                 SuccessMessage.MEMBER_PROFILE_UPDATE_SUCCESS.getMessage(), null);
@@ -47,7 +46,7 @@ public class MemberController implements MemberControllerSwagger {
 
     @PostMapping("/characters/{characterId}")
     public ResponseEntity<APISuccessResponse<Void>> chooseCharacter(@PathVariable(value = "characterId") Integer characterId) {
-        final Long memberId = principalHandler.getMemberIdFromPrincipal();
+        final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
         memberUseCase.chooseCharacter(memberId, characterId);
         return APISuccessResponse.of(HttpStatus.CREATED.value(),
                 SuccessMessage.CHOOSE_CHARACTER_SUCCESS.getMessage(), null);
@@ -55,7 +54,7 @@ public class MemberController implements MemberControllerSwagger {
 
     @PostMapping("/adventures/authentication")
     public ResponseEntity<APISuccessResponse<AuthAdventureResponse>> authAdventure(final @RequestBody AuthAdventureRequest request) {
-        final Long memberId = principalHandler.getMemberIdFromPrincipal();
+        final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
         return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.AUTHENTICATE_ADVENTURE_REQUEST_SUCCESS.getMessage(), memberUseCase.authAdventure(memberId, request));
     }
 }
