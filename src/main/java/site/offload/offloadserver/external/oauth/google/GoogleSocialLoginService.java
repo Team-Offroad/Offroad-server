@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import site.offload.offloadserver.api.member.dto.request.GoogleSocialLoginRequest;
+import site.offload.offloadserver.api.member.dto.request.SocialLoginRequest;
 import site.offload.offloadserver.db.member.entity.Member;
 import site.offload.offloadserver.external.oauth.google.request.GoogleApiClient;
 import site.offload.offloadserver.external.oauth.google.request.GoogleAuthApiClient;
@@ -26,27 +26,22 @@ public class GoogleSocialLoginService {
     private final GoogleAuthApiClient googleAuthApiClient;
     private final GoogleApiClient googleApiClient;
 
-    public Member login(GoogleSocialLoginRequest googleSocialLoginRequest) {
-        GoogleAuthResponse tokenResponse = googleAuthApiClient.googleAuth(
-                googleSocialLoginRequest.code(),
+    public Member login(SocialLoginRequest socialLoginRequest) {
+        GoogleAuthResponse googleAuthResponse = googleAuthApiClient.googleAuth(
+                socialLoginRequest.code(),
                 googleClientId,
                 googleClientSecret,
                 googleRedirectUrl,
                 "authorization_code"
         );
 
-        log.info(tokenResponse.accessToken());
-        log.info(tokenResponse.scope());
-
-        GoogleInfoResponse userResponse = googleApiClient.googleInfo("Bearer " + tokenResponse.accessToken());
-
-        log.info(userResponse.toString());
+        GoogleInfoResponse googleInfoResponse = googleApiClient.googleInfo("Bearer " + googleAuthResponse.accessToken());
 
         return Member.builder()
-                .name(userResponse.name())
-                .email(userResponse.email())
-                .sub(userResponse.id())
-                .socialPlatform(googleSocialLoginRequest.socialPlatform())
+                .name(googleInfoResponse.name())
+                .email(googleInfoResponse.email())
+                .sub(googleInfoResponse.id())
+                .socialPlatform(socialLoginRequest.socialPlatform())
                 .build();
     }
 

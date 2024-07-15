@@ -19,12 +19,11 @@ import site.offload.offloadserver.common.auth.PrincipalHandler;
 public class PlaceController implements PlaceControllerSwagger{
 
     private final PlaceUsecase placeUsecase;
-    private final PrincipalHandler principalHandler;
 
     @GetMapping("/places")
     public ResponseEntity<APISuccessResponse<RegisteredPlacesResponse>> checkRegisteredPlaces(
             @RequestBody RegisteredPlacesRequest registeredPlacesRequest
     ) {
-        return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.CHECK_REGISTERED_PLACES_SUCCESS.getMessage(), placeUsecase.checkRegisteredPlaces(principalHandler.getMemberIdFromPrincipal(), registeredPlacesRequest));
+        return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.CHECK_REGISTERED_PLACES_SUCCESS.getMessage(), placeUsecase.checkRegisteredPlaces(PrincipalHandler.getMemberIdFromPrincipal(), registeredPlacesRequest));
     }
 }

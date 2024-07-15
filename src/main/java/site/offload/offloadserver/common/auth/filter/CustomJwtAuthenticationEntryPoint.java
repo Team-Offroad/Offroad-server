@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
+import site.offload.offloadserver.api.message.CustomErrorCode;
 import site.offload.offloadserver.api.message.ErrorMessage;
 import site.offload.offloadserver.api.response.APIErrorResponse;
 
@@ -31,6 +32,6 @@ public class CustomJwtAuthenticationEntryPoint implements AuthenticationEntryPoi
         response.setCharacterEncoding("UTF-8");
         response.getWriter()
                 .write(objectMapper.writeValueAsString(
-                        APIErrorResponse.of(HttpStatus.UNAUTHORIZED.value(), ErrorMessage.JWT_UNAUTHORIZED_EXCEPTION.getMessage())));
+                        APIErrorResponse.of(HttpStatus.UNAUTHORIZED.value(), ErrorMessage.INVALID_JWT_EXCEPTION.getMessage(), CustomErrorCode.INVALID_AUTHORIZATION_JWT)));
     }
 }

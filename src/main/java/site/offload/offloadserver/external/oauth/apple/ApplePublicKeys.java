@@ -12,6 +12,6 @@ public record ApplePublicKeys(
         return keys.stream()
                 .filter(applePublicKey -> applePublicKey.kid().equals(kid) && applePublicKey.alg().equals(alg))
                 .findFirst()
-                .orElseThrow(() -> new UnAuthorizedException(ErrorMessage.JWT_UNAUTHORIZED_EXCEPTION));
+                .orElseThrow(() -> new UnAuthorizedException(ErrorMessage.INVALID_JWT_EXCEPTION));
     }
 }

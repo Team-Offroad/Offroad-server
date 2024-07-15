@@ -23,19 +23,19 @@ public class AppleIdentityTokenParser {
             String decoded = new String(Base64.getUrlDecoder().decode(encoded), StandardCharsets.UTF_8);
             return OBJECT_MAPPER.readValue(decoded, Map.class);
         } catch (JsonProcessingException | ArrayIndexOutOfBoundsException e) {
-            throw new UnAuthorizedException(ErrorMessage.JWT_UNAUTHORIZED_EXCEPTION);
+            throw new UnAuthorizedException(ErrorMessage.INVALID_JWT_EXCEPTION);
         }
     }
 
-    public Claims parseWithPublicKeyAndGetclaims(String identityToken, PublicKey publicKey) {
+    public Claims parseWithPublicKeyAndGetClaims(String identityToken, PublicKey publicKey) {
         try {
             return getJwtParser(publicKey)
                     .parseClaimsJws(identityToken)
                     .getBody();
         } catch (ExpiredJwtException e) {
-            throw new UnAuthorizedException(ErrorMessage.JWT_UNAUTHORIZED_EXCEPTION);
+            throw new UnAuthorizedException(ErrorMessage.INVALID_EXPIRATION_JWT_EXCEPTION);
         } catch (UnsupportedJwtException | MalformedJwtException | IllegalArgumentException e) {
-            throw new UnAuthorizedException(ErrorMessage.JWT_UNAUTHORIZED_EXCEPTION);
+            throw new UnAuthorizedException(ErrorMessage.INVALID_JWT_EXCEPTION);
         }
     }
 

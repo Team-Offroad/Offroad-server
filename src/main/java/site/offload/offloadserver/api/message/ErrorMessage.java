@@ -11,14 +11,15 @@ public enum ErrorMessage {
 
     /* 400 Bad Request */
     MEMBER_EMBLEM_UPDATE_EXCEPTION("사용자가 얻은 칭호가 아닙니다.", HttpStatus.BAD_REQUEST, CustomErrorCode.FAIL_EMBLEM_UPDATE),
+    EMBLEM_CODE_NOTFOUND_EXCEPTION("존재하지 않는 칭호 코드입니다.", HttpStatus.BAD_REQUEST, CustomErrorCode.NOT_EXISTS_EMBLEM_CODE),
     /* 401 UnAuthorized */
-    SOCAIL_LOGIN_UNAUTHORIZED_EXCEPTION("응답을 받는 데 실패했습니다.", HttpStatus.UNAUTHORIZED, CustomErrorCode.INVALID_AUTHORIZATION_JWT),
-    JWT_UNAUTHORIZED_EXCEPTION("사용자 검증을 실패했습니다.",HttpStatus.UNAUTHORIZED, CustomErrorCode.INVALID_AUTHORIZATION_JWT),
+    SOCIAL_LOGIN_UNAUTHORIZED_EXCEPTION("응답을 받는 데 실패했습니다.", HttpStatus.UNAUTHORIZED, CustomErrorCode.INVALID_AUTHORIZATION_JWT),
+    INVALID_EXPIRATION_JWT_EXCEPTION("기간이 만료된 토큰입니다.", HttpStatus.UNAUTHORIZED, CustomErrorCode.INVALID_EXPIRATION_JWT),
+    INVALID_JWT_EXCEPTION("유효하지 않은 토큰입니다.",HttpStatus.UNAUTHORIZED, CustomErrorCode.INVALID_AUTHORIZATION_JWT),
     JWT_REISSUE_EXCEPTION("토큰 재발급에 실패했습니다.", HttpStatus.UNAUTHORIZED, CustomErrorCode.FAIL_REISSUE_TOKEN),
     /* 403 Forbidden */
 
     /* 404 Not Found */
-    EMBLEM_CODE_NOTFOUND_EXCEPTION("존재하지 않는 칭호 코드입니다.", HttpStatus.BAD_REQUEST, CustomErrorCode.NOT_EXISTS_EMBLEM_CODE),
     MEMBER_NOTFOUND_EXCEPTION("해당 ID의 유저가 존재하지 않습니다.", HttpStatus.NOT_FOUND, CustomErrorCode.NOT_EXISTS_MEMBER),
     CHARACTER_NOTFOUND_EXCEPTION("해당 ID의 캐릭터가 존재하지 않습니다.", HttpStatus.NOT_FOUND, CustomErrorCode.NOT_EXISTS_CHARACTER),
     PLACE_CATEGORY_NOTFOUND_EXCEPTION("존재하지 않는 카테고리 유형입니다.", HttpStatus.NOT_FOUND, CustomErrorCode.NOT_EXISTS_PLACE_CATEGORY),

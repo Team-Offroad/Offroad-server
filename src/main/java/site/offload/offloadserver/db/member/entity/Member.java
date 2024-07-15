@@ -45,6 +45,7 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = true)
     private String currentCharacterName;
 
+    // 소셜 플랫폼 아이디
     @Column(nullable = false, columnDefinition = "TEXT")
     private String sub;
 

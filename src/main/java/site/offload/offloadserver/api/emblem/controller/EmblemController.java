@@ -16,12 +16,11 @@ import site.offload.offloadserver.common.auth.PrincipalHandler;
 @RequestMapping("/api/users/emblems")
 public class EmblemController implements EmblemControllSwawgger{
 
-    private final PrincipalHandler principalHandler;
     private final EmblemUseCase emblemUseCase;
 
     @PatchMapping
     public ResponseEntity<APISuccessResponse<Void>> updateEmblem(@RequestParam(value = "emblemCode") final String emblemCode) {
-        final Long memberId = principalHandler.getMemberIdFromPrincipal();
+        final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
         emblemUseCase.updateCurrentEmblem(UpdateCurrentEmblemRequest.of(emblemCode, memberId));
         return APISuccessResponse.of(HttpStatus.OK.value(),
          SuccessMessage.MEMBER_CURRENT_EMBLEM_UPDATE_SUCCESS.getMessage(), null);
@@ -29,7 +28,7 @@ public class EmblemController implements EmblemControllSwawgger{
 
     @GetMapping
     public ResponseEntity<APISuccessResponse<GainedEmblemListResponse>> getGainedEmblem() {
-        final Long memberId = principalHandler.getMemberIdFromPrincipal();
+        final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
         return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.GET_GAINED_EMBLEM_SUCCESS.getMessage(),
                                      emblemUseCase.getGainedEmblems(memberId));
     }
