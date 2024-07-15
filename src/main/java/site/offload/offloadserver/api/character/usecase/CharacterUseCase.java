@@ -19,11 +19,15 @@ public class CharacterUseCase {
 
     @Transactional(readOnly = true)
     public CharacterListResponse getCharacters() {
-        final Iterable<Character> findCharacters = characterService.findAll();
-        final List<CharacterResponse> charactersList = StreamSupport.stream(findCharacters.spliterator(), false)
-                .map(character -> CharacterResponse.of(character.getId(), character.getDescription(),
-                        character.getCharacterBaseImageUrl(), character.getCharacterCode()))
-                .toList();
+        List<Character> findCharacters = characterService.findAll();
+        List<CharacterResponse> charactersList = findCharacters.stream().map(
+                character -> CharacterResponse.builder()
+                        .id(character.getId())
+                        .description(character.getDescription())
+                        .characterCode(character.getCharacterCode())
+                        .characterBaseImageUrl(character.getCharacterBaseImageUrl())
+                        .build()
+        ).toList();
         return CharacterListResponse.of(charactersList);
     }
 }

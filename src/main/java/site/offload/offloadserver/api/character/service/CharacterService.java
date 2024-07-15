@@ -21,7 +21,7 @@ public class CharacterService {
         );
     }
 
-    public Iterable<Character> findAll() {
+    public List<Character> findAll() {
         return characterRepository.findAll();
     }
 }
