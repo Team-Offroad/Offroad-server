@@ -18,7 +18,7 @@ import site.offload.offloadserver.common.auth.PrincipalHandler;
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
-public class QuestController {
+public class QuestController implements QuestControllerSwagger {
 
     private final QuestUseCase questUseCase;
     private final PrincipalHandler principalHandler;
