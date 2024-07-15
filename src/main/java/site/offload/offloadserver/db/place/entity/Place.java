@@ -36,7 +36,7 @@ public class Place extends BaseTimeEntity {
     private PlaceArea placeArea;
 
     @Column(nullable = false)
-    private UUID offroadCode;
+    private String offroadCode;
 
     @Column(nullable = false, columnDefinition = "double CHECK (latitude >= -90 AND latitude <= 90)")
     private double latitude;

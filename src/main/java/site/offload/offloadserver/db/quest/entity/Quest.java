@@ -5,13 +5,14 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import site.offload.offloadserver.db.BaseTimeEntity;
 import site.offload.offloadserver.db.place.entity.PlaceArea;
 import site.offload.offloadserver.db.place.entity.PlaceCategory;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Quest {
+public class Quest extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
