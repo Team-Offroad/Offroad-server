@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
+import site.offload.offloadserver.api.exception.UnAuthorizedException;
+import site.offload.offloadserver.api.message.ErrorMessage;
 
 import javax.crypto.SecretKey;
 import java.util.Base64;
@@ -82,7 +84,7 @@ public class JwtTokenProvider {
         } catch (MalformedJwtException ex) {
             return JwtValidationType.INVALID_JWT_TOKEN;
         } catch (ExpiredJwtException ex) {
-            return JwtValidationType.EXPIRED_JWT_TOKEN;
+            throw new UnAuthorizedException(ErrorMessage.INVALID_EXPIRATION_JWT_EXCEPTION);
         } catch (UnsupportedJwtException ex) {
             return JwtValidationType.UNSUPPORTED_JWT_TOKEN;
         } catch (IllegalArgumentException ex) {
