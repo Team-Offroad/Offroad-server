@@ -25,4 +25,13 @@ public class GainedEmblem {
 
     @Column(nullable = false)
     private String emblemCode;
+
+    private GainedEmblem(Member member, String emblemCode) {
+        this.member = member;
+        this.emblemCode = emblemCode;
+    }
+
+    public static GainedEmblem create(Member member, String emblemCode) {
+        return new GainedEmblem(member, emblemCode);
+    }
 }
