@@ -22,4 +22,8 @@ public class GainedEmblemService {
     public List<GainedEmblem> findAllByMemberId(Long memberId) {
         return gainedEmblemRepository.findAllByMemberId(memberId);
     }
+
+    public Integer save(Member member, String emblemCode) {
+        return gainedEmblemRepository.save(GainedEmblem.create(member, emblemCode)).getId();
+    }
 }
