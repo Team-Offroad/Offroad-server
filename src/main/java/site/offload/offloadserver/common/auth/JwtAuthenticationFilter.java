@@ -46,8 +46,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         } catch (OffroadException exception) {
             log.info(exception.getMessage());
             // throw new UnAuthorizedException(ErrorMessage.JWT_UNAUTHORIZED_EXCEPTION);
-        } catch (ExpiredJwtException e) {
-            throw new UnAuthorizedException(ErrorMessage.INVALID_EXPIRATION_JWT_EXCEPTION);
         }
         filterChain.doFilter(request, response);
     }
