@@ -53,6 +53,10 @@ public class MemberUseCase {
     private final QuestService questService;
     private final ProceedingQuestService proceedingQuestService;
 
+    //단위 = meter
+    private static final int RESTAURANT_CAFE_CULTURE_PERMIT_RADIUS = 25;
+    private static final int PARK_SPORT_PERMIT_RADIUS = 100;
+
     @Transactional(readOnly = true)
     public MemberAdventureInformationResponse getMemberAdventureInformation(final MemberAdventureInformationRequest request) {
         final Member findMember = memberService.findById(request.memberId());
@@ -134,6 +138,11 @@ public class MemberUseCase {
         final Place findPlace = placeService.findPlaceById(request.placeId());
         final Member findMember = memberService.findById(memberId);
 
+        // 클라이언트에서 받은 위도 경도 값을 카테고리 별 오차 범위 계산해서 PlaceId에 해당하는 장소의 위도 경도값과 비교
+        if (!isValidLocation(request.latitude(), request.longitude(), findPlace.getLatitude(), findPlace.getLongitude(), findPlace.getPlaceCategory())) {
+            return AuthAdventureResponse.of(false);
+        }
+
         //qr코드 일치 확인
         if (isValidQrCode(request.qrCode(), findPlace)) {
             //방문한 장소 컬럼 추가
@@ -149,6 +158,45 @@ public class MemberUseCase {
         } else {
             return AuthAdventureResponse.of(false);
         }
+    }
+
+    private boolean isValidLocation(double requestLatitude, double requestLongitude, double myLatitude, double myLongitude, PlaceCategory placeCategory) {
+        double permitRadius = 0.0;
+
+        // 장소 카테고리에 따라 허용 반경 설정
+        // 식당, 카페, 문화 -> 25m
+        // 공원, 스포츠 -> 100m
+        if (placeCategory == PlaceCategory.RESTAURANT || placeCategory == PlaceCategory.CAFFE || placeCategory == PlaceCategory.CULTURE) {
+            permitRadius = RESTAURANT_CAFE_CULTURE_PERMIT_RADIUS;
+        } else if (placeCategory == PlaceCategory.PARK || placeCategory == PlaceCategory.SPORT) {
+            permitRadius = PARK_SPORT_PERMIT_RADIUS;
+        }
+
+        // 거리 계산 후 허용 반경과 비교하여 결과 반환
+        return distance(requestLatitude, requestLongitude, myLatitude, myLongitude) < permitRadius;
+    }
+
+
+    // 두 좌표 사이의 거리를 구하는 함수
+    // distance(첫번쨰 좌표의 위도, 첫번째 좌표의 경도, 두번째 좌표의 위도, 두번째 좌표의 경도)
+    private double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515 * 1609.344;
+
+        return dist; //단위 meter
+    }
+
+    //10진수를 radian(라디안)으로 변환
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    //radian(라디안)을 10진수로 변환
+    private double rad2deg(double rad) {
+        return (rad * 180 / Math.PI);
     }
 
     private boolean isValidQrCode(final String qrCode, final Place findPlace) {
