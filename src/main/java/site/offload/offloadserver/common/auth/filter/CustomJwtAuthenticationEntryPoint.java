@@ -31,7 +31,6 @@ public class CustomJwtAuthenticationEntryPoint implements AuthenticationEntryPoi
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");
         response.getWriter()
-                .write(objectMapper.writeValueAsString(
-                        APIErrorResponse.of(HttpStatus.UNAUTHORIZED.value(), ErrorMessage.INVALID_JWT_EXCEPTION.getMessage(), CustomErrorCode.INVALID_AUTHORIZATION_JWT)));
+                .write(objectMapper.writeValueAsString(new APIErrorResponse(ErrorMessage.FILTER_UNAUTHORIZED_EXCEPTION.getMessage(), CustomErrorCode.INVALID_AUTHORIZATION_FILTER)));
     }
 }

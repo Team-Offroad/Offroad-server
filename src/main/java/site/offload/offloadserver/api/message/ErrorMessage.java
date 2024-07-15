@@ -14,6 +14,7 @@ public enum ErrorMessage {
     EMBLEM_CODE_NOTFOUND_EXCEPTION("존재하지 않는 칭호 코드입니다.", HttpStatus.BAD_REQUEST, CustomErrorCode.NOT_EXISTS_EMBLEM_CODE),
     NOT_ALLOWED_DISTANCE_EXCEPTION("탐험 인증 허용 오차 범위를 벗어났습니다.", HttpStatus.BAD_REQUEST, CustomErrorCode.TOO_FAR_DISTANCE),
     /* 401 UnAuthorized */
+    FILTER_UNAUTHORIZED_EXCEPTION("허용되지 않은 필터 인증입니다.", HttpStatus.UNAUTHORIZED, CustomErrorCode.INVALID_AUTHORIZATION_FILTER),
     SOCIAL_LOGIN_UNAUTHORIZED_EXCEPTION("응답을 받는 데 실패했습니다.", HttpStatus.UNAUTHORIZED, CustomErrorCode.INVALID_AUTHORIZATION_JWT),
     INVALID_EXPIRATION_JWT_EXCEPTION("기간이 만료된 토큰입니다.", HttpStatus.UNAUTHORIZED, CustomErrorCode.INVALID_EXPIRATION_JWT),
     INVALID_JWT_EXCEPTION("유효하지 않은 토큰입니다.",HttpStatus.UNAUTHORIZED, CustomErrorCode.INVALID_AUTHORIZATION_JWT),
