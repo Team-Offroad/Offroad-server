@@ -56,6 +56,7 @@ public class MemberUseCase {
     //단위 = meter
     private static final int RESTAURANT_CAFE_CULTURE_PERMIT_RADIUS = 25;
     private static final int PARK_SPORT_PERMIT_RADIUS = 100;
+    private static final double R = 6371000; // 지구 반지름 (미터)
 
     @Transactional(readOnly = true)
     public MemberAdventureInformationResponse getMemberAdventureInformation(final MemberAdventureInformationRequest request) {
@@ -173,31 +174,22 @@ public class MemberUseCase {
         }
 
         // 거리 계산 후 허용 반경과 비교하여 결과 반환
-        return distance(requestLatitude, requestLongitude, myLatitude, myLongitude) < permitRadius;
+        return haversine(requestLatitude, requestLongitude, myLatitude, myLongitude) < permitRadius;
     }
 
 
     // 두 좌표 사이의 거리를 구하는 함수
-    // distance(첫번쨰 좌표의 위도, 첫번째 좌표의 경도, 두번째 좌표의 위도, 두번째 좌표의 경도)
-    private double distance(double lat1, double lon1, double lat2, double lon2) {
-        double theta = lon1 - lon2;
-        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
-        dist = Math.acos(dist);
-        dist = rad2deg(dist);
-        dist = dist * 60 * 1.1515 * 1609.344;
-
-        return dist; //단위 meter
+    // haversine(첫번쨰 좌표의 위도, 첫번째 좌표의 경도, 두번째 좌표의 위도, 두번째 좌표의 경도)
+    private double haversine(double lat1, double lon1, double lat2, double lon2) {
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLon = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c; //반지름 R이 meter 단위
     }
 
-    //10진수를 radian(라디안)으로 변환
-    private double deg2rad(double deg) {
-        return (deg * Math.PI / 180.0);
-    }
-
-    //radian(라디안)을 10진수로 변환
-    private double rad2deg(double rad) {
-        return (rad * 180 / Math.PI);
-    }
 
     private boolean isValidQrCode(final String qrCode, final Place findPlace) {
         return qrCode.equals(findPlace.getOffroadCode());
