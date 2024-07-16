@@ -51,7 +51,7 @@ public class AwsConfig {
     public S3Presigner getPresigner() {
         return S3Presigner.builder()
                 .credentialsProvider(systemPropertyCredentialsProvider())
-                .region(Region.AP_NORTHEAST_2)
+                .region(getRegion())
                 .build();
     }
 }
