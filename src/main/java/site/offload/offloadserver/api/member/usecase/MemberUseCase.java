@@ -66,7 +66,7 @@ public class MemberUseCase {
         final Member findMember = memberService.findById(request.memberId());
         final String nickname = findMember.getNickName();
         final String emblemName = findMember.getCurrentEmblemName();
-        final Character findCharacter = characterService.findById(request.characterId());
+        final Character findCharacter = characterService.findByName(findMember.getCurrentCharacterName());
 
         // 사용자가 획득한 캐릭터인지 확인
         if (!gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(findMember, findCharacter)) {
