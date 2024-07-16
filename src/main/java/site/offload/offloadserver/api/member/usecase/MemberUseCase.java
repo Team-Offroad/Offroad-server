@@ -67,12 +67,18 @@ public class MemberUseCase {
         final String nickname = findMember.getNickName();
         final String emblemName = findMember.getCurrentEmblemName();
         final Character findCharacter = characterService.findById(request.characterId());
-        final PlaceCategory placeCategory = PlaceCategory.valueOf(request.category());
 
-        if (!PlaceCategory.isExistsCategory(placeCategory)) {
+        // 사용자가 획득한 캐릭터인지 확인
+        if (!gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(findMember, findCharacter)) {
+            throw new BadRequestException(ErrorMessage.NOT_GAINED_CHARACTER);
+        }
+
+        // 존재하는 장소 카테고리인지 확인
+        if (!PlaceCategory.isExistsCategory(request.category())) {
             throw new NotFoundException(ErrorMessage.PLACE_CATEGORY_NOTFOUND_EXCEPTION);
         }
 
+        final PlaceCategory placeCategory = PlaceCategory.valueOf(request.category().toUpperCase());
         final String imageUrl = getMotionImageUrl(placeCategory, findCharacter, findMember);
 
         return MemberAdventureInformationResponse.of(nickname, emblemName, s3UseCase.getPresignUrl(imageUrl), findCharacter.getName());

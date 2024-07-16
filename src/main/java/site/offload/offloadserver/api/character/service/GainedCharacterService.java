@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import site.offload.offloadserver.db.character.entity.Character;
 import site.offload.offloadserver.db.character.entity.GainedCharacter;
-import site.offload.offloadserver.db.character.repository.CharacterRepository;
 import site.offload.offloadserver.db.character.repository.GainedCharacterRepository;
 import site.offload.offloadserver.db.member.entity.Member;
 
@@ -19,5 +18,9 @@ public class GainedCharacterService {
                 .member(member)
                 .character(character)
                 .build());
+    }
+
+    public boolean isExistsGainedCharacterByMemberAndCharacter(Member member, Character character) {
+        return gainedCharacterRepository.existsByCharacterAndMember(character, member);
     }
 }
