@@ -26,6 +26,9 @@ public class Character extends BaseTimeEntity {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String characterBaseImageUrl;
 
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String characterSpotLightImageUrl;
+
     @Column(nullable = false, unique = true)
     private String CharacterCode;
 }

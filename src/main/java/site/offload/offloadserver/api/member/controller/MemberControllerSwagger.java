@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import site.offload.offloadserver.api.member.dto.request.AuthAdventureRequest;
 import site.offload.offloadserver.api.member.dto.request.MemberProfileUpdateRequest;
 import site.offload.offloadserver.api.member.dto.response.AuthAdventureResponse;
+import site.offload.offloadserver.api.member.dto.response.ChooseCharacterResponse;
 import site.offload.offloadserver.api.member.dto.response.MemberAdventureInformationResponse;
 import site.offload.offloadserver.api.member.dto.response.NicknameCheckResponse;
 import site.offload.offloadserver.api.response.APISuccessResponse;
@@ -41,7 +42,7 @@ public interface MemberControllerSwagger {
     @ApiResponse(responseCode = "200",
             description = "캐릭터 선택 성공",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponse.class)))
-    public ResponseEntity<APISuccessResponse<Void>> chooseCharacter(@PathVariable(value = "characterId") Integer characterId);
+    public ResponseEntity<APISuccessResponse<ChooseCharacterResponse>> chooseCharacter(@PathVariable(value = "characterId") Integer characterId);
 
     @Operation(summary = "탐험 인증 API", description = "QR코드로 탐험인증 하는 API")
     @ApiResponse(responseCode = "200",
