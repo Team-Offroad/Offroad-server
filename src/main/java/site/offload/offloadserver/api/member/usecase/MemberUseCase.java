@@ -13,6 +13,7 @@ import site.offload.offloadserver.api.exception.UnAuthorizedException;
 import site.offload.offloadserver.api.member.dto.request.AuthAdventureRequest;
 import site.offload.offloadserver.api.member.dto.request.MemberAdventureInformationRequest;
 import site.offload.offloadserver.api.member.dto.response.AuthAdventureResponse;
+import site.offload.offloadserver.api.member.dto.response.ChooseCharacterResponse;
 import site.offload.offloadserver.api.member.dto.response.MemberAdventureInformationResponse;
 import site.offload.offloadserver.api.character.service.CharacterService;
 import site.offload.offloadserver.api.member.dto.request.MemberProfileUpdateRequest;
@@ -136,11 +137,14 @@ public class MemberUseCase {
     }
 
     @Transactional
-    public void chooseCharacter(Long memberId, Integer characterId) {
+    public ChooseCharacterResponse chooseCharacter(Long memberId, Integer characterId) {
         final Member findMember = memberService.findById(memberId);
         final Character findCharacter = characterService.findById(characterId);
         findMember.chooseCharacter(findCharacter.getName());
-        gainedCharacterService.saveGainedCharacter(findMember, findCharacter);
+        if (!gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(findMember, findCharacter)) {
+            gainedCharacterService.saveGainedCharacter(findMember, findCharacter);
+        }
+        return ChooseCharacterResponse.of(s3UseCase.getPresignUrl(findCharacter.getCharacterSpotLightImageUrl()));
     }
 
     @Transactional

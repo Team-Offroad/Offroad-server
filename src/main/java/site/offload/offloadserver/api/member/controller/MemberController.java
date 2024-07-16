@@ -5,9 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import site.offload.offloadserver.api.member.dto.request.AuthAdventureRequest;
-import site.offload.offloadserver.api.member.dto.request.MemberProfileUpdateRequest;
 import site.offload.offloadserver.api.member.dto.request.MemberAdventureInformationRequest;
+import site.offload.offloadserver.api.member.dto.request.MemberProfileUpdateRequest;
 import site.offload.offloadserver.api.member.dto.response.AuthAdventureResponse;
+import site.offload.offloadserver.api.member.dto.response.ChooseCharacterResponse;
 import site.offload.offloadserver.api.member.dto.response.MemberAdventureInformationResponse;
 import site.offload.offloadserver.api.member.dto.response.NicknameCheckResponse;
 import site.offload.offloadserver.api.member.usecase.MemberUseCase;
@@ -46,11 +47,10 @@ public class MemberController implements MemberControllerSwagger {
     }
 
     @PostMapping("/characters/{characterId}")
-    public ResponseEntity<APISuccessResponse<Void>> chooseCharacter(@PathVariable(value = "characterId") Integer characterId) {
+    public ResponseEntity<APISuccessResponse<ChooseCharacterResponse>> chooseCharacter(@PathVariable(value = "characterId") Integer characterId) {
         final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
-        memberUseCase.chooseCharacter(memberId, characterId);
         return APISuccessResponse.of(HttpStatus.CREATED.value(),
-                SuccessMessage.CHOOSE_CHARACTER_SUCCESS.getMessage(), null);
+                SuccessMessage.CHOOSE_CHARACTER_SUCCESS.getMessage(), memberUseCase.chooseCharacter(memberId, characterId));
     }
 
     @PostMapping("/adventures/authentication")
