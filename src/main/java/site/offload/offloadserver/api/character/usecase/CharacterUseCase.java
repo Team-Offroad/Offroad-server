@@ -26,6 +26,7 @@ public class CharacterUseCase {
                         .description(character.getDescription())
                         .characterCode(character.getCharacterCode())
                         .characterBaseImageUrl(character.getCharacterBaseImageUrl())
+                        .name(character.getName())
                         .build()
         ).toList();
         return CharacterListResponse.of(charactersList);
