@@ -20,8 +20,8 @@ public interface MemberControllerSwagger {
     @ApiResponse(responseCode = "200",
             description = "모험 인증 정보 요청 성공",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponse.class)))
-    ResponseEntity<APISuccessResponse<MemberAdventureInformationResponse>> getAdventureInformation(@RequestParam(value = "category") final String category,
-                                                                                                   @RequestParam(value = "characterId") final Integer characterId);
+    ResponseEntity<APISuccessResponse<MemberAdventureInformationResponse>> getAdventureInformation(@RequestParam(value = "category") final String category
+    );
 
     @Operation(summary = "프로필 업데이트 API", description = "프로필 업데이트 정보를 받아 멤버 업데이트")
     @ApiResponse(responseCode = "200",
@@ -48,7 +48,7 @@ public interface MemberControllerSwagger {
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponse.class)))
     ResponseEntity<APISuccessResponse<AuthAdventureResponse>> authAdventure(final @RequestBody AuthAdventureRequest request);
 
-    }
+}
 
 
 

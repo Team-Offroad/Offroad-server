@@ -24,4 +24,10 @@ public class CharacterService {
     public List<Character> findAll() {
         return characterRepository.findAll();
     }
+
+    public Character findByName(final String name) {
+        return characterRepository.findByName(name).orElseThrow(
+                ()  -> new NotFoundException(ErrorMessage.CHARACTER_NOTFOUND_EXCEPTION)
+        );
+    }
 }

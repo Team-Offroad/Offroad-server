@@ -22,12 +22,12 @@ public class MemberController implements MemberControllerSwagger {
     private final MemberUseCase memberUseCase;
 
     @GetMapping("/adventures/informations")
-    public ResponseEntity<APISuccessResponse<MemberAdventureInformationResponse>> getAdventureInformation(@RequestParam(value = "category") final String category,
-                                                                                                          @RequestParam(value = "characterId") final Integer characterId) {
+    public ResponseEntity<APISuccessResponse<MemberAdventureInformationResponse>> getAdventureInformation(@RequestParam(value = "category") final String category
+    ) {
         final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
         return APISuccessResponse.of(HttpStatus.OK.value(),
                 SuccessMessage.MEMBER_ADVENTURE_INFORMATION_SUCCESS.getMessage(),
-                memberUseCase.getMemberAdventureInformation(MemberAdventureInformationRequest.of(memberId, category, characterId)));
+                memberUseCase.getMemberAdventureInformation(MemberAdventureInformationRequest.of(memberId, category)));
     }
 
     @PatchMapping("/profiles")
