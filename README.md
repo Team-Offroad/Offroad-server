@@ -1,3 +1,5 @@
+![image](https://github.com/user-attachments/assets/c80f2397-8c61-4888-9d7f-86c6286c6d21)
+
 # 💻 Offroad-Server
 
 ---
@@ -8,9 +10,9 @@
 
 ---
 
-📛 Name : Offroad (오프로드)
+🧭 Name : Offroad (오프로드)
 
-📛️ Description : 일상을 벗어나, 잠시 모험을 떠날 수 있게 해주는 서비스입니다.
+🧭 Description : 일상에서 모험을 찾는 온오프라인 연계 게임 서비스입니다.
 
 # ⌨️ Development Information
 
@@ -52,10 +54,10 @@
 
 ---
 
-| 최윤한                                           | 김환준                                                                               | 김의진                                                                          |
-|-----------------------------------------------|-----------------------------------------------------------------------------------|------------------------------------------------------------------------------|
-| <img width="200px" height="200px" alt="image" src="https://github.com/Team-Offroad/Offroad-server/assets/127496156/9815c501-03ab-486e-8b57-95c957c3337f">        | <img width="200px" height="200px" alt="image" src="https://github.com/Team-Offroad/Offroad-server/assets/127496156/98bcc906-7b41-465c-9079-dc891d012490">                                            | <img width="200px" height="200px" alt="image" src="https://github.com/Team-Offroad/Offroad-server/assets/127496156/7133be13-0ec8-488f-b1f5-6cb3ee3c00c4">                                 |
-| ❗️서버리드 <br> ❗서버 초기 세팅 <br> ❗Sentry 및 Test 세팅  | ❗ Discord Webhook 구축 <br> ❗Exception Handling <br> ❗API 명세서 템플릿 작성 <br> ❗DB 초안 설계 | ❗Docker기반 CI/CD 구축 <br> ❗️API 공통 response 작성 <br> ❗Swagger 세팅 <br> ❗소셜로그인 구현 |
+| 최윤한                                           | 김환준                                                                                                                                                       | 김의진                                                                                                                                                       |
+|-----------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| <img width="200px" height="200px" alt="image" src="https://github.com/Team-Offroad/Offroad-server/assets/127496156/9815c501-03ab-486e-8b57-95c957c3337f">        | <img width="200px" height="200px" alt="image" src="https://github.com/Team-Offroad/Offroad-server/assets/127496156/98bcc906-7b41-465c-9079-dc891d012490"> | <img width="200px" height="200px" alt="image" src="https://github.com/Team-Offroad/Offroad-server/assets/127496156/7133be13-0ec8-488f-b1f5-6cb3ee3c00c4"> |
+| ❗️서버리드 <br> ❗서버 초기 세팅 <br> ❗Sentry 및 Test 세팅  | ❗ Discord Webhook 구축 <br> ❗Exception Handling <br> ❗API 명세서 템플릿 작성 <br> ❗DB 초안 설계 <br>  ❗S3 세팅                                                            | ❗Docker기반 CI/CD 구축 <br> ❗️API 공통 response 작성 <br> ❗Swagger 세팅 <br> ❗구글/애플 소셜로그인 구현   <br> ❗API 명세서 템플릿 작성                                                                |
 
 # 🌊 Git Flow
 
@@ -97,6 +99,9 @@
 
 ✅ 템플릿, Label, Test 스크린샷 이용
 
+# 🌊 Deploy Flow
+![Frame 1](https://github.com/user-attachments/assets/57a363ca-7b71-42f4-9d4a-51cd2c5d526b)
+
 # 🔧 Structure 
 
 ---
@@ -104,36 +109,92 @@
 🌱 단일 모듈 프로젝트에서 멀티 모듈 프로젝트로 확장을 고려하여 구조를 생각했습니다.
 
 ```bash
-📦site.offload.offloadserver
+📦offloadserver
  ┣ 📂api
- ┃ ┣ 📂domainA
- ┃ ┃ ┣ 📜controller
- ┃ ┃ ┣ 📜service
- ┃ ┃ ┗ 📜usecase
- ┃ ┗ 📂domainB
- ┃ ┃ ┣ 📜controller
- ┃ ┃ ┣ 📜service
- ┃ ┃ ┗ 📜usecase
- ┣ 📂common
+ ┃ ┣ 📂character
+ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┗ 📂response
+ ┃ ┃ ┣ 📂service
+ ┃ ┃ ┗ 📂usecase
+ ┃ ┣ 📂charactermotion
+ ┃ ┃ ┗ 📂service
+ ┃ ┣ 📂config
+ ┃ ┣ 📂emblem
+ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┣ 📂request
+ ┃ ┃ ┃ ┗ 📂response
+ ┃ ┃ ┣ 📂service
+ ┃ ┃ ┗ 📂usecase
  ┃ ┣ 📂exception
- ┃ ┗ 📂util
+ ┃ ┣ 📂member
+ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┣ 📂request
+ ┃ ┃ ┃ ┗ 📂response
+ ┃ ┃ ┣ 📂service
+ ┃ ┃ ┗ 📂usecase
+ ┃ ┣ 📂message
+ ┃ ┣ 📂place
+ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┣ 📂constans
+ ┃ ┃ ┃ ┣ 📂request
+ ┃ ┃ ┃ ┗ 📂response
+ ┃ ┃ ┣ 📂service
+ ┃ ┃ ┗ 📂usecase
+ ┃ ┣ 📂quest
+ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┗ 📂response
+ ┃ ┃ ┣ 📂service
+ ┃ ┃ ┗ 📂usecase
+ ┃ ┣ 📂response
+ ┃ ┣ 📜HealthCheckController.java
+ ┃ ┗ 📜HealthCheckControllerSwagger.java
+ ┣ 📂common
+ ┃ ┣ 📂auth
+ ┃ ┃ ┗ 📂filter
+ ┃ ┣ 📂config
+ ┃ ┗ 📂jwt
  ┣ 📂db
- ┃ ┣ 📂domainA
- ┃ ┃ ┣ 📜entity
- ┃ ┃ ┗ 📜repository
- ┃ ┗ 📂domainB
- ┃ ┃ ┣ 📜entity
- ┃ ┃ ┗ 📜repository
+ ┃ ┣ 📂announcement
+ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┗ 📂repository
+ ┃ ┣ 📂character
+ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┗ 📂repository
+ ┃ ┣ 📂charactermotion
+ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┗ 📂repository
+ ┃ ┣ 📂coupon
+ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┗ 📂repository
+ ┃ ┣ 📂emblem
+ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┗ 📂repository
+ ┃ ┣ 📂member
+ ┃ ┃ ┣ 📂embeddable
+ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┗ 📂repository
+ ┃ ┣ 📂place
+ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┗ 📂repository
+ ┃ ┗ 📂quest
+ ┃ ┃ ┣ 📂embeddable
+ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┗ 📂repository
  ┣ 📂enums
- ┃ ┣ 📂domainA
- ┃ ┃ ┣ 📜enumA
- ┃ ┃ ┗ 📜enumB
- ┃ ┗ 📂domainB
- ┃ ┃ ┣ 📜enumA
- ┃ ┃ ┗ 📜enumB
- ┗ 📂external
+ ┣ 📂external
+ ┃ ┣ 📂aws
+ ┃ ┣ 📂config
  ┃ ┣ 📂discord
  ┃ ┗ 📂oauth
  ┃ ┃ ┣ 📂apple
- ┃ ┃ ┗ 📂kakao
+ ┃ ┃ ┗ 📂google
+ ┃ ┃ ┃ ┣ 📂request
+ ┃ ┃ ┃ ┗ 📂response
+ ┗ 📜OffloadserverApplication.java
 ```
+
