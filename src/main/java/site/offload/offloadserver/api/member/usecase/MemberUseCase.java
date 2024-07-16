@@ -123,8 +123,8 @@ public class MemberUseCase {
     }
 
     private boolean isRefreshTokenValidate(final Long memberId, final String refreshToken) {
-        final String findRefreshToken = redisTemplate.opsForValue().get(String.valueOf(memberId));
-        return refreshToken.equals(findRefreshToken);
+        final String findMemberId = redisTemplate.opsForValue().get(refreshToken);
+        return findMemberId.equals(String.valueOf(memberId));
     }
 
     @Transactional(readOnly = true)

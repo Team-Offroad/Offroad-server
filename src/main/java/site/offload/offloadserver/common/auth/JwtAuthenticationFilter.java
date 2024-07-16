@@ -39,9 +39,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             final String token = getJwtFromRequest(request);
             if (jwtTokenProvider.validateToken(token) == VALID_JWT) {
                 Long memberId = jwtTokenProvider.getUserFromJwt(token);
+                System.out.println("memberId = " + memberId);
                 MemberAuthentication authentication = MemberAuthentication.createMemberAuthentication(memberId);
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+                log.info(authentication.toString());
             }
         } catch (OffroadException exception) {
             log.info(exception.getMessage());

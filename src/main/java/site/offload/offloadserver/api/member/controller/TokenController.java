@@ -20,7 +20,7 @@ public class TokenController implements TokenControllerSwagger {
 
     private final MemberUseCase memberUseCase;
 
-    @PostMapping("/auth/refresh")
+    @PostMapping("/oauth/refresh")
     public ResponseEntity<APISuccessResponse<TokenReissueResponse>> refreshToken(@RequestHeader("Authorization") String tokenHeaderValue) {
         final String refreshToken = tokenHeaderValue.substring("Bearer ".length());
         final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
