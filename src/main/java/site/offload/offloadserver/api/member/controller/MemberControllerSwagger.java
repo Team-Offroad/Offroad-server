@@ -12,6 +12,7 @@ import site.offload.offloadserver.api.member.dto.request.AuthAdventureRequest;
 import site.offload.offloadserver.api.member.dto.request.MemberProfileUpdateRequest;
 import site.offload.offloadserver.api.member.dto.response.AuthAdventureResponse;
 import site.offload.offloadserver.api.member.dto.response.MemberAdventureInformationResponse;
+import site.offload.offloadserver.api.member.dto.response.NicknameCheckResponse;
 import site.offload.offloadserver.api.response.APISuccessResponse;
 
 public interface MemberControllerSwagger {
@@ -34,7 +35,7 @@ public interface MemberControllerSwagger {
     @ApiResponse(responseCode = "200",
             description = "닉네임 중복 확인 성공",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponse.class)))
-    public ResponseEntity<APISuccessResponse<Boolean>> checkNickname(@RequestParam(value = "nickname") String nickname);
+    public ResponseEntity<APISuccessResponse<NicknameCheckResponse>> checkNickname(@RequestParam(value = "nickname") String nickname);
 
     @Operation(summary = "캐릭터 선택 API", description = "캐릭터를 선택하는 API")
     @ApiResponse(responseCode = "200",

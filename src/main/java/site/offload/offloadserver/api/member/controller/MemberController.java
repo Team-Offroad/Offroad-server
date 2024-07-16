@@ -9,6 +9,7 @@ import site.offload.offloadserver.api.member.dto.request.MemberProfileUpdateRequ
 import site.offload.offloadserver.api.member.dto.request.MemberAdventureInformationRequest;
 import site.offload.offloadserver.api.member.dto.response.AuthAdventureResponse;
 import site.offload.offloadserver.api.member.dto.response.MemberAdventureInformationResponse;
+import site.offload.offloadserver.api.member.dto.response.NicknameCheckResponse;
 import site.offload.offloadserver.api.member.usecase.MemberUseCase;
 import site.offload.offloadserver.api.message.SuccessMessage;
 import site.offload.offloadserver.api.response.APISuccessResponse;
@@ -39,9 +40,9 @@ public class MemberController implements MemberControllerSwagger {
     }
 
     @GetMapping("/nickname/check")
-    public ResponseEntity<APISuccessResponse<Boolean>> checkNickname(@RequestParam(value = "nickname") String nickname) {
+    public ResponseEntity<APISuccessResponse<NicknameCheckResponse>> checkNickname(@RequestParam(value = "nickname") String nickname) {
         return APISuccessResponse.of(HttpStatus.OK.value(),
-                SuccessMessage.CHECK_DUPLICATED_NICKNAME_SUCCESS.getMessage(), memberUseCase.checkNickname(nickname));
+                SuccessMessage.CHECK_DUPLICATED_NICKNAME_SUCCESS.getMessage(), NicknameCheckResponse.of(memberUseCase.checkNickname(nickname)));
     }
 
     @PostMapping("/characters/{characterId}")
