@@ -1,6 +1,7 @@
 package site.offload.offloadserver.api.exception;
 
 import io.sentry.Sentry;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import site.offload.offloadserver.api.response.APIErrorResponse;
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(BadRequestException.class)
@@ -34,5 +36,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<APIErrorResponse> handleCustomException(final OffroadException exception) {
         Sentry.captureException(exception);
         return APIErrorResponse.of(exception.getHttpStatus().value(), exception.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<APIErrorResponse> handleException(final Exception exception) {
+        log.error(exception.getMessage(), exception);
+        return APIErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR.value(), exception.getMessage());
     }
 }

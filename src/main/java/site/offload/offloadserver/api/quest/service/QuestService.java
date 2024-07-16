@@ -2,7 +2,8 @@ package site.offload.offloadserver.api.quest.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import site.offload.offloadserver.db.place.entity.Place;
+import site.offload.offloadserver.api.exception.NotFoundException;
+import site.offload.offloadserver.api.message.ErrorMessage;
 import site.offload.offloadserver.db.place.entity.PlaceArea;
 import site.offload.offloadserver.db.place.entity.PlaceCategory;
 import site.offload.offloadserver.db.quest.entity.ProceedingQuest;
@@ -35,5 +36,10 @@ public class QuestService {
         return questRepository.findAllByPlaceAreaAndPlaceCategory(placeArea, placeCategory);
     }
 
+    public Quest findById(Integer id) {
+        return questRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(ErrorMessage.QUEST_NOTFOUND_EXCEPTION)
+        );
+    }
 
 }
