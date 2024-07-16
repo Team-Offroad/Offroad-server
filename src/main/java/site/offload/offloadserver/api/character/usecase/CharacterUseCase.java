@@ -27,6 +27,7 @@ public class CharacterUseCase {
                         .id(character.getId())
                         .description(character.getDescription())
                         .characterCode(character.getCharacterCode())
+                        .name(character.getName())
                         .characterBaseImageUrl(s3UseCase.getPresignUrl(character.getCharacterBaseImageUrl()))
                         .build()
         ).toList();
