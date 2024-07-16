@@ -9,9 +9,9 @@ public enum PlaceCategory {
     SPORT,
     NONE;
 
-    public static boolean isExistsCategory(PlaceCategory placeCategory) {
+    public static boolean isExistsCategory(final String placeCategory) {
         for (PlaceCategory category : PlaceCategory.values()) {
-            if (category.equals(placeCategory)) {
+            if (category.name().equals(placeCategory.toUpperCase())) {
                 return true;
             }
         }
