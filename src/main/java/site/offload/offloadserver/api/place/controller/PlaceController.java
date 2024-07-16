@@ -16,14 +16,13 @@ import site.offload.offloadserver.common.auth.PrincipalHandler;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 @Tag(name = "Place API", description = "장소 관련 API")
-public class PlaceController implements PlaceControllerSwagger{
+public class PlaceController implements PlaceControllerSwagger {
 
     private final PlaceUsecase placeUsecase;
 
     @GetMapping("/places")
-    public ResponseEntity<APISuccessResponse<RegisteredPlacesResponse>> checkRegisteredPlaces(
-            @RequestBody RegisteredPlacesRequest registeredPlacesRequest
-    ) {
-        return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.CHECK_REGISTERED_PLACES_SUCCESS.getMessage(), placeUsecase.checkRegisteredPlaces(PrincipalHandler.getMemberIdFromPrincipal(), registeredPlacesRequest));
+    public ResponseEntity<APISuccessResponse<RegisteredPlacesResponse>> checkRegisteredPlaces(@RequestParam double currentLatitude, @RequestParam double currentLongitude) {
+
+        return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.CHECK_REGISTERED_PLACES_SUCCESS.getMessage(), placeUsecase.checkRegisteredPlaces(PrincipalHandler.getMemberIdFromPrincipal(), RegisteredPlacesRequest.of(currentLatitude, currentLongitude)));
     }
 }
