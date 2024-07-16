@@ -3,8 +3,8 @@ package site.offload.offloadserver.api.quest.usecase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import site.offload.offloadserver.api.quest.dto.response.QuestResponse;
 import site.offload.offloadserver.api.quest.dto.response.QuestInformationResponse;
+import site.offload.offloadserver.api.quest.dto.response.QuestResponse;
 import site.offload.offloadserver.api.quest.service.QuestService;
 import site.offload.offloadserver.db.quest.entity.ProceedingQuest;
 import site.offload.offloadserver.db.quest.entity.Quest;
@@ -21,6 +21,14 @@ public class QuestUseCase {
     @Transactional(readOnly = true)
     public QuestResponse getQuestInformation(Long memberId) {
         List<ProceedingQuest> proceedingQuests = questService.findProceedingQuests(memberId);
+
+        // 진행 중인 퀘스트가 없을 경우
+        // TODO: 앱잼 이후 로직 수정 필요
+        if (proceedingQuests.isEmpty()) {
+            Quest quest = questService.findById(4);
+            return QuestResponse.of(QuestInformationResponse.of(quest.getName(), 0, quest.getTotalRequiredClearCount()), QuestInformationResponse.of(quest.getName(), 0, quest.getTotalRequiredClearCount()));
+        }
+
         List<Quest> quests = proceedingQuests.stream()
                 .map(ProceedingQuest::getQuest)
                 .toList();
