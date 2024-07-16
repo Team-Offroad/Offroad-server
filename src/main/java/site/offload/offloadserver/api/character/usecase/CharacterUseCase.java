@@ -7,6 +7,7 @@ import site.offload.offloadserver.api.character.dto.response.CharacterListRespon
 import site.offload.offloadserver.api.character.dto.response.CharacterResponse;
 import site.offload.offloadserver.api.character.service.CharacterService;
 import site.offload.offloadserver.db.character.entity.Character;
+import site.offload.offloadserver.external.aws.S3UseCase;
 
 import java.util.List;
 import java.util.stream.StreamSupport;
@@ -16,6 +17,7 @@ import java.util.stream.StreamSupport;
 public class CharacterUseCase {
 
     private final CharacterService characterService;
+    private final S3UseCase s3UseCase;
 
     @Transactional(readOnly = true)
     public CharacterListResponse getCharacters() {
@@ -25,8 +27,8 @@ public class CharacterUseCase {
                         .id(character.getId())
                         .description(character.getDescription())
                         .characterCode(character.getCharacterCode())
-                        .characterBaseImageUrl(character.getCharacterBaseImageUrl())
                         .name(character.getName())
+                        .characterBaseImageUrl(s3UseCase.getPresignUrl(character.getCharacterBaseImageUrl()))
                         .build()
         ).toList();
         return CharacterListResponse.of(charactersList);

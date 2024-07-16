@@ -34,6 +34,7 @@ import site.offload.offloadserver.db.place.entity.PlaceCategory;
 import site.offload.offloadserver.db.place.entity.VisitedPlace;
 import site.offload.offloadserver.db.quest.entity.ProceedingQuest;
 import site.offload.offloadserver.db.quest.entity.Quest;
+import site.offload.offloadserver.external.aws.S3UseCase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +54,7 @@ public class MemberUseCase {
     private final VisitedPlaceService visitedPlaceService;
     private final QuestService questService;
     private final ProceedingQuestService proceedingQuestService;
+    private final S3UseCase s3UseCase;
 
     //단위 = meter
     private static final int RESTAURANT_CAFE_CULTURE_PERMIT_RADIUS = 25;
@@ -73,7 +75,7 @@ public class MemberUseCase {
 
         final String imageUrl = getMotionImageUrl(placeCategory, findCharacter, findMember);
 
-        return MemberAdventureInformationResponse.of(nickname, emblemName, imageUrl, findCharacter.getName());
+        return MemberAdventureInformationResponse.of(nickname, emblemName, s3UseCase.getPresignUrl(imageUrl), findCharacter.getName());
     }
 
     private String getMotionImageUrl(final PlaceCategory placeCategory, final Character character, final Member member) {
