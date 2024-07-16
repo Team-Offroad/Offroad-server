@@ -8,6 +8,7 @@ import site.offload.offloadserver.api.place.dto.response.RegisteredPlaceResponse
 import site.offload.offloadserver.api.place.dto.response.RegisteredPlacesResponse;
 import site.offload.offloadserver.api.place.service.PlaceService;
 import site.offload.offloadserver.db.place.entity.Place;
+import site.offload.offloadserver.external.aws.S3UseCase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,29 +19,26 @@ import java.util.stream.IntStream;
 public class PlaceUsecase {
 
     private final PlaceService placeService;
+    private final S3UseCase s3UseCase;
 
     @Transactional(readOnly = true)
     public RegisteredPlacesResponse checkRegisteredPlaces(Long memberId, RegisteredPlacesRequest registeredPlacesRequest) {
 
         List<Place> findPlaces = placeService.findPlaces(registeredPlacesRequest);
-        List<Long> visitCounts = findPlaces.stream()
-                .map(place -> placeService.countVisitedPlace(memberId, place))
-                .toList();
-        List<RegisteredPlaceResponse> registeredPlaces = IntStream.range(0, findPlaces.size())
-                .mapToObj(i -> {
-                    Place place = findPlaces.get(i);
-                    Long count = visitCounts.get(i);
-                    return RegisteredPlaceResponse.of(
-                            place.getId(),
-                            place.getName(),
-                            place.getAddress(),
-                            place.getShortIntroduction(),
-                            place.getPlaceCategory(),
-                            place.getLatitude(),
-                            place.getLongitude(),
-                            count);
-                }).toList();
-
+        List<RegisteredPlaceResponse> registeredPlaces = findPlaces.stream().map(findPlace -> {
+            Long count = placeService.countVisitedPlace(memberId, findPlace);
+            return RegisteredPlaceResponse.of(
+                    findPlace.getId(),
+                    findPlace.getName(),
+                    findPlace.getAddress(),
+                    findPlace.getShortIntroduction(),
+                    findPlace.getPlaceCategory(),
+                    findPlace.getLatitude(),
+                    findPlace.getLongitude(),
+                    count,
+                    s3UseCase.getPresignUrl(findPlace.getCategoryImageUrl())
+            );
+        }).toList();
         return RegisteredPlacesResponse.of(registeredPlaces);
     }
 }

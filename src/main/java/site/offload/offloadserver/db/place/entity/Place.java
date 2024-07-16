@@ -43,4 +43,7 @@ public class Place extends BaseTimeEntity {
 
     @Column(nullable = false, columnDefinition = "double CHECK (longitude >= -180 AND longitude <= 180)")
     private double longitude;
+
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String categoryImageUrl;
 }
