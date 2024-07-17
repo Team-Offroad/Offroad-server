@@ -292,7 +292,7 @@ public class MemberUseCase {
 
         if (questReward.getRewardList().isCharacterMotion()) {
             CharacterMotion characterMotion = characterMotionService.findByCharacterAndPlaceCategory(character, quest.getPlaceCategory());
-            if (gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotion, findMember)) {
+            if (!gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotion, findMember)) {
                 gainedCharacterMotionService.save(findMember, characterMotion);
             }
             // TODO : proceedingQuest에서 해당 퀘스트 지우고 CompleteQuest 테이블 만들고 추가
