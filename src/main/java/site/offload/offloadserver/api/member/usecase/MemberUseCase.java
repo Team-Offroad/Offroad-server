@@ -156,7 +156,6 @@ public class MemberUseCase {
     @Transactional
     public AuthAdventureResponse authAdventure(final Long memberId, final AuthAdventureRequest request) {
         final Place findPlace = placeService.findPlaceById(request.placeId());
-        log.info("Offroad Code : {}", findPlace.getOffroadCode());
         final Member findMember = memberService.findById(memberId);
 
         // 클라이언트에서 받은 위도 경도 값을 카테고리 별 오차 범위 계산해서 PlaceId에 해당하는 장소의 위도 경도값과 비교
@@ -165,9 +164,6 @@ public class MemberUseCase {
         }
 
         //qr코드 일치 확인
-        log.info("qrCode : {}", request.qrCode());
-        log.info("longitude : {}", request.longitude());
-        log.info("latitude : {}", request.latitude());
         if (findPlace.isValidOffroadCode(request.qrCode())) {
             // 방문한 장소 레코드 추가
             handleVisitedPlace(findMember, findPlace);
@@ -274,19 +270,12 @@ public class MemberUseCase {
     private void handleQuestComplete(final Member findMember, final ProceedingQuest proceedingQuest) {
         final Character character = characterService.findByName(findMember.getCurrentCharacterName());
 
-        log.info("proceedingQuest.getId : {}", proceedingQuest.getId());
         final Quest quest = proceedingQuest.getQuest();
 
-        log.info("quest.getId(): {}", quest.getId());
         final QuestReward questReward = questRewardService.findByQuestId(quest.getId());
-        // logging reward
-        log.info("questReward.questId : {}", questReward.getQuestId());
-        log.info("questReward.isCharacterMotion : {}", questReward.getRewardList().isCharacterMotion());
-        log.info("questReward.Emblem : {}", questReward.getRewardList().getEmblem());
 
         if (questReward.getRewardList().isCharacterMotion()){
             CharacterMotion characterMotion = characterMotionService.findByCharacterAndPlaceCategory(character, quest.getPlaceCategory());
-            log.info("characterMotion.getId() : {}", characterMotion.getId());
             if (gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotion, findMember)) {
                 gainedCharacterMotionService.save(findMember, characterMotion);
             }
