@@ -1,7 +1,10 @@
 package site.offload.offloadserver.db.quest.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.Repository;
 import site.offload.offloadserver.db.quest.entity.QuestReward;
 
-public interface QuestRewardRepository extends CrudRepository<QuestReward, Integer> {
+public interface QuestRewardRepository extends JpaRepository<QuestReward, Integer> {
+    QuestReward findByQuestId(Integer questId);
 }

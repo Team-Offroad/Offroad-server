@@ -15,4 +15,6 @@ public interface ProceedingQuestRepository extends JpaRepository<ProceedingQuest
     Optional<ProceedingQuest> findByMemberAndQuest(Member member, Quest quest);
 
     boolean existsByMemberAndQuest(Member member, Quest quest);
+
+    void deleteByQuestAndMember(Quest quest, Member member);
 }
