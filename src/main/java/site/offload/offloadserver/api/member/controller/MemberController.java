@@ -5,12 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import site.offload.offloadserver.api.member.dto.request.AuthAdventureRequest;
+import site.offload.offloadserver.api.member.dto.request.AuthPositionRequest;
 import site.offload.offloadserver.api.member.dto.request.MemberAdventureInformationRequest;
 import site.offload.offloadserver.api.member.dto.request.MemberProfileUpdateRequest;
-import site.offload.offloadserver.api.member.dto.response.AuthAdventureResponse;
-import site.offload.offloadserver.api.member.dto.response.ChooseCharacterResponse;
-import site.offload.offloadserver.api.member.dto.response.MemberAdventureInformationResponse;
-import site.offload.offloadserver.api.member.dto.response.NicknameCheckResponse;
+import site.offload.offloadserver.api.member.dto.response.*;
 import site.offload.offloadserver.api.member.usecase.MemberUseCase;
 import site.offload.offloadserver.api.message.SuccessMessage;
 import site.offload.offloadserver.api.response.APISuccessResponse;
@@ -54,8 +52,14 @@ public class MemberController implements MemberControllerSwagger {
     }
 
     @PostMapping("/adventures/authentication")
-    public ResponseEntity<APISuccessResponse<AuthAdventureResponse>> authAdventure(final @RequestBody AuthAdventureRequest request) {
+    public ResponseEntity<APISuccessResponse<VerifyQrcodeResponse>> authAdventure(final @RequestBody AuthAdventureRequest request) {
         final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
         return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.AUTHENTICATE_ADVENTURE_REQUEST_SUCCESS.getMessage(), memberUseCase.authAdventure(memberId, request));
+    }
+
+    @PostMapping("/places/distance")
+    public ResponseEntity<APISuccessResponse<VerifyPositionDistanceResponse>> authAdventureOnlyPlace(final @RequestBody AuthPositionRequest request) {
+        final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
+        return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.AUTHENTICATE_ADVENTURE_REQUEST_SUCCESS.getMessage(), memberUseCase.authAdventurePosition(memberId, request));
     }
 }

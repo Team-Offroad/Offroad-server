@@ -6,14 +6,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import site.offload.offloadserver.api.member.dto.request.AuthAdventureRequest;
+import site.offload.offloadserver.api.member.dto.request.AuthPositionRequest;
 import site.offload.offloadserver.api.member.dto.request.MemberProfileUpdateRequest;
-import site.offload.offloadserver.api.member.dto.response.AuthAdventureResponse;
-import site.offload.offloadserver.api.member.dto.response.ChooseCharacterResponse;
-import site.offload.offloadserver.api.member.dto.response.MemberAdventureInformationResponse;
-import site.offload.offloadserver.api.member.dto.response.NicknameCheckResponse;
+import site.offload.offloadserver.api.member.dto.response.*;
 import site.offload.offloadserver.api.response.APISuccessResponse;
 
 public interface MemberControllerSwagger {
@@ -48,8 +47,15 @@ public interface MemberControllerSwagger {
     @ApiResponse(responseCode = "200",
             description = "탐험 인증 성공",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponse.class)))
-    ResponseEntity<APISuccessResponse<AuthAdventureResponse>> authAdventure(final @RequestBody AuthAdventureRequest request);
+    ResponseEntity<APISuccessResponse<VerifyQrcodeResponse>> authAdventure(final @RequestBody AuthAdventureRequest request);
 
+
+
+    @Operation(summary = "위치 정보 탐험 인증 API", description = "QR코드로 탐험인증 하는 API")
+    @ApiResponse(responseCode = "200",
+            description = "탐험 인증 성공",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponse.class)))
+    ResponseEntity<APISuccessResponse<VerifyPositionDistanceResponse>> authAdventureOnlyPlace(final @RequestBody AuthPositionRequest request);
 }
 
 
