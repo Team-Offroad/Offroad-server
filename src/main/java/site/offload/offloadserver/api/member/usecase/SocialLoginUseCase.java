@@ -7,6 +7,7 @@ import site.offload.offloadserver.api.emblem.service.GainedEmblemService;
 import site.offload.offloadserver.api.exception.OffroadException;
 import site.offload.offloadserver.api.member.dto.request.SocialLoginRequest;
 import site.offload.offloadserver.api.member.dto.request.SocialPlatform;
+import site.offload.offloadserver.api.member.dto.response.SocialLoginResponse;
 import site.offload.offloadserver.api.message.ErrorMessage;
 import site.offload.offloadserver.common.jwt.JwtTokenProvider;
 import site.offload.offloadserver.common.jwt.TokenResponse;
@@ -30,28 +31,33 @@ public class SocialLoginUseCase {
     private final GainedEmblemService gainedEmblemService;
 
     @Transactional
-    public TokenResponse login(SocialLoginRequest socialLoginRequest) {
+    public SocialLoginResponse login(SocialLoginRequest socialLoginRequest) {
         Member member = null;
+        boolean isAlreadyExist;
         if (socialLoginRequest.socialPlatform().equals(SocialPlatform.GOOGLE)) {
             member = googleSocialLoginService.login(socialLoginRequest);
         } else if (socialLoginRequest.socialPlatform().equals(SocialPlatform.APPLE)) {
             member = appleSocialLoginService.login(socialLoginRequest);
         }
 
+        if (!memberRepository.existsBySub(member.getSub())) {
+            memberRepository.save(member);
+            getDefaultEmblem(member);
+            isAlreadyExist = false;
+        } else {
+            member = memberRepository.findBySub(member.getSub());
+            isAlreadyExist = true;
+        }
+
         try {
-            return signUp(checkMember(member).getId());
+            return SocialLoginResponse.of(signUp(member.getId()), isAlreadyExist);
         } catch (NullPointerException e){
             throw new OffroadException(ErrorMessage.MEMBER_NOTFOUND_EXCEPTION);
         }
     }
 
     private Member checkMember(Member member) {
-        if (!memberRepository.existsBySub(member.getSub())) {
-            memberRepository.save(member);
-            getDefaultEmblem(member);
-        } else {
-            member = memberRepository.findBySub(member.getSub());
-        }
+
         return member;
     }
 
