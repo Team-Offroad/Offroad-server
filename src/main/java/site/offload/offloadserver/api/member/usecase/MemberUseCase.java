@@ -1,6 +1,7 @@
 package site.offload.offloadserver.api.member.usecase;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,7 @@ import site.offload.offloadserver.api.quest.service.QuestRewardService;
 import site.offload.offloadserver.api.quest.service.QuestService;
 import site.offload.offloadserver.common.jwt.JwtTokenProvider;
 import site.offload.offloadserver.common.jwt.TokenResponse;
+import site.offload.offloadserver.common.util.DistanceUtil;
 import site.offload.offloadserver.db.character.entity.Character;
 import site.offload.offloadserver.db.charactermotion.entity.CharacterMotion;
 import site.offload.offloadserver.db.member.entity.Member;
@@ -46,6 +48,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MemberUseCase {
 
     private final MemberService memberService;
@@ -66,7 +69,7 @@ public class MemberUseCase {
     //단위 = meter
     private static final int RESTAURANT_CAFE_CULTURE_PERMIT_RADIUS = 25;
     private static final int PARK_SPORT_PERMIT_RADIUS = 100;
-    private static final double R = 6371000; // 지구 반지름 (미터)
+
 
     @Transactional(readOnly = true)
     public MemberAdventureInformationResponse getMemberAdventureInformation(final MemberAdventureInformationRequest request) {
@@ -153,6 +156,7 @@ public class MemberUseCase {
     @Transactional
     public AuthAdventureResponse authAdventure(final Long memberId, final AuthAdventureRequest request) {
         final Place findPlace = placeService.findPlaceById(request.placeId());
+        log.debug("Offroad Code : {}", findPlace.getOffroadCode());
         final Member findMember = memberService.findById(memberId);
 
         // 클라이언트에서 받은 위도 경도 값을 카테고리 별 오차 범위 계산해서 PlaceId에 해당하는 장소의 위도 경도값과 비교
@@ -161,8 +165,11 @@ public class MemberUseCase {
         }
 
         //qr코드 일치 확인
-        if (isValidQrCode(request.qrCode(), findPlace)) {
-            //방문한 장소 컬럼 추가
+        log.debug("qrCode : {}", request.qrCode());
+        log.debug("longitude : {}", request.longitude());
+        log.debug("latitude : {}", request.latitude());
+        if (findPlace.isValidOffroadCode(request.qrCode())) {
+            // 방문한 장소 레코드 추가
             handleVisitedPlace(findMember, findPlace);
 
             //관련된 퀘스트 모두 불러오기
@@ -183,32 +190,16 @@ public class MemberUseCase {
         // 장소 카테고리에 따라 허용 반경 설정
         // 식당, 카페, 문화 -> 25m
         // 공원, 스포츠 -> 100m
-        if (placeCategory == PlaceCategory.RESTAURANT || placeCategory == PlaceCategory.CAFFE || placeCategory == PlaceCategory.CULTURE) {
+        if (PlaceCategory.nearBy25meterPlaceCategory().contains(placeCategory)) {
             permitRadius = RESTAURANT_CAFE_CULTURE_PERMIT_RADIUS;
-        } else if (placeCategory == PlaceCategory.PARK || placeCategory == PlaceCategory.SPORT) {
+        }
+
+        if (PlaceCategory.nearBy100meterPlaceCategory().contains(placeCategory)) {
             permitRadius = PARK_SPORT_PERMIT_RADIUS;
         }
 
         // 거리 계산 후 허용 반경과 비교하여 결과 반환
-        return haversine(requestLatitude, requestLongitude, myLatitude, myLongitude) < permitRadius;
-    }
-
-
-    // 두 좌표 사이의 거리를 구하는 함수
-    // haversine(첫번쨰 좌표의 위도, 첫번째 좌표의 경도, 두번째 좌표의 위도, 두번째 좌표의 경도)
-    private double haversine(double lat1, double lon1, double lat2, double lon2) {
-        double dLat = Math.toRadians(lat2 - lat1);
-        double dLon = Math.toRadians(lon2 - lon1);
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
-                        Math.sin(dLon / 2) * Math.sin(dLon / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return R * c; //반지름 R이 meter 단위
-    }
-
-
-    private boolean isValidQrCode(final String qrCode, final Place findPlace) {
-        return qrCode.equals(findPlace.getOffroadCode());
+        return DistanceUtil.haversine(requestLatitude, requestLongitude, myLatitude, myLongitude) < permitRadius;
     }
 
     private void handleVisitedPlace(final Member findMember, final Place findPlace) {
@@ -237,25 +228,24 @@ public class MemberUseCase {
     private void processQuests(final Member findMember, final Place findPlace, final List<Quest> quests) {
         for (Quest quest : quests) {
             ProceedingQuest proceedingQuest;
-
-            //퀘스트 진행 내역이 존재하면
+            // 퀘스트 진행 내역이 존재하면
             if (proceedingQuestService.existsByMemberAndQuest(findMember, quest)) {
-                proceedingQuest = proceedingQuestService.findById(updateProceedingQuest(findMember, findPlace, quest));
+                 proceedingQuest = updateProceedingQuest(findMember, findPlace, quest);
 
-                //퀘스트 진행 내역이 없다면
+                // 퀘스트 진행 내역이 없다면
             } else {
                 // TODO : 완료된 퀘스트인지 확인
-                proceedingQuest = proceedingQuestService.findById(createProceedingQuest(findMember, quest));
+                proceedingQuest = proceedingQuestService.save(ProceedingQuest.create(findMember, quest));
             }
 
-            //퀘스트 필요 달성도와 진행도가 일치할 경우
+            // 퀘스트 필요 달성도와 진행도가 일치할 경우
             if (proceedingQuest.getCurrentClearCount() == quest.getTotalRequiredClearCount()) {
                 handleQuestComplete(findMember, proceedingQuest);
             }
         }
     }
 
-    private Long updateProceedingQuest(final Member findMember, final Place findPlace, final Quest quest) {
+    private ProceedingQuest updateProceedingQuest(final Member findMember, final Place findPlace, final Quest quest) {
         final ProceedingQuest proceedingQuest = proceedingQuestService.findByMemberAndQuest(findMember, quest);
 
         //'같은 장소' 여러번 방문이 조건인 퀘스트가 아닌 경우
@@ -268,18 +258,19 @@ public class MemberUseCase {
             //VisitedPlace의 컬럼 수를 count후 진행도에 set
             proceedingQuestService.updateCurrentClearCount(proceedingQuest, (int) count);
         }
-        return proceedingQuest.getId();
+        return proceedingQuest;
     }
 
-    private Long createProceedingQuest(final Member findMember, final Quest quest) {
-        return proceedingQuestService.save(ProceedingQuest.create(findMember, quest));
-    }
 
     //TODO : 앱잼 이후 구현 필수
     private void handleQuestComplete(final Member findMember, final ProceedingQuest proceedingQuest) {
-        Character character = characterService.findByName(findMember.getCurrentCharacterName());
-        Quest quest = proceedingQuest.getQuest();
-        QuestReward questReward = questRewardService.findByQuestId(quest.getId());
+        final Character character = characterService.findByName(findMember.getCurrentCharacterName());
+        final Quest quest = proceedingQuest.getQuest();
+        final QuestReward questReward = questRewardService.findByQuestId(quest.getId());
+        // logging reward
+        log.info("questReward.questId : {}", questReward.getQuestId());
+        log.info("questReward.isCharacterMotion : {}", questReward.getRewardList().isCharacterMotion());
+        log.info("questReward.Emblem : {}", questReward.getRewardList().getEmblem());
 
         if (questReward.getRewardList().isCharacterMotion()){
             CharacterMotion characterMotion = characterMotionService.findByCharacterAndPlaceCategory(character, quest.getPlaceCategory());

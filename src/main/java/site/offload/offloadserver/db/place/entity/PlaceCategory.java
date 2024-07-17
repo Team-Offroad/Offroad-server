@@ -1,5 +1,7 @@
 package site.offload.offloadserver.db.place.entity;
 
+import java.util.List;
+
 //장소 카테고리
 public enum PlaceCategory {
     CAFFE,
@@ -16,5 +18,13 @@ public enum PlaceCategory {
             }
         }
         return false;
+    }
+
+    public static List<PlaceCategory> nearBy100meterPlaceCategory() {
+        return List.of(PlaceCategory.PARK, PlaceCategory.SPORT);
+    }
+
+    public static List<PlaceCategory> nearBy25meterPlaceCategory() {
+        return List.of(PlaceCategory.RESTAURANT, PlaceCategory.CAFFE, PlaceCategory.CULTURE);
     }
 }

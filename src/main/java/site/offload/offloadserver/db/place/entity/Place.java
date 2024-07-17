@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.offload.offloadserver.db.BaseTimeEntity;
 
+import java.util.Objects;
 import java.util.UUID;
 
 //서비스에 등록된 장소
@@ -46,4 +47,20 @@ public class Place extends BaseTimeEntity {
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String categoryImageUrl;
+
+    public boolean isValidOffroadCode(String offroadCode) {
+        return Objects.equals(this.offroadCode, offroadCode);
+    }
+
+    public Place(String name, String address, String shortIntroduction, PlaceCategory placeCategory, PlaceArea placeArea, String offroadCode, double latitude, double longitude, String categoryImageUrl) {
+        this.name = name;
+        this.address = address;
+        this.shortIntroduction = shortIntroduction;
+        this.placeCategory = placeCategory;
+        this.placeArea = placeArea;
+        this.offroadCode = offroadCode;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.categoryImageUrl = categoryImageUrl;
+    }
 }

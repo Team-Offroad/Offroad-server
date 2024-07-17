@@ -15,8 +15,8 @@ public class ProceedingQuestService {
 
     private final ProceedingQuestRepository proceedingQuestRepository;
 
-    public Long save(ProceedingQuest proceedingQuest) {
-        return proceedingQuestRepository.save(proceedingQuest).getId();
+    public ProceedingQuest save(ProceedingQuest proceedingQuest) {
+        return proceedingQuestRepository.save(proceedingQuest);
     }
 
     public boolean existsByMemberAndQuest(Member member, Quest quest) {
