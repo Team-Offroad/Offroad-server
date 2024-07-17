@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import site.offload.offloadserver.api.character.service.CharacterService;
 import site.offload.offloadserver.api.character.service.GainedCharacterService;
 import site.offload.offloadserver.api.charactermotion.service.CharacterMotionService;
 import site.offload.offloadserver.api.charactermotion.service.GainedCharacterMotionService;
@@ -12,13 +13,10 @@ import site.offload.offloadserver.api.exception.BadRequestException;
 import site.offload.offloadserver.api.exception.NotFoundException;
 import site.offload.offloadserver.api.exception.UnAuthorizedException;
 import site.offload.offloadserver.api.member.dto.request.AuthAdventureRequest;
+import site.offload.offloadserver.api.member.dto.request.AuthPositionRequest;
 import site.offload.offloadserver.api.member.dto.request.MemberAdventureInformationRequest;
-import site.offload.offloadserver.api.member.dto.response.AuthAdventureResponse;
-import site.offload.offloadserver.api.member.dto.response.ChooseCharacterResponse;
-import site.offload.offloadserver.api.member.dto.response.MemberAdventureInformationResponse;
-import site.offload.offloadserver.api.character.service.CharacterService;
 import site.offload.offloadserver.api.member.dto.request.MemberProfileUpdateRequest;
-import site.offload.offloadserver.api.member.dto.response.TokenReissueResponse;
+import site.offload.offloadserver.api.member.dto.response.*;
 import site.offload.offloadserver.api.member.service.MemberService;
 import site.offload.offloadserver.api.message.ErrorMessage;
 import site.offload.offloadserver.api.place.service.PlaceService;
@@ -40,7 +38,6 @@ import site.offload.offloadserver.db.place.entity.VisitedPlace;
 import site.offload.offloadserver.db.quest.entity.ProceedingQuest;
 import site.offload.offloadserver.db.quest.entity.Quest;
 import site.offload.offloadserver.db.quest.entity.QuestReward;
-import site.offload.offloadserver.db.quest.repository.QuestRepository;
 import site.offload.offloadserver.external.aws.S3UseCase;
 
 import java.util.ArrayList;
@@ -154,9 +151,36 @@ public class MemberUseCase {
     }
 
     @Transactional
-    public AuthAdventureResponse authAdventure(final Long memberId, final AuthAdventureRequest request) {
+    public VerifyPositionDistanceResponse authAdventurePosition(final Long memberId, final AuthPositionRequest request) {
         final Place findPlace = placeService.findPlaceById(request.placeId());
         final Member findMember = memberService.findById(memberId);
+        final Character findCharacter = characterService.findByName(findMember.getCurrentCharacterName());
+
+        // 클라이언트에서 받은 위도 경도 값을 카테고리 별 오차 범위 계산해서 PlaceId에 해당하는 장소의 위도 경도값과 비교
+        if (!isValidLocation(request.latitude(), request.longitude(), findPlace.getLatitude(), findPlace.getLongitude(), findPlace.getPlaceCategory())) {
+            return VerifyPositionDistanceResponse.of(false, s3UseCase.getPresignUrl(findCharacter.getCharacterAdventureFailureImageUrl()));
+        } else {
+            authSucceedProcess(findMember, findPlace);
+            return VerifyPositionDistanceResponse.of(true, s3UseCase.getPresignUrl(findCharacter.getCharacterAdventureSuccessImageUrl()));
+        }
+    }
+
+    private void authSucceedProcess(Member member, Place place) {
+        //방문한 장소 레코드 추가
+        handleVisitedPlace(member, place);
+
+        //관련된 퀘스트 모두 불러오기
+        final List<Quest> quests = getQuests(place);
+
+        //퀘스트 달성도, 인증 업데이트
+        processQuests(member, place, quests);
+    }
+
+    @Transactional
+    public VerifyQrcodeResponse authAdventure(final Long memberId, final AuthAdventureRequest request) {
+        final Place findPlace = placeService.findPlaceById(request.placeId());
+        final Member findMember = memberService.findById(memberId);
+        final Character findCharacter = characterService.findByName(findMember.getCurrentCharacterName());
 
         // 클라이언트에서 받은 위도 경도 값을 카테고리 별 오차 범위 계산해서 PlaceId에 해당하는 장소의 위도 경도값과 비교
         if (!isValidLocation(request.latitude(), request.longitude(), findPlace.getLatitude(), findPlace.getLongitude(), findPlace.getPlaceCategory())) {
@@ -165,18 +189,10 @@ public class MemberUseCase {
 
         //qr코드 일치 확인
         if (findPlace.isValidOffroadCode(request.qrCode())) {
-            // 방문한 장소 레코드 추가
-            handleVisitedPlace(findMember, findPlace);
-
-            //관련된 퀘스트 모두 불러오기
-            final List<Quest> quests = getQuests(findPlace);
-
-            //퀘스트 달성도, 인증 업데이트
-            processQuests(findMember, findPlace, quests);
-
-            return AuthAdventureResponse.of(true);
+            authSucceedProcess(findMember, findPlace);
+            return VerifyQrcodeResponse.of(true, findCharacter.getCharacterAdventureSuccessImageUrl());
         } else {
-            return AuthAdventureResponse.of(false);
+            return VerifyQrcodeResponse.of(false, findCharacter.getCharacterAdventureFailureImageUrl());
         }
     }
 
@@ -231,7 +247,7 @@ public class MemberUseCase {
             // quest.getId()에 하나씩 값을 대입한 이유-> 데모데이 이전 현재시점에서 보상 목록을 전부 DB에 저장해놓고
             // 있지 않아, handleCompleteQuest()에서 Reward 가져올 시 NPE발생
             // TODO: 앱잼 이후, Reward 목록 전부 DB에 저장이후 if문 삭제
-            if (quest.getId() == 11 || quest.getId() == 14  || quest.getId() == 17 ) {
+            if (quest.getId() == 11 || quest.getId() == 14 || quest.getId() == 17) {
                 ProceedingQuest proceedingQuest;
                 // 퀘스트 진행 내역이 존재하면
                 if (proceedingQuestService.existsByMemberAndQuest(findMember, quest)) {
@@ -274,7 +290,7 @@ public class MemberUseCase {
 
         final QuestReward questReward = questRewardService.findByQuestId(quest.getId());
 
-        if (questReward.getRewardList().isCharacterMotion()){
+        if (questReward.getRewardList().isCharacterMotion()) {
             CharacterMotion characterMotion = characterMotionService.findByCharacterAndPlaceCategory(character, quest.getPlaceCategory());
             if (gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotion, findMember)) {
                 gainedCharacterMotionService.save(findMember, characterMotion);
@@ -282,8 +298,7 @@ public class MemberUseCase {
             // TODO : proceedingQuest에서 해당 퀘스트 지우고 CompleteQuest 테이블 만들고 추가
             completeQuestService.saveCompleteQuest(quest, findMember);
             proceedingQuestService.deleteProceedingQuest(quest, findMember);
-        }
-        else { // TODO : 엠블렘 또는 쿠폰일때
+        } else { // TODO : 엠블렘 또는 쿠폰일때
         }
     }
 
