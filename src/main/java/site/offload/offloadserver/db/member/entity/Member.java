@@ -67,7 +67,7 @@ public class Member extends BaseTimeEntity {
     }
 
     public void updateProfile(MemberProfileUpdateRequest memberProfileUpdateRequest) {
-        this.nickName = memberProfileUpdateRequest.nickName();
+        this.nickName = memberProfileUpdateRequest.nickname();
         this.birthday = new Birthday(memberProfileUpdateRequest.year(), memberProfileUpdateRequest.month(), memberProfileUpdateRequest.day());
         this.gender = memberProfileUpdateRequest.gender();
     }
