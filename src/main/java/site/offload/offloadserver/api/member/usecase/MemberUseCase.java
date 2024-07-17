@@ -192,9 +192,9 @@ public class MemberUseCase {
         //qr코드 일치 확인
         if (findPlace.isValidOffroadCode(request.qrCode())) {
             authSucceedProcess(findMember, findPlace);
-            return VerifyQrcodeResponse.of(true, findCharacter.getCharacterAdventureSuccessImageUrl());
+            return VerifyQrcodeResponse.of(true, s3UseCase.getPresignUrl(findCharacter.getCharacterAdventureSuccessImageUrl()));
         } else {
-            return VerifyQrcodeResponse.of(false, findCharacter.getCharacterAdventureFailureImageUrl());
+            return VerifyQrcodeResponse.of(false, s3UseCase.getPresignUrl(findCharacter.getCharacterAdventureFailureImageUrl()));
         }
     }
 

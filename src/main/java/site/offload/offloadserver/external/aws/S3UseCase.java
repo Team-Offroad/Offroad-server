@@ -1,5 +1,6 @@
 package site.offload.offloadserver.external.aws;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import site.offload.offloadserver.external.config.AwsConfig;
@@ -11,6 +12,7 @@ import software.amazon.awssdk.services.s3.presigner.model.PresignedGetObjectRequ
 import java.time.Duration;
 
 @Component
+@Slf4j
 public class S3UseCase {
 
     private final S3Presigner presigner;
@@ -43,6 +45,7 @@ public class S3UseCase {
         final String url = presignedGetObjectRequest.url().toString();
 
         presigner.close();
+        log.info(url);
         return url;
     }
 
