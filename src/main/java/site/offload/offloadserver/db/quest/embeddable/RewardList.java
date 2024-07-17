@@ -1,11 +1,15 @@
 package site.offload.offloadserver.db.quest.embeddable;
 
 import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import site.offload.offloadserver.db.emblem.entity.Emblem;
 
 @Embeddable
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class RewardList {
 
     //캐릭터모션
@@ -15,5 +19,5 @@ public class RewardList {
     //private String couponCode;
 
     //칭호
-    private Emblem eblem;
+    private Emblem Emblem;
 }

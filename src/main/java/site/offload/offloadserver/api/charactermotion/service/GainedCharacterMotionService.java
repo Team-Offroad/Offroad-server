@@ -17,8 +17,8 @@ public class GainedCharacterMotionService {
         return gainedCharacterMotionRepository.existsByCharacterMotionAndMember(characterMotion, member);
     }
 
-    public void save(Member member, CharacterMotion characterMotion) {
-        gainedCharacterMotionRepository.save(
+    public GainedCharacterMotion save(Member member, CharacterMotion characterMotion) {
+        return gainedCharacterMotionRepository.save(
                 GainedCharacterMotion.builder()
                         .member(member)
                         .characterMotion(characterMotion)

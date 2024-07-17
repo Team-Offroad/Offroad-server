@@ -5,6 +5,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.Repository;
 import site.offload.offloadserver.db.quest.entity.QuestReward;
 
+import java.util.Optional;
+
 public interface QuestRewardRepository extends JpaRepository<QuestReward, Integer> {
-    QuestReward findByQuestId(Integer questId);
+    Optional<QuestReward> findByQuestId(Integer questId);
 }

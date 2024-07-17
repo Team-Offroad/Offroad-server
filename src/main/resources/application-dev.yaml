@@ -44,3 +44,8 @@ apple:
   public-key-url: ${APPLE_PUBLIC_KEY_URL}
   iss: ${APPLE_ISS}
   client-id: ${APPLE_CLIENT_ID}
+
+logging:
+  level:
+    org.springframework: DEBUG
+    org.hibernate: DEBUG

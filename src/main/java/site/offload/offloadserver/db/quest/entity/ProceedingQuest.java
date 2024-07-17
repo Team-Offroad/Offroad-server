@@ -13,6 +13,8 @@ import site.offload.offloadserver.db.member.entity.Member;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProceedingQuest extends BaseTimeEntity {
 
+    private static final int DEFAULT_CLEAR_COUNT = 1;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,7 +28,7 @@ public class ProceedingQuest extends BaseTimeEntity {
     private Quest quest;
 
     @Column(nullable = false)
-    private int currentClearCount = 1;
+    private int currentClearCount = DEFAULT_CLEAR_COUNT;
 
     private ProceedingQuest(Member member, Quest quest) {
         this.member = member;
