@@ -20,4 +20,8 @@ public class CompleteQuestService {
                 .member(member)
                 .build());
     }
+
+    public boolean isExsistsByQuestAndMember(Quest quest, Member member) {
+        return completeQuestRepository.existsByQuestAndMember(quest, member);
+    }
 }

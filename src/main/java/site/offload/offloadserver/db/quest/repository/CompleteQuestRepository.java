@@ -8,4 +8,6 @@ import site.offload.offloadserver.db.quest.entity.QuestReward;
 
 public interface CompleteQuestRepository extends JpaRepository<CompleteQuest, Long> {
     void deleteByQuestAndMember(Quest quest, Member member);
+
+    boolean existsByQuestAndMember(Quest quest, Member member);
 }
