@@ -9,6 +9,7 @@ import site.offload.offloadserver.api.character.service.CharacterService;
 import site.offload.offloadserver.api.character.service.GainedCharacterService;
 import site.offload.offloadserver.api.charactermotion.service.CharacterMotionService;
 import site.offload.offloadserver.api.charactermotion.service.GainedCharacterMotionService;
+import site.offload.offloadserver.api.emblem.service.GainedEmblemService;
 import site.offload.offloadserver.api.exception.BadRequestException;
 import site.offload.offloadserver.api.exception.NotFoundException;
 import site.offload.offloadserver.api.exception.UnAuthorizedException;
@@ -66,6 +67,7 @@ public class MemberUseCase {
     //단위 = meter
     private static final int RESTAURANT_CAFE_CULTURE_PERMIT_RADIUS = 25;
     private static final int PARK_SPORT_PERMIT_RADIUS = 100;
+    private final GainedEmblemService gainedEmblemService;
 
 
     @Transactional(readOnly = true)
@@ -247,7 +249,8 @@ public class MemberUseCase {
             // quest.getId()에 하나씩 값을 대입한 이유-> 데모데이 이전 현재시점에서 보상 목록을 전부 DB에 저장해놓고
             // 있지 않아, handleCompleteQuest()에서 Reward 가져올 시 NPE발생
             // TODO: 앱잼 이후, Reward 목록 전부 DB에 저장이후 if문 삭제
-            if (quest.getId() == 11 || quest.getId() == 14 || quest.getId() == 17) {
+            if (quest.getId() == 11 || quest.getId() == 14 || quest.getId() == 17
+                    || quest.getId() == 42 || quest.getId() == 43 || quest.getId() == 44) {
                 ProceedingQuest proceedingQuest;
                 // 퀘스트 진행 내역이 존재하면
                 if (proceedingQuestService.existsByMemberAndQuest(findMember, quest)) {
@@ -295,11 +298,17 @@ public class MemberUseCase {
             if (!gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotion, findMember)) {
                 gainedCharacterMotionService.save(findMember, characterMotion);
             }
-            // TODO : proceedingQuest에서 해당 퀘스트 지우고 CompleteQuest 테이블 만들고 추가
-            completeQuestService.saveCompleteQuest(quest, findMember);
-            proceedingQuestService.deleteProceedingQuest(quest, findMember);
-        } else { // TODO : 엠블렘 또는 쿠폰일때
         }
+
+        if (questReward.getRewardList().getEmblemCode() != null) {
+            if (!gainedEmblemService.isExistsByMemberAndEmblemCode(findMember, questReward.getRewardList().getEmblemCode())) {
+                gainedEmblemService.save(findMember, questReward.getRewardList().getEmblemCode());
+            }
+        }
+        completeQuestService.saveCompleteQuest(quest, findMember);
+        proceedingQuestService.deleteProceedingQuest(quest, findMember);
+
+        // TODO: 코드 구조 개선 및 다른 보상 획득 추가
     }
 
 }

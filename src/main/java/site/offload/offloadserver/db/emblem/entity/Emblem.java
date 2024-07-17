@@ -29,7 +29,8 @@ public enum Emblem {
     ESSENCE_OF_EXPLORATION("TT000017", "탐험의 정수"),
     EXPLORATION_CHAMPION("TT000018", "탐험 챔피언"),
     LEGEND_OF_EXPLORATION("TT000019", "탐험의 전설"),
-    GOD_OF_EXPLORATION("TT000020", "탐험의 신");
+    GOD_OF_EXPLORATION("TT000020", "탐험의 신"),
+    SETEC("TT000021", "SOPT: 개화");
     private final String emblemCode;
     private final String emblemName;
 
