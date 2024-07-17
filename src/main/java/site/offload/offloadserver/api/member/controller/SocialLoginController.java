@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import site.offload.offloadserver.api.member.dto.request.SocialLoginRequest;
+import site.offload.offloadserver.api.member.dto.response.SocialLoginResponse;
 import site.offload.offloadserver.api.member.usecase.SocialLoginUseCase;
 import site.offload.offloadserver.api.message.SuccessMessage;
 import site.offload.offloadserver.api.response.APISuccessResponse;
@@ -24,7 +25,7 @@ public class SocialLoginController {
     private final SocialLoginUseCase socialLoginUseCase;
 
     @PostMapping
-    public ResponseEntity<APISuccessResponse<TokenResponse>> login(
+    public ResponseEntity<APISuccessResponse<SocialLoginResponse>> login(
             @RequestBody SocialLoginRequest socialLoginRequest
     ) {
         return APISuccessResponse.of(HttpStatus.CREATED.value(), SuccessMessage.SOCIAL_LOGIN_SUCCESS.getMessage(), socialLoginUseCase.login(socialLoginRequest));
