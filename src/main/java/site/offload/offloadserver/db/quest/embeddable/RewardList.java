@@ -5,7 +5,6 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import site.offload.offloadserver.db.emblem.entity.Emblem;
 
 @Embeddable
 @Getter
@@ -20,5 +19,5 @@ public class RewardList {
     //private String couponCode;
 
     //칭호
-    private Emblem Emblem;
+    private String emblemCode;
 }
