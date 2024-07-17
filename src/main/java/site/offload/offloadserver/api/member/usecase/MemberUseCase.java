@@ -136,10 +136,7 @@ public class MemberUseCase {
 
     @Transactional(readOnly = true)
     public boolean checkNickname(String nickname) {
-        if (memberService.isExistsByNickname(nickname)) {
-            return true;
-        }
-        return false;
+        return memberService.isExistsByNickname(nickname);
     }
 
     @Transactional
