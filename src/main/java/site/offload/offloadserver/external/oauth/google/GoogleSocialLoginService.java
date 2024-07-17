@@ -26,7 +26,7 @@ public class GoogleSocialLoginService {
     private final GoogleAuthApiClient googleAuthApiClient;
     private final GoogleApiClient googleApiClient;
 
-    public Member login(SocialLoginRequest socialLoginRequest) {
+    public GoogleInfoResponse login(SocialLoginRequest socialLoginRequest) {
         GoogleAuthResponse googleAuthResponse = googleAuthApiClient.googleAuth(
                 socialLoginRequest.code(),
                 googleClientId,
@@ -35,14 +35,7 @@ public class GoogleSocialLoginService {
                 "authorization_code"
         );
 
-        GoogleInfoResponse googleInfoResponse = googleApiClient.googleInfo("Bearer " + googleAuthResponse.accessToken());
-
-        return Member.builder()
-                .name(googleInfoResponse.name())
-                .email(googleInfoResponse.email())
-                .sub(googleInfoResponse.id())
-                .socialPlatform(socialLoginRequest.socialPlatform())
-                .build();
+        return googleApiClient.googleInfo("Bearer " + googleAuthResponse.accessToken());
     }
 
 }

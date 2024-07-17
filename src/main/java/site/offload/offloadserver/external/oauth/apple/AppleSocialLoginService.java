@@ -20,19 +20,14 @@ public class AppleSocialLoginService {
     private final ApplePublicKeyGenerator applePublicKeyGenerator;
     private final AppleIdentityTokenValidator appleIdentityTokenValidator;
 
-    public Member login(SocialLoginRequest socialLoginRequest) {
+    public Claims login(SocialLoginRequest socialLoginRequest) {
         Map<String, String> headers = appleIdentityTokenParser.parseHeaders(socialLoginRequest.code());
         ApplePublicKeys applePublicKeys = appleFeignClient.getApplePublicKeys();
         PublicKey publicKey = applePublicKeyGenerator.generatePublicKeyWithApplePublicKeys(headers, applePublicKeys);
         Claims claims = appleIdentityTokenParser.parseWithPublicKeyAndGetClaims(socialLoginRequest.code(), publicKey);
         validateClaims(claims);
 
-        return Member.builder()
-                .name(socialLoginRequest.name())
-                .email(claims.get("email", String.class))
-                .sub(claims.get("sub", String.class))
-                .socialPlatform(socialLoginRequest.socialPlatform())
-                .build();
+        return claims;
 
     }
 

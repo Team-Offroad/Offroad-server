@@ -22,4 +22,18 @@ public class MemberService {
     public boolean isExistsByNickname(final String nickname) {
         return memberRepository.existsByNickName(nickname);
     }
+
+    public boolean isExistsBySub(String sub) {
+        return memberRepository.existsBySub(sub);
+    }
+
+    public Member findBySub(String sub) {
+        return memberRepository.findBySub(sub).orElseThrow(
+                () -> new NotFoundException(ErrorMessage.MEMBER_NOTFOUND_EXCEPTION)
+        );
+    }
+
+    public void saveMember(Member member){
+        memberRepository.save(member);
+    }
 }
