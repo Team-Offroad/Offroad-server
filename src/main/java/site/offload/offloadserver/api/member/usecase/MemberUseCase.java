@@ -22,7 +22,9 @@ import site.offload.offloadserver.api.member.service.MemberService;
 import site.offload.offloadserver.api.message.ErrorMessage;
 import site.offload.offloadserver.api.place.service.PlaceService;
 import site.offload.offloadserver.api.place.service.VisitedPlaceService;
+import site.offload.offloadserver.api.quest.service.CompleteQuestService;
 import site.offload.offloadserver.api.quest.service.ProceedingQuestService;
+import site.offload.offloadserver.api.quest.service.QuestRewardService;
 import site.offload.offloadserver.api.quest.service.QuestService;
 import site.offload.offloadserver.common.jwt.JwtTokenProvider;
 import site.offload.offloadserver.common.jwt.TokenResponse;
@@ -35,6 +37,8 @@ import site.offload.offloadserver.db.place.entity.PlaceCategory;
 import site.offload.offloadserver.db.place.entity.VisitedPlace;
 import site.offload.offloadserver.db.quest.entity.ProceedingQuest;
 import site.offload.offloadserver.db.quest.entity.Quest;
+import site.offload.offloadserver.db.quest.entity.QuestReward;
+import site.offload.offloadserver.db.quest.repository.QuestRepository;
 import site.offload.offloadserver.external.aws.S3UseCase;
 
 import java.util.ArrayList;
@@ -56,6 +60,8 @@ public class MemberUseCase {
     private final QuestService questService;
     private final ProceedingQuestService proceedingQuestService;
     private final S3UseCase s3UseCase;
+    private final QuestRewardService questRewardService;
+    private final CompleteQuestService completeQuestService;
 
     //단위 = meter
     private static final int RESTAURANT_CAFE_CULTURE_PERMIT_RADIUS = 25;
@@ -241,12 +247,13 @@ public class MemberUseCase {
 
                 //퀘스트 진행 내역이 없다면
             } else {
+                // TODO : 완료된 퀘스트인지 확인
                 proceedingQuest = proceedingQuestService.findById(createProceedingQuest(findMember, quest));
             }
 
             //퀘스트 필요 달성도와 진행도가 일치할 경우
             if (proceedingQuest.getCurrentClearCount() == quest.getTotalRequiredClearCount()) {
-                handleQuestComplete(proceedingQuest);
+                handleQuestComplete(findMember, proceedingQuest);
             }
         }
     }
@@ -272,7 +279,20 @@ public class MemberUseCase {
     }
 
     //TODO : 앱잼 이후 구현 필수
-    private void handleQuestComplete(final ProceedingQuest proceedingQuest) {
+    private void handleQuestComplete(final Member findMember, final ProceedingQuest proceedingQuest) {
+        Character character = characterService.findByName(findMember.getCurrentCharacterName());
+        Quest quest = proceedingQuest.getQuest();
+        QuestReward questReward = questRewardService.findByQuestId(quest.getId());
+
+        if (questReward.getRewardList().isCharacterMotion()){
+            CharacterMotion characterMotion = characterMotionService.findByCharacterAndPlaceCategory(character, quest.getPlaceCategory());
+            gainedCharacterMotionService.save(findMember, characterMotion);
+            // TODO : proceedingQuest에서 해당 퀘스트 지우고 CompleteQuest 테이블 만들고 추가
+            completeQuestService.saveCompleteQuest(quest, findMember);
+            proceedingQuestService.deleteProceedingQuest(quest, findMember);
+        }
+        else { // TODO : 엠블렘 또는 쿠폰일때
+        }
     }
 
 }

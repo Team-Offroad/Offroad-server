@@ -9,11 +9,11 @@ import site.offload.offloadserver.db.emblem.entity.Emblem;
 public class RewardList {
 
     //캐릭터모션
-    private String characterMotionCode;
+    private boolean isCharacterMotion;
 
     //쿠폰 -> 앱잼 이후에 추가
     //private String couponCode;
 
     //칭호
-    private Emblem emblem;
+    private Emblem eblem;
 }

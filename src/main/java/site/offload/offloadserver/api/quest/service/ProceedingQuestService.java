@@ -42,4 +42,8 @@ public class ProceedingQuestService {
     public void updateCurrentClearCount(ProceedingQuest proceedingQuest, int count) {
         proceedingQuest.updateCurrentClearCount(count);
     }
+
+    public void deleteProceedingQuest(Quest quest, Member member){
+        proceedingQuestRepository.deleteByQuestAndMember(quest, member);
+    }
 }

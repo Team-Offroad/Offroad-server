@@ -2,6 +2,7 @@ package site.offload.offloadserver.db.charactermotion.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import site.offload.offloadserver.db.BaseTimeEntity;
 import site.offload.offloadserver.db.member.entity.Member;
@@ -24,4 +25,10 @@ public class GainedCharacterMotion extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "character_motion_id", nullable = false)
     private CharacterMotion characterMotion;
+
+    @Builder
+    public GainedCharacterMotion(Member member, CharacterMotion characterMotion){
+        this.member = member;
+        this.characterMotion = characterMotion;
+    }
 }
