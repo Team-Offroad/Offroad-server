@@ -156,7 +156,7 @@ public class MemberUseCase {
     @Transactional
     public AuthAdventureResponse authAdventure(final Long memberId, final AuthAdventureRequest request) {
         final Place findPlace = placeService.findPlaceById(request.placeId());
-        log.debug("Offroad Code : {}", findPlace.getOffroadCode());
+        log.info("Offroad Code : {}", findPlace.getOffroadCode());
         final Member findMember = memberService.findById(memberId);
 
         // 클라이언트에서 받은 위도 경도 값을 카테고리 별 오차 범위 계산해서 PlaceId에 해당하는 장소의 위도 경도값과 비교
@@ -165,9 +165,9 @@ public class MemberUseCase {
         }
 
         //qr코드 일치 확인
-        log.debug("qrCode : {}", request.qrCode());
-        log.debug("longitude : {}", request.longitude());
-        log.debug("latitude : {}", request.latitude());
+        log.info("qrCode : {}", request.qrCode());
+        log.info("longitude : {}", request.longitude());
+        log.info("latitude : {}", request.latitude());
         if (findPlace.isValidOffroadCode(request.qrCode())) {
             // 방문한 장소 레코드 추가
             handleVisitedPlace(findMember, findPlace);
@@ -227,20 +227,28 @@ public class MemberUseCase {
 
     private void processQuests(final Member findMember, final Place findPlace, final List<Quest> quests) {
         for (Quest quest : quests) {
-            ProceedingQuest proceedingQuest;
-            // 퀘스트 진행 내역이 존재하면
-            if (proceedingQuestService.existsByMemberAndQuest(findMember, quest)) {
-                 proceedingQuest = updateProceedingQuest(findMember, findPlace, quest);
-
-                // 퀘스트 진행 내역이 없다면
-            } else {
-                // TODO : 완료된 퀘스트인지 확인
-                proceedingQuest = proceedingQuestService.save(ProceedingQuest.create(findMember, quest));
+            // 완료된 퀘스트인지 확인
+            if (completeQuestService.isExsistsByQuestAndMember(quest, findMember)) {
+                return;
             }
 
-            // 퀘스트 필요 달성도와 진행도가 일치할 경우
-            if (proceedingQuest.getCurrentClearCount() == quest.getTotalRequiredClearCount()) {
-                handleQuestComplete(findMember, proceedingQuest);
+            // quest.getId()에 하나씩 값을 대입한 이유-> 데모데이 이전 현재시점에서 보상 목록을 전부 DB에 저장해놓고
+            // 있지 않아, handleCompleteQuest()에서 Reward 가져올 시 NPE발생
+            // TODO: 앱잼 이후, Reward 목록 전부 DB에 저장이후 if문 삭제
+            if (quest.getId() == 11 || quest.getId() == 14  || quest.getId() == 17 ) {
+                ProceedingQuest proceedingQuest;
+                // 퀘스트 진행 내역이 존재하면
+                if (proceedingQuestService.existsByMemberAndQuest(findMember, quest)) {
+                    proceedingQuest = updateProceedingQuest(findMember, findPlace, quest);
+
+                } else {
+                    proceedingQuest = proceedingQuestService.save(ProceedingQuest.create(findMember, quest));
+                }
+
+                // 퀘스트 필요 달성도와 진행도가 일치할 경우
+                if (proceedingQuest.getCurrentClearCount() == quest.getTotalRequiredClearCount()) {
+                    handleQuestComplete(findMember, proceedingQuest);
+                }
             }
         }
     }
@@ -265,7 +273,11 @@ public class MemberUseCase {
     //TODO : 앱잼 이후 구현 필수
     private void handleQuestComplete(final Member findMember, final ProceedingQuest proceedingQuest) {
         final Character character = characterService.findByName(findMember.getCurrentCharacterName());
+
+        log.info("proceedingQuest.getId : {}", proceedingQuest.getId());
         final Quest quest = proceedingQuest.getQuest();
+
+        log.info("quest.getId(): {}", quest.getId());
         final QuestReward questReward = questRewardService.findByQuestId(quest.getId());
         // logging reward
         log.info("questReward.questId : {}", questReward.getQuestId());
@@ -274,7 +286,10 @@ public class MemberUseCase {
 
         if (questReward.getRewardList().isCharacterMotion()){
             CharacterMotion characterMotion = characterMotionService.findByCharacterAndPlaceCategory(character, quest.getPlaceCategory());
-            gainedCharacterMotionService.save(findMember, characterMotion);
+            log.info("characterMotion.getId() : {}", characterMotion.getId());
+            if (gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotion, findMember)) {
+                gainedCharacterMotionService.save(findMember, characterMotion);
+            }
             // TODO : proceedingQuest에서 해당 퀘스트 지우고 CompleteQuest 테이블 만들고 추가
             completeQuestService.saveCompleteQuest(quest, findMember);
             proceedingQuestService.deleteProceedingQuest(quest, findMember);
