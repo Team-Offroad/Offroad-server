@@ -251,7 +251,7 @@ public class MemberUseCase {
             // quest.getId()에 하나씩 값을 대입한 이유-> 데모데이 이전 현재시점에서 보상 목록을 전부 DB에 저장해놓고
             // 있지 않아, handleCompleteQuest()에서 Reward 가져올 시 NPE발생
             // TODO: 앱잼 이후, Reward 목록 전부 DB에 저장이후 if문 삭제
-            if (quest.getId() == 11 || quest.getId() == 14 || quest.getId() == 17
+            if (quest.getId() == 5 || quest.getId() == 11 || quest.getId() == 14 || quest.getId() == 17
                     || quest.getId() == 42 || quest.getId() == 43 || quest.getId() == 44) {
                 ProceedingQuest proceedingQuest;
                 // 퀘스트 진행 내역이 존재하면
