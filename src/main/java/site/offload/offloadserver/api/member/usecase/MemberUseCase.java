@@ -88,16 +88,17 @@ public class MemberUseCase {
         }
 
         final PlaceCategory placeCategory = PlaceCategory.valueOf(request.category().toUpperCase());
-        final String imageUrl = getMotionImageUrl(placeCategory, findCharacter, findMember);
-
-        return MemberAdventureInformationResponse.of(nickname, emblemName, s3UseCase.getPresignUrl(imageUrl), findCharacter.getName());
+        final String motionImageUrl = getMotionImageUrl(placeCategory, findCharacter, findMember);
+        final String baseImageUrl = findCharacter.getCharacterBaseImageUrl();
+        return MemberAdventureInformationResponse.of(nickname, emblemName,
+                s3UseCase.getPresignUrl(baseImageUrl), s3UseCase.getPresignUrl(motionImageUrl), findCharacter.getName());
     }
 
     private String getMotionImageUrl(final PlaceCategory placeCategory, final Character character, final Member member) {
 
-        // 카테고리가 없는 장소에 있을 경우 기본 이미지 url 반환
+        // 카테고리가 없는 장소에 있을 경우 null 반환
         if (placeCategory.equals(PlaceCategory.NONE)) {
-            return character.getCharacterBaseImageUrl();
+            return null;
         }
 
         // 그 외의 경우에는 특정 캐릭터, 특정 카테고리에 해당하는 모션 이미지 url 반환
@@ -106,9 +107,9 @@ public class MemberUseCase {
         //유저가 획득한 모션인지 확인
         if (isMemberGainedMotion(findCharacterMotion, member)) {
             return findCharacterMotion.getMotionImageUrl();
-            //아니라면 기본 이미지 반환
+            //아니라면 null 반환
         } else {
-            return character.getCharacterBaseImageUrl();
+            return null;
         }
     }
 
