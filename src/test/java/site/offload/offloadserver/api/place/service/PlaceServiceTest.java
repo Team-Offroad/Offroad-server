@@ -29,8 +29,8 @@ class PlaceServiceTest {
     VisitedPlaceRepositoiry visitedPlaceRepositoiry;
 
     @Test
-    @DisplayName("")
-    void test() throws Exception {
+    @DisplayName("특정 사용자가 장소에 몇번 방문했는지 확인할 수 있다.")
+    void countVisitedPlace() throws Exception {
         // given
         BDDMockito.given(visitedPlaceRepositoiry.countByMemberIdAndPlaceId(any(), any()))
                 .willReturn(10L);
