@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.3.1'
     id 'io.spring.dependency-management' version '1.1.5'
+    id 'jacoco'
 }
 
 group = 'site.offload'
@@ -56,6 +57,31 @@ dependencies {
 
 }
 
+jacocoTestReport {
+    reports {
+        html.required = true
+        xml.required = true
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.8
+            }
+
+            excludes = [
+                    '*.*Exception',
+                    '**/controller/request/**',
+                    '**/controller/response/**',
+                    '**/exception/**',
+            ]
+        }
+    }
+}
+
 tasks.named('test') {
     useJUnitPlatform()
+    finalizedBy('jacocoTestReport')
 }
