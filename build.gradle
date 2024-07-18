@@ -73,8 +73,8 @@ jacocoTestCoverageVerification {
 
             excludes = [
                     '*.*Exception',
-                    '**/controller/request/**',
-                    '**/controller/response/**',
+                    '**/dto/request/**',
+                    '**/dto/response/**',
                     '**/exception/**',
             ]
         }
