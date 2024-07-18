@@ -148,6 +148,7 @@ public class MemberUseCase {
         findMember.chooseCharacter(findCharacter.getName());
         if (!gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(findMember, findCharacter)) {
             gainedCharacterService.saveGainedCharacter(findMember, findCharacter);
+            gainedEmblemService.save(findMember, "TT000009");
         }
         return ChooseCharacterResponse.of(s3UseCase.getPresignUrl(findCharacter.getCharacterSpotLightImageUrl()));
     }
