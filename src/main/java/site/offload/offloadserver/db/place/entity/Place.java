@@ -2,6 +2,7 @@ package site.offload.offloadserver.db.place.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.offload.offloadserver.db.BaseTimeEntity;
@@ -52,6 +53,7 @@ public class Place extends BaseTimeEntity {
         return Objects.equals(this.offroadCode, offroadCode);
     }
 
+    @Builder
     public Place(String name, String address, String shortIntroduction, PlaceCategory placeCategory, PlaceArea placeArea, String offroadCode, double latitude, double longitude, String categoryImageUrl) {
         this.name = name;
         this.address = address;
