@@ -162,7 +162,7 @@ public class MemberUseCase {
 
         // 클라이언트에서 받은 위도 경도 값을 카테고리 별 오차 범위 계산해서 PlaceId에 해당하는 장소의 위도 경도값과 비교
         if (!isValidLocation(request.latitude(), request.longitude(), findPlace.getLatitude(), findPlace.getLongitude(), findPlace.getPlaceCategory())) {
-            return VerifyPositionDistanceResponse.of(false, s3UseCase.getPresignUrl(findCharacter.getCharacterAdventureFailureImageUrl()));
+            return VerifyPositionDistanceResponse.of(false, s3UseCase.getPresignUrl(findCharacter.getCharacterAdventureLocationFailureImageUrl()));
         } else {
             authSucceedProcess(findMember, findPlace);
             return VerifyPositionDistanceResponse.of(true, s3UseCase.getPresignUrl(findCharacter.getCharacterAdventureSuccessImageUrl()));
@@ -196,7 +196,7 @@ public class MemberUseCase {
             authSucceedProcess(findMember, findPlace);
             return VerifyQrcodeResponse.of(true, s3UseCase.getPresignUrl(findCharacter.getCharacterAdventureSuccessImageUrl()));
         } else {
-            return VerifyQrcodeResponse.of(false, s3UseCase.getPresignUrl(findCharacter.getCharacterAdventureFailureImageUrl()));
+            return VerifyQrcodeResponse.of(false, s3UseCase.getPresignUrl(findCharacter.getCharacterAdventureQRFailureImageUrl()));
         }
     }
 
