@@ -245,7 +245,7 @@ public class MemberUseCase {
         for (Quest quest : quests) {
             // 완료된 퀘스트인지 확인
             if (completeQuestService.isExsistsByQuestAndMember(quest, findMember)) {
-                return;
+                continue;
             }
 
             // quest.getId()에 하나씩 값을 대입한 이유-> 데모데이 이전 현재시점에서 보상 목록을 전부 DB에 저장해놓고
@@ -257,7 +257,6 @@ public class MemberUseCase {
                 // 퀘스트 진행 내역이 존재하면
                 if (proceedingQuestService.existsByMemberAndQuest(findMember, quest)) {
                     proceedingQuest = updateProceedingQuest(findMember, findPlace, quest);
-
                 } else {
                     proceedingQuest = proceedingQuestService.save(ProceedingQuest.create(findMember, quest));
                 }
