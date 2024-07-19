@@ -23,6 +23,7 @@ public class PlaceService {
     private final PlaceRepository placeRepository;
     private final VisitedPlaceRepositoiry visitedPlaceRepositoiry;
 
+    // TODO: change method name
     public List<Place> findPlaces(RegisteredPlacesRequest registeredPlacesRequest) {
         return placeRepository.findAllByCurrentLatitudeAndCurrentLongitude(registeredPlacesRequest.currentLatitude(), registeredPlacesRequest.currentLongitude(), PlaceConstants.RANGE_LATITUDE.getRange(), PlaceConstants.RANGE_LONGITUDE.getRange());
     }
