@@ -17,6 +17,8 @@ import site.offload.offloadserver.db.place.repository.PlaceRepository;
 import site.offload.offloadserver.db.place.repository.VisitedPlaceRepositoiry;
 
 
+import java.util.Optional;
+
 import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
@@ -27,6 +29,9 @@ class PlaceServiceTest {
 
     @Mock
     VisitedPlaceRepositoiry visitedPlaceRepositoiry;
+
+    @Mock
+    PlaceRepository placeRepository;
 
     @Test
     @DisplayName("특정 사용자가 장소에 몇번 방문했는지 확인할 수 있다.")
@@ -50,6 +55,52 @@ class PlaceServiceTest {
 
         // then
         Assertions.assertThat(count).isEqualTo(10L);
+
+    }
+
+    @Test
+    @DisplayName("장소 id로 장소를 조회할 수 있다.")
+    void findById() throws Exception {
+        // given
+        Place place = Place.builder()
+                .placeArea(PlaceArea.AREA1)
+                .placeCategory(PlaceCategory.CULTURE)
+                .name("테스트이름")
+                .address("테스트주소")
+                .shortIntroduction("테스트소개")
+                .offroadCode("1234")
+                .latitude(1234.1234)
+                .longitude(234.241)
+                .categoryImageUrl("테스트카테고리이미지URL")
+                .build();
+
+        BDDMockito.given(placeRepository.findById(any()))
+                .willReturn(Optional.of(place));
+
+        // when
+        Place expectedPlace =  placeService.findPlaceById(1L);
+
+        // then
+        Assertions.assertThat(expectedPlace).extracting(
+                "placeArea",
+                "placeCategory",
+                "name",
+                "address",
+                "shortIntroduction",
+                "offroadCode",
+                "latitude",
+                "longitude",
+                "categoryImageUrl")
+                .containsExactly(
+                        PlaceArea.AREA1,
+                        PlaceCategory.CULTURE,
+                        "테스트이름",
+                        "테스트주소",
+                        "테스트소개",
+                        "1234",
+                        1234.1234,
+                        234.241,
+                        "테스트카테고리이미지URL");
 
     }
 
