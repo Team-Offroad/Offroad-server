@@ -65,8 +65,9 @@ public class MemberUseCase {
     private final CompleteQuestService completeQuestService;
 
     //단위 = meter
-    private static final int RESTAURANT_CAFE_CULTURE_PERMIT_RADIUS = 25;
-    private static final int PARK_SPORT_PERMIT_RADIUS = 100;
+    // ToDo: 범위 수정
+    private static final int RESTAURANT_CAFE_CULTURE_PERMIT_RADIUS = 200;
+    private static final int PARK_SPORT_PERMIT_RADIUS = 200;
     private final GainedEmblemService gainedEmblemService;
 
 
