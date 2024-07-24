@@ -1,7 +1,7 @@
 name: CD
 
 on:
-  push:
+  pull_request:
     branches: [ "develop" ]
 
 jobs:
@@ -24,8 +24,8 @@ jobs:
       - name: create application-secret.properties
         run: |
           ## create application-secret.properties
-          mkdir -p ./src/main/resources
-          cd ./src/main/resources
+          mkdir -p ./offroad-api/src/main/resources
+          cd ./offroad-api/src/main/resources
 
           # application-secret.properties 파일 생성
           touch ./application-secret.properties
@@ -38,7 +38,7 @@ jobs:
       - name: create application.yml
         run: |
           ## create application-dev.yml
-          cd ./src/main/resources
+          cd ./offroad-api/src/main/resources
 
           # application-dev.yml 파일 생성
           touch ./application-dev.yml 
@@ -52,7 +52,7 @@ jobs:
       - name: 빌드
         run: |
           chmod +x gradlew
-          ./gradlew build -x test
+          ./gradlew :offroad-api:build -x test
         working-directory: ${{ env.working-directory }}
         shell: bash
 
