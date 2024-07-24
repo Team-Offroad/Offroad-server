@@ -8,7 +8,7 @@ import site.offload.api.place.dto.response.RegisteredPlaceResponse;
 import site.offload.api.place.dto.response.RegisteredPlacesResponse;
 import site.offload.api.place.service.PlaceService;
 import sites.offload.db.place.entity.Place;
-import sites.offload.external.aws.S3UseCase;
+import sites.offload.external.aws.S3Service;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import java.util.List;
 public class PlaceUsecase {
 
     private final PlaceService placeService;
-    private final S3UseCase s3UseCase;
+    private final S3Service s3Service;
 
     @Transactional(readOnly = true)
     public RegisteredPlacesResponse checkRegisteredPlaces(Long memberId, RegisteredPlacesRequest registeredPlacesRequest) {
@@ -34,7 +34,7 @@ public class PlaceUsecase {
                     findPlace.getLatitude(),
                     findPlace.getLongitude(),
                     count,
-                    s3UseCase.getPresignUrl(findPlace.getCategoryImageUrl())
+                    s3Service.getPresignUrl(findPlace.getCategoryImageUrl())
             );
         }).toList();
         return RegisteredPlacesResponse.of(registeredPlaces);

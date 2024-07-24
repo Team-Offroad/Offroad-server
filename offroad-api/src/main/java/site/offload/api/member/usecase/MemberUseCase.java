@@ -40,7 +40,7 @@ import sites.offload.db.quest.entity.QuestReward;
 import sites.offload.enums.ErrorMessage;
 import sites.offload.enums.PlaceArea;
 import sites.offload.enums.PlaceCategory;
-import sites.offload.external.aws.S3UseCase;
+import sites.offload.external.aws.S3Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +61,7 @@ public class MemberUseCase {
     private final VisitedPlaceService visitedPlaceService;
     private final QuestService questService;
     private final ProceedingQuestService proceedingQuestService;
-    private final S3UseCase s3UseCase;
+    private final S3Service s3Service;
     private final QuestRewardService questRewardService;
     private final CompleteQuestService completeQuestService;
 
@@ -93,7 +93,7 @@ public class MemberUseCase {
         final String motionImageUrl = getMotionImageUrl(placeCategory, findCharacter, findMember);
         final String baseImageUrl = findCharacter.getCharacterBaseImageUrl();
         return MemberAdventureInformationResponse.of(nickname, emblemName,
-                s3UseCase.getPresignUrl(baseImageUrl), s3UseCase.getPresignUrl(motionImageUrl), findCharacter.getName());
+                s3Service.getPresignUrl(baseImageUrl), s3Service.getPresignUrl(motionImageUrl), findCharacter.getName());
     }
 
     private String getMotionImageUrl(final PlaceCategory placeCategory, final Character character, final Member member) {
@@ -154,7 +154,7 @@ public class MemberUseCase {
             gainedCharacterService.saveGainedCharacter(findMember, findCharacter);
             gainedEmblemService.save(findMember, "TT000009");
         }
-        return ChooseCharacterResponse.of(s3UseCase.getPresignUrl(findCharacter.getCharacterSpotLightImageUrl()));
+        return ChooseCharacterResponse.of(s3Service.getPresignUrl(findCharacter.getCharacterSpotLightImageUrl()));
     }
 
     @Transactional
@@ -165,10 +165,10 @@ public class MemberUseCase {
 
         // 클라이언트에서 받은 위도 경도 값을 카테고리 별 오차 범위 계산해서 PlaceId에 해당하는 장소의 위도 경도값과 비교
         if (!isValidLocation(request.latitude(), request.longitude(), findPlace.getLatitude(), findPlace.getLongitude(), findPlace.getPlaceCategory())) {
-            return VerifyPositionDistanceResponse.of(false, s3UseCase.getPresignUrl(findCharacter.getCharacterAdventureLocationFailureImageUrl()));
+            return VerifyPositionDistanceResponse.of(false, s3Service.getPresignUrl(findCharacter.getCharacterAdventureLocationFailureImageUrl()));
         } else {
             authSucceedProcess(findMember, findPlace);
-            return VerifyPositionDistanceResponse.of(true, s3UseCase.getPresignUrl(findCharacter.getCharacterAdventureSuccessImageUrl()));
+            return VerifyPositionDistanceResponse.of(true, s3Service.getPresignUrl(findCharacter.getCharacterAdventureSuccessImageUrl()));
         }
     }
 
@@ -197,9 +197,9 @@ public class MemberUseCase {
         //qr코드 일치 확인
         if (findPlace.isValidOffroadCode(request.qrCode())) {
             authSucceedProcess(findMember, findPlace);
-            return VerifyQrcodeResponse.of(true, s3UseCase.getPresignUrl(findCharacter.getCharacterAdventureSuccessImageUrl()));
+            return VerifyQrcodeResponse.of(true, s3Service.getPresignUrl(findCharacter.getCharacterAdventureSuccessImageUrl()));
         } else {
-            return VerifyQrcodeResponse.of(false, s3UseCase.getPresignUrl(findCharacter.getCharacterAdventureQRFailureImageUrl()));
+            return VerifyQrcodeResponse.of(false, s3Service.getPresignUrl(findCharacter.getCharacterAdventureQRFailureImageUrl()));
         }
     }
 
