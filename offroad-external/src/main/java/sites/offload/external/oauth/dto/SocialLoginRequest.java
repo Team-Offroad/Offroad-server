@@ -1,6 +1,7 @@
 package sites.offload.external.oauth.dto;
 
-import sites.offload.enums.SocialPlatform;
+
+import sites.offload.external.enums.SocialPlatform;
 
 public record SocialLoginRequest(
         SocialPlatform socialPlatform,

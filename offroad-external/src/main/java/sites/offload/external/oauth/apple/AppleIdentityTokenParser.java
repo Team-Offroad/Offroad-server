@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
-import sites.offload.enums.ErrorMessage;
+import sites.offload.external.enums.ErrorMessage;
 import sites.offload.external.exception.UnAuthorizedException;
 
 import java.nio.charset.StandardCharsets;

@@ -2,8 +2,8 @@ package sites.offload.external.exception;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
-import sites.offload.enums.CustomErrorCode;
-import sites.offload.enums.ErrorMessage;
+import sites.offload.external.enums.CustomErrorCode;
+import sites.offload.external.enums.ErrorMessage;
 
 @Getter
 public class OffroadException extends RuntimeException {

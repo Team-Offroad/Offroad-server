@@ -1,7 +1,7 @@
 package sites.offload.external.exception;
 
 
-import sites.offload.enums.ErrorMessage;
+import sites.offload.external.enums.ErrorMessage;
 
 public class UnAuthorizedException extends OffroadException {
 

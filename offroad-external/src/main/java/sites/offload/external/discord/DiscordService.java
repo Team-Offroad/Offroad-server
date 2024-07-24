@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
-import sites.offload.enums.RestClientUseCase;
+import sites.offload.external.enums.RestClientUseCase;
 import sites.offload.external.exception.RestClientException;
 
 @Component
