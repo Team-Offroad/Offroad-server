@@ -7,7 +7,7 @@ import site.offload.api.character.dto.response.CharacterListResponse;
 import site.offload.api.character.dto.response.CharacterResponse;
 import site.offload.api.character.service.CharacterService;
 import sites.offload.db.character.entity.Character;
-import sites.offload.external.aws.S3UseCase;
+import sites.offload.external.aws.S3Service;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
 public class CharacterUseCase {
 
     private final CharacterService characterService;
-    private final S3UseCase s3UseCase;
+    private final S3Service s3Service;
 
     @Transactional(readOnly = true)
     public CharacterListResponse getCharacters() {
@@ -27,7 +27,7 @@ public class CharacterUseCase {
                         .description(character.getDescription())
                         .characterCode(character.getCharacterCode())
                         .name(character.getName())
-                        .characterBaseImageUrl(s3UseCase.getPresignUrl(character.getCharacterSelectImageUrl()))
+                        .characterBaseImageUrl(s3Service.getPresignUrl(character.getCharacterSelectImageUrl()))
                         .build()
         ).toList();
         return CharacterListResponse.of(charactersList);

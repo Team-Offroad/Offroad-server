@@ -13,12 +13,12 @@ import java.time.Duration;
 
 @Component
 @Slf4j
-public class S3UseCase {
+public class S3Service {
 
     private final S3Presigner presigner;
     private final String bucketName;
 
-    public S3UseCase(@Value("${aws-property.s3-bucket-name}") final String bucketName, AwsConfig awsConfig) {
+    public S3Service(@Value("${aws-property.s3-bucket-name}") final String bucketName, AwsConfig awsConfig) {
         this.bucketName = bucketName;
         this.presigner = awsConfig.getPresigner();
     }
