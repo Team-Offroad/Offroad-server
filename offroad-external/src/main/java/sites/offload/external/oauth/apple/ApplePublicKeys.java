@@ -1,7 +1,7 @@
 package sites.offload.external.oauth.apple;
 
 
-import sites.offload.enums.ErrorMessage;
+import sites.offload.external.enums.ErrorMessage;
 import sites.offload.external.exception.UnAuthorizedException;
 
 import java.util.List;

@@ -3,7 +3,7 @@ package sites.offload.external.oauth.apple;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import sites.offload.enums.ErrorMessage;
+import sites.offload.external.enums.ErrorMessage;
 import sites.offload.external.exception.UnAuthorizedException;
 import sites.offload.external.oauth.dto.SocialLoginRequest;
 

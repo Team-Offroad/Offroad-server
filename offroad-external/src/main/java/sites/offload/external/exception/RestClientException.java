@@ -1,7 +1,7 @@
 package sites.offload.external.exception;
 
 import org.springframework.http.HttpStatus;
-import sites.offload.enums.RestClientUseCase;
+import sites.offload.external.enums.RestClientUseCase;
 
 public class RestClientException extends RuntimeException {
 

@@ -2,7 +2,7 @@ package sites.offload.external.oauth.apple;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import sites.offload.enums.ErrorMessage;
+import sites.offload.external.enums.ErrorMessage;
 import sites.offload.external.exception.UnAuthorizedException;
 
 import java.math.BigInteger;

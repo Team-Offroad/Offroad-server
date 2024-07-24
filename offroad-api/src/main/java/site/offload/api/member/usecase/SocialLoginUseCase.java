@@ -35,7 +35,8 @@ public class SocialLoginUseCase {
     public SocialLoginResponse login(SocialLoginRequest socialLoginRequest) {
         Member member = null;
         boolean isAlreadyExist = false;
-        if (socialLoginRequest.socialPlatform().equals(SocialPlatform.GOOGLE)) {
+        String socialPlatFormRequest = socialLoginRequest.socialPlatform().getSocialPlatform();
+        if (socialPlatFormRequest.equals(SocialPlatform.GOOGLE.getSocialPlatform())) {
             GoogleInfoResponse googleInfoResponse = googleSocialLoginService.login(socialLoginRequest);
             if (memberService.isExistsBySub(googleInfoResponse.id())) {
                 member = memberService.findBySub(googleInfoResponse.id());
@@ -53,7 +54,7 @@ public class SocialLoginUseCase {
                 memberService.saveMember(member);
                 isAlreadyExist = false;
             }
-        } else if (socialLoginRequest.socialPlatform().equals(SocialPlatform.APPLE)) {
+        } else if (socialPlatFormRequest.equals(SocialPlatform.APPLE.getSocialPlatform())) {
             Claims appleInfoResponse = appleSocialLoginService.login(socialLoginRequest);
             if (memberService.isExistsBySub(appleInfoResponse.get("sub", String.class))) {
                 member = memberService.findBySub(appleInfoResponse.get("sub", String.class));
@@ -67,7 +68,7 @@ public class SocialLoginUseCase {
                         .name(socialLoginRequest.name())
                         .email(appleInfoResponse.get("email", String.class))
                         .sub(appleInfoResponse.get("sub", String.class))
-                        .socialPlatform(socialLoginRequest.socialPlatform())
+                        .socialPlatform(SocialPlatform.valueOf(socialLoginRequest.socialPlatform().toString().toLowerCase()))
                         .build();
                 memberService.saveMember(member);
                 isAlreadyExist = false;
