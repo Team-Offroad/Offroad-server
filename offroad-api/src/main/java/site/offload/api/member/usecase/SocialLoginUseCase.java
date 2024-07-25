@@ -68,7 +68,7 @@ public class SocialLoginUseCase {
                         .name(socialLoginRequest.name())
                         .email(appleInfoResponse.get("email", String.class))
                         .sub(appleInfoResponse.get("sub", String.class))
-                        .socialPlatform(SocialPlatform.valueOf(socialLoginRequest.socialPlatform().toString().toLowerCase()))
+                        .socialPlatform(SocialPlatform.valueOf(socialLoginRequest.socialPlatform().toString()))
                         .build();
                 memberService.saveMember(member);
                 isAlreadyExist = false;
