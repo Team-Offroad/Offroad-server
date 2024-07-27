@@ -11,7 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import site.offload.api.place.dto.request.RegisteredPlacesRequest;
-import sites.offload.db.place.entity.Place;
+import sites.offload.db.place.entity.PlaceEntity;
 import sites.offload.db.place.repository.PlaceRepository;
 import sites.offload.db.place.repository.VisitedPlaceRepositoiry;
 import sites.offload.enums.PlaceArea;
@@ -25,7 +25,7 @@ import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class PlaceServiceTest {
+class PlaceEntityServiceTest {
 
     @InjectMocks
     PlaceService placeService;
@@ -43,7 +43,7 @@ class PlaceServiceTest {
         // given
         BDDMockito.given(visitedPlaceRepositoiry.countByMemberIdAndPlaceId(any(), any()))
                 .willReturn(10L);
-        Place place = Place.builder()
+        PlaceEntity placeEntity = PlaceEntity.builder()
                 .name("테스트이름")
                 .address("테스트주소")
                 .shortIntroduction("테스트소개")
@@ -55,7 +55,7 @@ class PlaceServiceTest {
                 .categoryImageUrl("테스트카테고리이미지URL")
                 .build();
         // when
-        Long count = placeService.countVisitedPlace(1L, place);
+        Long count = placeService.countVisitedPlace(1L, placeEntity);
 
         // then
         Assertions.assertThat(count).isEqualTo(10L);
@@ -66,17 +66,17 @@ class PlaceServiceTest {
     @DisplayName("장소 id로 장소를 조회할 수 있다.")
     void findById() throws Exception {
         // given
-        Place place = createPlace(PlaceArea.AREA1, PlaceCategory.CULTURE, "테스트이름", "테스트주소",
+        PlaceEntity placeEntity = createPlace(PlaceArea.AREA1, PlaceCategory.CULTURE, "테스트이름", "테스트주소",
                 "테스트소개", "1234", 1234.1234, 234.241, "테스트카테고리이미지URL");
 
         BDDMockito.given(placeRepository.findById(any()))
-                .willReturn(Optional.of(place));
+                .willReturn(Optional.of(placeEntity));
 
         // when
-        Place expectedPlace = placeService.findPlaceById(1L);
+        PlaceEntity expectedPlaceEntity = placeService.findPlaceById(1L);
 
         // then
-        Assertions.assertThat(expectedPlace).extracting(
+        Assertions.assertThat(expectedPlaceEntity).extracting(
                         "placeArea",
                         "placeCategory",
                         "name",
@@ -103,21 +103,21 @@ class PlaceServiceTest {
     @DisplayName("위치 기반으로 근처에 있는 장소를 조회할 수 있다.")
     void findPlaces() throws Exception {
         // given
-        Place place = createPlace(PlaceArea.AREA1, PlaceCategory.CULTURE, "테스트이름", "테스트주소",
+        PlaceEntity placeEntity = createPlace(PlaceArea.AREA1, PlaceCategory.CULTURE, "테스트이름", "테스트주소",
                 "테스트소개", "1234", 1234.1234, 234.241, "테스트카테고리이미지URL");
-        Place place2 = createPlace(PlaceArea.AREA2, PlaceCategory.CAFFE, "테스트이름2", "테스트주소2",
+        PlaceEntity placeEntity2 = createPlace(PlaceArea.AREA2, PlaceCategory.CAFFE, "테스트이름2", "테스트주소2",
                 "테스트소개2", "12342", 1234.12342, 234.2412, "테스트카테고리이미지URL2");
 
         when(placeRepository.findAllByCurrentLatitudeAndCurrentLongitude(anyDouble(), anyDouble(), anyDouble(), anyDouble()))
-                .thenReturn(List.of(place, place2));
+                .thenReturn(List.of(placeEntity, placeEntity2));
 
         RegisteredPlacesRequest request = RegisteredPlacesRequest.of(32.135, 137.123);
 
         // when
-        List<Place> placeList = placeService.findPlaces(request);
+        List<PlaceEntity> placeEntityList = placeService.findPlaces(request);
 
         // then
-        Assertions.assertThat(placeList)
+        Assertions.assertThat(placeEntityList)
                 .extracting("placeArea", "placeCategory", "name", "address", "shortIntroduction", "offroadCode", "latitude", "longitude", "categoryImageUrl")
                 .containsExactlyInAnyOrder(
                         Tuple.tuple(PlaceArea.AREA1, PlaceCategory.CULTURE, "테스트이름", "테스트주소", "테스트소개", "1234", 1234.1234, 234.241, "테스트카테고리이미지URL"),
@@ -126,7 +126,7 @@ class PlaceServiceTest {
 
     }
 
-    private Place createPlace(
+    private PlaceEntity createPlace(
             PlaceArea placeArea,
             PlaceCategory placeCategory,
             String name,
@@ -137,7 +137,7 @@ class PlaceServiceTest {
             double longitude,
             String categoryImageUrl
     ) {
-        return Place.builder()
+        return PlaceEntity.builder()
                 .placeArea(placeArea)
                 .placeCategory(placeCategory)
                 .name(name)

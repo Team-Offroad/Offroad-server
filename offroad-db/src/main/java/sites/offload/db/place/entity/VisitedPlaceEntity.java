@@ -5,13 +5,14 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sites.offload.db.BaseTimeEntity;
-import sites.offload.db.member.entity.Member;
+import sites.offload.db.member.entity.MemberEntity;
 
 //사용자가 방문한 장소
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class VisitedPlace extends BaseTimeEntity {
+@Table(name = "visited_place")
+public class VisitedPlaceEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,18 +20,18 @@ public class VisitedPlace extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
+    private MemberEntity memberEntity;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_id", nullable = false)
-    private Place place;
+    private PlaceEntity placeEntity;
 
-    private VisitedPlace(Member member, Place place) {
-        this.member = member;
-        this.place = place;
+    private VisitedPlaceEntity(MemberEntity memberEntity, PlaceEntity placeEntity) {
+        this.memberEntity = memberEntity;
+        this.placeEntity = placeEntity;
     }
 
-    public static VisitedPlace create(Member member, Place place) {
-        return new VisitedPlace(member, place);
+    public static VisitedPlaceEntity create(MemberEntity memberEntity, PlaceEntity placeEntity) {
+        return new VisitedPlaceEntity(memberEntity, placeEntity);
     }
 }

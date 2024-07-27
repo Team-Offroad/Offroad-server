@@ -5,12 +5,12 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import sites.offload.db.member.entity.Member;
+import sites.offload.db.member.entity.MemberEntity;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CompleteQuest {
+public class CompleteQuestEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,15 +18,15 @@ public class CompleteQuest {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "member_id")
-    private Member member;
+    private MemberEntity memberEntity;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "quest_id")
-    private Quest quest;
+    private QuestEntity questEntity;
 
     @Builder
-    private CompleteQuest(Member member, Quest quest) {
-        this.member = member;
-        this.quest = quest;
+    private CompleteQuestEntity(MemberEntity memberEntity, QuestEntity questEntity) {
+        this.memberEntity = memberEntity;
+        this.questEntity = questEntity;
     }
 }

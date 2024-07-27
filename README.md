@@ -111,7 +111,7 @@
 ```bash
 📦offloadserver
  ┣ 📂api
- ┃ ┣ 📂character
+ ┃ ┣ 📂characterEntity
  ┃ ┃ ┣ 📂controller
  ┃ ┃ ┣ 📂dto
  ┃ ┃ ┃ ┗ 📂response
@@ -128,7 +128,7 @@
  ┃ ┃ ┣ 📂service
  ┃ ┃ ┗ 📂usecase
  ┃ ┣ 📂exception
- ┃ ┣ 📂member
+ ┃ ┣ 📂memberEntity
  ┃ ┃ ┣ 📂controller
  ┃ ┃ ┣ 📂dto
  ┃ ┃ ┃ ┣ 📂request
@@ -136,7 +136,7 @@
  ┃ ┃ ┣ 📂service
  ┃ ┃ ┗ 📂usecase
  ┃ ┣ 📂message
- ┃ ┣ 📂place
+ ┃ ┣ 📂placeEntity
  ┃ ┃ ┣ 📂controller
  ┃ ┃ ┣ 📂dto
  ┃ ┃ ┃ ┣ 📂constans
@@ -144,7 +144,7 @@
  ┃ ┃ ┃ ┗ 📂response
  ┃ ┃ ┣ 📂service
  ┃ ┃ ┗ 📂usecase
- ┃ ┣ 📂quest
+ ┃ ┣ 📂questEntity
  ┃ ┃ ┣ 📂controller
  ┃ ┃ ┣ 📂dto
  ┃ ┃ ┃ ┗ 📂response
@@ -162,7 +162,7 @@
  ┃ ┣ 📂announcement
  ┃ ┃ ┣ 📂entity
  ┃ ┃ ┗ 📂repository
- ┃ ┣ 📂character
+ ┃ ┣ 📂characterEntity
  ┃ ┃ ┣ 📂entity
  ┃ ┃ ┗ 📂repository
  ┃ ┣ 📂charactermotion
@@ -174,14 +174,14 @@
  ┃ ┣ 📂emblem
  ┃ ┃ ┣ 📂entity
  ┃ ┃ ┗ 📂repository
- ┃ ┣ 📂member
+ ┃ ┣ 📂memberEntity
  ┃ ┃ ┣ 📂embeddable
  ┃ ┃ ┣ 📂entity
  ┃ ┃ ┗ 📂repository
- ┃ ┣ 📂place
+ ┃ ┣ 📂placeEntity
  ┃ ┃ ┣ 📂entity
  ┃ ┃ ┗ 📂repository
- ┃ ┗ 📂quest
+ ┃ ┗ 📂questEntity
  ┃ ┃ ┣ 📂embeddable
  ┃ ┃ ┣ 📂entity
  ┃ ┃ ┗ 📂repository

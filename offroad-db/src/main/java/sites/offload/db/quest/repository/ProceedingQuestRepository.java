@@ -2,20 +2,20 @@ package sites.offload.db.quest.repository;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import sites.offload.db.member.entity.Member;
-import sites.offload.db.quest.entity.ProceedingQuest;
-import sites.offload.db.quest.entity.Quest;
+import sites.offload.db.member.entity.MemberEntity;
+import sites.offload.db.quest.entity.ProceedingQuestEntity;
+import sites.offload.db.quest.entity.QuestEntity;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface ProceedingQuestRepository extends JpaRepository<ProceedingQuest, Long> {
+public interface ProceedingQuestRepository extends JpaRepository<ProceedingQuestEntity, Long> {
 
-    List<ProceedingQuest> findAllByMemberIdOrderByUpdatedAtDesc(Long memberId);
+    List<ProceedingQuestEntity> findAllByMemberIdOrderByUpdatedAtDesc(Long memberId);
 
-    Optional<ProceedingQuest> findByMemberAndQuest(Member member, Quest quest);
+    Optional<ProceedingQuestEntity> findByMemberAndQuest(MemberEntity memberEntity, QuestEntity questEntity);
 
-    boolean existsByMemberAndQuest(Member member, Quest quest);
+    boolean existsByMemberAndQuest(MemberEntity memberEntity, QuestEntity questEntity);
 
-    void deleteByQuestAndMember(Quest quest, Member member);
+    void deleteByQuestAndMember(QuestEntity questEntity, MemberEntity memberEntity);
 }

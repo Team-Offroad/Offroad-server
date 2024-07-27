@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import site.offload.api.character.dto.response.CharacterListResponse;
 import site.offload.api.character.dto.response.CharacterResponse;
 import site.offload.api.character.service.CharacterService;
-import sites.offload.db.character.entity.Character;
+import sites.offload.db.character.entity.CharacterEntity;
 import sites.offload.external.aws.S3Service;
 
 import java.util.List;
@@ -20,8 +20,8 @@ public class CharacterUseCase {
 
     @Transactional(readOnly = true)
     public CharacterListResponse getCharacters() {
-        List<Character> findCharacters = characterService.findAll();
-        List<CharacterResponse> charactersList = findCharacters.stream().map(
+        List<CharacterEntity> findCharacterEntities = characterService.findAll();
+        List<CharacterResponse> charactersList = findCharacterEntities.stream().map(
                 character -> CharacterResponse.builder()
                         .id(character.getId())
                         .description(character.getDescription())

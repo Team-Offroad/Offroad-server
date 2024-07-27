@@ -2,9 +2,9 @@ package site.offload.api.emblem.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import sites.offload.db.emblem.entity.GainedEmblem;
+import sites.offload.db.emblem.entity.GainedEmblemEntity;
 import sites.offload.db.emblem.repository.GainedEmblemRepository;
-import sites.offload.db.member.entity.Member;
+import sites.offload.db.member.entity.MemberEntity;
 
 import java.util.List;
 
@@ -14,15 +14,15 @@ public class GainedEmblemService {
 
     private final GainedEmblemRepository gainedEmblemRepository;
 
-    public boolean isExistsByMemberAndEmblemCode(Member member, String emblemCode) {
-        return gainedEmblemRepository.existsByMemberAndEmblemCode(member, emblemCode);
+    public boolean isExistsByMemberAndEmblemCode(MemberEntity memberEntity, String emblemCode) {
+        return gainedEmblemRepository.existsByMemberAndEmblemCode(memberEntity, emblemCode);
     }
 
-    public List<GainedEmblem> findAllByMemberId(Long memberId) {
+    public List<GainedEmblemEntity> findAllByMemberId(Long memberId) {
         return gainedEmblemRepository.findAllByMemberId(memberId);
     }
 
-    public Integer save(Member member, String emblemCode) {
-        return gainedEmblemRepository.save(GainedEmblem.create(member, emblemCode)).getId();
+    public Integer save(MemberEntity memberEntity, String emblemCode) {
+        return gainedEmblemRepository.save(GainedEmblemEntity.create(memberEntity, emblemCode)).getId();
     }
 }

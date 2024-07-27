@@ -2,12 +2,12 @@ package sites.offload.db.character.repository;
 
 
 import org.springframework.data.repository.CrudRepository;
-import sites.offload.db.character.entity.Character;
-import sites.offload.db.character.entity.GainedCharacter;
-import sites.offload.db.member.entity.Member;
+import sites.offload.db.character.entity.CharacterEntity;
+import sites.offload.db.character.entity.GainedCharacterEntity;
+import sites.offload.db.member.entity.MemberEntity;
 
-public interface GainedCharacterRepository extends CrudRepository<GainedCharacter, Long> {
+public interface GainedCharacterRepository extends CrudRepository<GainedCharacterEntity, Long> {
 
-    boolean existsByCharacterAndMember(Character character, Member member);
+    boolean existsByCharacterAndMember(CharacterEntity characterEntity, MemberEntity memberEntity);
 
 }

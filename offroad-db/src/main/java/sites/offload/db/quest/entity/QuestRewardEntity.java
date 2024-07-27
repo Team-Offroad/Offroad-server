@@ -10,7 +10,8 @@ import sites.offload.db.quest.embeddable.RewardList;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class QuestReward extends BaseTimeEntity {
+@Table(name = "quest_reward")
+public class QuestRewardEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

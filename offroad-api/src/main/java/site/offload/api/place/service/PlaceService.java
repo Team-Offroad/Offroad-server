@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import site.offload.api.exception.NotFoundException;
 import site.offload.api.place.dto.request.RegisteredPlacesRequest;
-import sites.offload.db.place.entity.Place;
+import sites.offload.db.place.entity.PlaceEntity;
 import sites.offload.db.place.repository.PlaceRepository;
 import sites.offload.db.place.repository.VisitedPlaceRepositoiry;
 import sites.offload.enums.ErrorMessage;
@@ -20,15 +20,15 @@ public class PlaceService {
     private final VisitedPlaceRepositoiry visitedPlaceRepositoiry;
 
     // TODO: change method name
-    public List<Place> findPlaces(RegisteredPlacesRequest registeredPlacesRequest) {
+    public List<PlaceEntity> findPlaces(RegisteredPlacesRequest registeredPlacesRequest) {
         return placeRepository.findAllByCurrentLatitudeAndCurrentLongitude(registeredPlacesRequest.currentLatitude(), registeredPlacesRequest.currentLongitude(), PlaceConstants.RANGE_LATITUDE.getRange(), PlaceConstants.RANGE_LONGITUDE.getRange());
     }
 
-    public Long countVisitedPlace(Long memberId, Place findPlace) {
-        return visitedPlaceRepositoiry.countByMemberIdAndPlaceId(memberId, findPlace.getId());
+    public Long countVisitedPlace(Long memberId, PlaceEntity findPlaceEntity) {
+        return visitedPlaceRepositoiry.countByMemberIdAndPlaceId(memberId, findPlaceEntity.getId());
     }
 
-    public Place findPlaceById(final Long placeId) {
+    public PlaceEntity findPlaceById(final Long placeId) {
         return placeRepository.findById(placeId).orElseThrow(
                 () -> new NotFoundException(ErrorMessage.PLACE_NOTFOUND_EXCEPTION)
         );

@@ -7,7 +7,7 @@ import site.offload.api.place.dto.request.RegisteredPlacesRequest;
 import site.offload.api.place.dto.response.RegisteredPlaceResponse;
 import site.offload.api.place.dto.response.RegisteredPlacesResponse;
 import site.offload.api.place.service.PlaceService;
-import sites.offload.db.place.entity.Place;
+import sites.offload.db.place.entity.PlaceEntity;
 import sites.offload.external.aws.S3Service;
 
 import java.util.List;
@@ -22,8 +22,8 @@ public class PlaceUsecase {
     @Transactional(readOnly = true)
     public RegisteredPlacesResponse checkRegisteredPlaces(Long memberId, RegisteredPlacesRequest registeredPlacesRequest) {
 
-        List<Place> findPlaces = placeService.findPlaces(registeredPlacesRequest);
-        List<RegisteredPlaceResponse> registeredPlaces = findPlaces.stream().map(findPlace -> {
+        List<PlaceEntity> findPlaceEntities = placeService.findPlaces(registeredPlacesRequest);
+        List<RegisteredPlaceResponse> registeredPlaces = findPlaceEntities.stream().map(findPlace -> {
             Long count = placeService.countVisitedPlace(memberId, findPlace);
             return RegisteredPlaceResponse.of(
                     findPlace.getId(),

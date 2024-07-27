@@ -2,12 +2,12 @@ package sites.offload.db.quest.repository;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import sites.offload.db.member.entity.Member;
-import sites.offload.db.quest.entity.CompleteQuest;
-import sites.offload.db.quest.entity.Quest;
+import sites.offload.db.member.entity.MemberEntity;
+import sites.offload.db.quest.entity.CompleteQuestEntity;
+import sites.offload.db.quest.entity.QuestEntity;
 
-public interface CompleteQuestRepository extends JpaRepository<CompleteQuest, Long> {
-    void deleteByQuestAndMember(Quest quest, Member member);
+public interface CompleteQuestRepository extends JpaRepository<CompleteQuestEntity, Long> {
+    void deleteByQuestAndMember(QuestEntity questEntity, MemberEntity memberEntity);
 
-    boolean existsByQuestAndMember(Quest quest, Member member);
+    boolean existsByQuestAndMember(QuestEntity questEntity, MemberEntity memberEntity);
 }

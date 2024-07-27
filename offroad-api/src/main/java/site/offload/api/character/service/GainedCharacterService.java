@@ -2,10 +2,10 @@ package site.offload.api.character.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import sites.offload.db.character.entity.Character;
-import sites.offload.db.character.entity.GainedCharacter;
+import sites.offload.db.character.entity.CharacterEntity;
+import sites.offload.db.character.entity.GainedCharacterEntity;
 import sites.offload.db.character.repository.GainedCharacterRepository;
-import sites.offload.db.member.entity.Member;
+import sites.offload.db.member.entity.MemberEntity;
 
 @Component
 @RequiredArgsConstructor
@@ -13,14 +13,14 @@ public class GainedCharacterService {
 
     private final GainedCharacterRepository gainedCharacterRepository;
 
-    public void saveGainedCharacter(Member member, Character character) {
-        gainedCharacterRepository.save(GainedCharacter.builder()
-                .member(member)
-                .character(character)
+    public void saveGainedCharacter(MemberEntity memberEntity, CharacterEntity characterEntity) {
+        gainedCharacterRepository.save(GainedCharacterEntity.builder()
+                .member(memberEntity)
+                .character(characterEntity)
                 .build());
     }
 
-    public boolean isExistsGainedCharacterByMemberAndCharacter(Member member, Character character) {
-        return gainedCharacterRepository.existsByCharacterAndMember(character, member);
+    public boolean isExistsGainedCharacterByMemberAndCharacter(MemberEntity memberEntity, CharacterEntity characterEntity) {
+        return gainedCharacterRepository.existsByCharacterAndMember(characterEntity, memberEntity);
     }
 }

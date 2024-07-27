@@ -16,7 +16,8 @@ import sites.offload.enums.SocialPlatform;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member extends BaseTimeEntity {
+@Table(name = "member")
+public class MemberEntity extends BaseTimeEntity {
 
     private static final java.lang.String DEFAULT_EMBLEM_NAME = Emblem.OFFROAD_STARTER.getEmblemName();
 
@@ -59,7 +60,7 @@ public class Member extends BaseTimeEntity {
     private Birthday birthday;
 
     @Builder
-    public Member(String name, String email, String sub, SocialPlatform socialPlatform) {
+    public MemberEntity(String name, String email, String sub, SocialPlatform socialPlatform) {
         this.name = name;
         this.email = email;
         this.sub = sub;

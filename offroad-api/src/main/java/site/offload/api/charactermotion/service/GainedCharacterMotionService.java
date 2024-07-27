@@ -2,10 +2,10 @@ package site.offload.api.charactermotion.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import sites.offload.db.charactermotion.entity.CharacterMotion;
-import sites.offload.db.charactermotion.entity.GainedCharacterMotion;
+import sites.offload.db.charactermotion.entity.CharacterMotionEntity;
+import sites.offload.db.charactermotion.entity.GainedCharacterMotionEntity;
 import sites.offload.db.charactermotion.repository.GainedCharacterMotionRepository;
-import sites.offload.db.member.entity.Member;
+import sites.offload.db.member.entity.MemberEntity;
 
 @Component
 @RequiredArgsConstructor
@@ -13,15 +13,15 @@ public class GainedCharacterMotionService {
 
     private final GainedCharacterMotionRepository gainedCharacterMotionRepository;
 
-    public boolean isExistByCharacterMotionAndMember(CharacterMotion characterMotion, Member member) {
-        return gainedCharacterMotionRepository.existsByCharacterMotionAndMember(characterMotion, member);
+    public boolean isExistByCharacterMotionAndMember(CharacterMotionEntity characterMotionEntity, MemberEntity memberEntity) {
+        return gainedCharacterMotionRepository.existsByCharacterMotionAndMember(characterMotionEntity, memberEntity);
     }
 
-    public GainedCharacterMotion save(Member member, CharacterMotion characterMotion) {
+    public GainedCharacterMotionEntity save(MemberEntity memberEntity, CharacterMotionEntity characterMotionEntity) {
         return gainedCharacterMotionRepository.save(
-                GainedCharacterMotion.builder()
-                        .member(member)
-                        .characterMotion(characterMotion)
+                GainedCharacterMotionEntity.builder()
+                        .member(memberEntity)
+                        .characterMotion(characterMotionEntity)
                         .build());
     }
 }
