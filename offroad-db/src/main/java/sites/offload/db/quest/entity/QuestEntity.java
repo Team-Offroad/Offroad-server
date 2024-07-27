@@ -12,7 +12,8 @@ import sites.offload.enums.PlaceCategory;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Quest extends BaseTimeEntity {
+@Table(name = "quest")
+public class QuestEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

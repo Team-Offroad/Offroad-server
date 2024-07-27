@@ -15,7 +15,8 @@ import java.util.Objects;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Place extends BaseTimeEntity {
+@Table(name="place")
+public class PlaceEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,7 +56,7 @@ public class Place extends BaseTimeEntity {
     }
 
     @Builder
-    public Place(String name, String address, String shortIntroduction, PlaceCategory placeCategory, PlaceArea placeArea, String offroadCode, double latitude, double longitude, String categoryImageUrl) {
+    public PlaceEntity(String name, String address, String shortIntroduction, PlaceCategory placeCategory, PlaceArea placeArea, String offroadCode, double latitude, double longitude, String categoryImageUrl) {
         this.name = name;
         this.address = address;
         this.shortIntroduction = shortIntroduction;

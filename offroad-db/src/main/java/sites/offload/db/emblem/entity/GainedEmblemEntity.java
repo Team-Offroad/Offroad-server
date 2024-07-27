@@ -5,16 +5,18 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sites.offload.db.BaseTimeEntity;
-import sites.offload.db.member.entity.Member;
+import sites.offload.db.member.entity.MemberEntity;
 
 //사용자가 얻은 칭호
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(uniqueConstraints = {
+@Table(
+        name = "gained_emblem",
+        uniqueConstraints = {
         @UniqueConstraint(columnNames = {"member_id", "emblem_code"})
 })
 @Getter
-public class GainedEmblem extends BaseTimeEntity {
+public class GainedEmblemEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,17 +24,17 @@ public class GainedEmblem extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
+    private MemberEntity memberEntity;
 
     @Column(nullable = false)
     private String emblemCode;
 
-    private GainedEmblem(Member member, String emblemCode) {
-        this.member = member;
+    private GainedEmblemEntity(MemberEntity memberEntity, String emblemCode) {
+        this.memberEntity = memberEntity;
         this.emblemCode = emblemCode;
     }
 
-    public static GainedEmblem create(Member member, String emblemCode) {
-        return new GainedEmblem(member, emblemCode);
+    public static GainedEmblemEntity create(MemberEntity memberEntity, String emblemCode) {
+        return new GainedEmblemEntity(memberEntity, emblemCode);
     }
 }

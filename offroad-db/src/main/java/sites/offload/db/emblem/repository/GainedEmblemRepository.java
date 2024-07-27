@@ -2,14 +2,14 @@ package sites.offload.db.emblem.repository;
 
 
 import org.springframework.data.repository.CrudRepository;
-import sites.offload.db.emblem.entity.GainedEmblem;
-import sites.offload.db.member.entity.Member;
+import sites.offload.db.emblem.entity.GainedEmblemEntity;
+import sites.offload.db.member.entity.MemberEntity;
 
 import java.util.List;
 
-public interface GainedEmblemRepository extends CrudRepository<GainedEmblem, Integer> {
+public interface GainedEmblemRepository extends CrudRepository<GainedEmblemEntity, Integer> {
 
-    boolean existsByMemberAndEmblemCode(Member member, String emblemCode);
+    boolean existsByMemberAndEmblemCode(MemberEntity memberEntity, String emblemCode);
 
-    List<GainedEmblem> findAllByMemberId(Long memberId);
+    List<GainedEmblemEntity> findAllByMemberId(Long memberId);
 }

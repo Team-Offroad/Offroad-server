@@ -11,7 +11,7 @@ import sites.offload.db.BaseTimeEntity;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "characters")
-public class Character extends BaseTimeEntity {
+public class CharacterEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

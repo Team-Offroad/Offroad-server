@@ -3,7 +3,7 @@ package site.offload.api.member.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import site.offload.api.exception.NotFoundException;
-import sites.offload.db.member.entity.Member;
+import sites.offload.db.member.entity.MemberEntity;
 import sites.offload.db.member.repository.MemberRepository;
 import sites.offload.enums.ErrorMessage;
 
@@ -13,7 +13,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public Member findById(final Long id) {
+    public MemberEntity findById(final Long id) {
         return memberRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(ErrorMessage.MEMBER_NOTFOUND_EXCEPTION)
         );
@@ -27,13 +27,13 @@ public class MemberService {
         return memberRepository.existsBySub(sub);
     }
 
-    public Member findBySub(String sub) {
+    public MemberEntity findBySub(String sub) {
         return memberRepository.findBySub(sub).orElseThrow(
                 () -> new NotFoundException(ErrorMessage.MEMBER_NOTFOUND_EXCEPTION)
         );
     }
 
-    public void saveMember(Member member) {
-        memberRepository.save(member);
+    public void saveMember(MemberEntity memberEntity) {
+        memberRepository.save(memberEntity);
     }
 }

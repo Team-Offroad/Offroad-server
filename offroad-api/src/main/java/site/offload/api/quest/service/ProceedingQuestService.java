@@ -3,9 +3,9 @@ package site.offload.api.quest.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import site.offload.api.exception.NotFoundException;
-import sites.offload.db.member.entity.Member;
-import sites.offload.db.quest.entity.ProceedingQuest;
-import sites.offload.db.quest.entity.Quest;
+import sites.offload.db.member.entity.MemberEntity;
+import sites.offload.db.quest.entity.ProceedingQuestEntity;
+import sites.offload.db.quest.entity.QuestEntity;
 import sites.offload.db.quest.repository.ProceedingQuestRepository;
 import sites.offload.enums.ErrorMessage;
 
@@ -15,35 +15,35 @@ public class ProceedingQuestService {
 
     private final ProceedingQuestRepository proceedingQuestRepository;
 
-    public ProceedingQuest save(ProceedingQuest proceedingQuest) {
-        return proceedingQuestRepository.save(proceedingQuest);
+    public ProceedingQuestEntity save(ProceedingQuestEntity proceedingQuestEntity) {
+        return proceedingQuestRepository.save(proceedingQuestEntity);
     }
 
-    public boolean existsByMemberAndQuest(Member member, Quest quest) {
-        return proceedingQuestRepository.existsByMemberAndQuest(member, quest);
+    public boolean existsByMemberAndQuest(MemberEntity memberEntity, QuestEntity questEntity) {
+        return proceedingQuestRepository.existsByMemberAndQuest(memberEntity, questEntity);
     }
 
-    public ProceedingQuest findById(Long id) {
+    public ProceedingQuestEntity findById(Long id) {
         return proceedingQuestRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(ErrorMessage.PROCEEDING_QUEST_NOTFOUND_EXCEPTION)
         );
     }
 
-    public ProceedingQuest findByMemberAndQuest(Member member, Quest quest) {
-        return proceedingQuestRepository.findByMemberAndQuest(member, quest).orElseThrow(
+    public ProceedingQuestEntity findByMemberAndQuest(MemberEntity memberEntity, QuestEntity questEntity) {
+        return proceedingQuestRepository.findByMemberAndQuest(memberEntity, questEntity).orElseThrow(
                 () -> new NotFoundException(ErrorMessage.PROCEEDING_QUEST_NOTFOUND_EXCEPTION)
         );
     }
 
-    public void addCurrentClearCount(ProceedingQuest proceedingQuest) {
-        proceedingQuest.addCurrentClearCount();
+    public void addCurrentClearCount(ProceedingQuestEntity proceedingQuestEntity) {
+        proceedingQuestEntity.addCurrentClearCount();
     }
 
-    public void updateCurrentClearCount(ProceedingQuest proceedingQuest, int count) {
-        proceedingQuest.updateCurrentClearCount(count);
+    public void updateCurrentClearCount(ProceedingQuestEntity proceedingQuestEntity, int count) {
+        proceedingQuestEntity.updateCurrentClearCount(count);
     }
 
-    public void deleteProceedingQuest(Quest quest, Member member) {
-        proceedingQuestRepository.deleteByQuestAndMember(quest, member);
+    public void deleteProceedingQuest(QuestEntity questEntity, MemberEntity memberEntity) {
+        proceedingQuestRepository.deleteByQuestAndMember(questEntity, memberEntity);
     }
 }

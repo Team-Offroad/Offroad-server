@@ -5,12 +5,13 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sites.offload.db.BaseTimeEntity;
-import sites.offload.db.member.entity.Member;
+import sites.offload.db.member.entity.MemberEntity;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ProceedingQuest extends BaseTimeEntity {
+@Table(name="proceeding_quest")
+public class ProceedingQuestEntity extends BaseTimeEntity {
 
     private static final int DEFAULT_CLEAR_COUNT = 1;
 
@@ -20,22 +21,22 @@ public class ProceedingQuest extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "member_id")
-    private Member member;
+    private MemberEntity memberEntity;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "quest_id")
-    private Quest quest;
+    private QuestEntity questEntity;
 
     @Column(nullable = false)
     private int currentClearCount = DEFAULT_CLEAR_COUNT;
 
-    private ProceedingQuest(Member member, Quest quest) {
-        this.member = member;
-        this.quest = quest;
+    private ProceedingQuestEntity(MemberEntity memberEntity, QuestEntity questEntity) {
+        this.memberEntity = memberEntity;
+        this.questEntity = questEntity;
     }
 
-    public static ProceedingQuest create(Member member, Quest quest) {
-        return new ProceedingQuest(member, quest);
+    public static ProceedingQuestEntity create(MemberEntity memberEntity, QuestEntity questEntity) {
+        return new ProceedingQuestEntity(memberEntity, questEntity);
     }
 
     public void addCurrentClearCount() {

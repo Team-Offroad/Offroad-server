@@ -5,14 +5,14 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import sites.offload.db.BaseTimeEntity;
-import sites.offload.db.member.entity.Member;
+import sites.offload.db.member.entity.MemberEntity;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {"member_id", "character_motion_id"})
 })
-public class GainedCharacterMotion extends BaseTimeEntity {
+public class GainedCharacterMotionEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,15 +20,15 @@ public class GainedCharacterMotion extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
+    private MemberEntity memberEntity;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "character_motion_id", nullable = false)
-    private CharacterMotion characterMotion;
+    private CharacterMotionEntity characterMotionEntity;
 
     @Builder
-    public GainedCharacterMotion(Member member, CharacterMotion characterMotion) {
-        this.member = member;
-        this.characterMotion = characterMotion;
+    public GainedCharacterMotionEntity(MemberEntity memberEntity, CharacterMotionEntity characterMotionEntity) {
+        this.memberEntity = memberEntity;
+        this.characterMotionEntity = characterMotionEntity;
     }
 }

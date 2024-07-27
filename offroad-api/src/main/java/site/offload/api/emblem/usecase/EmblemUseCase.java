@@ -10,7 +10,7 @@ import site.offload.api.emblem.service.GainedEmblemService;
 import site.offload.api.exception.BadRequestException;
 import site.offload.api.exception.NotFoundException;
 import site.offload.api.member.service.MemberService;
-import sites.offload.db.member.entity.Member;
+import sites.offload.db.member.entity.MemberEntity;
 import sites.offload.enums.Emblem;
 import sites.offload.enums.ErrorMessage;
 
@@ -25,10 +25,10 @@ public class EmblemUseCase {
     public void updateCurrentEmblem(final UpdateCurrentEmblemRequest request) {
         //존재하는 칭호인지 확인
         if (isExistsEmblem(request.emblemCode())) {
-            final Member findMember = memberService.findById(request.memberId());
+            final MemberEntity findMemberEntity = memberService.findById(request.memberId());
             //유저가 얻은 칭호인지 확인
-            if (gainedEmblemService.isExistsByMemberAndEmblemCode(findMember, request.emblemCode())) {
-                findMember.updateEmblemName(Emblem.getEmblemByCode(request.emblemCode()));
+            if (gainedEmblemService.isExistsByMemberAndEmblemCode(findMemberEntity, request.emblemCode())) {
+                findMemberEntity.updateEmblemName(Emblem.getEmblemByCode(request.emblemCode()));
             } else {
                 throw new BadRequestException(ErrorMessage.MEMBER_EMBLEM_UPDATE_EXCEPTION);
             }

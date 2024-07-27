@@ -2,9 +2,9 @@ package site.offload.api.quest.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import sites.offload.db.member.entity.Member;
-import sites.offload.db.quest.entity.CompleteQuest;
-import sites.offload.db.quest.entity.Quest;
+import sites.offload.db.member.entity.MemberEntity;
+import sites.offload.db.quest.entity.CompleteQuestEntity;
+import sites.offload.db.quest.entity.QuestEntity;
 import sites.offload.db.quest.repository.CompleteQuestRepository;
 
 @Service
@@ -13,15 +13,15 @@ public class CompleteQuestService {
 
     private final CompleteQuestRepository completeQuestRepository;
 
-    public void saveCompleteQuest(Quest quest, Member member) {
+    public void saveCompleteQuest(QuestEntity questEntity, MemberEntity memberEntity) {
         completeQuestRepository.save(
-                CompleteQuest.builder()
-                        .quest(quest)
-                        .member(member)
+                CompleteQuestEntity.builder()
+                        .quest(questEntity)
+                        .member(memberEntity)
                         .build());
     }
 
-    public boolean isExsistsByQuestAndMember(Quest quest, Member member) {
-        return completeQuestRepository.existsByQuestAndMember(quest, member);
+    public boolean isExsistsByQuestAndMember(QuestEntity questEntity, MemberEntity memberEntity) {
+        return completeQuestRepository.existsByQuestAndMember(questEntity, memberEntity);
     }
 }

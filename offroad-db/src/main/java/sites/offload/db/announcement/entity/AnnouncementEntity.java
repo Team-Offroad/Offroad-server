@@ -1,28 +1,26 @@
-package sites.offload.db.coupon.entity;
+package sites.offload.db.announcement.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import sites.offload.db.BaseTimeEntity;
 
-//보상으로 얻을 수 있는 쿠폰
+//공지사항
 @Entity
+@Table(name = "announcement")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Coupon extends BaseTimeEntity {
+public class AnnouncementEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private String writer;
 
     @Column(nullable = false, columnDefinition = "TEXT")
-    private String description;
-
-    @Column(nullable = false, unique = true)
-    private String couponCode;
+    private String title;
 
     @Column(nullable = false, columnDefinition = "TEXT")
-    private String couponImageUrl;
+    private String content;
 }

@@ -28,15 +28,15 @@ import site.offload.api.quest.service.ProceedingQuestService;
 import site.offload.api.quest.service.QuestRewardService;
 import site.offload.api.quest.service.QuestService;
 import sites.offload.common.util.DistanceUtil;
-import sites.offload.db.character.entity.Character;
-import sites.offload.db.charactermotion.entity.CharacterMotion;
+import sites.offload.db.character.entity.CharacterEntity;
+import sites.offload.db.charactermotion.entity.CharacterMotionEntity;
 import sites.offload.db.member.embeddable.Birthday;
-import sites.offload.db.member.entity.Member;
-import sites.offload.db.place.entity.Place;
-import sites.offload.db.place.entity.VisitedPlace;
-import sites.offload.db.quest.entity.ProceedingQuest;
-import sites.offload.db.quest.entity.Quest;
-import sites.offload.db.quest.entity.QuestReward;
+import sites.offload.db.member.entity.MemberEntity;
+import sites.offload.db.place.entity.PlaceEntity;
+import sites.offload.db.place.entity.VisitedPlaceEntity;
+import sites.offload.db.quest.entity.ProceedingQuestEntity;
+import sites.offload.db.quest.entity.QuestEntity;
+import sites.offload.db.quest.entity.QuestRewardEntity;
 import sites.offload.enums.ErrorMessage;
 import sites.offload.enums.PlaceArea;
 import sites.offload.enums.PlaceCategory;
@@ -74,13 +74,13 @@ public class MemberUseCase {
 
     @Transactional(readOnly = true)
     public MemberAdventureInformationResponse getMemberAdventureInformation(final MemberAdventureInformationRequest request) {
-        final Member findMember = memberService.findById(request.memberId());
-        final String nickname = findMember.getNickName();
-        final String emblemName = findMember.getCurrentEmblemName();
-        final Character findCharacter = characterService.findByName(findMember.getCurrentCharacterName());
+        final MemberEntity findMemberEntity = memberService.findById(request.memberId());
+        final String nickname = findMemberEntity.getNickName();
+        final String emblemName = findMemberEntity.getCurrentEmblemName();
+        final CharacterEntity findCharacterEntity = characterService.findByName(findMemberEntity.getCurrentCharacterName());
 
         // 사용자가 획득한 캐릭터인지 확인
-        if (!gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(findMember, findCharacter)) {
+        if (!gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(findMemberEntity, findCharacterEntity)) {
             throw new BadRequestException(ErrorMessage.NOT_GAINED_CHARACTER);
         }
 
@@ -90,13 +90,13 @@ public class MemberUseCase {
         }
 
         final PlaceCategory placeCategory = PlaceCategory.valueOf(request.category().toUpperCase());
-        final String motionImageUrl = getMotionImageUrl(placeCategory, findCharacter, findMember);
-        final String baseImageUrl = findCharacter.getCharacterBaseImageUrl();
+        final String motionImageUrl = getMotionImageUrl(placeCategory, findCharacterEntity, findMemberEntity);
+        final String baseImageUrl = findCharacterEntity.getCharacterBaseImageUrl();
         return MemberAdventureInformationResponse.of(nickname, emblemName,
-                s3Service.getPresignUrl(baseImageUrl), s3Service.getPresignUrl(motionImageUrl), findCharacter.getName());
+                s3Service.getPresignUrl(baseImageUrl), s3Service.getPresignUrl(motionImageUrl), findCharacterEntity.getName());
     }
 
-    private String getMotionImageUrl(final PlaceCategory placeCategory, final Character character, final Member member) {
+    private String getMotionImageUrl(final PlaceCategory placeCategory, final CharacterEntity characterEntity, final MemberEntity memberEntity) {
 
         // 카테고리가 없는 장소에 있을 경우 null 반환
         if (placeCategory.equals(PlaceCategory.NONE)) {
@@ -104,26 +104,26 @@ public class MemberUseCase {
         }
 
         // 그 외의 경우에는 특정 캐릭터, 특정 카테고리에 해당하는 모션 이미지 url 반환
-        final CharacterMotion findCharacterMotion = characterMotionService.findByCharacterAndPlaceCategory(character, placeCategory);
+        final CharacterMotionEntity findCharacterMotionEntity = characterMotionService.findByCharacterAndPlaceCategory(characterEntity, placeCategory);
 
         //유저가 획득한 모션인지 확인
-        if (isMemberGainedMotion(findCharacterMotion, member)) {
-            return findCharacterMotion.getMotionImageUrl();
+        if (isMemberGainedMotion(findCharacterMotionEntity, memberEntity)) {
+            return findCharacterMotionEntity.getMotionImageUrl();
             //아니라면 null 반환
         } else {
             return null;
         }
     }
 
-    private boolean isMemberGainedMotion(final CharacterMotion characterMotion, final Member member) {
-        return gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotion, member);
+    private boolean isMemberGainedMotion(final CharacterMotionEntity characterMotionEntity, final MemberEntity memberEntity) {
+        return gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotionEntity, memberEntity);
     }
 
     @Transactional
     public void updateMemberProfile(Long memberId, MemberProfileUpdateRequest memberProfileUpdateRequest) {
-        final Member findMember = memberService.findById(memberId);
+        final MemberEntity findMemberEntity = memberService.findById(memberId);
         Birthday birthday = new Birthday(memberProfileUpdateRequest.year(), memberProfileUpdateRequest.month(), memberProfileUpdateRequest.day());
-        findMember.updateProfile(memberProfileUpdateRequest.nickname(), birthday, memberProfileUpdateRequest.gender());
+        findMemberEntity.updateProfile(memberProfileUpdateRequest.nickname(), birthday, memberProfileUpdateRequest.gender());
     }
 
     public TokenReissueResponse reissueTokens(final Long memberId, final String refreshToken) {
@@ -147,59 +147,59 @@ public class MemberUseCase {
 
     @Transactional
     public ChooseCharacterResponse chooseCharacter(Long memberId, Integer characterId) {
-        final Member findMember = memberService.findById(memberId);
-        final Character findCharacter = characterService.findById(characterId);
-        findMember.chooseCharacter(findCharacter.getName());
-        if (!gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(findMember, findCharacter)) {
-            gainedCharacterService.saveGainedCharacter(findMember, findCharacter);
-            gainedEmblemService.save(findMember, "TT000009");
+        final MemberEntity findMemberEntity = memberService.findById(memberId);
+        final CharacterEntity findCharacterEntity = characterService.findById(characterId);
+        findMemberEntity.chooseCharacter(findCharacterEntity.getName());
+        if (!gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(findMemberEntity, findCharacterEntity)) {
+            gainedCharacterService.saveGainedCharacter(findMemberEntity, findCharacterEntity);
+            gainedEmblemService.save(findMemberEntity, "TT000009");
         }
-        return ChooseCharacterResponse.of(s3Service.getPresignUrl(findCharacter.getCharacterSpotLightImageUrl()));
+        return ChooseCharacterResponse.of(s3Service.getPresignUrl(findCharacterEntity.getCharacterSpotLightImageUrl()));
     }
 
     @Transactional
     public VerifyPositionDistanceResponse authAdventurePosition(final Long memberId, final AuthPositionRequest request) {
-        final Place findPlace = placeService.findPlaceById(request.placeId());
-        final Member findMember = memberService.findById(memberId);
-        final Character findCharacter = characterService.findByName(findMember.getCurrentCharacterName());
+        final PlaceEntity findPlaceEntity = placeService.findPlaceById(request.placeId());
+        final MemberEntity findMemberEntity = memberService.findById(memberId);
+        final CharacterEntity findCharacterEntity = characterService.findByName(findMemberEntity.getCurrentCharacterName());
 
         // 클라이언트에서 받은 위도 경도 값을 카테고리 별 오차 범위 계산해서 PlaceId에 해당하는 장소의 위도 경도값과 비교
-        if (!isValidLocation(request.latitude(), request.longitude(), findPlace.getLatitude(), findPlace.getLongitude(), findPlace.getPlaceCategory())) {
-            return VerifyPositionDistanceResponse.of(false, s3Service.getPresignUrl(findCharacter.getCharacterAdventureLocationFailureImageUrl()));
+        if (!isValidLocation(request.latitude(), request.longitude(), findPlaceEntity.getLatitude(), findPlaceEntity.getLongitude(), findPlaceEntity.getPlaceCategory())) {
+            return VerifyPositionDistanceResponse.of(false, s3Service.getPresignUrl(findCharacterEntity.getCharacterAdventureLocationFailureImageUrl()));
         } else {
-            authSucceedProcess(findMember, findPlace);
-            return VerifyPositionDistanceResponse.of(true, s3Service.getPresignUrl(findCharacter.getCharacterAdventureSuccessImageUrl()));
+            authSucceedProcess(findMemberEntity, findPlaceEntity);
+            return VerifyPositionDistanceResponse.of(true, s3Service.getPresignUrl(findCharacterEntity.getCharacterAdventureSuccessImageUrl()));
         }
     }
 
-    private void authSucceedProcess(Member member, Place place) {
+    private void authSucceedProcess(MemberEntity memberEntity, PlaceEntity placeEntity) {
         //방문한 장소 레코드 추가
-        handleVisitedPlace(member, place);
+        handleVisitedPlace(memberEntity, placeEntity);
 
         //관련된 퀘스트 모두 불러오기
-        final List<Quest> quests = getQuests(place);
+        final List<QuestEntity> questEntities = getQuests(placeEntity);
 
         //퀘스트 달성도, 인증 업데이트
-        processQuests(member, place, quests);
+        processQuests(memberEntity, placeEntity, questEntities);
     }
 
     @Transactional
     public VerifyQrcodeResponse authAdventure(final Long memberId, final AuthAdventureRequest request) {
-        final Place findPlace = placeService.findPlaceById(request.placeId());
-        final Member findMember = memberService.findById(memberId);
-        final Character findCharacter = characterService.findByName(findMember.getCurrentCharacterName());
+        final PlaceEntity findPlaceEntity = placeService.findPlaceById(request.placeId());
+        final MemberEntity findMemberEntity = memberService.findById(memberId);
+        final CharacterEntity findCharacterEntity = characterService.findByName(findMemberEntity.getCurrentCharacterName());
 
         // 클라이언트에서 받은 위도 경도 값을 카테고리 별 오차 범위 계산해서 PlaceId에 해당하는 장소의 위도 경도값과 비교
-        if (!isValidLocation(request.latitude(), request.longitude(), findPlace.getLatitude(), findPlace.getLongitude(), findPlace.getPlaceCategory())) {
+        if (!isValidLocation(request.latitude(), request.longitude(), findPlaceEntity.getLatitude(), findPlaceEntity.getLongitude(), findPlaceEntity.getPlaceCategory())) {
             throw new BadRequestException(ErrorMessage.NOT_ALLOWED_DISTANCE_EXCEPTION);
         }
 
         //qr코드 일치 확인
-        if (findPlace.isValidOffroadCode(request.qrCode())) {
-            authSucceedProcess(findMember, findPlace);
-            return VerifyQrcodeResponse.of(true, s3Service.getPresignUrl(findCharacter.getCharacterAdventureSuccessImageUrl()));
+        if (findPlaceEntity.isValidOffroadCode(request.qrCode())) {
+            authSucceedProcess(findMemberEntity, findPlaceEntity);
+            return VerifyQrcodeResponse.of(true, s3Service.getPresignUrl(findCharacterEntity.getCharacterAdventureSuccessImageUrl()));
         } else {
-            return VerifyQrcodeResponse.of(false, s3Service.getPresignUrl(findCharacter.getCharacterAdventureQRFailureImageUrl()));
+            return VerifyQrcodeResponse.of(false, s3Service.getPresignUrl(findCharacterEntity.getCharacterAdventureQRFailureImageUrl()));
         }
     }
 
@@ -221,96 +221,96 @@ public class MemberUseCase {
         return DistanceUtil.haversine(requestLatitude, requestLongitude, myLatitude, myLongitude) < permitRadius;
     }
 
-    private void handleVisitedPlace(final Member findMember, final Place findPlace) {
-        visitedPlaceService.save(VisitedPlace.create(findMember, findPlace));
+    private void handleVisitedPlace(final MemberEntity findMemberEntity, final PlaceEntity findPlaceEntity) {
+        visitedPlaceService.save(VisitedPlaceEntity.create(findMemberEntity, findPlaceEntity));
     }
 
-    private List<Quest> getQuests(final Place findPlace) {
-        final List<Quest> quests = new ArrayList<>();
+    private List<QuestEntity> getQuests(final PlaceEntity findPlaceEntity) {
+        final List<QuestEntity> questEntities = new ArrayList<>();
 
         //조건이 NONE이 아닌 카테고리
-        if (findPlace.getPlaceCategory() != PlaceCategory.NONE) {
-            quests.addAll(questService.findAllByPlaceCategory(findPlace.getPlaceCategory()));
+        if (findPlaceEntity.getPlaceCategory() != PlaceCategory.NONE) {
+            questEntities.addAll(questService.findAllByPlaceCategory(findPlaceEntity.getPlaceCategory()));
         }
 
         //조건이 NONE이 아닌 구역
-        if (findPlace.getPlaceArea() != PlaceArea.NONE) {
-            quests.addAll(questService.findAllByPlaceArea(findPlace.getPlaceArea()));
+        if (findPlaceEntity.getPlaceArea() != PlaceArea.NONE) {
+            questEntities.addAll(questService.findAllByPlaceArea(findPlaceEntity.getPlaceArea()));
         }
 
         //그외
-        quests.addAll(questService.findAllByPlaceAreaAndPlaceCategory(PlaceCategory.NONE, PlaceArea.NONE));
+        questEntities.addAll(questService.findAllByPlaceAreaAndPlaceCategory(PlaceCategory.NONE, PlaceArea.NONE));
 
-        return quests;
+        return questEntities;
     }
 
-    private void processQuests(final Member findMember, final Place findPlace, final List<Quest> quests) {
-        for (Quest quest : quests) {
+    private void processQuests(final MemberEntity findMemberEntity, final PlaceEntity findPlaceEntity, final List<QuestEntity> questEntities) {
+        for (QuestEntity questEntity : questEntities) {
             // 완료된 퀘스트인지 확인
-            if (completeQuestService.isExsistsByQuestAndMember(quest, findMember)) {
+            if (completeQuestService.isExsistsByQuestAndMember(questEntity, findMemberEntity)) {
                 continue;
             }
 
             // quest.getId()에 하나씩 값을 대입한 이유-> 데모데이 이전 현재시점에서 보상 목록을 전부 DB에 저장해놓고
             // 있지 않아, handleCompleteQuest()에서 Reward 가져올 시 NPE발생
             // TODO: 앱잼 이후, Reward 목록 전부 DB에 저장이후 if문 삭제
-            if (quest.getId() == 5 || quest.getId() == 11 || quest.getId() == 14 || quest.getId() == 17
-                    || quest.getId() == 42 || quest.getId() == 43 || quest.getId() == 44) {
-                ProceedingQuest proceedingQuest;
+            if (questEntity.getId() == 5 || questEntity.getId() == 11 || questEntity.getId() == 14 || questEntity.getId() == 17
+                    || questEntity.getId() == 42 || questEntity.getId() == 43 || questEntity.getId() == 44) {
+                ProceedingQuestEntity proceedingQuestEntity;
                 // 퀘스트 진행 내역이 존재하면
-                if (proceedingQuestService.existsByMemberAndQuest(findMember, quest)) {
-                    proceedingQuest = updateProceedingQuest(findMember, findPlace, quest);
+                if (proceedingQuestService.existsByMemberAndQuest(findMemberEntity, questEntity)) {
+                    proceedingQuestEntity = updateProceedingQuest(findMemberEntity, findPlaceEntity, questEntity);
                 } else {
-                    proceedingQuest = proceedingQuestService.save(ProceedingQuest.create(findMember, quest));
+                    proceedingQuestEntity = proceedingQuestService.save(ProceedingQuestEntity.create(findMemberEntity, questEntity));
                 }
 
                 // 퀘스트 필요 달성도와 진행도가 일치할 경우
-                if (proceedingQuest.getCurrentClearCount() == quest.getTotalRequiredClearCount()) {
-                    handleQuestComplete(findMember, proceedingQuest);
+                if (proceedingQuestEntity.getCurrentClearCount() == questEntity.getTotalRequiredClearCount()) {
+                    handleQuestComplete(findMemberEntity, proceedingQuestEntity);
                 }
             }
         }
     }
 
-    private ProceedingQuest updateProceedingQuest(final Member findMember, final Place findPlace, final Quest quest) {
-        final ProceedingQuest proceedingQuest = proceedingQuestService.findByMemberAndQuest(findMember, quest);
+    private ProceedingQuestEntity updateProceedingQuest(final MemberEntity findMemberEntity, final PlaceEntity findPlaceEntity, final QuestEntity questEntity) {
+        final ProceedingQuestEntity proceedingQuestEntity = proceedingQuestService.findByMemberAndQuest(findMemberEntity, questEntity);
 
         //'같은 장소' 여러번 방문이 조건인 퀘스트가 아닌 경우
-        if (!quest.isQuestSamePlace()) {
-            proceedingQuestService.addCurrentClearCount(proceedingQuest);
+        if (!questEntity.isQuestSamePlace()) {
+            proceedingQuestService.addCurrentClearCount(proceedingQuestEntity);
 
             //'같은 장소' 여러번 방문이 조건인 퀘스트인 경우
         } else {
-            final long count = visitedPlaceService.countByMemberAndPlace(findMember, findPlace);
+            final long count = visitedPlaceService.countByMemberAndPlace(findMemberEntity, findPlaceEntity);
             //VisitedPlace의 컬럼 수를 count후 진행도에 set
-            proceedingQuestService.updateCurrentClearCount(proceedingQuest, (int) count);
+            proceedingQuestService.updateCurrentClearCount(proceedingQuestEntity, (int) count);
         }
-        return proceedingQuest;
+        return proceedingQuestEntity;
     }
 
 
     //TODO : 앱잼 이후 구현 필수
-    private void handleQuestComplete(final Member findMember, final ProceedingQuest proceedingQuest) {
-        final Character character = characterService.findByName(findMember.getCurrentCharacterName());
+    private void handleQuestComplete(final MemberEntity findMemberEntity, final ProceedingQuestEntity proceedingQuestEntity) {
+        final CharacterEntity characterEntity = characterService.findByName(findMemberEntity.getCurrentCharacterName());
 
-        final Quest quest = proceedingQuest.getQuest();
+        final QuestEntity questEntity = proceedingQuestEntity.getQuestEntity();
 
-        final QuestReward questReward = questRewardService.findByQuestId(quest.getId());
+        final QuestRewardEntity questRewardEntity = questRewardService.findByQuestId(questEntity.getId());
 
-        if (questReward.getRewardList().isCharacterMotion()) {
-            CharacterMotion characterMotion = characterMotionService.findByCharacterAndPlaceCategory(character, quest.getPlaceCategory());
-            if (!gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotion, findMember)) {
-                gainedCharacterMotionService.save(findMember, characterMotion);
+        if (questRewardEntity.getRewardList().isCharacterMotion()) {
+            CharacterMotionEntity characterMotionEntity = characterMotionService.findByCharacterAndPlaceCategory(characterEntity, questEntity.getPlaceCategory());
+            if (!gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotionEntity, findMemberEntity)) {
+                gainedCharacterMotionService.save(findMemberEntity, characterMotionEntity);
             }
         }
 
-        if (questReward.getRewardList().getEmblemCode() != null) {
-            if (!gainedEmblemService.isExistsByMemberAndEmblemCode(findMember, questReward.getRewardList().getEmblemCode())) {
-                gainedEmblemService.save(findMember, questReward.getRewardList().getEmblemCode());
+        if (questRewardEntity.getRewardList().getEmblemCode() != null) {
+            if (!gainedEmblemService.isExistsByMemberAndEmblemCode(findMemberEntity, questRewardEntity.getRewardList().getEmblemCode())) {
+                gainedEmblemService.save(findMemberEntity, questRewardEntity.getRewardList().getEmblemCode());
             }
         }
-        completeQuestService.saveCompleteQuest(quest, findMember);
-        proceedingQuestService.deleteProceedingQuest(quest, findMember);
+        completeQuestService.saveCompleteQuest(questEntity, findMemberEntity);
+        proceedingQuestService.deleteProceedingQuest(questEntity, findMemberEntity);
 
         // TODO: 코드 구조 개선 및 다른 보상 획득 추가
     }
