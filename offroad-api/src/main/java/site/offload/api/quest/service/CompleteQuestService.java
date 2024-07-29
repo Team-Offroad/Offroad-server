@@ -16,12 +16,12 @@ public class CompleteQuestService {
     public void saveCompleteQuest(QuestEntity questEntity, MemberEntity memberEntity) {
         completeQuestRepository.save(
                 CompleteQuestEntity.builder()
-                        .quest(questEntity)
-                        .member(memberEntity)
+                        .questEntity(questEntity)
+                        .memberEntity(memberEntity)
                         .build());
     }
 
-    public boolean isExsistsByQuestAndMember(QuestEntity questEntity, MemberEntity memberEntity) {
-        return completeQuestRepository.existsByQuestAndMember(questEntity, memberEntity);
+    public boolean isExistByQuestAndMember(QuestEntity questEntity, MemberEntity memberEntity) {
+        return completeQuestRepository.existsByQuestEntityAndMemberEntity(questEntity, memberEntity);
     }
 }

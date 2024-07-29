@@ -2,11 +2,8 @@ package site.offload.api.member.usecase;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import site.offload.api.auth.jwt.JwtTokenProvider;
-import site.offload.api.auth.jwt.TokenResponse;
 import site.offload.api.character.service.CharacterService;
 import site.offload.api.character.service.GainedCharacterService;
 import site.offload.api.charactermotion.service.CharacterMotionService;
@@ -14,12 +11,14 @@ import site.offload.api.charactermotion.service.GainedCharacterMotionService;
 import site.offload.api.emblem.service.GainedEmblemService;
 import site.offload.api.exception.BadRequestException;
 import site.offload.api.exception.NotFoundException;
-import site.offload.api.exception.UnAuthorizedException;
 import site.offload.api.member.dto.request.AuthAdventureRequest;
 import site.offload.api.member.dto.request.AuthPositionRequest;
 import site.offload.api.member.dto.request.MemberAdventureInformationRequest;
 import site.offload.api.member.dto.request.MemberProfileUpdateRequest;
-import site.offload.api.member.dto.response.*;
+import site.offload.api.member.dto.response.ChooseCharacterResponse;
+import site.offload.api.member.dto.response.MemberAdventureInformationResponse;
+import site.offload.api.member.dto.response.VerifyPositionDistanceResponse;
+import site.offload.api.member.dto.response.VerifyQrcodeResponse;
 import site.offload.api.member.service.MemberService;
 import site.offload.api.place.service.PlaceService;
 import site.offload.api.place.service.VisitedPlaceService;
@@ -54,8 +53,6 @@ public class MemberUseCase {
     private final CharacterService characterService;
     private final CharacterMotionService characterMotionService;
     private final GainedCharacterMotionService gainedCharacterMotionService;
-    private final JwtTokenProvider jwtTokenProvider;
-    private final RedisTemplate<String, String> redisTemplate;
     private final GainedCharacterService gainedCharacterService;
     private final PlaceService placeService;
     private final VisitedPlaceService visitedPlaceService;
@@ -124,20 +121,6 @@ public class MemberUseCase {
         final MemberEntity findMemberEntity = memberService.findById(memberId);
         Birthday birthday = new Birthday(memberProfileUpdateRequest.year(), memberProfileUpdateRequest.month(), memberProfileUpdateRequest.day());
         findMemberEntity.updateProfile(memberProfileUpdateRequest.nickname(), birthday, memberProfileUpdateRequest.gender());
-    }
-
-    public TokenReissueResponse reissueTokens(final Long memberId, final String refreshToken) {
-        if (isRefreshTokenValidate(memberId, refreshToken)) {
-            TokenResponse tokenResponse = jwtTokenProvider.reissueToken(memberId);
-            return TokenReissueResponse.of(tokenResponse.accessToken(), tokenResponse.refreshToken());
-        } else {
-            throw new UnAuthorizedException(ErrorMessage.JWT_REISSUE_EXCEPTION);
-        }
-    }
-
-    private boolean isRefreshTokenValidate(final Long memberId, final String refreshToken) {
-        final String findMemberId = redisTemplate.opsForValue().get(refreshToken);
-        return findMemberId.equals(String.valueOf(memberId));
     }
 
     @Transactional(readOnly = true)
@@ -247,7 +230,7 @@ public class MemberUseCase {
     private void processQuests(final MemberEntity findMemberEntity, final PlaceEntity findPlaceEntity, final List<QuestEntity> questEntities) {
         for (QuestEntity questEntity : questEntities) {
             // 완료된 퀘스트인지 확인
-            if (completeQuestService.isExsistsByQuestAndMember(questEntity, findMemberEntity)) {
+            if (completeQuestService.isExistByQuestAndMember(questEntity, findMemberEntity)) {
                 continue;
             }
 

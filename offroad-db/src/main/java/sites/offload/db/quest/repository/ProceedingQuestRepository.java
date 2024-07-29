@@ -11,11 +11,11 @@ import java.util.Optional;
 
 public interface ProceedingQuestRepository extends JpaRepository<ProceedingQuestEntity, Long> {
 
-    List<ProceedingQuestEntity> findAllByMemberIdOrderByUpdatedAtDesc(Long memberId);
+    List<ProceedingQuestEntity> findAllByMemberEntityIdOrderByUpdatedAtDesc(Long memberId);
 
-    Optional<ProceedingQuestEntity> findByMemberAndQuest(MemberEntity memberEntity, QuestEntity questEntity);
+    Optional<ProceedingQuestEntity> findByMemberEntityAndQuestEntity(MemberEntity memberEntity, QuestEntity questEntity);
 
-    boolean existsByMemberAndQuest(MemberEntity memberEntity, QuestEntity questEntity);
+    boolean existsByMemberEntityAndQuestEntity(MemberEntity memberEntity, QuestEntity questEntity);
 
-    void deleteByQuestAndMember(QuestEntity questEntity, MemberEntity memberEntity);
+    void deleteByQuestEntityAndMemberEntity(QuestEntity questEntity, MemberEntity memberEntity);
 }

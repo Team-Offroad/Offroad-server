@@ -15,12 +15,12 @@ public class GainedCharacterService {
 
     public void saveGainedCharacter(MemberEntity memberEntity, CharacterEntity characterEntity) {
         gainedCharacterRepository.save(GainedCharacterEntity.builder()
-                .member(memberEntity)
-                .character(characterEntity)
+                .memberEntity(memberEntity)
+                .characterEntity(characterEntity)
                 .build());
     }
 
     public boolean isExistsGainedCharacterByMemberAndCharacter(MemberEntity memberEntity, CharacterEntity characterEntity) {
-        return gainedCharacterRepository.existsByCharacterAndMember(characterEntity, memberEntity);
+        return gainedCharacterRepository.existsByCharacterEntityAndMemberEntity(characterEntity, memberEntity);
     }
 }

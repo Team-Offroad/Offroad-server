@@ -20,7 +20,7 @@ public class ProceedingQuestService {
     }
 
     public boolean existsByMemberAndQuest(MemberEntity memberEntity, QuestEntity questEntity) {
-        return proceedingQuestRepository.existsByMemberAndQuest(memberEntity, questEntity);
+        return proceedingQuestRepository.existsByMemberEntityAndQuestEntity(memberEntity, questEntity);
     }
 
     public ProceedingQuestEntity findById(Long id) {
@@ -30,7 +30,7 @@ public class ProceedingQuestService {
     }
 
     public ProceedingQuestEntity findByMemberAndQuest(MemberEntity memberEntity, QuestEntity questEntity) {
-        return proceedingQuestRepository.findByMemberAndQuest(memberEntity, questEntity).orElseThrow(
+        return proceedingQuestRepository.findByMemberEntityAndQuestEntity(memberEntity, questEntity).orElseThrow(
                 () -> new NotFoundException(ErrorMessage.PROCEEDING_QUEST_NOTFOUND_EXCEPTION)
         );
     }
@@ -44,6 +44,6 @@ public class ProceedingQuestService {
     }
 
     public void deleteProceedingQuest(QuestEntity questEntity, MemberEntity memberEntity) {
-        proceedingQuestRepository.deleteByQuestAndMember(questEntity, memberEntity);
+        proceedingQuestRepository.deleteByQuestEntityAndMemberEntity(questEntity, memberEntity);
     }
 }

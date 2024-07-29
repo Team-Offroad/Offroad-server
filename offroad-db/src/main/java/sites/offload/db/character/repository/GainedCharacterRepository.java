@@ -8,6 +8,6 @@ import sites.offload.db.member.entity.MemberEntity;
 
 public interface GainedCharacterRepository extends CrudRepository<GainedCharacterEntity, Long> {
 
-    boolean existsByCharacterAndMember(CharacterEntity characterEntity, MemberEntity memberEntity);
+    boolean existsByCharacterEntityAndMemberEntity(CharacterEntity characterEntity, MemberEntity memberEntity);
 
 }
