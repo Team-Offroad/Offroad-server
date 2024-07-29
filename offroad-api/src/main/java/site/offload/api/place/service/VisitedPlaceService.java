@@ -6,19 +6,19 @@ import org.springframework.stereotype.Component;
 import sites.offload.db.member.entity.MemberEntity;
 import sites.offload.db.place.entity.PlaceEntity;
 import sites.offload.db.place.entity.VisitedPlaceEntity;
-import sites.offload.db.place.repository.VisitedPlaceRepositoiry;
+import sites.offload.db.place.repository.VisitedPlaceRepository;
 
 @Component
 @RequiredArgsConstructor
 public class VisitedPlaceService {
 
-    private final VisitedPlaceRepositoiry visitedPlaceRepositoiry;
+    private final VisitedPlaceRepository visitedPlaceRepository;
 
     public Long save(VisitedPlaceEntity visitedPlaceEntity) {
-        return visitedPlaceRepositoiry.save(visitedPlaceEntity).getId();
+        return visitedPlaceRepository.save(visitedPlaceEntity).getId();
     }
 
     public Long countByMemberAndPlace(MemberEntity memberEntity, PlaceEntity placeEntity) {
-        return visitedPlaceRepositoiry.countByMemberIdAndPlaceId(memberEntity.getId(), placeEntity.getId());
+        return visitedPlaceRepository.countByMemberEntityIdAndPlaceEntityId(memberEntity.getId(), placeEntity.getId());
     }
 }

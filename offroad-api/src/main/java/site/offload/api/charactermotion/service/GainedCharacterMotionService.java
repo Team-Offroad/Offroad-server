@@ -14,14 +14,14 @@ public class GainedCharacterMotionService {
     private final GainedCharacterMotionRepository gainedCharacterMotionRepository;
 
     public boolean isExistByCharacterMotionAndMember(CharacterMotionEntity characterMotionEntity, MemberEntity memberEntity) {
-        return gainedCharacterMotionRepository.existsByCharacterMotionAndMember(characterMotionEntity, memberEntity);
+        return gainedCharacterMotionRepository.existsByCharacterMotionEntityAndMemberEntity(characterMotionEntity, memberEntity);
     }
 
     public GainedCharacterMotionEntity save(MemberEntity memberEntity, CharacterMotionEntity characterMotionEntity) {
         return gainedCharacterMotionRepository.save(
                 GainedCharacterMotionEntity.builder()
-                        .member(memberEntity)
-                        .characterMotion(characterMotionEntity)
+                        .memberEntity(memberEntity)
+                        .characterMotionEntity(characterMotionEntity)
                         .build());
     }
 }

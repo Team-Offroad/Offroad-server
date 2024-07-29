@@ -16,7 +16,7 @@ public class CharacterMotionService {
     private final CharacterMotionRepository characterMotionRepository;
 
     public CharacterMotionEntity findByCharacterAndPlaceCategory(CharacterEntity characterEntity, PlaceCategory placeCategory) {
-        return characterMotionRepository.findCharacterMotionByPlaceCategoryAndCharacter(placeCategory, characterEntity).orElseThrow(
+        return characterMotionRepository.findCharacterMotionByPlaceCategoryAndCharacterEntity(placeCategory, characterEntity).orElseThrow(
                 () -> new NotFoundException(ErrorMessage.CHARACTER_MOTION_NOTFOUND_EXCEPTION)
         );
     }

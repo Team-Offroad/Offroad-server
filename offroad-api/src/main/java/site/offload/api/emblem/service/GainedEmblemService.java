@@ -15,11 +15,11 @@ public class GainedEmblemService {
     private final GainedEmblemRepository gainedEmblemRepository;
 
     public boolean isExistsByMemberAndEmblemCode(MemberEntity memberEntity, String emblemCode) {
-        return gainedEmblemRepository.existsByMemberAndEmblemCode(memberEntity, emblemCode);
+        return gainedEmblemRepository.existsByMemberEntityAndEmblemCode(memberEntity, emblemCode);
     }
 
     public List<GainedEmblemEntity> findAllByMemberId(Long memberId) {
-        return gainedEmblemRepository.findAllByMemberId(memberId);
+        return gainedEmblemRepository.findAllByMemberEntityId(memberId);
     }
 
     public Integer save(MemberEntity memberEntity, String emblemCode) {

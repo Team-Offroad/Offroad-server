@@ -6,7 +6,7 @@ import site.offload.api.exception.NotFoundException;
 import site.offload.api.place.dto.request.RegisteredPlacesRequest;
 import sites.offload.db.place.entity.PlaceEntity;
 import sites.offload.db.place.repository.PlaceRepository;
-import sites.offload.db.place.repository.VisitedPlaceRepositoiry;
+import sites.offload.db.place.repository.VisitedPlaceRepository;
 import sites.offload.enums.ErrorMessage;
 import sites.offload.enums.PlaceConstants;
 
@@ -17,7 +17,7 @@ import java.util.List;
 public class PlaceService {
 
     private final PlaceRepository placeRepository;
-    private final VisitedPlaceRepositoiry visitedPlaceRepositoiry;
+    private final VisitedPlaceRepository visitedPlaceRepository;
 
     // TODO: change method name
     public List<PlaceEntity> findPlaces(RegisteredPlacesRequest registeredPlacesRequest) {
@@ -25,7 +25,7 @@ public class PlaceService {
     }
 
     public Long countVisitedPlace(Long memberId, PlaceEntity findPlaceEntity) {
-        return visitedPlaceRepositoiry.countByMemberIdAndPlaceId(memberId, findPlaceEntity.getId());
+        return visitedPlaceRepository.countByMemberEntityIdAndPlaceEntityId(memberId, findPlaceEntity.getId());
     }
 
     public PlaceEntity findPlaceById(final Long placeId) {

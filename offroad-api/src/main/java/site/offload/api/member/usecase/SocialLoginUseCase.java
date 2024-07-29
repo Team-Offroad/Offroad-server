@@ -26,7 +26,6 @@ public class SocialLoginUseCase {
 
     private final GoogleSocialLoginService googleSocialLoginService;
     private final JwtTokenProvider jwtTokenProvider;
-    private final MemberRepository memberRepository;
     private final AppleSocialLoginService appleSocialLoginService;
     private final GainedEmblemService gainedEmblemService;
     private final MemberService memberService;

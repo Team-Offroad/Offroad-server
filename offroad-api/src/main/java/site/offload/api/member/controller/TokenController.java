@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import site.offload.api.auth.PrincipalHandler;
 import site.offload.api.member.dto.response.TokenReissueResponse;
-import site.offload.api.member.usecase.MemberUseCase;
+import site.offload.api.member.usecase.TokenUseCase;
 import site.offload.api.response.APISuccessResponse;
 import sites.offload.enums.SuccessMessage;
 
@@ -18,12 +18,12 @@ import sites.offload.enums.SuccessMessage;
 @RequestMapping("/api")
 public class TokenController implements TokenControllerSwagger {
 
-    private final MemberUseCase memberUseCase;
+    private final TokenUseCase tokenUseCase;
 
     @PostMapping("/auth/refresh")
     public ResponseEntity<APISuccessResponse<TokenReissueResponse>> refreshToken(@RequestHeader("Authorization") String tokenHeaderValue) {
         final String refreshToken = tokenHeaderValue.substring("Bearer ".length());
         final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
-        return APISuccessResponse.of(HttpStatus.CREATED.value(), SuccessMessage.ACCESS_TOKEN_REFRESH_SUCCESS.getMessage(), memberUseCase.reissueTokens(memberId, refreshToken));
+        return APISuccessResponse.of(HttpStatus.CREATED.value(), SuccessMessage.ACCESS_TOKEN_REFRESH_SUCCESS.getMessage(), tokenUseCase.reissueTokens(memberId, refreshToken));
     }
 }

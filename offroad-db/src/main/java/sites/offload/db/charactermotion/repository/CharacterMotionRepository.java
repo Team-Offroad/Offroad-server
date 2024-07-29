@@ -10,5 +10,5 @@ import java.util.Optional;
 
 public interface CharacterMotionRepository extends CrudRepository<CharacterMotionEntity, Integer> {
 
-    Optional<CharacterMotionEntity> findCharacterMotionByPlaceCategoryAndCharacter(PlaceCategory placeCategory, CharacterEntity characterEntity);
+    Optional<CharacterMotionEntity> findCharacterMotionByPlaceCategoryAndCharacterEntity(PlaceCategory placeCategory, CharacterEntity characterEntity);
 }

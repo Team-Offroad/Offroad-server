@@ -7,5 +7,5 @@ import sites.offload.db.charactermotion.entity.GainedCharacterMotionEntity;
 import sites.offload.db.member.entity.MemberEntity;
 
 public interface GainedCharacterMotionRepository extends CrudRepository<GainedCharacterMotionEntity, Long> {
-    boolean existsByCharacterMotionAndMember(CharacterMotionEntity characterMotionEntity, MemberEntity memberEntity);
+    boolean existsByCharacterMotionEntityAndMemberEntity(CharacterMotionEntity characterMotionEntity, MemberEntity memberEntity);
 }

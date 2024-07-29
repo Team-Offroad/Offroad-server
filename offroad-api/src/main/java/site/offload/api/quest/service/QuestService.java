@@ -21,7 +21,7 @@ public class QuestService {
     private final QuestRepository questRepository;
 
     public List<ProceedingQuestEntity> findProceedingQuests(Long memberId) {
-        return proceedingQuestRepository.findAllByMemberIdOrderByUpdatedAtDesc(memberId);
+        return proceedingQuestRepository.findAllByMemberEntityIdOrderByUpdatedAtDesc(memberId);
     }
 
     public List<QuestEntity> findAllByPlaceCategory(PlaceCategory placeCategory) {
