@@ -4,11 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import site.offload.api.exception.NotFoundException;
 import site.offload.api.place.dto.request.RegisteredPlacesRequest;
-import sites.offload.db.place.entity.PlaceEntity;
-import sites.offload.db.place.repository.PlaceRepository;
-import sites.offload.db.place.repository.VisitedPlaceRepository;
-import sites.offload.enums.ErrorMessage;
-import sites.offload.enums.PlaceConstants;
+import site.offload.db.place.entity.PlaceEntity;
+import site.offload.db.place.repository.PlaceRepository;
+import site.offload.db.place.repository.VisitedPlaceRepository;
+import site.offload.enums.response.ErrorMessage;
+import site.offload.enums.place.PlaceConstants;
 
 import java.util.List;
 

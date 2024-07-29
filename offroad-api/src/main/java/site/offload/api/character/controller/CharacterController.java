@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import site.offload.api.character.dto.response.CharacterListResponse;
 import site.offload.api.character.usecase.CharacterUseCase;
 import site.offload.api.response.APISuccessResponse;
-import sites.offload.enums.SuccessMessage;
+import site.offload.enums.response.SuccessMessage;
 
 @RestController
 @RequestMapping("/api/characters")

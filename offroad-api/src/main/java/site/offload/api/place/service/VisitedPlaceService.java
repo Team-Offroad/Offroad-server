@@ -3,10 +3,10 @@ package site.offload.api.place.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import sites.offload.db.member.entity.MemberEntity;
-import sites.offload.db.place.entity.PlaceEntity;
-import sites.offload.db.place.entity.VisitedPlaceEntity;
-import sites.offload.db.place.repository.VisitedPlaceRepository;
+import site.offload.db.member.entity.MemberEntity;
+import site.offload.db.place.entity.PlaceEntity;
+import site.offload.db.place.entity.VisitedPlaceEntity;
+import site.offload.db.place.repository.VisitedPlaceRepository;
 
 @Component
 @RequiredArgsConstructor

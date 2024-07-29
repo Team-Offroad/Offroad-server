@@ -13,7 +13,7 @@ import site.offload.api.place.dto.request.RegisteredPlacesRequest;
 import site.offload.api.place.dto.response.RegisteredPlacesResponse;
 import site.offload.api.place.usecase.PlaceUsecase;
 import site.offload.api.response.APISuccessResponse;
-import sites.offload.enums.SuccessMessage;
+import site.offload.enums.response.SuccessMessage;
 
 @RestController
 @RequiredArgsConstructor

@@ -2,9 +2,9 @@ package site.offload.api.emblem.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import sites.offload.db.emblem.entity.GainedEmblemEntity;
-import sites.offload.db.emblem.repository.GainedEmblemRepository;
-import sites.offload.db.member.entity.MemberEntity;
+import site.offload.db.emblem.entity.GainedEmblemEntity;
+import site.offload.db.emblem.repository.GainedEmblemRepository;
+import site.offload.db.member.entity.MemberEntity;
 
 import java.util.List;
 

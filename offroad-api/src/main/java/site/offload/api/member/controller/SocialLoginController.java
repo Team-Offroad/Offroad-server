@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import site.offload.api.member.dto.response.SocialLoginResponse;
 import site.offload.api.member.usecase.SocialLoginUseCase;
 import site.offload.api.response.APISuccessResponse;
-import sites.offload.enums.SuccessMessage;
-import sites.offload.external.oauth.dto.SocialLoginRequest;
+import site.offload.enums.response.SuccessMessage;
+import site.offload.external.oauth.dto.SocialLoginRequest;
 
 @RestController
 @RequiredArgsConstructor

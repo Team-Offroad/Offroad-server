@@ -10,9 +10,9 @@ import site.offload.api.emblem.service.GainedEmblemService;
 import site.offload.api.exception.BadRequestException;
 import site.offload.api.exception.NotFoundException;
 import site.offload.api.member.service.MemberService;
-import sites.offload.db.member.entity.MemberEntity;
-import sites.offload.enums.Emblem;
-import sites.offload.enums.ErrorMessage;
+import site.offload.db.member.entity.MemberEntity;
+import site.offload.enums.emblem.Emblem;
+import site.offload.enums.response.ErrorMessage;
 
 @Service
 @RequiredArgsConstructor

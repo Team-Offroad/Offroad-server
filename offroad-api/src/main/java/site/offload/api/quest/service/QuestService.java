@@ -3,13 +3,13 @@ package site.offload.api.quest.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import site.offload.api.exception.NotFoundException;
-import sites.offload.db.quest.entity.ProceedingQuestEntity;
-import sites.offload.db.quest.entity.QuestEntity;
-import sites.offload.db.quest.repository.ProceedingQuestRepository;
-import sites.offload.db.quest.repository.QuestRepository;
-import sites.offload.enums.ErrorMessage;
-import sites.offload.enums.PlaceArea;
-import sites.offload.enums.PlaceCategory;
+import site.offload.db.quest.entity.ProceedingQuestEntity;
+import site.offload.db.quest.entity.QuestEntity;
+import site.offload.db.quest.repository.ProceedingQuestRepository;
+import site.offload.db.quest.repository.QuestRepository;
+import site.offload.enums.response.ErrorMessage;
+import site.offload.enums.place.PlaceArea;
+import site.offload.enums.place.PlaceCategory;
 
 import java.util.List;
 

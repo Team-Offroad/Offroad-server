@@ -1,7 +1,7 @@
 package site.offload.api.member.dto.request;
 
 
-import sites.offload.enums.MemberGender;
+import site.offload.enums.member.MemberGender;
 
 public record MemberProfileUpdateRequest(
         String nickname,

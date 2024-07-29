@@ -3,7 +3,7 @@ package site.offload.api.auth;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import site.offload.api.exception.UnAuthorizedException;
-import sites.offload.enums.ErrorMessage;
+import site.offload.enums.response.ErrorMessage;
 
 @Component
 public class PrincipalHandler {

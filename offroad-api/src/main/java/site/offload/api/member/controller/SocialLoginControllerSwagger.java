@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import site.offload.api.member.dto.response.SocialLoginResponse;
 import site.offload.api.response.APISuccessResponse;
-import sites.offload.external.oauth.dto.SocialLoginRequest;
+import site.offload.external.oauth.dto.SocialLoginRequest;
 
 public interface SocialLoginControllerSwagger {
 

@@ -11,11 +11,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import site.offload.api.place.dto.request.RegisteredPlacesRequest;
-import sites.offload.db.place.entity.PlaceEntity;
-import sites.offload.db.place.repository.PlaceRepository;
-import sites.offload.db.place.repository.VisitedPlaceRepository;
-import sites.offload.enums.PlaceArea;
-import sites.offload.enums.PlaceCategory;
+import site.offload.db.place.entity.PlaceEntity;
+import site.offload.db.place.repository.PlaceRepository;
+import site.offload.db.place.repository.VisitedPlaceRepository;
+import site.offload.enums.place.PlaceArea;
+import site.offload.enums.place.PlaceCategory;
 
 import java.util.List;
 import java.util.Optional;
