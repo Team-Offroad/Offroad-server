@@ -1,7 +1,7 @@
 package site.offload.api.response;
 
 import org.springframework.http.ResponseEntity;
-import sites.offload.enums.CustomErrorCode;
+import site.offload.enums.response.CustomErrorCode;
 
 public record APIErrorResponse(
         String message, CustomErrorCode customErrorCode

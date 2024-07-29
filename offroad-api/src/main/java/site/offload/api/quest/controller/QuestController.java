@@ -10,7 +10,7 @@ import site.offload.api.auth.PrincipalHandler;
 import site.offload.api.quest.dto.response.QuestResponse;
 import site.offload.api.quest.usecase.QuestUseCase;
 import site.offload.api.response.APISuccessResponse;
-import sites.offload.enums.SuccessMessage;
+import site.offload.enums.response.SuccessMessage;
 
 @RestController
 @RequestMapping("/api/users")

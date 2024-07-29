@@ -10,15 +10,14 @@ import site.offload.api.emblem.service.GainedEmblemService;
 import site.offload.api.exception.OffroadException;
 import site.offload.api.member.dto.response.SocialLoginResponse;
 import site.offload.api.member.service.MemberService;
-import sites.offload.db.member.entity.MemberEntity;
-import sites.offload.db.member.repository.MemberRepository;
-import sites.offload.enums.Emblem;
-import sites.offload.enums.ErrorMessage;
-import sites.offload.enums.SocialPlatform;
-import sites.offload.external.oauth.apple.AppleSocialLoginService;
-import sites.offload.external.oauth.dto.SocialLoginRequest;
-import sites.offload.external.oauth.google.GoogleSocialLoginService;
-import sites.offload.external.oauth.google.response.GoogleInfoResponse;
+import site.offload.db.member.entity.MemberEntity;
+import site.offload.enums.emblem.Emblem;
+import site.offload.enums.response.ErrorMessage;
+import site.offload.enums.member.SocialPlatform;
+import site.offload.external.oauth.apple.AppleSocialLoginService;
+import site.offload.external.oauth.dto.SocialLoginRequest;
+import site.offload.external.oauth.google.GoogleSocialLoginService;
+import site.offload.external.oauth.google.response.GoogleInfoResponse;
 
 @Service
 @RequiredArgsConstructor

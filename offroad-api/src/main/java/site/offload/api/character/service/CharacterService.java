@@ -3,9 +3,9 @@ package site.offload.api.character.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import site.offload.api.exception.NotFoundException;
-import sites.offload.db.character.entity.CharacterEntity;
-import sites.offload.db.character.repository.CharacterRepository;
-import sites.offload.enums.ErrorMessage;
+import site.offload.db.character.entity.CharacterEntity;
+import site.offload.db.character.repository.CharacterRepository;
+import site.offload.enums.response.ErrorMessage;
 
 import java.util.List;
 

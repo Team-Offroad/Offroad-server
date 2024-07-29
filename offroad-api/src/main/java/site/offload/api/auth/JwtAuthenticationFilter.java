@@ -17,7 +17,7 @@ import site.offload.api.exception.OffroadException;
 
 import java.io.IOException;
 
-import static sites.offload.enums.JwtValidationType.VALID_JWT;
+import static site.offload.enums.jwt.JwtValidationType.VALID_JWT;
 
 
 @Component

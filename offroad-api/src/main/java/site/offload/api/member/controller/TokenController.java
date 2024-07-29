@@ -11,7 +11,7 @@ import site.offload.api.auth.PrincipalHandler;
 import site.offload.api.member.dto.response.TokenReissueResponse;
 import site.offload.api.member.usecase.TokenUseCase;
 import site.offload.api.response.APISuccessResponse;
-import sites.offload.enums.SuccessMessage;
+import site.offload.enums.response.SuccessMessage;
 
 @RestController
 @RequiredArgsConstructor

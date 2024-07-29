@@ -5,16 +5,15 @@ import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import site.offload.api.exception.UnAuthorizedException;
-import sites.offload.enums.ErrorMessage;
-import sites.offload.enums.JwtValidationType;
+import site.offload.enums.response.ErrorMessage;
+import site.offload.enums.jwt.JwtValidationType;
+import site.offload.cache.config.RedisRepository;
 
 import javax.crypto.SecretKey;
 import java.util.Base64;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
@@ -32,7 +31,7 @@ public class JwtTokenProvider {
     @Value("${jwt.secret}")
     private String JWT_SECRET;
 
-    private final RedisTemplate<String, String> redisTemplate;
+    private final RedisRepository redisRepository;
 
     public TokenResponse reissueToken(Long memberId) {
         return TokenResponse.of(
@@ -69,14 +68,7 @@ public class JwtTokenProvider {
                 .setClaims(claims) // Claim
                 .signWith(getSigningKey()) // Signature
                 .compact();
-
-        redisTemplate.opsForValue().set(
-                refreshToken,
-                String.valueOf(memberId),
-                REFRESH_TOKEN_EXPIRATION_TIME,
-                TimeUnit.MILLISECONDS
-        );
-
+        redisRepository.save(refreshToken, String.valueOf(memberId), REFRESH_TOKEN_EXPIRATION_TIME);
         return refreshToken;
     }
 

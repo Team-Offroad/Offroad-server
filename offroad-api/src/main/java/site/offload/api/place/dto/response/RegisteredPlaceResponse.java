@@ -1,7 +1,7 @@
 package site.offload.api.place.dto.response;
 
 
-import sites.offload.enums.PlaceCategory;
+import site.offload.enums.place.PlaceCategory;
 
 public record RegisteredPlaceResponse(
         Long id,

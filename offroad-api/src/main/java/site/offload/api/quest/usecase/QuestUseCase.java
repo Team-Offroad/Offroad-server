@@ -6,8 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import site.offload.api.quest.dto.response.QuestInformationResponse;
 import site.offload.api.quest.dto.response.QuestResponse;
 import site.offload.api.quest.service.QuestService;
-import sites.offload.db.quest.entity.ProceedingQuestEntity;
-import sites.offload.db.quest.entity.QuestEntity;
+import site.offload.db.quest.entity.ProceedingQuestEntity;
+import site.offload.db.quest.entity.QuestEntity;
 
 import java.util.List;
 import java.util.stream.IntStream;

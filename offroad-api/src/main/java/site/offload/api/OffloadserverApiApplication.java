@@ -7,10 +7,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"site.offload.api", "sites.offload.common",
-        "sites.offload.external", "sites.offload.enums"})
-@EnableJpaRepositories(basePackages = "sites.offload.db")
-@EntityScan(basePackages = {"sites.offload.db"})
+@ComponentScan(basePackages = {"site.offload.api", "site.offload.common",
+        "site.offload.external", "site.offload.enums", "site.offload.cache", "site.offload.support"})
+@EnableJpaRepositories(basePackages = "site.offload.db")
+@EntityScan(basePackages = {"site.offload.db"})
 public class OffloadserverApiApplication {
 
     public static void main(String[] args) {

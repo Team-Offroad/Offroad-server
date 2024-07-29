@@ -3,9 +3,9 @@ package site.offload.api.member.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import site.offload.api.exception.NotFoundException;
-import sites.offload.db.member.entity.MemberEntity;
-import sites.offload.db.member.repository.MemberRepository;
-import sites.offload.enums.ErrorMessage;
+import site.offload.db.member.entity.MemberEntity;
+import site.offload.db.member.repository.MemberRepository;
+import site.offload.enums.response.ErrorMessage;
 
 @Component
 @RequiredArgsConstructor

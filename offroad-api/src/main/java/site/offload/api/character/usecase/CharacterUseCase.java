@@ -6,8 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import site.offload.api.character.dto.response.CharacterListResponse;
 import site.offload.api.character.dto.response.CharacterResponse;
 import site.offload.api.character.service.CharacterService;
-import sites.offload.db.character.entity.CharacterEntity;
-import sites.offload.external.aws.S3Service;
+import site.offload.db.character.entity.CharacterEntity;
+import site.offload.external.aws.S3Service;
 
 import java.util.List;
 

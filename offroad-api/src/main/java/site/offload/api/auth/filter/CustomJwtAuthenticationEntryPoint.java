@@ -9,8 +9,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 import site.offload.api.response.APIErrorResponse;
-import sites.offload.enums.CustomErrorCode;
-import sites.offload.enums.ErrorMessage;
+import site.offload.enums.response.CustomErrorCode;
+import site.offload.enums.response.ErrorMessage;
 
 import java.io.IOException;
 

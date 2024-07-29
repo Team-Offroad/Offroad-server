@@ -10,9 +10,6 @@ dependencies {
     // Sentry
     implementation 'io.sentry:sentry-spring-boot-starter:7.11.0'
 
-    //redis
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-
     //jwt
     implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
     implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
@@ -21,10 +18,12 @@ dependencies {
     //spring security
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
+    implementation project(path: ':offroad-cache')
     implementation project(path: ':offroad-common')
     implementation project(path: ':offroad-db')
-    implementation project(path: ':offroad-external')
     implementation project(path: ':offroad-enum')
+    implementation project(path: ':offroad-external')
+    implementation project(path: ':offroad-support')
 
 }
 

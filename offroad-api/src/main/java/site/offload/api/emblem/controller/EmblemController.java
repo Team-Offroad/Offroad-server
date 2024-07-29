@@ -9,12 +9,12 @@ import site.offload.api.emblem.dto.request.UpdateCurrentEmblemRequest;
 import site.offload.api.emblem.dto.response.GainedEmblemListResponse;
 import site.offload.api.emblem.usecase.EmblemUseCase;
 import site.offload.api.response.APISuccessResponse;
-import sites.offload.enums.SuccessMessage;
+import site.offload.enums.response.SuccessMessage;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/users/emblems")
-public class EmblemController implements EmblemControllSwawgger {
+public class EmblemController implements EmblemControllerSwagger {
 
     private final EmblemUseCase emblemUseCase;
 

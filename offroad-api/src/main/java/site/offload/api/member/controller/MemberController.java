@@ -12,7 +12,7 @@ import site.offload.api.member.dto.request.MemberProfileUpdateRequest;
 import site.offload.api.member.dto.response.*;
 import site.offload.api.member.usecase.MemberUseCase;
 import site.offload.api.response.APISuccessResponse;
-import sites.offload.enums.SuccessMessage;
+import site.offload.enums.response.SuccessMessage;
 
 @RestController
 @RequestMapping("/api/users")

@@ -1,7 +1,7 @@
 package site.offload.api.exception;
 
 
-import sites.offload.enums.ErrorMessage;
+import site.offload.enums.response.ErrorMessage;
 
 public class BadRequestException extends OffroadException {
 

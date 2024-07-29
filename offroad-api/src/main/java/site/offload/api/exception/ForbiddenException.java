@@ -1,6 +1,6 @@
 package site.offload.api.exception;
 
-import sites.offload.enums.ErrorMessage;
+import site.offload.enums.response.ErrorMessage;
 
 public class ForbiddenException extends OffroadException {
 
