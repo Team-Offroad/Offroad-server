@@ -74,8 +74,16 @@ public class MemberUseCase {
         final MemberEntity findMemberEntity = memberService.findById(request.memberId());
         final String nickname = findMemberEntity.getNickName();
         final String emblemName = findMemberEntity.getCurrentEmblemName();
-        final CharacterEntity findCharacterEntity = characterService.findByName(findMemberEntity.getCurrentCharacterName());
 
+        if (findMemberEntity.getNickName() == null && findMemberEntity.getCurrentCharacterName() == null) {
+            return MemberAdventureInformationResponse.of(null, emblemName, null, null, null);
+        }
+
+        if (findMemberEntity.getNickName() != null && findMemberEntity.getCurrentCharacterName() == null) {
+            return MemberAdventureInformationResponse.of(findMemberEntity.getNickName(), emblemName, null, null, null);
+        }
+
+        final CharacterEntity findCharacterEntity = characterService.findByName(findMemberEntity.getCurrentCharacterName());
         // 사용자가 획득한 캐릭터인지 확인
         if (!gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(findMemberEntity, findCharacterEntity)) {
             throw new BadRequestException(ErrorMessage.NOT_GAINED_CHARACTER);
