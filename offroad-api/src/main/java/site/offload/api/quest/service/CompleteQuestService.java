@@ -24,4 +24,8 @@ public class CompleteQuestService {
     public boolean isExistByQuestAndMember(QuestEntity questEntity, MemberEntity memberEntity) {
         return completeQuestRepository.existsByQuestEntityAndMemberEntity(questEntity, memberEntity);
     }
+
+    public void deleteAllByMemberId(long memberId) {
+        completeQuestRepository.deleteAllByMemberEntityId(memberId);
+    }
 }

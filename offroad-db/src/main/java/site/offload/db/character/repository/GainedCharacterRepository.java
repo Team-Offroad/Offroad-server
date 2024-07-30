@@ -10,4 +10,6 @@ public interface GainedCharacterRepository extends JpaRepository<GainedCharacter
 
     boolean existsByCharacterEntityAndMemberEntity(CharacterEntity characterEntity, MemberEntity memberEntity);
 
+    void deleteAllByMemberEntityId(long memberId);
+
 }

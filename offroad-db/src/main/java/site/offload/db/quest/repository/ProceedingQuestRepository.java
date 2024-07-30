@@ -18,4 +18,6 @@ public interface ProceedingQuestRepository extends JpaRepository<ProceedingQuest
     boolean existsByMemberEntityAndQuestEntity(MemberEntity memberEntity, QuestEntity questEntity);
 
     void deleteByQuestEntityAndMemberEntity(QuestEntity questEntity, MemberEntity memberEntity);
+
+    void deleteAllByMemberEntityId(long memberId);
 }

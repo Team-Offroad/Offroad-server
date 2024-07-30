@@ -24,4 +24,8 @@ public class GainedCharacterMotionService {
                         .characterMotionEntity(characterMotionEntity)
                         .build());
     }
+
+    public void deleteAllByMemberId(long memberId) {
+        gainedCharacterMotionRepository.deleteAllByMemberEntityId(memberId);
+    }
 }
