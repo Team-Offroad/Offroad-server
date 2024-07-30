@@ -7,7 +7,7 @@ import site.offload.db.quest.entity.CompleteQuestEntity;
 import site.offload.db.quest.entity.QuestEntity;
 
 public interface CompleteQuestRepository extends JpaRepository<CompleteQuestEntity, Long> {
-    void deleteByQuestEntityAndMemberEntity(QuestEntity questEntity, MemberEntity memberEntity);
+    void deleteAllByMemberEntityId(long memberId);
 
     boolean existsByQuestEntityAndMemberEntity(QuestEntity questEntity, MemberEntity memberEntity);
 }

@@ -13,4 +13,6 @@ public interface GainedEmblemRepository extends JpaRepository<GainedEmblemEntity
     boolean existsByMemberEntityAndEmblemCode(MemberEntity memberEntity, String emblemCode);
 
     List<GainedEmblemEntity> findAllByMemberEntityId(Long memberId);
+
+    void deleteAllByMemberEntityId(long memberId);
 }

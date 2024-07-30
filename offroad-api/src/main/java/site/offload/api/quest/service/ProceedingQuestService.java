@@ -46,4 +46,8 @@ public class ProceedingQuestService {
     public void deleteProceedingQuest(QuestEntity questEntity, MemberEntity memberEntity) {
         proceedingQuestRepository.deleteByQuestEntityAndMemberEntity(questEntity, memberEntity);
     }
+
+    public void deleteAllByMemberId(long memberId) {
+        proceedingQuestRepository.deleteAllByMemberEntityId(memberId);
+    }
 }

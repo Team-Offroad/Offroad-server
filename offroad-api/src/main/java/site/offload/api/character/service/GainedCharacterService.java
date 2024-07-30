@@ -23,4 +23,8 @@ public class GainedCharacterService {
     public boolean isExistsGainedCharacterByMemberAndCharacter(MemberEntity memberEntity, CharacterEntity characterEntity) {
         return gainedCharacterRepository.existsByCharacterEntityAndMemberEntity(characterEntity, memberEntity);
     }
+
+    public void deleteAllByMemberId(long memberId) {
+        gainedCharacterRepository.deleteAllByMemberEntityId(memberId);
+    }
 }

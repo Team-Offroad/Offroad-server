@@ -25,4 +25,8 @@ public class GainedEmblemService {
     public Integer save(MemberEntity memberEntity, String emblemCode) {
         return gainedEmblemRepository.save(GainedEmblemEntity.create(memberEntity, emblemCode)).getId();
     }
+
+    public void deleteAllByMemberId(long memberId) {
+        gainedEmblemRepository.deleteAllByMemberEntityId(memberId);
+    }
 }
