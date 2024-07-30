@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import site.offload.api.member.dto.request.AuthAdventureRequest;
 import site.offload.api.member.dto.request.AuthPositionRequest;
 import site.offload.api.member.dto.request.MemberProfileUpdateRequest;
+import site.offload.api.member.dto.request.SignOutRequest;
 import site.offload.api.member.dto.response.*;
 import site.offload.api.response.APISuccessResponse;
 
@@ -41,6 +42,11 @@ public interface MemberControllerSwagger {
     @Operation(summary = "위치 정보 탐험 인증 API", description = "QR코드로 탐험인증 하는 API")
     @ApiResponse(responseCode = "200", description = "탐험 인증 성공", content = @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponse.class)))
     ResponseEntity<APISuccessResponse<VerifyPositionDistanceResponse>> authAdventureOnlyPlace(final @RequestBody AuthPositionRequest request);
+
+    @Operation(summary = "로그아웃 API", description = "로그아웃 API")
+    @ApiResponse(responseCode = "200", description = "로그아웃 성공", content = @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponse.class)))
+    ResponseEntity<APISuccessResponse<Void>> signOut(@RequestBody final SignOutRequest request);
+
 }
 
 
