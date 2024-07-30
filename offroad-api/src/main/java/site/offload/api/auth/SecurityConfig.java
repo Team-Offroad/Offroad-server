@@ -27,6 +27,7 @@ public class SecurityConfig {
             "/v2/api-docs/**",
             "/swagger-resources/**",
             "/api/health",
+            "/api/users/sign-out",
             "/oauth/google/**"
     };
 
