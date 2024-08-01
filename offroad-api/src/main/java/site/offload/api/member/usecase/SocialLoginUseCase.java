@@ -48,6 +48,7 @@ public class SocialLoginUseCase {
                         .name(googleInfoResponse.name())
                         .email(googleInfoResponse.email())
                         .sub(googleInfoResponse.id())
+                        .socialPlatform(SocialPlatform.valueOf(socialLoginRequest.socialPlatform().toString()))
                         .build();
                 memberService.saveMember(memberEntity);
                 isAlreadyExist = false;

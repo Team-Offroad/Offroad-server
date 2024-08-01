@@ -15,10 +15,7 @@ import site.offload.api.member.dto.request.AuthAdventureRequest;
 import site.offload.api.member.dto.request.AuthPositionRequest;
 import site.offload.api.member.dto.request.MemberAdventureInformationRequest;
 import site.offload.api.member.dto.request.MemberProfileUpdateRequest;
-import site.offload.api.member.dto.response.ChooseCharacterResponse;
-import site.offload.api.member.dto.response.MemberAdventureInformationResponse;
-import site.offload.api.member.dto.response.VerifyPositionDistanceResponse;
-import site.offload.api.member.dto.response.VerifyQrcodeResponse;
+import site.offload.api.member.dto.response.*;
 import site.offload.api.member.service.MemberService;
 import site.offload.api.place.service.PlaceService;
 import site.offload.api.place.service.VisitedPlaceService;
@@ -306,5 +303,20 @@ public class MemberUseCase {
         // TODO: 코드 구조 개선 및 다른 보상 획득 추가
     }
 
+    @Transactional(readOnly = true)
+    public GainedCharactersResponse getGainedCharacters(Long memberId) {
+        List<CharacterEntity> characterEntities = characterService.findAll();
+        List<GainedCharacterResponse> isGainedCharacters = new ArrayList<GainedCharacterResponse>();
+        List<GainedCharacterResponse> isNotGainedCharacters = new ArrayList<GainedCharacterResponse>();
+
+        for (CharacterEntity characterEntity : characterEntities) {
+            if (gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(memberService.findById(memberId), characterEntity)) {
+                isGainedCharacters.add(GainedCharacterResponse.of(characterEntity.getName(), characterEntity.getCharacterBaseImageUrl(), characterEntity.getDescription()));
+            } else {
+                isNotGainedCharacters.add(GainedCharacterResponse.of(characterEntity.getName(), characterEntity.getNotGainedCharacterThumbnailImageUrl(), characterEntity.getDescription()));
+            }
+        }
+        return GainedCharactersResponse.of(isGainedCharacters, isNotGainedCharacters);
+    }
 }
 

@@ -7,6 +7,8 @@ import site.offload.db.character.entity.GainedCharacterEntity;
 import site.offload.db.character.repository.GainedCharacterRepository;
 import site.offload.db.member.entity.MemberEntity;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class GainedCharacterService {

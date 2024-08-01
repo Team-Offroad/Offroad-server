@@ -6,6 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import site.offload.api.auth.PrincipalHandler;
 import site.offload.api.member.dto.request.*;
+import site.offload.api.member.dto.request.AuthAdventureRequest;
+import site.offload.api.member.dto.request.AuthPositionRequest;
+import site.offload.api.member.dto.request.MemberAdventureInformationRequest;
+import site.offload.api.member.dto.request.MemberProfileUpdateRequest;
 import site.offload.api.member.dto.response.*;
 import site.offload.api.member.usecase.MemberUseCase;
 import site.offload.api.member.usecase.SignOutUseCase;
@@ -66,5 +70,12 @@ public class MemberController implements MemberControllerSwagger {
     public ResponseEntity<APISuccessResponse<Void>> signOut(@RequestBody final SignOutRequest request) {
         signOutUseCase.execute(request);
         return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.SIGN_OUT_SUCCESS.getMessage(), null);
+    }
+
+    @GetMapping("/characters")
+    public ResponseEntity<APISuccessResponse<GainedCharactersResponse>> getGainedCharacters() {
+        final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
+        return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.GET_GAINED_CHARACTERS_SUCCESS.getMessage(), memberUseCase.getGainedCharacters(memberId));
+
     }
 }
