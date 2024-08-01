@@ -2,6 +2,8 @@ package site.offload.db.coupon.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.offload.db.BaseTimeEntity;
 import site.offload.db.member.entity.MemberEntity;
@@ -13,6 +15,7 @@ import site.offload.db.member.entity.MemberEntity;
         uniqueConstraints = {
         @UniqueConstraint(columnNames = {"member_id", "coupon_id"})
 })
+@Getter
 public class GainedCouponEntity extends BaseTimeEntity {
 
     @Id
@@ -28,4 +31,15 @@ public class GainedCouponEntity extends BaseTimeEntity {
     private CouponEntity couponEntity;
 
     private boolean isUsed = false;
+
+    @Builder
+    public GainedCouponEntity(MemberEntity memberEntity, CouponEntity couponEntity) {
+        this.memberEntity = memberEntity;
+        this.couponEntity = couponEntity;
+        this.isUsed = false;
+    }
+
+    public void updateIsUsed(boolean isUsed) {
+        this.isUsed = isUsed;
+    }
 }
