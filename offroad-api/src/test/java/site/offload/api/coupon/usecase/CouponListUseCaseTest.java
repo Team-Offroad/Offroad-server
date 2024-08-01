@@ -6,9 +6,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import site.offload.api.coupon.dto.AvailableCouponRequest;
+import site.offload.api.coupon.dto.AvailableCouponResponse;
 import site.offload.api.coupon.dto.CouponListResponse;
-import site.offload.api.coupon.dto.UsedCouponRequest;
+import site.offload.api.coupon.dto.UsedCouponResponse;
 import site.offload.api.coupon.service.GainedCouponService;
 import site.offload.db.BaseTimeEntity;
 import site.offload.db.coupon.entity.CouponEntity;
@@ -76,14 +76,14 @@ class CouponListUseCaseTest {
         CouponListResponse response = couponListUseCase.getCouponList(1L);
 
         // then
-        List<AvailableCouponRequest> expectedAvailableCoupons = List.of(
-                AvailableCouponRequest.of(
+        List<AvailableCouponResponse> expectedAvailableCoupons = List.of(
+                AvailableCouponResponse.of(
                         couponEntity4.getId(),
                         couponEntity4.getName(),
                         couponEntity4.getCouponImageUrl(),
                         couponEntity4.getDescription()
                 ),
-                AvailableCouponRequest.of(
+                AvailableCouponResponse.of(
                         couponEntity3.getId(),
                         couponEntity3.getName(),
                         couponEntity3.getCouponImageUrl(),
@@ -91,12 +91,12 @@ class CouponListUseCaseTest {
                 )
         );
 
-        List<UsedCouponRequest> expectedUsedCoupons = List.of(
-                UsedCouponRequest.of(
+        List<UsedCouponResponse> expectedUsedCoupons = List.of(
+                UsedCouponResponse.of(
                         couponEntity2.getName(),
                         couponEntity2.getCouponImageUrl()
                 ),
-                UsedCouponRequest.of(
+                UsedCouponResponse.of(
                         couponEntity1.getName(),
                         couponEntity1.getCouponImageUrl()
                 )

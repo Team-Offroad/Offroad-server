@@ -3,9 +3,9 @@ package site.offload.api.coupon.usecase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import site.offload.api.coupon.dto.AvailableCouponRequest;
+import site.offload.api.coupon.dto.AvailableCouponResponse;
 import site.offload.api.coupon.dto.CouponListResponse;
-import site.offload.api.coupon.dto.UsedCouponRequest;
+import site.offload.api.coupon.dto.UsedCouponResponse;
 import site.offload.api.coupon.service.GainedCouponService;
 import site.offload.db.coupon.entity.CouponEntity;
 import site.offload.db.coupon.entity.GainedCouponEntity;
@@ -28,14 +28,14 @@ public class CouponListUseCase {
         );
     }
 
-    private List<AvailableCouponRequest> getAvailableCouponList(final List<GainedCouponEntity> findGainedCoupontList) {
-        List<AvailableCouponRequest> availableCouponList = new ArrayList<>();
+    private List<AvailableCouponResponse> getAvailableCouponList(final List<GainedCouponEntity> findGainedCoupontList) {
+        List<AvailableCouponResponse> availableCouponList = new ArrayList<>();
         findGainedCoupontList.forEach(
                 gainedCouponEntity -> {
                     if (!gainedCouponEntity.isUsed()) {
                         final CouponEntity couponEntity = gainedCouponEntity.getCouponEntity();
                         availableCouponList.add(
-                                AvailableCouponRequest.of(
+                                AvailableCouponResponse.of(
                                         couponEntity.getId(),
                                         couponEntity.getName(),
                                         couponEntity.getCouponImageUrl(),
@@ -47,14 +47,14 @@ public class CouponListUseCase {
         return availableCouponList;
     }
 
-    private List<UsedCouponRequest> getUsedCouponList(final List<GainedCouponEntity> findGainedCoupontList) {
-        List<UsedCouponRequest> usedCouponList = new ArrayList<>();
+    private List<UsedCouponResponse> getUsedCouponList(final List<GainedCouponEntity> findGainedCoupontList) {
+        List<UsedCouponResponse> usedCouponList = new ArrayList<>();
         findGainedCoupontList.forEach(
                 gainedCouponEntity -> {
                     if (gainedCouponEntity.isUsed()) {
                         final CouponEntity couponEntity = gainedCouponEntity.getCouponEntity();
                         usedCouponList.add(
-                                UsedCouponRequest.of(
+                                UsedCouponResponse.of(
                                         couponEntity.getName(),
                                         couponEntity.getCouponImageUrl())
                         );
