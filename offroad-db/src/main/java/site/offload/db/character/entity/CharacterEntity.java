@@ -2,6 +2,7 @@ package site.offload.db.character.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.offload.db.BaseTimeEntity;
@@ -43,4 +44,21 @@ public class CharacterEntity extends BaseTimeEntity {
 
     @Column(nullable = false, unique = true)
     private String CharacterCode;
+
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String notGainedCharacterThumbnailImageUrl;
+
+    @Builder
+    public CharacterEntity(String name, String description, String characterBaseImageUrl, String characterSpotLightImageUrl, String characterAdventureSuccessImageUrl, String characterAdventureQRFailureImageUrl, String characterAdventureLocationFailureImageUrl, String characterSelectImageUrl, String characterCode, String notGainedCharacterThumbnailImageUrl) {
+        this.name = name;
+        this.description = description;
+        this.characterBaseImageUrl = characterBaseImageUrl;
+        this.characterSpotLightImageUrl = characterSpotLightImageUrl;
+        this.characterAdventureSuccessImageUrl = characterAdventureSuccessImageUrl;
+        this.characterAdventureQRFailureImageUrl = characterAdventureQRFailureImageUrl;
+        this.characterAdventureLocationFailureImageUrl = characterAdventureLocationFailureImageUrl;
+        this.characterSelectImageUrl = characterSelectImageUrl;
+        this.CharacterCode = characterCode;
+        this.notGainedCharacterThumbnailImageUrl = notGainedCharacterThumbnailImageUrl;
+    }
 }

@@ -6,6 +6,9 @@ import site.offload.db.character.entity.CharacterEntity;
 import site.offload.db.character.entity.GainedCharacterEntity;
 import site.offload.db.member.entity.MemberEntity;
 
+import java.lang.reflect.Member;
+import java.util.List;
+
 public interface GainedCharacterRepository extends JpaRepository<GainedCharacterEntity, Long> {
 
     boolean existsByCharacterEntityAndMemberEntity(CharacterEntity characterEntity, MemberEntity memberEntity);

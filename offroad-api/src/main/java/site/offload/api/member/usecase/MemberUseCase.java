@@ -15,10 +15,7 @@ import site.offload.api.member.dto.request.AuthAdventureRequest;
 import site.offload.api.member.dto.request.AuthPositionRequest;
 import site.offload.api.member.dto.request.MemberAdventureInformationRequest;
 import site.offload.api.member.dto.request.MemberProfileUpdateRequest;
-import site.offload.api.member.dto.response.ChooseCharacterResponse;
-import site.offload.api.member.dto.response.MemberAdventureInformationResponse;
-import site.offload.api.member.dto.response.VerifyPositionDistanceResponse;
-import site.offload.api.member.dto.response.VerifyQrcodeResponse;
+import site.offload.api.member.dto.response.*;
 import site.offload.api.member.service.MemberService;
 import site.offload.api.place.service.PlaceService;
 import site.offload.api.place.service.VisitedPlaceService;
@@ -43,6 +40,7 @@ import site.offload.external.aws.S3Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -306,5 +304,23 @@ public class MemberUseCase {
         // TODO: 코드 구조 개선 및 다른 보상 획득 추가
     }
 
+    @Transactional(readOnly = true)
+    public GainedCharactersResponse getGainedCharacters(Long memberId) {
+        List<CharacterEntity> characterEntities = characterService.findAll();
+
+        MemberEntity memberEntity = memberService.findById(memberId);
+
+        List<GainedCharacterResponse> gainedCharacters = characterEntities.stream()
+                .filter(characterEntity -> gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(memberEntity, characterEntity))
+                .map(characterEntity -> GainedCharacterResponse.of(characterEntity.getName(), characterEntity.getCharacterBaseImageUrl(), characterEntity.getDescription()))
+                .collect(Collectors.toList());
+
+        List<GainedCharacterResponse> notGainedCharacters = characterEntities.stream()
+                .filter(characterEntity -> !gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(memberEntity, characterEntity))
+                .map(characterEntity -> GainedCharacterResponse.of(characterEntity.getName(), characterEntity.getNotGainedCharacterThumbnailImageUrl(), characterEntity.getDescription()))
+                .collect(Collectors.toList());
+
+        return GainedCharactersResponse.of(gainedCharacters, notGainedCharacters);
+    }
 }
 
