@@ -31,7 +31,7 @@ class GainedCouponServiceTest {
     private GainedCouponRepository gainedCouponRepository;
 
     @Test
-    @DisplayName("멤버 id로 생성일 기준 내림차순으로 GainedCoupon을 조회할 수 있다.")
+    @DisplayName("사용자는 획득한 쿠폰을 최신순으로 조회할 수 있다.")
     void findAllByMemberEntityIdOrderByCreatedAtDesc() throws Exception {
         // given
         MemberEntity memberEntity = createMemberEntity("example sub", "example@offroad.com", SocialPlatform.GOOGLE, "김환준");

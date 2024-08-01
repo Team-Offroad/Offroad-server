@@ -51,20 +51,20 @@ class CouponListUseCaseTest {
 
         GainedCouponEntity gainedCouponEntity1 = createGainedCouponEntity(memberEntity, couponEntity1);
         setGainedCouponEntityCreatedAt(gainedCouponEntity1, LocalDateTime.now().minusDays(3));
-        gainedCouponEntity1.updateIsUed(true);
+        gainedCouponEntity1.updateIsUsed(true);
 
         GainedCouponEntity gainedCouponEntity2 = createGainedCouponEntity(memberEntity, couponEntity2);
         setGainedCouponEntityCreatedAt(gainedCouponEntity2, LocalDateTime.now().minusDays(2));
-        gainedCouponEntity2.updateIsUed(true);
+        gainedCouponEntity2.updateIsUsed(true);
 
 
         GainedCouponEntity gainedCouponEntity3 = createGainedCouponEntity(memberEntity, couponEntity3);
         setGainedCouponEntityCreatedAt(gainedCouponEntity3, LocalDateTime.now().minusDays(1));
-        gainedCouponEntity3.updateIsUed(false);
+        gainedCouponEntity3.updateIsUsed(false);
 
         GainedCouponEntity gainedCouponEntity4 = createGainedCouponEntity(memberEntity, couponEntity4);
         setGainedCouponEntityCreatedAt(gainedCouponEntity4, LocalDateTime.now());
-        gainedCouponEntity4.updateIsUed(false);
+        gainedCouponEntity4.updateIsUsed(false);
 
 
         List<GainedCouponEntity> gainedCouponList = Arrays.asList(gainedCouponEntity4, gainedCouponEntity3, gainedCouponEntity2, gainedCouponEntity1);
