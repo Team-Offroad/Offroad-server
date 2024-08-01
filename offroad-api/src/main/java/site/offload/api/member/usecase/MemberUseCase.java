@@ -40,6 +40,7 @@ import site.offload.external.aws.S3Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -306,16 +307,19 @@ public class MemberUseCase {
     @Transactional(readOnly = true)
     public GainedCharactersResponse getGainedCharacters(Long memberId) {
         List<CharacterEntity> characterEntities = characterService.findAll();
-        List<GainedCharacterResponse> gainedCharacters = new ArrayList<GainedCharacterResponse>();
-        List<GainedCharacterResponse> notGainedCharacters = new ArrayList<GainedCharacterResponse>();
 
-        for (CharacterEntity characterEntity : characterEntities) {
-            if (gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(memberService.findById(memberId), characterEntity)) {
-                gainedCharacters.add(GainedCharacterResponse.of(characterEntity.getName(), characterEntity.getCharacterBaseImageUrl(), characterEntity.getDescription()));
-            } else {
-                notGainedCharacters.add(GainedCharacterResponse.of(characterEntity.getName(), characterEntity.getNotGainedCharacterThumbnailImageUrl(), characterEntity.getDescription()));
-            }
-        }
+        MemberEntity memberEntity = memberService.findById(memberId);
+
+        List<GainedCharacterResponse> gainedCharacters = characterEntities.stream()
+                .filter(characterEntity -> gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(memberEntity, characterEntity))
+                .map(characterEntity -> GainedCharacterResponse.of(characterEntity.getName(), characterEntity.getCharacterBaseImageUrl(), characterEntity.getDescription()))
+                .collect(Collectors.toList());
+
+        List<GainedCharacterResponse> notGainedCharacters = characterEntities.stream()
+                .filter(characterEntity -> !gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(memberEntity, characterEntity))
+                .map(characterEntity -> GainedCharacterResponse.of(characterEntity.getName(), characterEntity.getNotGainedCharacterThumbnailImageUrl(), characterEntity.getDescription()))
+                .collect(Collectors.toList());
+
         return GainedCharactersResponse.of(gainedCharacters, notGainedCharacters);
     }
 }

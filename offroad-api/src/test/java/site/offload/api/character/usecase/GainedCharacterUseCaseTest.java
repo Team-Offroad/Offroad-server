@@ -17,8 +17,9 @@ import site.offload.enums.member.SocialPlatform;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static site.offload.api.character.CreateCharacter.createCharacterEntity;
+import static site.offload.api.character.CharacterEntityFixtureCreator.createCharacterEntity;
 
 @ExtendWith(MockitoExtension.class)
 public class GainedCharacterUseCaseTest {
@@ -33,8 +34,6 @@ public class GainedCharacterUseCaseTest {
     @DisplayName("보유 캐릭터와 미보유 캐릭터를 구별되게 저장할 수 있다")
     void saveDistinctGainedCharacterAndNotGainedCharacter() {
         //given
-        List<GainedCharacterResponse> isGainedCharacters = new ArrayList<GainedCharacterResponse>();
-        List<GainedCharacterResponse> isNotGainedCharacters = new ArrayList<GainedCharacterResponse>();
 
         CharacterEntity characterEntity1 = createCharacterEntity("이름1", "캐릭터 코드1",
                 "탐험 성공 이미지1", "기본 이미지1", "선택 이미지1",
@@ -48,6 +47,10 @@ public class GainedCharacterUseCaseTest {
 
         MemberEntity memberEntity = MemberEntity.builder().name("이름1").email("이메일1").sub("소셜아이디1").socialPlatform(SocialPlatform.GOOGLE).build();
 
+        List<CharacterEntity> characterEntities = new ArrayList<CharacterEntity>();
+        characterEntities.add(characterEntity1);
+        characterEntities.add(characterEntity2);
+
         BDDMockito.given(gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(memberEntity, characterEntity1))
                 .willReturn(true);
         BDDMockito.given(gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(memberEntity, characterEntity2))
@@ -55,24 +58,21 @@ public class GainedCharacterUseCaseTest {
 
         //when
 
-        if (gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(memberEntity, characterEntity1)){
-            isGainedCharacters.add(GainedCharacterResponse.of(characterEntity1.getName(), characterEntity1.getCharacterBaseImageUrl(), characterEntity1.getDescription()));
-        }
-        else{
-            isNotGainedCharacters.add(GainedCharacterResponse.of(characterEntity1.getName(), characterEntity1.getNotGainedCharacterThumbnailImageUrl(), characterEntity1.getDescription()));
-        }
+        List<GainedCharacterResponse> gainedCharacters = characterEntities.stream()
+                .filter(characterEntity -> gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(memberEntity, characterEntity))
+                .map(characterEntity -> GainedCharacterResponse.of(characterEntity.getName(), characterEntity.getCharacterBaseImageUrl(), characterEntity.getDescription()))
+                .collect(Collectors.toList());
 
-        if (gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(memberEntity, characterEntity2)){
-            isGainedCharacters.add(GainedCharacterResponse.of(characterEntity2.getName(), characterEntity2.getCharacterBaseImageUrl(), characterEntity2.getDescription()));
-        }
-        else{
-            isNotGainedCharacters.add(GainedCharacterResponse.of(characterEntity2.getName(), characterEntity2.getNotGainedCharacterThumbnailImageUrl(), characterEntity2.getDescription()));
-        }
+        List<GainedCharacterResponse> notGainedCharacters = characterEntities.stream()
+                .filter(characterEntity -> !gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(memberEntity, characterEntity))
+                .map(characterEntity -> GainedCharacterResponse.of(characterEntity.getName(), characterEntity.getNotGainedCharacterThumbnailImageUrl(), characterEntity.getDescription()))
+                .collect(Collectors.toList());
+
 
         //then
 
-        Assertions.assertThat(isGainedCharacters).contains(GainedCharacterResponse.of("이름1", "기본 이미지1", "설명1"));
-        Assertions.assertThat(isNotGainedCharacters).contains(GainedCharacterResponse.of("이름2", "미보유 썸네일 이미지2", "설명2"));
+        Assertions.assertThat(gainedCharacters).contains(GainedCharacterResponse.of("이름1", "기본 이미지1", "설명1"));
+        Assertions.assertThat(notGainedCharacters).contains(GainedCharacterResponse.of("이름2", "미보유 썸네일 이미지2", "설명2"));
 
     }
 }

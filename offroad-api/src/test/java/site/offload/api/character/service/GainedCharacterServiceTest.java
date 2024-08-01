@@ -8,20 +8,13 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import site.offload.api.member.dto.response.GainedCharacterResponse;
 import site.offload.db.character.entity.CharacterEntity;
-import site.offload.db.character.entity.GainedCharacterEntity;
-import site.offload.db.character.repository.CharacterRepository;
 import site.offload.db.character.repository.GainedCharacterRepository;
 import site.offload.db.member.entity.MemberEntity;
-import site.offload.db.member.repository.MemberRepository;
 import site.offload.enums.member.SocialPlatform;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.mockito.ArgumentMatchers.any;
-import static site.offload.api.character.CreateCharacter.createCharacterEntity;
+import static site.offload.api.character.CharacterEntityFixtureCreator.createCharacterEntity;
 
 @ExtendWith(MockitoExtension.class)
 public class GainedCharacterServiceTest {

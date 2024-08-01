@@ -2,7 +2,7 @@ package site.offload.api.character;
 
 import site.offload.db.character.entity.CharacterEntity;
 
-public class CreateCharacter {
+public class CharacterEntityFixtureCreator {
     public static CharacterEntity createCharacterEntity(String name,
                                                         String characterCode,
                                                         String characterAdventureSuccessImageUrl,
