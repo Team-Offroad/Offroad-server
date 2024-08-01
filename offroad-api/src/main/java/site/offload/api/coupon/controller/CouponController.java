@@ -15,7 +15,7 @@ import site.offload.enums.response.SuccessMessage;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
-public class CouponListController implements CouponListControllerSwagger {
+public class CouponController implements CouponControllerSwagger {
 
     private final CouponListUseCase couponListUseCase;
 
