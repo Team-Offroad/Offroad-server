@@ -2,6 +2,8 @@ package site.offload.db.coupon.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.offload.db.BaseTimeEntity;
 
@@ -9,6 +11,7 @@ import site.offload.db.BaseTimeEntity;
 @Entity
 @Table(name = "coupon")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class CouponEntity extends BaseTimeEntity {
 
     @Id
@@ -26,4 +29,13 @@ public class CouponEntity extends BaseTimeEntity {
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String couponImageUrl;
+
+    @Builder
+    public CouponEntity(String name, String description, String couponCode, String couponImageUrl) {
+        this.name = name;
+        this.description = description;
+        this.couponCode = couponCode;
+        this.couponImageUrl = couponImageUrl;
+
+    }
 }
