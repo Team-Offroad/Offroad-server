@@ -306,17 +306,17 @@ public class MemberUseCase {
     @Transactional(readOnly = true)
     public GainedCharactersResponse getGainedCharacters(Long memberId) {
         List<CharacterEntity> characterEntities = characterService.findAll();
-        List<GainedCharacterResponse> isGainedCharacters = new ArrayList<GainedCharacterResponse>();
-        List<GainedCharacterResponse> isNotGainedCharacters = new ArrayList<GainedCharacterResponse>();
+        List<GainedCharacterResponse> gainedCharacters = new ArrayList<GainedCharacterResponse>();
+        List<GainedCharacterResponse> notGainedCharacters = new ArrayList<GainedCharacterResponse>();
 
         for (CharacterEntity characterEntity : characterEntities) {
             if (gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(memberService.findById(memberId), characterEntity)) {
-                isGainedCharacters.add(GainedCharacterResponse.of(characterEntity.getName(), characterEntity.getCharacterBaseImageUrl(), characterEntity.getDescription()));
+                gainedCharacters.add(GainedCharacterResponse.of(characterEntity.getName(), characterEntity.getCharacterBaseImageUrl(), characterEntity.getDescription()));
             } else {
-                isNotGainedCharacters.add(GainedCharacterResponse.of(characterEntity.getName(), characterEntity.getNotGainedCharacterThumbnailImageUrl(), characterEntity.getDescription()));
+                notGainedCharacters.add(GainedCharacterResponse.of(characterEntity.getName(), characterEntity.getNotGainedCharacterThumbnailImageUrl(), characterEntity.getDescription()));
             }
         }
-        return GainedCharactersResponse.of(isGainedCharacters, isNotGainedCharacters);
+        return GainedCharactersResponse.of(gainedCharacters, notGainedCharacters);
     }
 }
 
