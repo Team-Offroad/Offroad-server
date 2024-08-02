@@ -22,6 +22,7 @@ public class GainedCouponService {
     }
 
     public boolean isExistByMemberEntityIdAndCouponId(long memberId, long couponId) {
+
         return gainedCouponRepository.existsByMemberEntityIdAndCouponEntityId(memberId, couponId);
     }
 

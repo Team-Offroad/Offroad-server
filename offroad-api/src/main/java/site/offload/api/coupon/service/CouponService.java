@@ -14,6 +14,7 @@ public class CouponService {
     private final CouponRepository couponRepository;
 
     public CouponEntity findByCouponCode(String couponCode) {
+
         return couponRepository.findByCouponCode(couponCode).orElseThrow(
                 () -> new NotFoundException(ErrorMessage.COUPON_NOTFOUND_EXCEPTION)
         );

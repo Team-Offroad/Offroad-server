@@ -13,13 +13,15 @@ import site.offload.db.coupon.entity.GainedCouponEntity;
 import site.offload.db.coupon.repository.GainedCouponRepository;
 import site.offload.db.member.entity.MemberEntity;
 import site.offload.enums.member.SocialPlatform;
-
+import org.assertj.core.api.Assertions;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.*;
+import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 class GainedCouponServiceTest {
@@ -47,7 +49,7 @@ class GainedCouponServiceTest {
 
         List<GainedCouponEntity> expectCouponList = Arrays.asList(coupon2, coupon1);
 
-        BDDMockito.given(gainedCouponRepository.findAllByMemberEntityIdOrderByCreatedAtDesc(anyLong()))
+        given(gainedCouponRepository.findAllByMemberEntityIdOrderByCreatedAtDesc(anyLong()))
                 .willReturn(expectCouponList);
 
         // when
@@ -55,6 +57,35 @@ class GainedCouponServiceTest {
 
         // then
         assertEquals(expectCouponList, findCouponList);
+    }
+
+    @Test
+    @DisplayName("멤버 id와 쿠폰 id로 획득한 쿠폰의 존재여부를 확인할 수 있다.")
+    void isExistByMemberEntityIdAndCouponId() {
+        //given
+        given(gainedCouponService.isExistByMemberEntityIdAndCouponId(anyLong(), anyLong())).willReturn(true);
+
+        //when
+        boolean expectedExistBoolean = gainedCouponService.isExistByMemberEntityIdAndCouponId(1L, 1L);
+
+        //then
+        Assertions.assertThat(expectedExistBoolean).isTrue();
+    }
+
+
+    @Test
+    @DisplayName("획득한 쿠폰을 저장할 수 있다.")
+    void save() {
+        // given
+        MemberEntity memberEntity = createMemberEntity("example sub", "example@offroad.com", SocialPlatform.GOOGLE, "김환준");
+        CouponEntity couponEntity = createCouponEntity("testCoupon", "testDescription", "testName", "testImageUrl");
+        GainedCouponEntity gainedCouponEntity = createGainedCouponEntity(memberEntity, couponEntity);
+
+        // when
+        gainedCouponService.save(gainedCouponEntity);
+
+        // then
+        verify(gainedCouponRepository).save(gainedCouponEntity);
     }
 
     private void setGainedCouponEntityCreatedAt(GainedCouponEntity entity, LocalDateTime createdAt) throws Exception {
