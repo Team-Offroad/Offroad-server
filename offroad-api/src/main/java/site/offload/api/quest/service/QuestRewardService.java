@@ -17,4 +17,8 @@ public class QuestRewardService {
         return questRewardRepository.findByQuestId(questId)
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.ERROR_MESSAGE));
     }
+
+    public boolean isExistByQuestId(Integer questId) {
+        return questRewardRepository.existsByQuestId(questId);
+    }
 }

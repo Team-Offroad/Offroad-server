@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import site.offload.enums.response.CustomErrorCode;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -32,6 +31,7 @@ public enum ErrorMessage {
     PLACE_NOTFOUND_EXCEPTION("해당 ID의 장소가 존재하지 않습니다.", HttpStatus.NOT_FOUND, CustomErrorCode.NOT_EXISTS_PLACE),
     PROCEEDING_QUEST_NOTFOUND_EXCEPTION("진행 중인 해당 ID의 퀘스트가 존재하지 않습니다.", HttpStatus.NOT_FOUND, CustomErrorCode.NOT_EXISTS_PROCEEDING_QUEST),
     QUEST_NOTFOUND_EXCEPTION("퀘스트가 존재하지 않습니다.", HttpStatus.NOT_FOUND, CustomErrorCode.NOT_EXISTS_PLACE),
+    COUPON_NOTFOUND_EXCEPTION("쿠폰이 존재하지 않습니다.", HttpStatus.NOT_FOUND, CustomErrorCode.NOT_EXISTS_COUPON),
     /* 500 Internal Server Error */
     ERROR_MESSAGE("example", HttpStatus.INTERNAL_SERVER_ERROR, CustomErrorCode.CUSTOM_ERROR_CODE);
     private final String message;

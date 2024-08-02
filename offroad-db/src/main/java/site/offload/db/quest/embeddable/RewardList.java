@@ -12,12 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RewardList {
 
-    //캐릭터모션
     private boolean isCharacterMotion;
-
-    //쿠폰 -> 앱잼 이후에 추가
-    //private String couponCode;
-
-    //칭호
+    private String couponCode;
     private String emblemCode;
 }

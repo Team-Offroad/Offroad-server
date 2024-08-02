@@ -6,11 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import site.offload.api.auth.PrincipalHandler;
 import site.offload.api.member.dto.request.*;
-import site.offload.api.member.dto.request.AuthAdventureRequest;
-import site.offload.api.member.dto.request.AuthPositionRequest;
-import site.offload.api.member.dto.request.MemberAdventureInformationRequest;
-import site.offload.api.member.dto.request.MemberProfileUpdateRequest;
 import site.offload.api.member.dto.response.*;
+import site.offload.api.member.usecase.AuthAdventureUseCase;
 import site.offload.api.member.usecase.MemberUseCase;
 import site.offload.api.member.usecase.SignOutUseCase;
 import site.offload.api.response.APISuccessResponse;
@@ -23,6 +20,7 @@ public class MemberController implements MemberControllerSwagger {
 
     private final MemberUseCase memberUseCase;
     private final SignOutUseCase signOutUseCase;
+    private final AuthAdventureUseCase authAdventureUseCase;
 
     @GetMapping("/adventures/informations")
     public ResponseEntity<APISuccessResponse<MemberAdventureInformationResponse>> getAdventureInformation(@RequestParam(value = "category") final String category
@@ -57,13 +55,13 @@ public class MemberController implements MemberControllerSwagger {
     @PostMapping("/adventures/authentication")
     public ResponseEntity<APISuccessResponse<VerifyQrcodeResponse>> authAdventure(final @RequestBody AuthAdventureRequest request) {
         final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
-        return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.AUTHENTICATE_ADVENTURE_REQUEST_SUCCESS.getMessage(), memberUseCase.authAdventure(memberId, request));
+        return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.AUTHENTICATE_ADVENTURE_REQUEST_SUCCESS.getMessage(), authAdventureUseCase.authAdventure(memberId, request));
     }
 
     @PostMapping("/places/distance")
     public ResponseEntity<APISuccessResponse<VerifyPositionDistanceResponse>> authAdventureOnlyPlace(final @RequestBody AuthPositionRequest request) {
         final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
-        return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.AUTHENTICATE_ADVENTURE_REQUEST_SUCCESS.getMessage(), memberUseCase.authAdventurePosition(memberId, request));
+        return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.AUTHENTICATE_ADVENTURE_REQUEST_SUCCESS.getMessage(), authAdventureUseCase.authAdventurePosition(memberId, request));
     }
 
     @PostMapping("/sign-out")

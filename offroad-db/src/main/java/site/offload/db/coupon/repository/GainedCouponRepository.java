@@ -11,4 +11,6 @@ public interface GainedCouponRepository extends JpaRepository<GainedCouponEntity
     void deleteAllByMemberEntityId(long memberId);
 
     List<GainedCouponEntity> findAllByMemberEntityIdOrderByCreatedAtDesc(long memberId);
+
+    boolean existsByMemberEntityIdAndCouponEntityId(long memberId, long couponId);
 }
