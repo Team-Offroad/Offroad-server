@@ -20,4 +20,12 @@ public class GainedCouponService {
     public List<GainedCouponEntity> findAllByMemberEntityIdOrderByCreatedAtDesc(long memberId) {
         return gainedCouponRepository.findAllByMemberEntityIdOrderByCreatedAtDesc(memberId);
     }
+
+    public boolean isExistByMemberEntityIdAndCouponId(long memberId, long couponId) {
+        return gainedCouponRepository.existsByMemberEntityIdAndCouponEntityId(memberId, couponId);
+    }
+
+    public void save(GainedCouponEntity gainedCouponEntity) {
+        gainedCouponRepository.save(gainedCouponEntity);
+    }
 }

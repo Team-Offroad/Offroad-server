@@ -1,8 +1,13 @@
 package site.offload.api.member.dto.response;
 
-public record VerifyQrcodeResponse(boolean isQRMatched, String characterImageUrl) {
+import site.offload.api.quest.dto.response.CompleteQuestResponse;
 
-    public static VerifyQrcodeResponse of(boolean isQRMatched, String characterImageUrl) {
-        return new VerifyQrcodeResponse(isQRMatched, characterImageUrl);
+import java.util.List;
+
+public record VerifyQrcodeResponse(boolean isQRMatched, String characterImageUrl,
+                                   List<CompleteQuestResponse> completeQuestList) {
+
+    public static VerifyQrcodeResponse of(boolean isQRMatched, String characterImageUrl, List<CompleteQuestResponse> completeQuestList) {
+        return new VerifyQrcodeResponse(isQRMatched, characterImageUrl, completeQuestList);
     }
 }

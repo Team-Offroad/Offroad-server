@@ -8,4 +8,6 @@ import java.util.Optional;
 
 public interface QuestRewardRepository extends JpaRepository<QuestRewardEntity, Integer> {
     Optional<QuestRewardEntity> findByQuestId(Integer questId);
+
+    boolean existsByQuestId(Integer questId);
 }

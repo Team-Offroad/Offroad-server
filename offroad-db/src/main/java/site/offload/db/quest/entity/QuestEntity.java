@@ -3,6 +3,7 @@ package site.offload.db.quest.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.offload.db.BaseTimeEntity;
@@ -32,4 +33,13 @@ public class QuestEntity extends BaseTimeEntity {
 
     @Column(nullable = false)
     private int totalRequiredClearCount;
+
+    @Builder
+    public QuestEntity(String name, PlaceCategory placeCategory, PlaceArea placeArea, boolean isQuestSamePlace, int totalRequiredClearCount) {
+        this.name = name;
+        this.placeCategory = placeCategory;
+        this.placeArea = placeArea;
+        this.isQuestSamePlace = isQuestSamePlace;
+        this.totalRequiredClearCount = totalRequiredClearCount;
+    }
 }
