@@ -2,6 +2,7 @@ package site.offload.db.quest.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.offload.db.BaseTimeEntity;
@@ -22,4 +23,11 @@ public class QuestRewardEntity extends BaseTimeEntity {
 
     @Embedded
     private RewardList rewardList;
+
+    @Builder
+    public QuestRewardEntity(Integer id, int questId, RewardList rewardList) {
+        this.id = id;
+        this.questId = questId;
+        this.rewardList = rewardList;
+    }
 }
