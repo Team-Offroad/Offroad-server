@@ -18,11 +18,12 @@ public enum SuccessMessage {
     CHECK_DUPLICATED_NICKNAME_SUCCESS("닉네임 중복 확인 완료"),
     MEMBER_CURRENT_EMBLEM_UPDATE_SUCCESS("칭호 변경 성공"),
     CHOOSE_CHARACTER_SUCCESS("캐릭터 선택 완료"),
-    GET_GAINED_EMBLEM_SUCCESS("칭호 조회 완료"),
+    GET_GAINED_EMBLEM_SUCCESS("보유 칭호 조회 완료"),
     GET_CHARACTERS_LIST_SUCCESS("캐릭터 목록 조회 완료"),
     GET_QUEST_INFORMATION_SUCCESS("퀘스트 정보 조회 성공"),
     AUTHENTICATE_ADVENTURE_REQUEST_SUCCESS("탐험 인증 요청 성공"),
     GET_GAINED_CHARACTERS_SUCCESS("캐릭터 조회 성공"),
-    GET_COUPON_LIST_SUCCESS("획득 쿠폰 조회 요청 성공");
+    GET_COUPON_LIST_SUCCESS("획득 쿠폰 조회 요청 성공"),
+    GET_EMBLEMS_SUCCESS("칭호 조회 완료");
     private final String message;
 }
