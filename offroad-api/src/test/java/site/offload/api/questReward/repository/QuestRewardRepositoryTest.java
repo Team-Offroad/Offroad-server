@@ -1,23 +1,46 @@
 package site.offload.api.questReward.repository;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.transaction.annotation.Transactional;
+import site.offload.api.auth.jwt.JwtTokenProvider;
+import site.offload.api.member.usecase.SocialLoginUseCase;
 import site.offload.db.quest.embeddable.RewardList;
 import site.offload.db.quest.entity.QuestRewardEntity;
 import site.offload.db.quest.repository.QuestRewardRepository;
+import site.offload.external.oauth.apple.AppleSocialLoginService;
+import site.offload.external.oauth.google.GoogleSocialLoginService;
 
 import java.util.List;
 
-@SpringBootTest
+@DataJpaTest
 public class QuestRewardRepositoryTest {
 
     @Autowired
     QuestRewardRepository questRewardRepository;
 
+    @MockBean
+    ObjectMapper objectMapper;
+
+    @MockBean
+    GoogleSocialLoginService googleSocialLoginService;
+
+    @MockBean
+    AppleSocialLoginService appleSocialLoginService;
+
+
     @Test
+    @Transactional
     @DisplayName("보상이 칭호인 퀘스트 보상 엔티티를 불러올 수 있다.")
     void findQuestRewardEntitiesWithEmblems() {
 
@@ -53,8 +76,8 @@ public class QuestRewardRepositoryTest {
 
         //이게 잘 동작되지 않는 이유는 저장과 찾을 때의 Entity가 서로 다르기 때문인가요?
         // -> 쿼리문으로 실제 DB에서 찾아오기 때문에 영속성 Context에서 불러오지 않음. 즉, 새로운 다른 객체를 불러오는 것 같음
-        //Assertions.assertThat(questRewardEntities).contains(questRewardEntity1);
-        //Assertions.assertThat(questRewardEntities).contains(questRewardEntity4);
+        Assertions.assertThat(questRewardEntities).contains(questRewardEntity1);
+        Assertions.assertThat(questRewardEntities).contains(questRewardEntity4);
     }
 
     RewardList createRewardList(boolean isCharacterMotion, String couponCode, String emblemCode) {

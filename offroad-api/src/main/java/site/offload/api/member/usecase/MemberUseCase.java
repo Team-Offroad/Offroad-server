@@ -129,12 +129,12 @@ public class MemberUseCase {
 
         List<GainedCharacterResponse> gainedCharacters = characterEntities.stream()
                 .filter(characterEntity -> gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(memberEntity, characterEntity))
-                .map(characterEntity -> GainedCharacterResponse.of(characterEntity.getName(), characterEntity.getCharacterBaseImageUrl(), characterEntity.getDescription()))
+                .map(characterEntity -> GainedCharacterResponse.of(characterEntity.getName(), s3Service.getPresignUrl(characterEntity.getCharacterBaseImageUrl()), characterEntity.getDescription()))
                 .collect(Collectors.toList());
 
         List<GainedCharacterResponse> notGainedCharacters = characterEntities.stream()
                 .filter(characterEntity -> !gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(memberEntity, characterEntity))
-                .map(characterEntity -> GainedCharacterResponse.of(characterEntity.getName(), characterEntity.getNotGainedCharacterThumbnailImageUrl(), characterEntity.getDescription()))
+                .map(characterEntity -> GainedCharacterResponse.of(characterEntity.getName(), s3Service.getPresignUrl(characterEntity.getNotGainedCharacterThumbnailImageUrl()), characterEntity.getDescription()))
                 .collect(Collectors.toList());
 
         return GainedCharactersResponse.of(gainedCharacters, notGainedCharacters);
