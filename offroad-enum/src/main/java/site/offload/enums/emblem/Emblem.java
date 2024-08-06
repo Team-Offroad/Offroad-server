@@ -12,7 +12,7 @@ public enum Emblem {
     GAME_MASTER("TT000002", "게임 마스터"),
     CONSISTENT_EXPLORER("TT000003", "꾸준한 탐험가"),
     STUBBORN_EXPLORER("TT000004", "줏대있는 탐험가"),
-    CULTURAL_LIFE("TT000005", "문화생활"),
+    CULTURAL_LIFE("TT000005", "문화 생활"),
     WHISTLE_OF_THE_STADIUM("TT000006", "경기장의 휘슬 소리"),
     FOOD_HUNTER("TT000007", "맛집 헌터"),
     HUNDREDTH_RESTAURANT("TT000008", "너와 100번째 식당"),
@@ -28,7 +28,16 @@ public enum Emblem {
     EXPLORATION_CHAMPION("TT000018", "탐험 챔피언"),
     LEGEND_OF_EXPLORATION("TT000019", "탐험의 전설"),
     GOD_OF_EXPLORATION("TT000020", "탐험의 신"),
-    SETEC("TT000021", "SOPT: 개화");
+    SPECIALIST("TT000021", "스페셜리스트"),
+    MORE_AND_MORE("TT000022", "깊게, 더 깊게"),
+    REACHED_PEAK("TT000023", "정점에 도달한 자"),
+    HISTORY_MANIA("TT000024", "역사 마니아"),
+    MENTAL_OF_ARTIST("TT000025", "예술가의 정신"),
+    FASHIONISTA("TT000026", "패셔니스타"),
+    ESCAPE_FROM_EVERYDAY_LIFE("TT000027", "일상에서의 해방"),
+    COMMERCIAL_MECCA("TT000028", "상업의 메카"),
+    URECA("TT000029", "유레카"),
+    MASTER_OF_GAME("TT000030", "게임 마스터");
     private final String emblemCode;
     private final String emblemName;
 
