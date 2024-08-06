@@ -36,8 +36,8 @@ public enum Emblem {
     FASHIONISTA("TT000026", "패셔니스타"),
     ESCAPE_FROM_EVERYDAY_LIFE("TT000027", "일상에서의 해방"),
     COMMERCIAL_MECCA("TT000028", "상업의 메카"),
-    URECA("TT000029", "유레카"),
-    MASTER_OF_GAME("TT000030", "게임 마스터");
+    URECA("TT000029", "유레카");
+
     private final String emblemCode;
     private final String emblemName;
 
