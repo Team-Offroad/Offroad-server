@@ -37,6 +37,7 @@ public enum Emblem {
     ESCAPE_FROM_EVERYDAY_LIFE("TT000027", "일상에서의 해방"),
     COMMERCIAL_MECCA("TT000028", "상업의 메카"),
     URECA("TT000029", "유레카");
+
     private final String emblemCode;
     private final String emblemName;
 
