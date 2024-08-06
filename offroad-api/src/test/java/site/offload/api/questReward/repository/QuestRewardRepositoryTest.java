@@ -1,46 +1,27 @@
 package site.offload.api.questReward.repository;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.transaction.annotation.Transactional;
-import site.offload.api.auth.jwt.JwtTokenProvider;
-import site.offload.api.member.usecase.SocialLoginUseCase;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Import;
+import site.offload.db.config.JpaAuditingConfig;
 import site.offload.db.quest.embeddable.RewardList;
 import site.offload.db.quest.entity.QuestRewardEntity;
 import site.offload.db.quest.repository.QuestRewardRepository;
-import site.offload.external.oauth.apple.AppleSocialLoginService;
-import site.offload.external.oauth.google.GoogleSocialLoginService;
 
 import java.util.List;
 
 @DataJpaTest
+@Import(JpaAuditingConfig.class)
 public class QuestRewardRepositoryTest {
 
     @Autowired
     QuestRewardRepository questRewardRepository;
 
-    @MockBean
-    ObjectMapper objectMapper;
-
-    @MockBean
-    GoogleSocialLoginService googleSocialLoginService;
-
-    @MockBean
-    AppleSocialLoginService appleSocialLoginService;
-
-
     @Test
-    @Transactional
     @DisplayName("보상이 칭호인 퀘스트 보상 엔티티를 불러올 수 있다.")
     void findQuestRewardEntitiesWithEmblems() {
 
