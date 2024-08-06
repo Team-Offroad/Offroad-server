@@ -30,7 +30,7 @@ public class EmblemController implements EmblemControllerSwagger {
     @GetMapping("/users/emblems")
     public ResponseEntity<APISuccessResponse<GainedEmblemListResponse>> getGainedEmblem() {
         final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
-        return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.GET_GAINED_EMBLEM_SUCCESS.getMessage(),
+        return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.GET_GAINED_EMBLEMS_SUCCESS.getMessage(),
                 emblemUseCase.getGainedEmblems(memberId));
     }
 
