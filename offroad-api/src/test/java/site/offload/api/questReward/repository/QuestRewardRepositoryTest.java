@@ -6,15 +6,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
-import site.offload.api.questReward.QuestRewardFixtureCreator;
 import site.offload.db.config.JpaAuditingConfig;
 import site.offload.db.quest.entity.QuestRewardEntity;
 import site.offload.db.quest.repository.QuestRewardRepository;
 
 import java.util.List;
 
-import static site.offload.api.questReward.QuestRewardFixtureCreator.*;
-import static site.offload.api.questReward.RewardListFixtureCreator.createRewardList;
+import static site.offload.api.fixture.QuestRewardFixtureCreator.createQuestReward;
+import static site.offload.api.fixture.RewardListFixtureCreator.createRewardList;
 
 @DataJpaTest
 @Import(JpaAuditingConfig.class)

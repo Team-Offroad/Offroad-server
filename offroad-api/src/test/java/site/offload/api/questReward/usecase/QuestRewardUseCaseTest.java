@@ -7,8 +7,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import site.offload.api.emblem.service.GainedEmblemService;
+import site.offload.api.fixture.QuestRewardFixtureCreator;
 import site.offload.api.quest.service.QuestRewardService;
-import site.offload.api.questReward.QuestRewardFixtureCreator;
 import site.offload.db.emblem.entity.GainedEmblemEntity;
 import site.offload.db.member.entity.MemberEntity;
 import site.offload.db.quest.entity.QuestRewardEntity;
@@ -17,7 +17,8 @@ import site.offload.enums.member.SocialPlatform;
 import java.util.ArrayList;
 import java.util.List;
 
-import static site.offload.api.questReward.RewardListFixtureCreator.createRewardList;
+import static site.offload.api.fixture.QuestRewardFixtureCreator.createQuestReward;
+import static site.offload.api.fixture.RewardListFixtureCreator.createRewardList;
 
 @ExtendWith(MockitoExtension.class)
 public class QuestRewardUseCaseTest {
@@ -37,9 +38,9 @@ public class QuestRewardUseCaseTest {
 
         MemberEntity memberEntity = MemberEntity.builder().name("이름1").email("이메일1").sub("소셜아이디1").socialPlatform(SocialPlatform.GOOGLE).build();
 
-        QuestRewardEntity questRewardEntity1 = QuestRewardFixtureCreator.createQuestReward(1, createRewardList(false, null, "emblemCode1", false));
-        QuestRewardEntity questRewardEntity2 = QuestRewardFixtureCreator.createQuestReward(2, createRewardList(false, null, "emblemCode2", false));
-        QuestRewardEntity questRewardEntity3 = QuestRewardFixtureCreator.createQuestReward(3, createRewardList(false, null, "emblemCode3", false));
+        QuestRewardEntity questRewardEntity1 = createQuestReward(1, createRewardList(false, null, "emblemCode1", false));
+        QuestRewardEntity questRewardEntity2 = createQuestReward(2, createRewardList(false, null, "emblemCode2", false));
+        QuestRewardEntity questRewardEntity3 = createQuestReward(3, createRewardList(false, null, "emblemCode3", false));
 
         List<QuestRewardEntity> questRewardEntitiesWithEmblems = new ArrayList<QuestRewardEntity>();
 

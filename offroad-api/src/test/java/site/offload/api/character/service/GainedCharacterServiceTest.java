@@ -13,7 +13,7 @@ import site.offload.db.character.repository.GainedCharacterRepository;
 import site.offload.db.member.entity.MemberEntity;
 import site.offload.enums.member.SocialPlatform;
 
-import static site.offload.api.character.CharacterEntityFixtureCreator.createCharacterEntity;
+import static site.offload.api.fixture.CharacterEntityFixtureCreator.createCharacterEntity;
 
 @ExtendWith(MockitoExtension.class)
 public class GainedCharacterServiceTest {

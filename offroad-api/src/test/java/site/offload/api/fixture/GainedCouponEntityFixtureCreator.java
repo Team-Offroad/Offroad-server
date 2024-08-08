@@ -1,4 +1,4 @@
-package site.offload.api.coupon;
+package site.offload.api.fixture;
 
 import site.offload.db.coupon.entity.CouponEntity;
 import site.offload.db.coupon.entity.GainedCouponEntity;

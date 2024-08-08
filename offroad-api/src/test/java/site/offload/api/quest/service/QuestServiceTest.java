@@ -6,7 +6,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import site.offload.api.quest.QuestEntityFixtureCreator;
 import site.offload.db.quest.entity.QuestEntity;
 import site.offload.db.quest.repository.ProceedingQuestRepository;
 import site.offload.db.quest.repository.QuestRepository;
@@ -18,7 +17,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
-import static site.offload.api.quest.QuestEntityFixtureCreator.*;
+import static site.offload.api.fixture.QuestEntityFixtureCreator.createQuest;
 
 @ExtendWith(MockitoExtension.class)
 class QuestServiceTest {

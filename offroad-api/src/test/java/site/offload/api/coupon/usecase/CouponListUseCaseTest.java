@@ -23,9 +23,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
-import static site.offload.api.coupon.CouponEntityFixtureCreator.createCoupon;
-import static site.offload.api.coupon.GainedCouponEntityFixtureCreator.createGainedCouponEntity;
-import static site.offload.api.coupon.MemberEntityFixtureCreator.createMemberEntity;
+import static site.offload.api.fixture.CouponEntityFixtureCreator.createCoupon;
+import static site.offload.api.fixture.GainedCouponEntityFixtureCreator.createGainedCouponEntity;
+import static site.offload.api.fixture.MemberEntityFixtureCreator.createMemberEntity;
 
 @ExtendWith(MockitoExtension.class)
 class CouponListUseCaseTest {

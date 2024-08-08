@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static site.offload.api.character.CharacterEntityFixtureCreator.createCharacterEntity;
+import static site.offload.api.fixture.CharacterEntityFixtureCreator.createCharacterEntity;
 
 @ExtendWith(MockitoExtension.class)
 public class GainedCharacterUseCaseTest {

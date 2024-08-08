@@ -8,7 +8,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import site.offload.api.quest.service.QuestRewardService;
-import site.offload.api.questReward.QuestRewardFixtureCreator;
 import site.offload.db.quest.entity.QuestRewardEntity;
 import site.offload.db.quest.repository.QuestRewardRepository;
 
@@ -18,8 +17,8 @@ import java.util.Optional;
 
 import static org.mockito.BDDMockito.anyString;
 import static org.mockito.BDDMockito.given;
-import static site.offload.api.questReward.QuestRewardFixtureCreator.*;
-import static site.offload.api.questReward.RewardListFixtureCreator.createRewardList;
+import static site.offload.api.fixture.QuestRewardFixtureCreator.createQuestReward;
+import static site.offload.api.fixture.RewardListFixtureCreator.createRewardList;
 
 
 @ExtendWith(MockitoExtension.class)

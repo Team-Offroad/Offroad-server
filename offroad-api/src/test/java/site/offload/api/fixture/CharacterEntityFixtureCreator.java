@@ -1,4 +1,4 @@
-package site.offload.api.character;
+package site.offload.api.fixture;
 
 import site.offload.db.character.entity.CharacterEntity;
 

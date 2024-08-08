@@ -13,10 +13,6 @@ import site.offload.api.coupon.service.CouponService;
 import site.offload.api.coupon.service.GainedCouponService;
 import site.offload.api.emblem.service.GainedEmblemService;
 import site.offload.api.exception.BadRequestException;
-import site.offload.api.member.CharacterEntityFixtureCreator;
-import site.offload.api.member.MemberEntityFixtureCreator;
-import site.offload.api.member.PlaceEntityFixtureCreator;
-import site.offload.api.member.QuestEntityFixtureCreator;
 import site.offload.api.member.dto.request.AuthAdventureRequest;
 import site.offload.api.member.dto.response.VerifyQrcodeResponse;
 import site.offload.api.member.service.MemberService;
@@ -43,10 +39,10 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.BDDMockito.*;
-import static site.offload.api.member.CharacterEntityFixtureCreator.*;
-import static site.offload.api.member.MemberEntityFixtureCreator.*;
-import static site.offload.api.member.PlaceEntityFixtureCreator.*;
-import static site.offload.api.member.QuestEntityFixtureCreator.*;
+import static site.offload.api.fixture.CharacterEntityFixtureCreator.createCharacterEntity;
+import static site.offload.api.fixture.MemberEntityFixtureCreator.createMemberEntity;
+import static site.offload.api.fixture.PlaceEntityFixtureCreator.createPlace;
+import static site.offload.api.fixture.QuestEntityFixtureCreator.createQuest;
 
 @ExtendWith(MockitoExtension.class)
 class AuthAdventureUseCaseTest {
@@ -100,46 +96,47 @@ class AuthAdventureUseCaseTest {
                 "offroadCode",
                 37.50000001,
                 126.90000001,
-                "testurl1");
+                "testurl1",
+                "testAuthCode1");
         CharacterEntity characterEntity = createCharacterEntity(
                 "characterName",
-                "characterDescription",
-                "characterBaseImageUrl",
-                "characterSpotLightImageUrl",
-                "characterAdventureSuccessImageUrl",
-                "characterAdventureQRFailureImageUrl",
-                "characterAdventureLocationFailureImageUrl",
-                "characterSelectImageUrl",
                 "characterCode",
-                "notGainedCharacterThumbnailImageUrl"
+                "characterAdventureSuccessImageUrl",
+                "characterBaseImageUrl",
+                "characterSelectImageUrl",
+                "characterSpotLightImageUrl",
+                "characterAdventureQRFailureImageUrl",
+                "notGainedCharacterThumbnailImageUrl",
+                "characterDescription",
+                "characterAdventureLocationFailureImageUrl"
         );
 
         QuestEntity questEntity1 = createQuest(
+                false,
                 "예시 퀘스트1: 첫 카페 방문",
                 PlaceCategory.CAFFE,
                 PlaceArea.NONE,
-                false,
                 1
         );
         QuestEntity questEntity2 = createQuest(
+                false,
                 "예시 퀘스트2: 첫 1구역 방문",
                 PlaceCategory.NONE,
                 PlaceArea.AREA1,
-                false,
                 1
         );
         QuestEntity questEntity3 = createQuest(
+                true,
                 "예시 퀘스트3: 탐험 1개를 성공하였을 시",
                 PlaceCategory.NONE,
                 PlaceArea.NONE,
-                true,
                 1
         );
         QuestEntity questEntity4 = createQuest(
+                true,
                 "예시 퀘스트4: 탐험 2개를 성공하였을 시",
                 PlaceCategory.NONE,
                 PlaceArea.NONE,
-                true,
                 2
         );
 

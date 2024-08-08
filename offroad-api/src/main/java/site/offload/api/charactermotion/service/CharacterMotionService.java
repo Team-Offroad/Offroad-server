@@ -9,6 +9,8 @@ import site.offload.db.charactermotion.repository.CharacterMotionRepository;
 import site.offload.enums.response.ErrorMessage;
 import site.offload.enums.place.PlaceCategory;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class CharacterMotionService {
@@ -19,6 +21,10 @@ public class CharacterMotionService {
         return characterMotionRepository.findCharacterMotionByPlaceCategoryAndCharacterEntity(placeCategory, characterEntity).orElseThrow(
                 () -> new NotFoundException(ErrorMessage.CHARACTER_MOTION_NOTFOUND_EXCEPTION)
         );
+    }
+
+    public List<CharacterMotionEntity> findCharacterMotionsByCharacterEntity(CharacterEntity characterEntity) {
+        return characterMotionRepository.findAllByCharacterEntity(characterEntity);
     }
 
 }
