@@ -4,12 +4,11 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import site.offload.api.quest.service.QuestRewardService;
-import site.offload.db.quest.embeddable.RewardList;
+import site.offload.api.questReward.QuestRewardFixtureCreator;
 import site.offload.db.quest.entity.QuestRewardEntity;
 import site.offload.db.quest.repository.QuestRewardRepository;
 
@@ -17,7 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.BDDMockito.*;
+import static org.mockito.BDDMockito.anyString;
+import static org.mockito.BDDMockito.given;
+import static site.offload.api.questReward.QuestRewardFixtureCreator.*;
+import static site.offload.api.questReward.RewardListFixtureCreator.createRewardList;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -35,8 +37,8 @@ public class QuestRewardServiceTest {
 
         //given
 
-        QuestRewardEntity questRewardEntity1 = createQuestRewardEntity(1, createRewardList(false, null, "emblemCode1", false));
-        QuestRewardEntity questRewardEntity4 = createQuestRewardEntity(4, createRewardList(false, null, "emblemCode4",false));
+        QuestRewardEntity questRewardEntity1 = createQuestReward(1, createRewardList(false, null, "emblemCode1", false));
+        QuestRewardEntity questRewardEntity4 = createQuestReward(4, createRewardList(false, null, "emblemCode4", false));
 
         List<QuestRewardEntity> questRewardEntitiesWithEmblems = new ArrayList<QuestRewardEntity>();
         questRewardEntitiesWithEmblems.add(questRewardEntity1);
@@ -59,7 +61,7 @@ public class QuestRewardServiceTest {
     @DisplayName("쿠폰 코드로 퀘스트 보상을 조회할 수 있다")
     void findQuestRewardByCouponCode() {
         //given
-        QuestRewardEntity questRewardEntity1 = createQuestRewardEntity(1, createRewardList(false, "couponCode", "emblemCode1", false));
+        QuestRewardEntity questRewardEntity1 = createQuestReward(1, createRewardList(false, "couponCode", "emblemCode1", false));
         given(questRewardRepository.findByCouponCode(anyString())).willReturn(Optional.ofNullable(questRewardEntity1));
 
         //when
@@ -67,16 +69,5 @@ public class QuestRewardServiceTest {
 
         //then
         Assertions.assertThat(expectedQuestRewardEntity).isEqualTo(questRewardEntity1);
-    }
-
-    RewardList createRewardList(boolean isCharacterMotion, String couponCode, String emblemCode, boolean isCharacter) {
-        return new RewardList(isCharacterMotion, couponCode, emblemCode, isCharacter);
-    }
-
-    QuestRewardEntity createQuestRewardEntity(int questId, RewardList rewardList){
-        return QuestRewardEntity.builder()
-                .questId(questId)
-                .rewardList(rewardList)
-                .build();
     }
 }

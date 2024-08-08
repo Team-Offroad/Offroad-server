@@ -13,7 +13,6 @@ import site.offload.db.character.repository.GainedCharacterRepository;
 import site.offload.db.member.entity.MemberEntity;
 import site.offload.enums.member.SocialPlatform;
 
-import static org.mockito.ArgumentMatchers.any;
 import static site.offload.api.character.CharacterEntityFixtureCreator.createCharacterEntity;
 
 @ExtendWith(MockitoExtension.class)

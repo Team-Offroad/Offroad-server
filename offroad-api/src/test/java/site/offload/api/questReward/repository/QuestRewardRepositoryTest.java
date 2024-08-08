@@ -5,14 +5,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
+import site.offload.api.questReward.QuestRewardFixtureCreator;
 import site.offload.db.config.JpaAuditingConfig;
-import site.offload.db.quest.embeddable.RewardList;
 import site.offload.db.quest.entity.QuestRewardEntity;
 import site.offload.db.quest.repository.QuestRewardRepository;
 
 import java.util.List;
+
+import static site.offload.api.questReward.QuestRewardFixtureCreator.*;
+import static site.offload.api.questReward.RewardListFixtureCreator.createRewardList;
 
 @DataJpaTest
 @Import(JpaAuditingConfig.class)
@@ -27,11 +29,11 @@ public class QuestRewardRepositoryTest {
 
         //given
 
-        QuestRewardEntity questRewardEntity1 = createQuestRewardEntity(1, createRewardList(false, null, "emblemCode1", false));
-        QuestRewardEntity questRewardEntity2 = createQuestRewardEntity(2, createRewardList(false, "couponCode2", null, false));
-        QuestRewardEntity questRewardEntity3 = createQuestRewardEntity(3, createRewardList(false, "couponCode3", null, false));
-        QuestRewardEntity questRewardEntity4 = createQuestRewardEntity(4, createRewardList(false, null, "emblemCode4", false));
-        QuestRewardEntity questRewardEntity5 = createQuestRewardEntity(5, createRewardList(false, null, "emblemCode5", false));
+        QuestRewardEntity questRewardEntity1 = createQuestReward(1, createRewardList(false, null, "emblemCode1", false));
+        QuestRewardEntity questRewardEntity2 = createQuestReward(2, createRewardList(false, "couponCode2", null, false));
+        QuestRewardEntity questRewardEntity3 = createQuestReward(3, createRewardList(false, "couponCode3", null, false));
+        QuestRewardEntity questRewardEntity4 = createQuestReward(4, createRewardList(false, null, "emblemCode4", false));
+        QuestRewardEntity questRewardEntity5 = createQuestReward(5, createRewardList(false, null, "emblemCode5", false));
 
 
         questRewardRepository.save(questRewardEntity1);
@@ -59,16 +61,5 @@ public class QuestRewardRepositoryTest {
         // -> 쿼리문으로 실제 DB에서 찾아오기 때문에 영속성 Context에서 불러오지 않음. 즉, 새로운 다른 객체를 불러오는 것 같음
         Assertions.assertThat(questRewardEntities).contains(questRewardEntity1);
         Assertions.assertThat(questRewardEntities).contains(questRewardEntity4);
-    }
-
-    RewardList createRewardList(boolean isCharacterMotion, String couponCode, String emblemCode, boolean isCharacter) {
-        return new RewardList(isCharacterMotion, couponCode, emblemCode, isCharacter);
-    }
-
-    QuestRewardEntity createQuestRewardEntity(int questId, RewardList rewardList) {
-        return QuestRewardEntity.builder()
-                .questId(questId)
-                .rewardList(rewardList)
-                .build();
     }
 }

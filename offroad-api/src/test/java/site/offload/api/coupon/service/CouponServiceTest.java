@@ -1,12 +1,12 @@
 package site.offload.api.coupon.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import site.offload.api.coupon.CouponEntityFixtureCreator;
 import site.offload.db.coupon.entity.CouponEntity;
 import site.offload.db.coupon.repository.CouponRepository;
 
@@ -28,7 +28,7 @@ class CouponServiceTest {
     @DisplayName("쿠폰 코드로 쿠폰을 조회할 수 있다.")
     void findByCouponCode() {
         //given
-        CouponEntity coupon = createCoupon("testCoupon", "testImageUrl", "testDescription", "testCouponCode");
+        CouponEntity coupon = CouponEntityFixtureCreator.createCoupon("testCoupon", "testImageUrl", "testDescription", "testCouponCode");
         given(couponRepository.findByCouponCode(anyString())).willReturn(Optional.ofNullable(coupon));
 
         //when
@@ -53,7 +53,7 @@ class CouponServiceTest {
     void findByCouponId() {
 
         //given
-        CouponEntity coupon = createCoupon("testCoupon", "testImageUrl", "testDescription", "testCouponCode");
+        CouponEntity coupon = CouponEntityFixtureCreator.createCoupon("testCoupon", "testImageUrl", "testDescription", "testCouponCode");
         given(couponRepository.findById(anyLong())).willReturn(Optional.ofNullable(coupon));
 
         //when
@@ -61,14 +61,5 @@ class CouponServiceTest {
 
         //then
         assertThat(coupon).isEqualTo(expectedCoupon);
-    }
-
-    private CouponEntity createCoupon(String name, String couponImageUrl, String description, String couponCode) {
-        return CouponEntity.builder()
-                .couponImageUrl(couponImageUrl)
-                .description(description)
-                .couponCode(couponCode)
-                .name(name)
-                .build();
     }
 }

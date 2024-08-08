@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import site.offload.api.character.service.CharacterService;
 import site.offload.api.charactermotion.service.CharacterMotionService;
@@ -14,6 +13,10 @@ import site.offload.api.coupon.service.CouponService;
 import site.offload.api.coupon.service.GainedCouponService;
 import site.offload.api.emblem.service.GainedEmblemService;
 import site.offload.api.exception.BadRequestException;
+import site.offload.api.member.CharacterEntityFixtureCreator;
+import site.offload.api.member.MemberEntityFixtureCreator;
+import site.offload.api.member.PlaceEntityFixtureCreator;
+import site.offload.api.member.QuestEntityFixtureCreator;
 import site.offload.api.member.dto.request.AuthAdventureRequest;
 import site.offload.api.member.dto.response.VerifyQrcodeResponse;
 import site.offload.api.member.service.MemberService;
@@ -40,6 +43,10 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.BDDMockito.*;
+import static site.offload.api.member.CharacterEntityFixtureCreator.*;
+import static site.offload.api.member.MemberEntityFixtureCreator.*;
+import static site.offload.api.member.PlaceEntityFixtureCreator.*;
+import static site.offload.api.member.QuestEntityFixtureCreator.*;
 
 @ExtendWith(MockitoExtension.class)
 class AuthAdventureUseCaseTest {
@@ -174,76 +181,4 @@ class AuthAdventureUseCaseTest {
                 .isEqualTo(actualInvalidQrcodeRequestResponse);
     }
 
-    private MemberEntity createMemberEntity(String sub, String email, SocialPlatform socialPlatform, String name) {
-        return MemberEntity.builder()
-                .sub(sub)
-                .email(email)
-                .socialPlatform(socialPlatform)
-                .name(name)
-                .build();
-    }
-
-    private PlaceEntity createPlace(
-            PlaceArea placeArea,
-            PlaceCategory placeCategory,
-            String name,
-            String address,
-            String shortIntroduction,
-            String offroadCode,
-            double latitude,
-            double longitude,
-            String categoryImageUrl
-    ) {
-        return PlaceEntity.builder()
-                .placeArea(placeArea)
-                .placeCategory(placeCategory)
-                .name(name)
-                .address(address)
-                .shortIntroduction(shortIntroduction)
-                .offroadCode(offroadCode)
-                .latitude(latitude)
-                .longitude(longitude)
-                .categoryImageUrl(categoryImageUrl)
-                .build();
-    }
-
-    private CharacterEntity createCharacterEntity(
-            String name,
-            String description,
-            String characterBaseImageUrl,
-            String characterSpotLightImageUrl,
-            String characterAdventureSuccessImageUrl,
-            String characterAdventureQRFailureImageUrl,
-            String characterAdventureLocationFailureImageUrl,
-            String characterSelectImageUrl,
-            String characterCode,
-            String notGainedCharacterThumbnailImageUrl) {
-        return CharacterEntity.builder()
-                .name(name)
-                .description(description)
-                .characterBaseImageUrl(characterBaseImageUrl)
-                .characterSpotLightImageUrl(characterSpotLightImageUrl)
-                .characterAdventureSuccessImageUrl(characterAdventureSuccessImageUrl)
-                .characterAdventureQRFailureImageUrl(characterAdventureQRFailureImageUrl)
-                .characterAdventureLocationFailureImageUrl(characterAdventureLocationFailureImageUrl)
-                .characterSelectImageUrl(characterSelectImageUrl)
-                .characterCode(characterCode)
-                .notGainedCharacterThumbnailImageUrl(notGainedCharacterThumbnailImageUrl)
-                .build();
-    }
-
-    private QuestEntity createQuest(
-            String name,
-            PlaceCategory placeCategory,
-            PlaceArea placeArea,
-            boolean isQuestSamePlace,
-            int totalRequiredClearCount) {
-        return QuestEntity.builder()
-                .name(name)
-                .placeCategory(placeCategory)
-                .placeArea(placeArea)
-                .isQuestSamePlace(isQuestSamePlace)
-                .totalRequiredClearCount(totalRequiredClearCount)
-                .build();
-    }
 }

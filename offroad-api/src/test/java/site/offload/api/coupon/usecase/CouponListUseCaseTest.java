@@ -23,6 +23,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
+import static site.offload.api.coupon.CouponEntityFixtureCreator.createCoupon;
+import static site.offload.api.coupon.GainedCouponEntityFixtureCreator.createGainedCouponEntity;
+import static site.offload.api.coupon.MemberEntityFixtureCreator.createMemberEntity;
 
 @ExtendWith(MockitoExtension.class)
 class CouponListUseCaseTest {
@@ -39,10 +42,10 @@ class CouponListUseCaseTest {
         // given
         MemberEntity memberEntity = createMemberEntity("example sub", "example@offroad.com", SocialPlatform.GOOGLE, "김환준");
 
-        CouponEntity couponEntity1 = createCouponEntity("code1", "description1", "name1", "imageUrl1");
-        CouponEntity couponEntity2 = createCouponEntity("code2", "description2", "name2", "imageUrl2");
-        CouponEntity couponEntity3 = createCouponEntity("code3", "description3", "name3", "imageUrl3");
-        CouponEntity couponEntity4 = createCouponEntity("code4", "description4", "name4", "imageUrl4");
+        CouponEntity couponEntity1 = createCoupon("code1", "description1", "name1", "imageUrl1");
+        CouponEntity couponEntity2 = createCoupon("code2", "description2", "name2", "imageUrl2");
+        CouponEntity couponEntity3 = createCoupon("code3", "description3", "name3", "imageUrl3");
+        CouponEntity couponEntity4 = createCoupon("code4", "description4", "name4", "imageUrl4");
 
         setGainedCouponEntityId(couponEntity1, 1L);
         setGainedCouponEntityId(couponEntity2, 2L);
@@ -115,31 +118,5 @@ class CouponListUseCaseTest {
         var field = CouponEntity.class.getDeclaredField("id");
         field.setAccessible(true);
         field.set(entity, id);
-    }
-
-
-    private MemberEntity createMemberEntity(String sub, String email, SocialPlatform socialPlatform, String name) {
-        return MemberEntity.builder()
-                .sub(sub)
-                .email(email)
-                .socialPlatform(socialPlatform)
-                .name(name)
-                .build();
-    }
-
-    private CouponEntity createCouponEntity(String couponCode, String description, String name, String couponImageUrl) {
-        return CouponEntity.builder()
-                .couponCode(couponCode)
-                .couponImageUrl(couponImageUrl)
-                .description(description)
-                .name(name)
-                .build();
-    }
-
-    private GainedCouponEntity createGainedCouponEntity(MemberEntity memberEntity, CouponEntity couponEntity) {
-        return GainedCouponEntity.builder()
-                .memberEntity(memberEntity)
-                .couponEntity(couponEntity)
-                .build();
     }
 }

@@ -30,8 +30,8 @@ public class PlaceEntity extends BaseTimeEntity {
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String shortIntroduction;
-    @Column(nullable = false)
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private PlaceCategory placeCategory;
 

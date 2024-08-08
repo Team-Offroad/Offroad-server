@@ -24,8 +24,14 @@ import site.offload.enums.member.SocialPlatform;
 import site.offload.enums.place.PlaceArea;
 import site.offload.enums.place.PlaceCategory;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.*;
+import static site.offload.api.coupon.CouponEntityFixtureCreator.createCoupon;
+import static site.offload.api.coupon.GainedCouponEntityFixtureCreator.createGainedCouponEntity;
+import static site.offload.api.coupon.PlaceEntityFixtureCreator.createPlace;
+import static site.offload.api.coupon.QuestEntityFixtureCreator.createQuest;
+import static site.offload.api.coupon.QuestRewardFixtureCreator.createQuestReward;
+import static site.offload.api.member.MemberEntityFixtureCreator.createMemberEntity;
 
 @ExtendWith(MockitoExtension.class)
 class CouponApplyUseCaseTest {
@@ -62,7 +68,7 @@ class CouponApplyUseCaseTest {
     @DisplayName("사용자는 쿠폰 사용가능 횟수를 모두 소모할 경우 쿠폰 사용 인증에 실패한다")
     void failWhenAvailableUseCountIsZero() {
         //given
-        MemberEntity memberEntity = createMember("sub", "text@test.com", SocialPlatform.GOOGLE, "kim");
+        MemberEntity memberEntity = createMemberEntity("sub", "text@test.com", SocialPlatform.GOOGLE, "kim");
         CouponEntity couponEntity = createCoupon("name", "url", "description", "couponCode");
         CouponApplyRequest couponApplyRequest = new CouponApplyRequest("testcode", 1L, 1L);
         GainedCouponEntity gainedCouponEntity = createGainedCouponEntity(memberEntity, couponEntity);
@@ -83,7 +89,7 @@ class CouponApplyUseCaseTest {
     @DisplayName("사용자는 유효하지 않은 쿠폰 사용 코드를 입력할 경우 쿠폰 사용 인증에 실패한다")
     void failWhenInvalidCouponAuthCode() {
         //given
-        MemberEntity memberEntity = createMember("sub", "text@test.com", SocialPlatform.GOOGLE, "kim");
+        MemberEntity memberEntity = createMemberEntity("sub", "text@test.com", SocialPlatform.GOOGLE, "kim");
         CouponEntity couponEntity = createCoupon("name", "url", "description", "couponCode");
         PlaceEntity placeEntity = createPlace(PlaceArea.AREA1, PlaceCategory.CULTURE, "테스트이름", "테스트주소",
                 "테스트소개", "1234", 1234.1234, 234.241, "테스트카테고리이미지URL", "테스트쿠폰사용코드");
@@ -91,7 +97,7 @@ class CouponApplyUseCaseTest {
         // 유효하지 않은 쿠폰 코드 입력 -> invalidAuthCode
         CouponApplyRequest couponApplyRequest = new CouponApplyRequest("invalidAuthCode", 1L, 1L);
         GainedCouponEntity gainedCouponEntity = createGainedCouponEntity(memberEntity, couponEntity);
-        RewardList rewardList = new RewardList(false, "couponCode", "emblemCode",false);
+        RewardList rewardList = new RewardList(false, "couponCode", "emblemCode", false);
         QuestRewardEntity questRewardEntity = createQuestReward(1, rewardList);
 
         given(gainedCouponService.isExistByMemberEntityIdAndCouponId(anyLong(), anyLong())).willReturn(true);
@@ -108,13 +114,13 @@ class CouponApplyUseCaseTest {
     @Test
     @DisplayName("사용자는 특정 장소 카테고리의 장소에서 쿠폰을 사용할 수 있다.")
     void successApplyCouponWhenPlaceCategory() {
-        MemberEntity memberEntity = createMember("sub", "text@test.com", SocialPlatform.GOOGLE, "kim");
+        MemberEntity memberEntity = createMemberEntity("sub", "text@test.com", SocialPlatform.GOOGLE, "kim");
         CouponEntity couponEntity = createCoupon("name", "url", "description", "couponCode");
         PlaceEntity placeEntity = createPlace(PlaceArea.AREA1, PlaceCategory.CAFFE, "테스트이름", "테스트주소",
                 "테스트소개", "1234", 1234.1234, 234.241, "테스트카테고리이미지URL", "테스트쿠폰사용코드");
         CouponApplyRequest couponApplyRequest = new CouponApplyRequest("테스트쿠폰사용코드", 1L, 1L);
         GainedCouponEntity gainedCouponEntity = createGainedCouponEntity(memberEntity, couponEntity);
-        RewardList rewardList = new RewardList(false, "couponCode", "emblemCode",false);
+        RewardList rewardList = new RewardList(false, "couponCode", "emblemCode", false);
         QuestRewardEntity questRewardEntity = createQuestReward(1, rewardList);
         QuestEntity questEntity = createQuest(false, "테스트퀘스트1", PlaceCategory.CAFFE, PlaceArea.NONE, 1);
 
@@ -136,13 +142,13 @@ class CouponApplyUseCaseTest {
     @Test
     @DisplayName("사용자는 특정 구역에서 쿠폰을 사용할 수 있다.")
     void successApplyCouponWhenPlaceArea() {
-        MemberEntity memberEntity = createMember("sub", "text@test.com", SocialPlatform.GOOGLE, "kim");
+        MemberEntity memberEntity = createMemberEntity("sub", "text@test.com", SocialPlatform.GOOGLE, "kim");
         CouponEntity couponEntity = createCoupon("name", "url", "description", "couponCode");
         PlaceEntity placeEntity = createPlace(PlaceArea.AREA1, PlaceCategory.RESTAURANT, "테스트이름", "테스트주소",
                 "테스트소개", "1234", 1234.1234, 234.241, "테스트카테고리이미지URL", "테스트쿠폰사용코드");
         CouponApplyRequest couponApplyRequest = new CouponApplyRequest("테스트쿠폰사용코드", 1L, 1L);
         GainedCouponEntity gainedCouponEntity = createGainedCouponEntity(memberEntity, couponEntity);
-        RewardList rewardList = new RewardList(false, "couponCode", "emblemCode",false);
+        RewardList rewardList = new RewardList(false, "couponCode", "emblemCode", false);
         QuestRewardEntity questRewardEntity = createQuestReward(1, rewardList);
         QuestEntity questEntity = createQuest(true, "테스트퀘스트1", PlaceCategory.NONE, PlaceArea.AREA1, 1);
 
@@ -163,13 +169,13 @@ class CouponApplyUseCaseTest {
     @Test
     @DisplayName("사용자는 특정 장소에서 쿠폰을 사용할 수 있다.")
     void successApplyCouponWithSamePlace() {
-        MemberEntity memberEntity = createMember("sub", "text@test.com", SocialPlatform.GOOGLE, "kim");
+        MemberEntity memberEntity = createMemberEntity("sub", "text@test.com", SocialPlatform.GOOGLE, "kim");
         CouponEntity couponEntity = createCoupon("name", "url", "description", "couponCode");
         PlaceEntity placeEntity = createPlace(PlaceArea.NONE, PlaceCategory.NONE, "테스트이름", "테스트주소",
                 "테스트소개", "1234", 1234.1234, 234.241, "테스트카테고리이미지URL", "테스트쿠폰사용코드");
         CouponApplyRequest couponApplyRequest = new CouponApplyRequest("테스트쿠폰사용코드", 1L, 1L);
         GainedCouponEntity gainedCouponEntity = createGainedCouponEntity(memberEntity, couponEntity);
-        RewardList rewardList = new RewardList(false, "couponCode", "emblemCode",false);
+        RewardList rewardList = new RewardList(false, "couponCode", "emblemCode", false);
         QuestRewardEntity questRewardEntity = createQuestReward(1, rewardList);
         QuestEntity questEntity = createQuest(true, "테스트퀘스트1", PlaceCategory.NONE, PlaceArea.NONE, 1);
 
@@ -187,83 +193,5 @@ class CouponApplyUseCaseTest {
 
         //then
         assertThat(actualResponse.success()).isTrue();
-    }
-
-    private PlaceEntity createPlace(
-            PlaceArea placeArea,
-            PlaceCategory placeCategory,
-            String name,
-            String address,
-            String shortIntroduction,
-            String offroadCode,
-            double latitude,
-            double longitude,
-            String categoryImageUrl,
-            String couponAuthCode
-    ) {
-        return PlaceEntity.builder()
-                .placeArea(placeArea)
-                .placeCategory(placeCategory)
-                .name(name)
-                .address(address)
-                .shortIntroduction(shortIntroduction)
-                .offroadCode(offroadCode)
-                .latitude(latitude)
-                .longitude(longitude)
-                .categoryImageUrl(categoryImageUrl)
-                .couponAuthCode(couponAuthCode)
-                .build();
-    }
-
-    private CouponEntity createCoupon(String name, String couponImageUrl, String description, String couponCode) {
-        return CouponEntity.builder()
-                .couponImageUrl(couponImageUrl)
-                .description(description)
-                .couponCode(couponCode)
-                .name(name)
-                .build();
-    }
-
-    private QuestEntity createQuest(boolean isQuestSamePlace, String name, PlaceCategory placeCategory, PlaceArea placeArea, int totalRequiredClearCount) {
-        return QuestEntity.builder()
-                .isQuestSamePlace(isQuestSamePlace)
-                .name(name)
-                .placeCategory(placeCategory)
-                .placeArea(placeArea)
-                .totalRequiredClearCount(totalRequiredClearCount)
-                .build();
-    }
-
-    private MemberEntity createMember(String sub, String email, SocialPlatform socialPlatform, String name) {
-        return MemberEntity.builder()
-                .sub(sub)
-                .email(email)
-                .socialPlatform(socialPlatform)
-                .name(name)
-                .build();
-    }
-
-    private GainedCouponEntity createGainedCouponEntity(MemberEntity memberEntity, CouponEntity couponEntity) {
-        return GainedCouponEntity.builder()
-                .memberEntity(memberEntity)
-                .couponEntity(couponEntity)
-                .build();
-    }
-
-    private QuestRewardEntity createQuestReward(int questId, RewardList rewardList) {
-        return QuestRewardEntity.builder()
-                .questId(questId)
-                .rewardList(rewardList)
-                .build();
-    }
-
-    private QuestEntity createQuest(String name, boolean isQuestSamePlace, PlaceArea placeArea, PlaceCategory placeCategory, int totalRequiredClearCount) {
-        return QuestEntity.builder()
-                .name(name)
-                .isQuestSamePlace(isQuestSamePlace)
-                .placeArea(placeArea)
-                .placeCategory(placeCategory)
-                .totalRequiredClearCount(totalRequiredClearCount)
-                .build();
     }
 }
