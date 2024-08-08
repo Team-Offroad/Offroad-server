@@ -1,4 +1,4 @@
-package site.offload.api.place;
+package site.offload.api.fixture;
 
 import site.offload.db.place.entity.PlaceEntity;
 import site.offload.enums.place.PlaceArea;

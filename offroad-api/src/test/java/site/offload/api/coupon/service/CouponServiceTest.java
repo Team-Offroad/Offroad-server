@@ -6,7 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import site.offload.api.coupon.CouponEntityFixtureCreator;
+import site.offload.api.fixture.CouponEntityFixtureCreator;
 import site.offload.db.coupon.entity.CouponEntity;
 import site.offload.db.coupon.repository.CouponRepository;
 

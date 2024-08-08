@@ -26,12 +26,12 @@ import site.offload.enums.place.PlaceCategory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.*;
-import static site.offload.api.coupon.CouponEntityFixtureCreator.createCoupon;
-import static site.offload.api.coupon.GainedCouponEntityFixtureCreator.createGainedCouponEntity;
-import static site.offload.api.coupon.PlaceEntityFixtureCreator.createPlace;
-import static site.offload.api.coupon.QuestEntityFixtureCreator.createQuest;
-import static site.offload.api.coupon.QuestRewardFixtureCreator.createQuestReward;
-import static site.offload.api.member.MemberEntityFixtureCreator.createMemberEntity;
+import static site.offload.api.fixture.CouponEntityFixtureCreator.createCoupon;
+import static site.offload.api.fixture.GainedCouponEntityFixtureCreator.createGainedCouponEntity;
+import static site.offload.api.fixture.MemberEntityFixtureCreator.createMemberEntity;
+import static site.offload.api.fixture.PlaceEntityFixtureCreator.createPlace;
+import static site.offload.api.fixture.QuestEntityFixtureCreator.createQuest;
+import static site.offload.api.fixture.QuestRewardFixtureCreator.createQuestReward;
 
 @ExtendWith(MockitoExtension.class)
 class CouponApplyUseCaseTest {

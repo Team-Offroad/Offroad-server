@@ -1,4 +1,4 @@
-package site.offload.api.coupon;
+package site.offload.api.fixture;
 
 import site.offload.db.member.entity.MemberEntity;
 import site.offload.enums.member.SocialPlatform;

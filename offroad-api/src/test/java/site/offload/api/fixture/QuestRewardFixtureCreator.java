@@ -1,4 +1,4 @@
-package site.offload.api.coupon;
+package site.offload.api.fixture;
 
 import site.offload.db.quest.embeddable.RewardList;
 import site.offload.db.quest.entity.QuestRewardEntity;

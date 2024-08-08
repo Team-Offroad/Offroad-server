@@ -10,7 +10,6 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import site.offload.api.place.PlaceEntityFixtureCreator;
 import site.offload.api.place.dto.request.RegisteredPlacesRequest;
 import site.offload.db.place.entity.PlaceEntity;
 import site.offload.db.place.repository.PlaceRepository;
@@ -24,7 +23,7 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.Mockito.when;
-import static site.offload.api.place.PlaceEntityFixtureCreator.*;
+import static site.offload.api.fixture.PlaceEntityFixtureCreator.createPlace;
 
 @ExtendWith(MockitoExtension.class)
 class PlaceEntityServiceTest {

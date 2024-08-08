@@ -1,4 +1,4 @@
-package site.offload.api.questReward;
+package site.offload.api.fixture;
 
 import site.offload.db.quest.embeddable.RewardList;
 

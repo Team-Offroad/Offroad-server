@@ -25,6 +25,7 @@ public enum SuccessMessage {
     GET_GAINED_CHARACTERS_SUCCESS("캐릭터 조회 성공"),
     GET_COUPON_LIST_SUCCESS("획득 쿠폰 조회 요청 성공"),
     GET_COUPON_APPLY_SUCCESS("획득 쿠폰 사용 요청 성공"),
-    GET_EMBLEMS_SUCCESS("칭호 조회 완료");
+    GET_EMBLEMS_SUCCESS("칭호 조회 완료"),
+    GET_MOTIONS_SUCCESS("캐릭터 모션 목록 조회 성공");
     private final String message;
 }

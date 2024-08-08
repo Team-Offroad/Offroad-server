@@ -2,6 +2,7 @@ package site.offload.db.charactermotion.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.offload.db.BaseTimeEntity;
@@ -33,4 +34,15 @@ public class CharacterMotionEntity extends BaseTimeEntity {
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String motionImageUrl;
+
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String notGainedMotionThumbnailImageUrl;
+
+    @Builder
+    public CharacterMotionEntity(CharacterEntity characterEntity, PlaceCategory placeCategory, String motionImageUrl, String notGainedMotionThumbnailImageUrl) {
+        this.characterEntity = characterEntity;
+        this.placeCategory = placeCategory;
+        this.motionImageUrl = motionImageUrl;
+        this.notGainedMotionThumbnailImageUrl = notGainedMotionThumbnailImageUrl;
+    }
 }
