@@ -45,14 +45,15 @@ public class CouponApplyUseCase {
             return CouponApplyResponse.of(false);
         }
 
-        final CouponEntity findCouponEntity = couponService.findById(request.couponId());
-        final QuestRewardEntity findQuestRewardEntity = questRewardService.findByCouponCode(findCouponEntity.getCouponCode());
-        final QuestEntity findQuestEntity = questService.findById(findQuestRewardEntity.getQuestId());
         final PlaceEntity findPlaceEntity = placeService.findByCouponAuthCode(request.code());
-
         if (findPlaceEntity.getCouponAuthCode() == null || !findPlaceEntity.getCouponAuthCode().equals(request.code())) {
             return CouponApplyResponse.of(false);
         }
+
+        final CouponEntity findCouponEntity = couponService.findById(request.couponId());
+        final QuestRewardEntity findQuestRewardEntity = questRewardService.findByCouponCode(findCouponEntity.getCouponCode());
+        final QuestEntity findQuestEntity = questService.findById(findQuestRewardEntity.getQuestId());
+
 
         if (findQuestEntity.getPlaceArea() != PlaceArea.NONE && isValidPlaceArea(findQuestEntity, findPlaceEntity)) {
             handleValidCouponApplyRequest(findGainedCouponEntity);

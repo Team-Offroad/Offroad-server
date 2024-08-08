@@ -96,8 +96,6 @@ class CouponApplyUseCaseTest {
 
         given(gainedCouponService.isExistByMemberEntityIdAndCouponId(anyLong(), anyLong())).willReturn(true);
         given(gainedCouponService.findByMemberEntityIdAndCouponId(anyLong(), anyLong())).willReturn(gainedCouponEntity);
-        given(couponService.findById(anyLong())).willReturn(couponEntity);
-        given(questRewardService.findByCouponCode(anyString())).willReturn(questRewardEntity);
         given(placeService.findByCouponAuthCode(anyString())).willReturn(placeEntity);
 
         //when
