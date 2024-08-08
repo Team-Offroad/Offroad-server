@@ -20,4 +20,9 @@ public class CouponService {
         );
     }
 
+    public CouponEntity findById(Long id) {
+        return couponRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(ErrorMessage.COUPON_NOTFOUND_EXCEPTION)
+        );
+    }
 }

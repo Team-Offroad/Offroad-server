@@ -30,9 +30,9 @@ public class PlaceEntity extends BaseTimeEntity {
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String shortIntroduction;
+    @Column(nullable = false)
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private PlaceCategory placeCategory;
 
     @Enumerated(EnumType.STRING)
@@ -51,12 +51,15 @@ public class PlaceEntity extends BaseTimeEntity {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String categoryImageUrl;
 
+    @Column(nullable = false)
+    private String couponAuthCode;
+
     public boolean isValidOffroadCode(String offroadCode) {
         return Objects.equals(this.offroadCode, offroadCode);
     }
 
     @Builder
-    public PlaceEntity(String name, String address, String shortIntroduction, PlaceCategory placeCategory, PlaceArea placeArea, String offroadCode, double latitude, double longitude, String categoryImageUrl) {
+    public PlaceEntity(String name, String address, String shortIntroduction, PlaceCategory placeCategory, PlaceArea placeArea, String offroadCode, double latitude, double longitude, String categoryImageUrl, String couponAuthCode) {
         this.name = name;
         this.address = address;
         this.shortIntroduction = shortIntroduction;
@@ -66,5 +69,6 @@ public class PlaceEntity extends BaseTimeEntity {
         this.latitude = latitude;
         this.longitude = longitude;
         this.categoryImageUrl = categoryImageUrl;
+        this.couponAuthCode = couponAuthCode;
     }
 }

@@ -47,9 +47,9 @@ public class QuestRewardUseCaseTest {
 
         MemberEntity memberEntity = MemberEntity.builder().name("이름1").email("이메일1").sub("소셜아이디1").socialPlatform(SocialPlatform.GOOGLE).build();
 
-        QuestRewardEntity questRewardEntity1 = createQuestRewardEntity(1, createRewardList(false, null, "emblemCode1"));
-        QuestRewardEntity questRewardEntity2 = createQuestRewardEntity(2, createRewardList(false, null, "emblemCode2"));
-        QuestRewardEntity questRewardEntity3 = createQuestRewardEntity(3, createRewardList(false, null, "emblemCode3"));
+        QuestRewardEntity questRewardEntity1 = createQuestRewardEntity(1, createRewardList(false, null, "emblemCode1",false));
+        QuestRewardEntity questRewardEntity2 = createQuestRewardEntity(2, createRewardList(false, null, "emblemCode2",false));
+        QuestRewardEntity questRewardEntity3 = createQuestRewardEntity(3, createRewardList(false, null, "emblemCode3",false));
 
         List<QuestRewardEntity> questRewardEntitiesWithEmblems = new ArrayList<QuestRewardEntity>();
 
@@ -83,8 +83,8 @@ public class QuestRewardUseCaseTest {
 
     }
 
-    RewardList createRewardList(boolean isCharacterMotion, String couponCode, String emblemCode) {
-        return new RewardList(isCharacterMotion, couponCode, emblemCode);
+    RewardList createRewardList(boolean isCharacterMotion, String couponCode, String emblemCode, boolean isCharacter) {
+        return new RewardList(isCharacterMotion, couponCode, emblemCode, isCharacter);
     }
 
     QuestRewardEntity createQuestRewardEntity(int questId, RewardList rewardList){

@@ -67,7 +67,7 @@ class PlaceEntityServiceTest {
     void findById() throws Exception {
         // given
         PlaceEntity placeEntity = createPlace(PlaceArea.AREA1, PlaceCategory.CULTURE, "테스트이름", "테스트주소",
-                "테스트소개", "1234", 1234.1234, 234.241, "테스트카테고리이미지URL");
+                "테스트소개", "1234", 1234.1234, 234.241, "테스트카테고리이미지URL", "테스트쿠폰사용코드");
 
         BDDMockito.given(placeRepository.findById(any()))
                 .willReturn(Optional.of(placeEntity));
@@ -104,9 +104,9 @@ class PlaceEntityServiceTest {
     void findPlaces() throws Exception {
         // given
         PlaceEntity placeEntity = createPlace(PlaceArea.AREA1, PlaceCategory.CULTURE, "테스트이름", "테스트주소",
-                "테스트소개", "1234", 1234.1234, 234.241, "테스트카테고리이미지URL");
+                "테스트소개", "1234", 1234.1234, 234.241, "테스트카테고리이미지URL", "테스트쿠폰사용코드");
         PlaceEntity placeEntity2 = createPlace(PlaceArea.AREA2, PlaceCategory.CAFFE, "테스트이름2", "테스트주소2",
-                "테스트소개2", "12342", 1234.12342, 234.2412, "테스트카테고리이미지URL2");
+                "테스트소개2", "12342", 1234.12342, 234.2412, "테스트카테고리이미지URL2", "테스트쿠폰사용코드");
 
         when(placeRepository.findAllByCurrentLatitudeAndCurrentLongitude(anyDouble(), anyDouble(), anyDouble(), anyDouble()))
                 .thenReturn(List.of(placeEntity, placeEntity2));
@@ -126,6 +126,21 @@ class PlaceEntityServiceTest {
 
     }
 
+    @Test
+    @DisplayName("쿠폰 사용 코드로 장소를 조회할 수 있다")
+    void findByCouponAuthCode() {
+        //given
+        PlaceEntity placeEntity = createPlace(PlaceArea.AREA1, PlaceCategory.CULTURE, "테스트이름", "테스트주소",
+                "테스트소개", "1234", 1234.1234, 234.241, "테스트카테고리이미지URL", "테스트쿠폰사용코드");
+        BDDMockito.given(placeRepository.findByCouponAuthCode(BDDMockito.anyString())).willReturn(Optional.ofNullable(placeEntity));
+
+        //when
+        PlaceEntity expectedPlaceEntity = placeService.findByCouponAuthCode("테스트쿠폰사용코드");
+
+        //then
+        Assertions.assertThat(expectedPlaceEntity).isEqualTo(placeEntity);
+    }
+
     private PlaceEntity createPlace(
             PlaceArea placeArea,
             PlaceCategory placeCategory,
@@ -135,7 +150,8 @@ class PlaceEntityServiceTest {
             String offroadCode,
             double latitude,
             double longitude,
-            String categoryImageUrl
+            String categoryImageUrl,
+            String couponAuthCode
     ) {
         return PlaceEntity.builder()
                 .placeArea(placeArea)
@@ -147,6 +163,7 @@ class PlaceEntityServiceTest {
                 .latitude(latitude)
                 .longitude(longitude)
                 .categoryImageUrl(categoryImageUrl)
+                .couponAuthCode(couponAuthCode)
                 .build();
     }
 

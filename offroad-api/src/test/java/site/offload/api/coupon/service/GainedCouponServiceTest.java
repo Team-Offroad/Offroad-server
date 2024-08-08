@@ -17,6 +17,7 @@ import org.assertj.core.api.Assertions;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -88,6 +89,21 @@ class GainedCouponServiceTest {
         verify(gainedCouponRepository).save(gainedCouponEntity);
     }
 
+    @Test
+    @DisplayName("멤버 id와 쿠폰 id로 획득한 쿠폰을 조회할 수 있다")
+    void findByMemberEntityIdAndCouponId() {
+        //given
+        MemberEntity memberEntity = createMemberEntity("example sub", "example@offroad.com", SocialPlatform.GOOGLE, "김환준");
+        CouponEntity couponEntity = createCouponEntity("test1", "test1", "test1", "test1");
+        GainedCouponEntity gainedCouponEntity = createGainedCouponEntity(memberEntity, couponEntity);
+        given(gainedCouponRepository.findByMemberEntityIdAndCouponEntityId(anyLong(), anyLong())).willReturn(Optional.of(gainedCouponEntity));
+
+        //when
+        GainedCouponEntity expectedGainedCouponEntity = gainedCouponService.findByMemberEntityIdAndCouponId(1L, 1L);
+
+        //then
+        Assertions.assertThat(expectedGainedCouponEntity).isEqualTo(gainedCouponEntity);
+    }
     private void setGainedCouponEntityCreatedAt(GainedCouponEntity entity, LocalDateTime createdAt) throws Exception {
         var field = BaseTimeEntity.class.getDeclaredField("createdAt");
         field.setAccessible(true);

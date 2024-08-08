@@ -65,6 +65,19 @@ public class AuthAdventureUseCase {
     private static final int RESTAURANT_CAFE_CULTURE_PERMIT_RADIUS = 45;
     private static final int PARK_SPORT_PERMIT_RADIUS = 120;
 
+    private static final List<String> SAME_PLACE_TICKET_COUPON_LIST = List.of(
+            "CP000003",
+            "CP000005",
+            "CP000007"
+    );
+
+    private static final List<String> SAME_PLACE_FIXED_DISCOUNT_COUPON_LIST = List.of(
+            "CP000001",
+            "CP000002",
+            "CP000004",
+            "CP000006"
+    );
+
     @Transactional
     public VerifyPositionDistanceResponse authAdventurePosition(final Long memberId, final AuthPositionRequest request) {
         final PlaceEntity findPlaceEntity = placeService.findPlaceById(request.placeId());
@@ -156,7 +169,7 @@ public class AuthAdventureUseCase {
                     }
 
                     if (proceedingQuestEntity.getCurrentClearCount() == questEntity.getTotalRequiredClearCount()) {
-                        handleQuestComplete(findMemberEntity, proceedingQuestEntity);
+                        handleQuestComplete(findMemberEntity, proceedingQuestEntity, findPlaceEntity);
                         return CompleteQuestResponse.of(questEntity.getName());
                     }
                     return null;
@@ -180,8 +193,7 @@ public class AuthAdventureUseCase {
         return proceedingQuestEntity;
     }
 
-    private void handleQuestComplete(final MemberEntity findMemberEntity, final ProceedingQuestEntity proceedingQuestEntity) {
-
+    private void handleQuestComplete(final MemberEntity findMemberEntity, final ProceedingQuestEntity proceedingQuestEntity, final PlaceEntity findPlaceEntity) {
 
         final CharacterEntity characterEntity = characterService.findByName(findMemberEntity.getCurrentCharacterName());
         final QuestEntity questEntity = proceedingQuestEntity.getQuestEntity();
@@ -192,40 +204,88 @@ public class AuthAdventureUseCase {
         if (!questRewardService.isExistByQuestId(questEntity.getId())) {
             return;
         }
-        final QuestRewardEntity questRewardEntity = questRewardService.findByQuestId(questEntity.getId());
 
-        handleCharacterMotionReward(findMemberEntity, questEntity, questRewardEntity, characterEntity);
-        handleEmblemReward(findMemberEntity, questRewardEntity);
-        handleCouponReward(findMemberEntity, questRewardEntity);
+        final List<QuestRewardEntity> questRewardEntityList = questRewardService.findAllByQuestId(questEntity.getId());
+        handleCharacterMotionReward(findMemberEntity, questEntity, questRewardEntityList, characterEntity);
+        handleEmblemReward(findMemberEntity, questRewardEntityList);
+        handleCouponReward(findMemberEntity, questRewardEntityList, findPlaceEntity, questEntity);
+    }
+
+    //TODO: ~구역 출신 캐릭터에 대한 보상 획득 로직 추가
+    private void handleCharacterReward(final MemberEntity findMemberEntity, final QuestEntity questEntity,
+                                       final List<QuestRewardEntity> questRewardEntityList, final CharacterEntity characterEntity) {
     }
 
     private void handleCharacterMotionReward(final MemberEntity findMemberEntity, final QuestEntity questEntity,
-                                             final QuestRewardEntity questRewardEntity, final CharacterEntity characterEntity) {
-        if (questRewardEntity.getRewardList().isCharacterMotion()) {
-            CharacterMotionEntity characterMotionEntity = characterMotionService.findByCharacterAndPlaceCategory(characterEntity, questEntity.getPlaceCategory());
-            if (!gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotionEntity, findMemberEntity)) {
-                gainedCharacterMotionService.save(findMemberEntity, characterMotionEntity);
+                                             final List<QuestRewardEntity> questRewardEntityList, final CharacterEntity characterEntity) {
+        questRewardEntityList.forEach(
+                questRewardEntity -> {
+                    if (questRewardEntity.getRewardList().isCharacterMotion()) {
+                        CharacterMotionEntity characterMotionEntity = characterMotionService.findByCharacterAndPlaceCategory(characterEntity, questEntity.getPlaceCategory());
+                        if (!gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotionEntity, findMemberEntity)) {
+                            gainedCharacterMotionService.save(findMemberEntity, characterMotionEntity);
+                        }
+                    }
+                });
+    }
+
+    private void handleEmblemReward(final MemberEntity findMemberEntity, final List<QuestRewardEntity> questRewardEntityList) {
+        questRewardEntityList.forEach(
+                questRewardEntity -> {
+                    if (questRewardEntity.getRewardList().getEmblemCode() != null) {
+                        if (!gainedEmblemService.isExistsByMemberAndEmblemCode(findMemberEntity, questRewardEntity.getRewardList().getEmblemCode())) {
+                            gainedEmblemService.save(findMemberEntity, questRewardEntity.getRewardList().getEmblemCode());
+                        }
+                    }
+                });
+    }
+
+    private void handleCouponReward(final MemberEntity memberEntity, final List<QuestRewardEntity> questRewardEntities, final PlaceEntity placeEntity, final QuestEntity questEntity) {
+        questRewardEntities.forEach(questRewardEntity -> {
+            final String couponCode = questRewardEntity.getRewardList().getCouponCode();
+            if (couponCode != null) {
+                final CouponEntity couponEntity = couponService.findByCouponCode(couponCode);
+
+                if (questEntity.isQuestSamePlace()) {
+                    handleSamePlaceReward(memberEntity, couponEntity, placeEntity, couponCode);
+                } else {
+                    handleNotSamePlaceReward(memberEntity, couponEntity);
+                }
             }
+        });
+    }
+
+    private void handleSamePlaceReward(final MemberEntity memberEntity, final CouponEntity couponEntity, final PlaceEntity placeEntity, final String couponCode) {
+        if (SAME_PLACE_TICKET_COUPON_LIST.contains(couponCode) && isPlaceCategoryForTicketCoupon(placeEntity)) {
+            saveGainedCoupon(memberEntity, couponEntity, placeEntity.getId());
+        }
+
+        if (SAME_PLACE_FIXED_DISCOUNT_COUPON_LIST.contains(couponCode) && isPlaceCategoryForFixedDiscountCoupon(placeEntity)) {
+            saveGainedCoupon(memberEntity, couponEntity, placeEntity.getId());
         }
     }
 
-    private void handleEmblemReward(final MemberEntity findMemberEntity, final QuestRewardEntity questRewardEntity) {
-        if (questRewardEntity.getRewardList().getEmblemCode() != null) {
-            if (!gainedEmblemService.isExistsByMemberAndEmblemCode(findMemberEntity, questRewardEntity.getRewardList().getEmblemCode())) {
-                gainedEmblemService.save(findMemberEntity, questRewardEntity.getRewardList().getEmblemCode());
-            }
+    private boolean isPlaceCategoryForTicketCoupon(final PlaceEntity placeEntity) {
+        return placeEntity.getPlaceCategory() == PlaceCategory.CULTURE || placeEntity.getPlaceCategory() == PlaceCategory.SPORT;
+    }
+
+    private boolean isPlaceCategoryForFixedDiscountCoupon(final PlaceEntity placeEntity) {
+        return placeEntity.getPlaceCategory() == PlaceCategory.RESTAURANT || placeEntity.getPlaceCategory() == PlaceCategory.CAFFE;
+    }
+
+    private void handleNotSamePlaceReward(final MemberEntity memberEntity, final CouponEntity couponEntity) {
+        if (!gainedCouponService.isExistByMemberEntityIdAndCouponId(memberEntity.getId(), couponEntity.getId())) {
+            saveGainedCoupon(memberEntity, couponEntity, null);
         }
     }
 
-    private void handleCouponReward(final MemberEntity findMemberEntity, final QuestRewardEntity questRewardEntity) {
-        if (questRewardEntity.getRewardList().getCouponCode() != null) {
-            final CouponEntity findCouponEntity = couponService.findByCouponCode(questRewardEntity.getRewardList().getCouponCode());
-            if (!gainedCouponService.isExistByMemberEntityIdAndCouponId(findMemberEntity.getId(), findCouponEntity.getId())) {
-                gainedCouponService.save(GainedCouponEntity.builder()
-                        .memberEntity(findMemberEntity)
-                        .couponEntity(findCouponEntity)
-                        .build());
-            }
+    private void saveGainedCoupon(final MemberEntity memberEntity, final CouponEntity couponEntity, final Long samePlaceRewardPlaceId) {
+        if (!gainedCouponService.isExistByMemberEntityIdAndCouponId(memberEntity.getId(), couponEntity.getId())) {
+            gainedCouponService.save(GainedCouponEntity.builder()
+                    .memberEntity(memberEntity)
+                    .couponEntity(couponEntity)
+                    .samePlaceRewardPlaceId(samePlaceRewardPlaceId)
+                    .build());
         }
     }
 }
