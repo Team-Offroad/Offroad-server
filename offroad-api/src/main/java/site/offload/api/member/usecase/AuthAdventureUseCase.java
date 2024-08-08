@@ -255,22 +255,15 @@ public class AuthAdventureUseCase {
         });
     }
 
+
     private void handleSamePlaceReward(final MemberEntity memberEntity, final CouponEntity couponEntity, final PlaceEntity placeEntity, final String couponCode) {
-        if (SAME_PLACE_TICKET_COUPON_LIST.contains(couponCode) && isPlaceCategoryForTicketCoupon(placeEntity)) {
+        if (SAME_PLACE_TICKET_COUPON_LIST.contains(couponCode) && PlaceCategory.isPlaceCategoryForTicketCoupon(placeEntity.getPlaceCategory())) {
             saveGainedCoupon(memberEntity, couponEntity, placeEntity.getId());
         }
 
-        if (SAME_PLACE_FIXED_DISCOUNT_COUPON_LIST.contains(couponCode) && isPlaceCategoryForFixedDiscountCoupon(placeEntity)) {
+        if (SAME_PLACE_FIXED_DISCOUNT_COUPON_LIST.contains(couponCode) && PlaceCategory.isPlaceCategoryForFixedDiscountCoupon(placeEntity.getPlaceCategory())) {
             saveGainedCoupon(memberEntity, couponEntity, placeEntity.getId());
         }
-    }
-
-    private boolean isPlaceCategoryForTicketCoupon(final PlaceEntity placeEntity) {
-        return placeEntity.getPlaceCategory() == PlaceCategory.CULTURE || placeEntity.getPlaceCategory() == PlaceCategory.SPORT;
-    }
-
-    private boolean isPlaceCategoryForFixedDiscountCoupon(final PlaceEntity placeEntity) {
-        return placeEntity.getPlaceCategory() == PlaceCategory.RESTAURANT || placeEntity.getPlaceCategory() == PlaceCategory.CAFFE;
     }
 
     private void handleNotSamePlaceReward(final MemberEntity memberEntity, final CouponEntity couponEntity) {

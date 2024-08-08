@@ -27,4 +27,12 @@ public enum PlaceCategory {
     public static List<PlaceCategory> nearBy25meterPlaceCategory() {
         return List.of(PlaceCategory.RESTAURANT, PlaceCategory.CAFFE, PlaceCategory.CULTURE);
     }
+
+    public static boolean isPlaceCategoryForTicketCoupon(final PlaceCategory placeCategory) {
+        return placeCategory == CULTURE || placeCategory == SPORT;
+    }
+
+    public static boolean isPlaceCategoryForFixedDiscountCoupon(final PlaceCategory placeCategory) {
+        return placeCategory == RESTAURANT || placeCategory == CAFFE;
+    }
 }

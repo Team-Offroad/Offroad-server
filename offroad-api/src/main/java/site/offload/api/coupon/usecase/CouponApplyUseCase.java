@@ -32,39 +32,30 @@ public class CouponApplyUseCase {
 
     @Transactional
     public CouponApplyResponse applyCoupon(final long memberId, final CouponApplyRequest request) {
-        if (!gainedCouponService.isExistByMemberEntityIdAndCouponId(memberId, request.couponId())) {
-            return CouponApplyResponse.of(false);
-        }
 
-        final GainedCouponEntity findGainedCouponEntity = gainedCouponService.findByMemberEntityIdAndCouponId(memberId, request.couponId());
-        if (findGainedCouponEntity.isUsed()) {
-            return CouponApplyResponse.of(false);
-        }
-
-        if (findGainedCouponEntity.getSamePlaceRewardPlaceId() != null && !findGainedCouponEntity.getSamePlaceRewardPlaceId().equals(request.placeId())) {
-            return CouponApplyResponse.of(false);
-        }
-
-        final PlaceEntity findPlaceEntity = placeService.findByCouponAuthCode(request.code());
-        if (findPlaceEntity.getCouponAuthCode() == null || !findPlaceEntity.getCouponAuthCode().equals(request.code())) {
+        if (!isValidCouponUseConditions(memberId, request)) {
             return CouponApplyResponse.of(false);
         }
 
         final CouponEntity findCouponEntity = couponService.findById(request.couponId());
         final QuestRewardEntity findQuestRewardEntity = questRewardService.findByCouponCode(findCouponEntity.getCouponCode());
         final QuestEntity findQuestEntity = questService.findById(findQuestRewardEntity.getQuestId());
+        final GainedCouponEntity findGainedCouponEntity = gainedCouponService.findByMemberEntityIdAndCouponId(memberId, request.couponId());
+        final PlaceEntity findPlaceEntity = placeService.findByCouponAuthCode(request.code());
 
-
+        // ~구역 쿠폰을 사용할 때 입력받은 장소의 구역과 비교
         if (findQuestEntity.getPlaceArea() != PlaceArea.NONE && isValidPlaceArea(findQuestEntity, findPlaceEntity)) {
             handleValidCouponApplyRequest(findGainedCouponEntity);
             return CouponApplyResponse.of(true);
         }
 
+        // 장소 카테고리 쿠폰 (ex: 카페 10만원 권 등)을 사용할 때 입력받은 장소의 카테고리와 비교
         if (findQuestEntity.getPlaceCategory() != PlaceCategory.NONE && isValidPlaceCategory(findQuestEntity, findPlaceEntity)) {
             handleValidCouponApplyRequest(findGainedCouponEntity);
             return CouponApplyResponse.of(true);
         }
 
+        // 해당 장소 ~만원 , 해당 장소 이용권 N매 쿠폰 사용시 입력받은 장소 id를 비교
         if (findQuestEntity.getPlaceArea() == PlaceArea.NONE && findQuestEntity.getPlaceCategory() == PlaceCategory.NONE && findQuestEntity.isQuestSamePlace()) {
             if (isSamePlace(findPlaceEntity, findGainedCouponEntity)) {
                 handleValidCouponApplyRequest(findGainedCouponEntity);
@@ -73,6 +64,28 @@ public class CouponApplyUseCase {
         }
 
         return CouponApplyResponse.of(false);
+    }
+
+    private boolean isValidCouponUseConditions(long memberId, CouponApplyRequest request) {
+
+        // 사용자가 획득한 쿠폰이 아니면 인증 실패
+        if (!gainedCouponService.isExistByMemberEntityIdAndCouponId(memberId, request.couponId())) {
+            return false;
+        }
+
+        // 이미 사용된 쿠폰이면 인증 실패
+        final GainedCouponEntity findGainedCouponEntity = gainedCouponService.findByMemberEntityIdAndCouponId(memberId, request.couponId());
+        if (findGainedCouponEntity.isUsed()) {
+            return false;
+        }
+
+        // 올바르지 않은 코드를 입력했을 경우 인증 실패
+        final PlaceEntity findPlaceEntity = placeService.findByCouponAuthCode(request.code());
+        if (findPlaceEntity.getCouponAuthCode() == null || !findPlaceEntity.getCouponAuthCode().equals(request.code())) {
+            return false;
+        }
+
+        return true;
     }
 
     private void handleValidCouponApplyRequest(final GainedCouponEntity findGainedCouponEntity) {
