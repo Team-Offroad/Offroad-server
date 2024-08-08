@@ -97,12 +97,10 @@ class CouponApplyUseCaseTest {
         // 유효하지 않은 쿠폰 코드 입력 -> invalidAuthCode
         CouponApplyRequest couponApplyRequest = new CouponApplyRequest("invalidAuthCode", 1L, 1L);
         GainedCouponEntity gainedCouponEntity = createGainedCouponEntity(memberEntity, couponEntity);
-        RewardList rewardList = new RewardList(false, "couponCode", "emblemCode", false);
-        QuestRewardEntity questRewardEntity = createQuestReward(1, rewardList);
 
         given(gainedCouponService.isExistByMemberEntityIdAndCouponId(anyLong(), anyLong())).willReturn(true);
         given(gainedCouponService.findByMemberEntityIdAndCouponId(anyLong(), anyLong())).willReturn(gainedCouponEntity);
-        given(placeService.findByCouponAuthCode(anyString())).willReturn(placeEntity);
+        given(placeService.findPlaceById(anyLong())).willReturn(placeEntity);
 
         //when
         CouponApplyResponse actualResponse = couponApplyUseCase.applyCoupon(1L, couponApplyRequest);
@@ -130,6 +128,7 @@ class CouponApplyUseCaseTest {
         given(questRewardService.findByCouponCode(anyString())).willReturn(questRewardEntity);
         given(placeService.findByCouponAuthCode(anyString())).willReturn(placeEntity);
         given(questService.findById(anyInt())).willReturn(questEntity);
+        given(placeService.findPlaceById(anyLong())).willReturn(placeEntity);
 
         //when
         CouponApplyResponse actualResponse = couponApplyUseCase.applyCoupon(1L, couponApplyRequest);
@@ -158,6 +157,7 @@ class CouponApplyUseCaseTest {
         given(questRewardService.findByCouponCode(anyString())).willReturn(questRewardEntity);
         given(placeService.findByCouponAuthCode(anyString())).willReturn(placeEntity);
         given(questService.findById(anyInt())).willReturn(questEntity);
+        given(placeService.findPlaceById(anyLong())).willReturn(placeEntity);
 
         //when
         CouponApplyResponse actualResponse = couponApplyUseCase.applyCoupon(1L, couponApplyRequest);
@@ -187,6 +187,7 @@ class CouponApplyUseCaseTest {
         given(questRewardService.findByCouponCode(anyString())).willReturn(questRewardEntity);
         given(placeService.findByCouponAuthCode(anyString())).willReturn(placeEntity);
         given(questService.findById(anyInt())).willReturn(questEntity);
+        given(placeService.findPlaceById(anyLong())).willReturn(placeEntity);
 
         //when
         CouponApplyResponse actualResponse = couponApplyUseCase.applyCoupon(1L, couponApplyRequest);
