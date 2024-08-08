@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static site.offload.api.fixture.CharacterEntityFixtureCreator.createCharacterEntity;
 
 @ExtendWith(MockitoExtension.class)
 public class CharacterMotionServiceTest {
@@ -69,29 +70,5 @@ public class CharacterMotionServiceTest {
                 .build();
     }
 
-
-    public CharacterEntity createCharacterEntity(String name,
-                                                 String characterCode,
-                                                 String characterAdventureSuccessImageUrl,
-                                                 String characterBaseImageUrl,
-                                                 String characterSelectImageUrl,
-                                                 String characterSpotLightImageUrl,
-                                                 String characterAdventureQRFailureImageUrl,
-                                                 String notGainedCharacterThumbnailImageUrl,
-                                                 String description,
-                                                 String characterAdventureLocationFailureImageUrl) {
-        return CharacterEntity.builder()
-                .name(name)
-                .characterCode(characterCode)
-                .characterAdventureSuccessImageUrl(characterAdventureSuccessImageUrl)
-                .characterBaseImageUrl(characterBaseImageUrl)
-                .characterSelectImageUrl(characterSelectImageUrl)
-                .characterSpotLightImageUrl(characterSpotLightImageUrl)
-                .characterAdventureQRFailureImageUrl(characterAdventureQRFailureImageUrl)
-                .notGainedCharacterThumbnailImageUrl(notGainedCharacterThumbnailImageUrl)
-                .description(description)
-                .characterAdventureLocationFailureImageUrl(characterAdventureLocationFailureImageUrl)
-                .build();
-    }
 
 }

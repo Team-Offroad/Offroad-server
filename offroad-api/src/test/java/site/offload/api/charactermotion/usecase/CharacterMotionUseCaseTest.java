@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static site.offload.api.fixture.CharacterEntityFixtureCreator.createCharacterEntity;
+import static site.offload.api.fixture.CharacterMotionEntityFixtureCreator.createCharacterMotionEntity;
 
 @ExtendWith(MockitoExtension.class)
 public class CharacterMotionUseCaseTest {
@@ -97,36 +99,4 @@ public class CharacterMotionUseCaseTest {
 
     }
 
-    public CharacterEntity createCharacterEntity(String name,
-                                                 String characterCode,
-                                                 String characterAdventureSuccessImageUrl,
-                                                 String characterBaseImageUrl,
-                                                 String characterSelectImageUrl,
-                                                 String characterSpotLightImageUrl,
-                                                 String characterAdventureQRFailureImageUrl,
-                                                 String notGainedCharacterThumbnailImageUrl,
-                                                 String description,
-                                                 String characterAdventureLocationFailureImageUrl) {
-        return CharacterEntity.builder()
-                .name(name)
-                .characterCode(characterCode)
-                .characterAdventureSuccessImageUrl(characterAdventureSuccessImageUrl)
-                .characterBaseImageUrl(characterBaseImageUrl)
-                .characterSelectImageUrl(characterSelectImageUrl)
-                .characterSpotLightImageUrl(characterSpotLightImageUrl)
-                .characterAdventureQRFailureImageUrl(characterAdventureQRFailureImageUrl)
-                .notGainedCharacterThumbnailImageUrl(notGainedCharacterThumbnailImageUrl)
-                .description(description)
-                .characterAdventureLocationFailureImageUrl(characterAdventureLocationFailureImageUrl)
-                .build();
-    }
-
-    CharacterMotionEntity createCharacterMotionEntity(CharacterEntity characterEntity, PlaceCategory placeCategory, String motionImageUrl, String notGainedMotionThumbnailImageUrl) {
-        return CharacterMotionEntity.builder()
-                .characterEntity(characterEntity)
-                .placeCategory(placeCategory)
-                .motionImageUrl(motionImageUrl)
-                .notGainedMotionThumbnailImageUrl(notGainedMotionThumbnailImageUrl)
-                .build();
-    }
 }
