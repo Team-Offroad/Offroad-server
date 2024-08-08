@@ -18,14 +18,21 @@ public class QuestRewardService {
 
     public QuestRewardEntity findByQuestId(Integer questId) {
         return questRewardRepository.findByQuestId(questId)
-                .orElseThrow(() -> new NotFoundException(ErrorMessage.ERROR_MESSAGE));
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.QUEST_REWARD_NOTFOUND_EXCEPTION));
     }
 
+    public List<QuestRewardEntity> findAllByQuestId(int questId) {
+        return questRewardRepository.findAllByQuestId(questId);
+    }
     public boolean isExistByQuestId(Integer questId) {
         return questRewardRepository.existsByQuestId(questId);
     }
 
     public List<QuestRewardEntity> findQuestWithEmblems() {
         return questRewardRepository.findAllWithEmblems();
+    }
+
+    public QuestRewardEntity findByCouponCode(String couponCode) {
+        return questRewardRepository.findByCouponCode(couponCode).orElseThrow(() -> new NotFoundException(ErrorMessage.QUEST_REWARD_NOTFOUND_EXCEPTION));
     }
 }

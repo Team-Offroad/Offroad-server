@@ -3,6 +3,7 @@ package site.offload.db.quest.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import site.offload.db.quest.entity.QuestRewardEntity;
 
 import java.util.List;
@@ -16,4 +17,9 @@ public interface QuestRewardRepository extends JpaRepository<QuestRewardEntity, 
     //@Query("SELECT q FROM QuestRewardEntity q WHERE q.rewardList.emblemCode != null")
     @Query("SELECT q FROM QuestRewardEntity q WHERE q.rewardList.emblemCode IS NOT NULL")
     List<QuestRewardEntity> findAllWithEmblems();
+
+    @Query("SELECT q FROM QuestRewardEntity q WHERE q.rewardList.couponCode = :couponCode")
+    Optional<QuestRewardEntity> findByCouponCode(@Param("couponCode") String couponCode);
+
+    List<QuestRewardEntity> findAllByQuestId(int questId);
 }

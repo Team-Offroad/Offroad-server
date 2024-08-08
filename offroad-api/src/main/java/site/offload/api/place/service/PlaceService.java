@@ -33,4 +33,10 @@ public class PlaceService {
                 () -> new NotFoundException(ErrorMessage.PLACE_NOTFOUND_EXCEPTION)
         );
     }
+
+    public PlaceEntity findByCouponAuthCode(final String couponAuthCode) {
+        return placeRepository.findByCouponAuthCode(couponAuthCode).orElseThrow(
+                () -> new NotFoundException(ErrorMessage.PLACE_NOTFOUND_EXCEPTION)
+        );
+    }
 }

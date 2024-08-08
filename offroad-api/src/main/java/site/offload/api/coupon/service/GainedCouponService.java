@@ -2,8 +2,10 @@ package site.offload.api.coupon.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import site.offload.api.exception.NotFoundException;
 import site.offload.db.coupon.entity.GainedCouponEntity;
 import site.offload.db.coupon.repository.GainedCouponRepository;
+import site.offload.enums.response.ErrorMessage;
 
 import java.util.List;
 
@@ -28,5 +30,11 @@ public class GainedCouponService {
 
     public void save(GainedCouponEntity gainedCouponEntity) {
         gainedCouponRepository.save(gainedCouponEntity);
+    }
+
+    public GainedCouponEntity findByMemberEntityIdAndCouponId(long memberId, long couponId) {
+        return gainedCouponRepository.findByMemberEntityIdAndCouponEntityId(memberId, couponId).orElseThrow(
+                () -> new NotFoundException(ErrorMessage.GAINED_COUPON_NOTFOUND_EXCEPTION)
+        );
     }
 }

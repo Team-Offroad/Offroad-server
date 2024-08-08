@@ -15,6 +15,9 @@ import site.offload.db.quest.repository.QuestRewardRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import static org.mockito.BDDMockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -32,14 +35,14 @@ public class QuestRewardServiceTest {
 
         //given
 
-        QuestRewardEntity questRewardEntity1 = createQuestRewardEntity(1, createRewardList(false, null, "emblemCode1"));
-        QuestRewardEntity questRewardEntity4 = createQuestRewardEntity(4, createRewardList(false, null, "emblemCode4"));
+        QuestRewardEntity questRewardEntity1 = createQuestRewardEntity(1, createRewardList(false, null, "emblemCode1", false));
+        QuestRewardEntity questRewardEntity4 = createQuestRewardEntity(4, createRewardList(false, null, "emblemCode4",false));
 
         List<QuestRewardEntity> questRewardEntitiesWithEmblems = new ArrayList<QuestRewardEntity>();
         questRewardEntitiesWithEmblems.add(questRewardEntity1);
         questRewardEntitiesWithEmblems.add(questRewardEntity4);
 
-        BDDMockito.given(questRewardRepository.findAllWithEmblems())
+        given(questRewardRepository.findAllWithEmblems())
                 .willReturn(questRewardEntitiesWithEmblems);
 
         //when
@@ -52,8 +55,22 @@ public class QuestRewardServiceTest {
 
     }
 
-    RewardList createRewardList(boolean isCharacterMotion, String couponCode, String emblemCode) {
-        return new RewardList(isCharacterMotion, couponCode, emblemCode);
+    @Test
+    @DisplayName("쿠폰 코드로 퀘스트 보상을 조회할 수 있다")
+    void findQuestRewardByCouponCode() {
+        //given
+        QuestRewardEntity questRewardEntity1 = createQuestRewardEntity(1, createRewardList(false, "couponCode", "emblemCode1", false));
+        given(questRewardRepository.findByCouponCode(anyString())).willReturn(Optional.ofNullable(questRewardEntity1));
+
+        //when
+        QuestRewardEntity expectedQuestRewardEntity = questRewardService.findByCouponCode("couponCode");
+
+        //then
+        Assertions.assertThat(expectedQuestRewardEntity).isEqualTo(questRewardEntity1);
+    }
+
+    RewardList createRewardList(boolean isCharacterMotion, String couponCode, String emblemCode, boolean isCharacter) {
+        return new RewardList(isCharacterMotion, couponCode, emblemCode, isCharacter);
     }
 
     QuestRewardEntity createQuestRewardEntity(int questId, RewardList rewardList){

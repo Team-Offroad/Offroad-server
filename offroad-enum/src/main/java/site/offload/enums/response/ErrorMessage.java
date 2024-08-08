@@ -32,6 +32,8 @@ public enum ErrorMessage {
     PROCEEDING_QUEST_NOTFOUND_EXCEPTION("진행 중인 해당 ID의 퀘스트가 존재하지 않습니다.", HttpStatus.NOT_FOUND, CustomErrorCode.NOT_EXISTS_PROCEEDING_QUEST),
     QUEST_NOTFOUND_EXCEPTION("퀘스트가 존재하지 않습니다.", HttpStatus.NOT_FOUND, CustomErrorCode.NOT_EXISTS_PLACE),
     COUPON_NOTFOUND_EXCEPTION("쿠폰이 존재하지 않습니다.", HttpStatus.NOT_FOUND, CustomErrorCode.NOT_EXISTS_COUPON),
+    QUEST_REWARD_NOTFOUND_EXCEPTION("퀘스트 보상이 존재하지 않습니다.", HttpStatus.NOT_FOUND, CustomErrorCode.NOT_EXISTS_QUEST_REWARD),
+    GAINED_COUPON_NOTFOUND_EXCEPTION("보유중인 쿠폰이 아닙니다.", HttpStatus.NOT_FOUND, CustomErrorCode.NOT_EXISTS_GAINED_COUPON),
     /* 500 Internal Server Error */
     ERROR_MESSAGE("example", HttpStatus.INTERNAL_SERVER_ERROR, CustomErrorCode.CUSTOM_ERROR_CODE);
     private final String message;

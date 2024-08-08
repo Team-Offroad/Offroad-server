@@ -27,11 +27,11 @@ public class QuestRewardRepositoryTest {
 
         //given
 
-        QuestRewardEntity questRewardEntity1 = createQuestRewardEntity(1, createRewardList(false, null, "emblemCode1"));
-        QuestRewardEntity questRewardEntity2 = createQuestRewardEntity(2, createRewardList(false, "couponCode2", null));
-        QuestRewardEntity questRewardEntity3 = createQuestRewardEntity(3, createRewardList(false, "couponCode3", null));
-        QuestRewardEntity questRewardEntity4 = createQuestRewardEntity(4, createRewardList(false, null, "emblemCode4"));
-        QuestRewardEntity questRewardEntity5 = createQuestRewardEntity(5, createRewardList(false, null, "emblemCode5"));
+        QuestRewardEntity questRewardEntity1 = createQuestRewardEntity(1, createRewardList(false, null, "emblemCode1", false));
+        QuestRewardEntity questRewardEntity2 = createQuestRewardEntity(2, createRewardList(false, "couponCode2", null, false));
+        QuestRewardEntity questRewardEntity3 = createQuestRewardEntity(3, createRewardList(false, "couponCode3", null, false));
+        QuestRewardEntity questRewardEntity4 = createQuestRewardEntity(4, createRewardList(false, null, "emblemCode4", false));
+        QuestRewardEntity questRewardEntity5 = createQuestRewardEntity(5, createRewardList(false, null, "emblemCode5", false));
 
 
         questRewardRepository.save(questRewardEntity1);
@@ -61,8 +61,8 @@ public class QuestRewardRepositoryTest {
         Assertions.assertThat(questRewardEntities).contains(questRewardEntity4);
     }
 
-    RewardList createRewardList(boolean isCharacterMotion, String couponCode, String emblemCode) {
-        return new RewardList(isCharacterMotion, couponCode, emblemCode);
+    RewardList createRewardList(boolean isCharacterMotion, String couponCode, String emblemCode, boolean isCharacter) {
+        return new RewardList(isCharacterMotion, couponCode, emblemCode, isCharacter);
     }
 
     QuestRewardEntity createQuestRewardEntity(int questId, RewardList rewardList) {

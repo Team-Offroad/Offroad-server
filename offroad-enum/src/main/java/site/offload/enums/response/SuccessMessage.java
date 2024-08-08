@@ -24,6 +24,7 @@ public enum SuccessMessage {
     AUTHENTICATE_ADVENTURE_REQUEST_SUCCESS("탐험 인증 요청 성공"),
     GET_GAINED_CHARACTERS_SUCCESS("캐릭터 조회 성공"),
     GET_COUPON_LIST_SUCCESS("획득 쿠폰 조회 요청 성공"),
+    GET_COUPON_APPLY_SUCCESS("획득 쿠폰 사용 요청 성공"),
     GET_EMBLEMS_SUCCESS("칭호 조회 완료");
     private final String message;
 }

@@ -15,4 +15,5 @@ public class RewardList {
     private boolean isCharacterMotion;
     private String couponCode;
     private String emblemCode;
+    private boolean isCharacter;
 }

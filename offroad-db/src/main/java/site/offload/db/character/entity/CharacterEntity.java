@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.offload.db.BaseTimeEntity;
+import site.offload.enums.place.PlaceArea;
 
 //캐릭터
 @Entity
@@ -47,6 +48,8 @@ public class CharacterEntity extends BaseTimeEntity {
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String notGainedCharacterThumbnailImageUrl;
+
+    private PlaceArea placeArea;
 
     @Builder
     public CharacterEntity(String name, String description, String characterBaseImageUrl, String characterSpotLightImageUrl, String characterAdventureSuccessImageUrl, String characterAdventureQRFailureImageUrl, String characterAdventureLocationFailureImageUrl, String characterSelectImageUrl, String characterCode, String notGainedCharacterThumbnailImageUrl) {

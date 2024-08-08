@@ -1,9 +1,9 @@
 package site.offload.api.coupon.service;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -46,6 +46,21 @@ class CouponServiceTest {
                 "testDescription",
                 "testCouponCode"
         );
+    }
+
+    @Test
+    @DisplayName("쿠폰 id로 쿠폰을 조회할 수 있다.")
+    void findByCouponId() {
+
+        //given
+        CouponEntity coupon = createCoupon("testCoupon", "testImageUrl", "testDescription", "testCouponCode");
+        given(couponRepository.findById(anyLong())).willReturn(Optional.ofNullable(coupon));
+
+        //when
+        CouponEntity expectedCoupon = couponService.findById(1L);
+
+        //then
+        assertThat(coupon).isEqualTo(expectedCoupon);
     }
 
     private CouponEntity createCoupon(String name, String couponImageUrl, String description, String couponCode) {

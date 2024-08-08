@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.context.annotation.ComponentScan;
 import site.offload.db.BaseTimeEntity;
 import site.offload.db.member.entity.MemberEntity;
 
@@ -30,13 +31,16 @@ public class GainedCouponEntity extends BaseTimeEntity {
     @JoinColumn(name = "coupon_id", nullable = false)
     private CouponEntity couponEntity;
 
+    @Column(nullable = true)
+    private Long samePlaceRewardPlaceId;
+
     private boolean isUsed = false;
 
     @Builder
-    public GainedCouponEntity(MemberEntity memberEntity, CouponEntity couponEntity) {
+    public GainedCouponEntity(MemberEntity memberEntity, CouponEntity couponEntity, Long samePlaceRewardPlaceId) {
         this.memberEntity = memberEntity;
         this.couponEntity = couponEntity;
-        this.isUsed = false;
+        this.samePlaceRewardPlaceId = samePlaceRewardPlaceId;
     }
 
     public void updateIsUsed(boolean isUsed) {
