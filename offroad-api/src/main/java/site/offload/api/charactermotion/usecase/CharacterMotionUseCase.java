@@ -34,7 +34,7 @@ public class CharacterMotionUseCase {
 
         List<CharacterMotionResponse> gainedCharacterMotions = characterMotionEntities.stream()
                 .filter(characterMotionEntity -> gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotionEntity, findMemberEntity))
-                .map(characterMotionEntity -> CharacterMotionResponse.of(characterMotionEntity.getPlaceCategory().toString(), s3Service.getPresignUrl(characterMotionEntity.getMotionImageUrl())))
+                .map(characterMotionEntity -> CharacterMotionResponse.of(characterMotionEntity.getPlaceCategory().toString(), s3Service.getPresignUrl(characterMotionEntity.getMotionCaptureImageUrl())))
                 .toList();
 
         List<CharacterMotionResponse> notGainedCharacterMotions = characterMotionEntities.stream()

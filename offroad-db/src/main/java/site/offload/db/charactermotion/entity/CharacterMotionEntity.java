@@ -16,8 +16,8 @@ import site.offload.enums.place.PlaceCategory;
 @Table(
         name = "character_motion",
         uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"character_id", "placeCategory"})
-})
+                @UniqueConstraint(columnNames = {"character_id", "placeCategory"})
+        })
 public class CharacterMotionEntity extends BaseTimeEntity {
 
     @Id
@@ -38,11 +38,15 @@ public class CharacterMotionEntity extends BaseTimeEntity {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String notGainedMotionThumbnailImageUrl;
 
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String motionCaptureImageUrl;
+
     @Builder
-    public CharacterMotionEntity(CharacterEntity characterEntity, PlaceCategory placeCategory, String motionImageUrl, String notGainedMotionThumbnailImageUrl) {
+    public CharacterMotionEntity(CharacterEntity characterEntity, PlaceCategory placeCategory, String motionImageUrl, String notGainedMotionThumbnailImageUrl, String motionCaptureImageUrl) {
         this.characterEntity = characterEntity;
         this.placeCategory = placeCategory;
         this.motionImageUrl = motionImageUrl;
         this.notGainedMotionThumbnailImageUrl = notGainedMotionThumbnailImageUrl;
+        this.motionCaptureImageUrl = motionCaptureImageUrl;
     }
 }
