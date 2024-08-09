@@ -60,10 +60,10 @@ public class CharacterMotionUseCaseTest {
                 "주목 이미지1", "QR 실패 이미지1", "미보유 썸네일 이미지1"
                 , "설명1", "위치 인증 실패 이미지1");
 
-        CharacterMotionEntity characterMotionEntity1 = createCharacterMotionEntity(characterEntity, PlaceCategory.CAFFE, "모션 이미지1", "미보유 이미지1");
-        CharacterMotionEntity characterMotionEntity2 = createCharacterMotionEntity(characterEntity, PlaceCategory.CULTURE, "모션 이미지2", "미보유 이미지2");
-        CharacterMotionEntity characterMotionEntity3 = createCharacterMotionEntity(characterEntity, PlaceCategory.RESTAURANT, "모션 이미지3", "미보유 이미지3");
-        CharacterMotionEntity characterMotionEntity4 = createCharacterMotionEntity(characterEntity, PlaceCategory.SPORT, "모션 이미지4", "미보유 이미지4");
+        CharacterMotionEntity characterMotionEntity1 = createCharacterMotionEntity(characterEntity, PlaceCategory.CAFFE, "모션 이미지1", "미보유 이미지1", "모션 캡쳐 이미지1");
+        CharacterMotionEntity characterMotionEntity2 = createCharacterMotionEntity(characterEntity, PlaceCategory.CULTURE, "모션 이미지2", "미보유 이미지2", "모션 캡쳐 이미지2");
+        CharacterMotionEntity characterMotionEntity3 = createCharacterMotionEntity(characterEntity, PlaceCategory.RESTAURANT, "모션 이미지3", "미보유 이미지3", "모션 캡쳐 이미지3");
+        CharacterMotionEntity characterMotionEntity4 = createCharacterMotionEntity(characterEntity, PlaceCategory.SPORT, "모션 이미지4", "미보유 이미지4", "모션 캡쳐 이미지4");
 
         List<CharacterMotionEntity> characterMotionEntities = new ArrayList<CharacterMotionEntity>();
         characterMotionEntities.add(characterMotionEntity1);
@@ -82,8 +82,8 @@ public class CharacterMotionUseCaseTest {
         BDDMockito.given(gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotionEntity2, memberEntity)).willReturn(true);
         BDDMockito.given(gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotionEntity3, memberEntity)).willReturn(false);
         BDDMockito.given(gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotionEntity4, memberEntity)).willReturn(false);
-        BDDMockito.given(s3Service.getPresignUrl(characterMotionEntity1.getMotionImageUrl())).willReturn("모션 이미지1");
-        BDDMockito.given(s3Service.getPresignUrl(characterMotionEntity2.getMotionImageUrl())).willReturn("모션 이미지2");
+        BDDMockito.given(s3Service.getPresignUrl(characterMotionEntity1.getMotionCaptureImageUrl())).willReturn("모션 캡쳐 이미지1");
+        BDDMockito.given(s3Service.getPresignUrl(characterMotionEntity2.getMotionCaptureImageUrl())).willReturn("모션 캡쳐 이미지2");
         BDDMockito.given(s3Service.getPresignUrl(characterMotionEntity3.getNotGainedMotionThumbnailImageUrl())).willReturn("미보유 이미지3");
         BDDMockito.given(s3Service.getPresignUrl(characterMotionEntity4.getNotGainedMotionThumbnailImageUrl())).willReturn("미보유 이미지4");
 
@@ -94,7 +94,7 @@ public class CharacterMotionUseCaseTest {
 
         //then
 
-        Assertions.assertThat(characterMotionsResponse.gainedCharacterMotions()).contains(CharacterMotionResponse.of(PlaceCategory.CAFFE.name(), characterMotionEntity1.getMotionImageUrl()));
+        Assertions.assertThat(characterMotionsResponse.gainedCharacterMotions()).contains(CharacterMotionResponse.of(PlaceCategory.CAFFE.name(), characterMotionEntity1.getMotionCaptureImageUrl()));
         Assertions.assertThat(characterMotionsResponse.gainedCharacterMotions()).doesNotContain((CharacterMotionResponse.of(PlaceCategory.RESTAURANT.name(), characterMotionEntity3.getMotionImageUrl())));
 
     }

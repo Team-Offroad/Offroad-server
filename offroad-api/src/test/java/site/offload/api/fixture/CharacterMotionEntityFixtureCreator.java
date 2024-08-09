@@ -6,12 +6,13 @@ import site.offload.enums.place.PlaceCategory;
 
 public class CharacterMotionEntityFixtureCreator {
 
-    public static CharacterMotionEntity createCharacterMotionEntity(CharacterEntity characterEntity, PlaceCategory placeCategory, String motionImageUrl, String notGainedMotionThumbnailImageUrl) {
+    public static CharacterMotionEntity createCharacterMotionEntity(CharacterEntity characterEntity, PlaceCategory placeCategory, String motionImageUrl, String notGainedMotionThumbnailImageUrl, String motionCaptureImageUrl) {
         return CharacterMotionEntity.builder()
                 .characterEntity(characterEntity)
                 .placeCategory(placeCategory)
                 .motionImageUrl(motionImageUrl)
                 .notGainedMotionThumbnailImageUrl(notGainedMotionThumbnailImageUrl)
+                .motionCaptureImageUrl(motionCaptureImageUrl)
                 .build();
     }
 }
