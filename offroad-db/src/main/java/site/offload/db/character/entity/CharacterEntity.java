@@ -51,8 +51,14 @@ public class CharacterEntity extends BaseTimeEntity {
 
     private PlaceArea placeArea;
 
+    @Column(nullable = false)
+    private String characterMainColorCode;
+
+    @Column(nullable = false)
+    private String characterSubColorCode;
+
     @Builder
-    public CharacterEntity(String name, String description, String characterBaseImageUrl, String characterSpotLightImageUrl, String characterAdventureSuccessImageUrl, String characterAdventureQRFailureImageUrl, String characterAdventureLocationFailureImageUrl, String characterSelectImageUrl, String characterCode, String notGainedCharacterThumbnailImageUrl) {
+    public CharacterEntity(String name, String description, String characterBaseImageUrl, String characterSpotLightImageUrl, String characterAdventureSuccessImageUrl, String characterAdventureQRFailureImageUrl, String characterAdventureLocationFailureImageUrl, String characterSelectImageUrl, String characterCode, String notGainedCharacterThumbnailImageUrl, String characterMainColorCode, String characterSubColorCode) {
         this.name = name;
         this.description = description;
         this.characterBaseImageUrl = characterBaseImageUrl;
@@ -63,5 +69,7 @@ public class CharacterEntity extends BaseTimeEntity {
         this.characterSelectImageUrl = characterSelectImageUrl;
         this.CharacterCode = characterCode;
         this.notGainedCharacterThumbnailImageUrl = notGainedCharacterThumbnailImageUrl;
+        this.characterMainColorCode = characterMainColorCode;
+        this.characterSubColorCode = characterSubColorCode;
     }
 }

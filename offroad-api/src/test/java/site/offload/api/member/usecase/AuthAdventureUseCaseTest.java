@@ -108,7 +108,9 @@ class AuthAdventureUseCaseTest {
                 "characterAdventureQRFailureImageUrl",
                 "notGainedCharacterThumbnailImageUrl",
                 "characterDescription",
-                "characterAdventureLocationFailureImageUrl"
+                "characterAdventureLocationFailureImageUrl",
+                "캐릭터 메인 색깔 코드",
+                "캐릭터 서브 색깔 코드"
         );
 
         QuestEntity questEntity1 = createQuest(

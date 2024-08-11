@@ -1,11 +1,13 @@
 package site.offload.api.member.dto.response;
 
 public record GainedCharacterResponse(
+        Integer CharacterId,
         String characterName,
         String characterThumbnailImageUrl,
-        String characterDescription
+        String characterMainColorCode,
+        String characterSubColorCode
 ) {
-    public static GainedCharacterResponse of(String characterName, String characterThumbnailImageUrl, String characterDescription) {
-        return new GainedCharacterResponse(characterName, characterThumbnailImageUrl, characterDescription);
+    public static GainedCharacterResponse of(Integer characterId, String characterName, String characterThumbnailImageUrl, String characterMainColorCode, String characterSubColorCode) {
+        return new GainedCharacterResponse(characterId, characterName, characterThumbnailImageUrl, characterMainColorCode, characterSubColorCode);
     }
 }

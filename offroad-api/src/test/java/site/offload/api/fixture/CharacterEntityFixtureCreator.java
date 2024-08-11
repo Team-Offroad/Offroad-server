@@ -12,7 +12,9 @@ public class CharacterEntityFixtureCreator {
                                                         String characterAdventureQRFailureImageUrl,
                                                         String notGainedCharacterThumbnailImageUrl,
                                                         String description,
-                                                        String characterAdventureLocationFailureImageUrl) {
+                                                        String characterAdventureLocationFailureImageUrl,
+                                                        String characterMainColorCode,
+                                                        String characterSubColorCode) {
         return CharacterEntity.builder()
                 .name(name)
                 .characterCode(characterCode)
@@ -24,6 +26,8 @@ public class CharacterEntityFixtureCreator {
                 .notGainedCharacterThumbnailImageUrl(notGainedCharacterThumbnailImageUrl)
                 .description(description)
                 .characterAdventureLocationFailureImageUrl(characterAdventureLocationFailureImageUrl)
+                .characterMainColorCode(characterMainColorCode)
+                .characterSubColorCode(characterSubColorCode)
                 .build();
     }
 }
