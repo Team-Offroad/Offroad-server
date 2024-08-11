@@ -35,12 +35,12 @@ public class GainedCharacterServiceTest {
         CharacterEntity characterEntity1 = createCharacterEntity("이름1", "캐릭터 코드1",
                 "탐험 성공 이미지1", "기본 이미지1", "선택 이미지1",
                 "주목 이미지1", "QR 실패 이미지1", "미보유 썸네일 이미지1"
-                , "설명1", "위치 인증 실패 이미지1");
+                , "설명1", "위치 인증 실패 이미지1", "캐릭터 메인 색깔 코드", "캐릭터 서브 색깔 코드");
 
         CharacterEntity characterEntity2 = createCharacterEntity("이름2", "캐릭터 코드2",
                 "탐험 성공 이미지2", "기본 이미지2", "선택 이미지2",
                 "주목 이미지2", "QR 실패 이미지2", "미보유 썸네일 이미지2"
-                , "설명2", "위치 인증 실패 이미지2");
+                , "설명2", "위치 인증 실패 이미지2", "캐릭터 메인 색깔 코드", "캐릭터 서브 색깔 코드");
 
         BDDMockito.given(gainedCharacterRepository.existsByCharacterEntityAndMemberEntity(characterEntity1, memberEntity))
                 .willReturn(true);

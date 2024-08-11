@@ -3,10 +3,10 @@ package site.offload.api.member.dto.response;
 import java.util.List;
 
 public record GainedCharactersResponse(
-        List<GainedCharacterResponse> isGainedCharacters,
-        List<GainedCharacterResponse> isNotGainedCharacters
+        List<GainedCharacterResponse> gainedCharacters,
+        List<GainedCharacterResponse> notGainedCharacters
 ) {
-    public static GainedCharactersResponse of(List<GainedCharacterResponse> isGainedCharacters, List<GainedCharacterResponse> isNotGainedCharacters) {
-        return new GainedCharactersResponse(isGainedCharacters, isNotGainedCharacters);
+    public static GainedCharactersResponse of(List<GainedCharacterResponse> gainedCharacters, List<GainedCharacterResponse> notGainedCharacters) {
+        return new GainedCharactersResponse(gainedCharacters, notGainedCharacters);
     }
 }

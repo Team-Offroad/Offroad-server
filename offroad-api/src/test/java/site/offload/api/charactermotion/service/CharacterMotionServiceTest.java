@@ -36,7 +36,7 @@ public class CharacterMotionServiceTest {
         CharacterEntity characterEntity = createCharacterEntity("이름", "캐릭터 코드",
                 "탐험 성공 이미지", "기본 이미지", "선택 이미지",
                 "주목 이미지", "QR 실패 이미지", "미보유 썸네일 이미지"
-                , "설명", "위치 인증 실패 이미지");
+                , "설명", "위치 인증 실패 이미지", "캐릭터 메인 색깔 코드", "캐릭터 서브 색깔 코드");
 
         CharacterMotionEntity characterMotionEntity1 = createCharacterMotionEntity(characterEntity, PlaceCategory.CAFFE, "모션 이미지1", "미보유 이미지1");
         CharacterMotionEntity characterMotionEntity2 = createCharacterMotionEntity(characterEntity, PlaceCategory.CULTURE, "모션 이미지2", "미보유 이미지2");
