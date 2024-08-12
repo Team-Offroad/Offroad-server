@@ -42,10 +42,10 @@ public class PlaceEntity extends BaseTimeEntity {
     @Column(nullable = false)
     private String offroadCode;
 
-    @Column(nullable = false, columnDefinition = "double CHECK (latitude >= -90 AND latitude <= 90)")
+    @Column(nullable = false)
     private double latitude;
 
-    @Column(nullable = false, columnDefinition = "double CHECK (longitude >= -180 AND longitude <= 180)")
+    @Column(nullable = false)
     private double longitude;
 
     @Column(nullable = false, columnDefinition = "TEXT")
