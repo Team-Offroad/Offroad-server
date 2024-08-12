@@ -1,0 +1,14 @@
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation "org.jooq:jooq:${jooqVersion}"
+
+    implementation project(path: ':offroad-enum')
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}

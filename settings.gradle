@@ -1,9 +1,11 @@
 rootProject.name = 'offloadserver'
 include 'offroad-api'
-include 'offroad-db'
 include 'offroad-common'
 include 'offroad-external'
 include 'offroad-enum'
 include 'offroad-cache'
 include 'offroad-support'
+include 'offroad-db:db-jpa'
+include 'offroad-db:db-jooq'
+
 

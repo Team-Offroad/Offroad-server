@@ -2,10 +2,10 @@ package site.offload.api.character.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import site.offload.db.character.entity.CharacterEntity;
-import site.offload.db.character.entity.GainedCharacterEntity;
-import site.offload.db.character.repository.GainedCharacterRepository;
-import site.offload.db.member.entity.MemberEntity;
+import site.offload.dbjpa.character.entity.CharacterEntity;
+import site.offload.dbjpa.character.entity.GainedCharacterEntity;
+import site.offload.dbjpa.character.repository.GainedCharacterRepository;
+import site.offload.dbjpa.member.entity.MemberEntity;
 
 import java.util.List;
 

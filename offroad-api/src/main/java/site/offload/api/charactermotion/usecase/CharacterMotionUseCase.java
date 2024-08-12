@@ -9,9 +9,9 @@ import site.offload.api.charactermotion.dto.CharacterMotionsResponse;
 import site.offload.api.charactermotion.service.CharacterMotionService;
 import site.offload.api.charactermotion.service.GainedCharacterMotionService;
 import site.offload.api.member.service.MemberService;
-import site.offload.db.character.entity.CharacterEntity;
-import site.offload.db.charactermotion.entity.CharacterMotionEntity;
-import site.offload.db.member.entity.MemberEntity;
+import site.offload.dbjpa.character.entity.CharacterEntity;
+import site.offload.dbjpa.charactermotion.entity.CharacterMotionEntity;
+import site.offload.dbjpa.member.entity.MemberEntity;
 import site.offload.external.aws.S3Service;
 
 import java.util.List;

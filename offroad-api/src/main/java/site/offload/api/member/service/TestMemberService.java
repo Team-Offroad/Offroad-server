@@ -2,7 +2,7 @@ package site.offload.api.member.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import site.offload.db.member.repository.MemberRepository;
+import site.offload.dbjpa.member.repository.MemberRepository;
 
 @Service
 @RequiredArgsConstructor

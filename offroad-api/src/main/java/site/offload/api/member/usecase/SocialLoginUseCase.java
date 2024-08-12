@@ -10,7 +10,7 @@ import site.offload.api.emblem.service.GainedEmblemService;
 import site.offload.api.exception.OffroadException;
 import site.offload.api.member.dto.response.SocialLoginResponse;
 import site.offload.api.member.service.MemberService;
-import site.offload.db.member.entity.MemberEntity;
+import site.offload.dbjpa.member.entity.MemberEntity;
 import site.offload.enums.emblem.Emblem;
 import site.offload.enums.response.ErrorMessage;
 import site.offload.enums.member.SocialPlatform;

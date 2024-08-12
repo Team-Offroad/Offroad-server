@@ -7,8 +7,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import site.offload.api.fixture.CouponEntityFixtureCreator;
-import site.offload.db.coupon.entity.CouponEntity;
-import site.offload.db.coupon.repository.CouponRepository;
+import site.offload.dbjpa.coupon.entity.CouponEntity;
+import site.offload.dbjpa.coupon.repository.CouponRepository;
 
 import java.util.Optional;
 

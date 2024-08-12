@@ -10,9 +10,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import site.offload.api.character.service.GainedCharacterService;
 import site.offload.api.member.dto.response.GainedCharacterResponse;
-import site.offload.db.character.entity.CharacterEntity;
-import site.offload.db.character.repository.GainedCharacterRepository;
-import site.offload.db.member.entity.MemberEntity;
+import site.offload.dbjpa.character.entity.CharacterEntity;
+import site.offload.dbjpa.character.repository.GainedCharacterRepository;
+import site.offload.dbjpa.member.entity.MemberEntity;
 import site.offload.enums.member.SocialPlatform;
 
 import java.util.ArrayList;

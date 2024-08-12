@@ -1,6 +1,6 @@
 package site.offload.api.fixture;
 
-import site.offload.db.coupon.entity.CouponEntity;
+import site.offload.dbjpa.coupon.entity.CouponEntity;
 
 public class CouponEntityFixtureCreator {
 

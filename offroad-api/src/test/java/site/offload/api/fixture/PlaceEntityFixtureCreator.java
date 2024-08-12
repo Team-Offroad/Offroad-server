@@ -1,6 +1,6 @@
 package site.offload.api.fixture;
 
-import site.offload.db.place.entity.PlaceEntity;
+import site.offload.dbjpa.place.entity.PlaceEntity;
 import site.offload.enums.place.PlaceArea;
 import site.offload.enums.place.PlaceCategory;
 

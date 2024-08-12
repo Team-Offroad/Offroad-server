@@ -8,9 +8,9 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import site.offload.db.character.entity.CharacterEntity;
-import site.offload.db.character.repository.GainedCharacterRepository;
-import site.offload.db.member.entity.MemberEntity;
+import site.offload.dbjpa.character.entity.CharacterEntity;
+import site.offload.dbjpa.character.repository.GainedCharacterRepository;
+import site.offload.dbjpa.member.entity.MemberEntity;
 import site.offload.enums.member.SocialPlatform;
 
 import static site.offload.api.fixture.CharacterEntityFixtureCreator.createCharacterEntity;

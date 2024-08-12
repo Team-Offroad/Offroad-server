@@ -7,7 +7,7 @@ import site.offload.api.place.dto.request.RegisteredPlacesRequest;
 import site.offload.api.place.dto.response.RegisteredPlaceResponse;
 import site.offload.api.place.dto.response.RegisteredPlacesResponse;
 import site.offload.api.place.service.PlaceService;
-import site.offload.db.place.entity.PlaceEntity;
+import site.offload.dbjpa.place.entity.PlaceEntity;
 import site.offload.external.aws.S3Service;
 
 import java.util.List;

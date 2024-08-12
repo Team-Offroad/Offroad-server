@@ -6,9 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
-import site.offload.db.config.JpaAuditingConfig;
-import site.offload.db.quest.entity.QuestRewardEntity;
-import site.offload.db.quest.repository.QuestRewardRepository;
+import site.offload.dbjpa.config.JpaAuditingConfig;
+import site.offload.dbjpa.quest.entity.QuestRewardEntity;
+import site.offload.dbjpa.quest.repository.QuestRewardRepository;
 
 import java.util.List;
 

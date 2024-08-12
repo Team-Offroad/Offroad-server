@@ -14,7 +14,7 @@ import site.offload.api.member.service.TestMemberService;
 import site.offload.api.place.service.VisitedPlaceService;
 import site.offload.api.quest.service.CompleteQuestService;
 import site.offload.api.quest.service.ProceedingQuestService;
-import site.offload.db.member.entity.MemberEntity;
+import site.offload.dbjpa.member.entity.MemberEntity;
 import site.offload.external.discord.DiscordService;
 import site.offload.external.discord.DiscordWebhookRequest;
 import site.offload.external.discord.Embed;

@@ -10,11 +10,11 @@ import site.offload.api.coupon.service.GainedCouponService;
 import site.offload.api.place.service.PlaceService;
 import site.offload.api.quest.service.QuestRewardService;
 import site.offload.api.quest.service.QuestService;
-import site.offload.db.coupon.entity.CouponEntity;
-import site.offload.db.coupon.entity.GainedCouponEntity;
-import site.offload.db.place.entity.PlaceEntity;
-import site.offload.db.quest.entity.QuestEntity;
-import site.offload.db.quest.entity.QuestRewardEntity;
+import site.offload.dbjpa.coupon.entity.CouponEntity;
+import site.offload.dbjpa.coupon.entity.GainedCouponEntity;
+import site.offload.dbjpa.place.entity.PlaceEntity;
+import site.offload.dbjpa.quest.entity.QuestEntity;
+import site.offload.dbjpa.quest.entity.QuestRewardEntity;
 import site.offload.enums.place.PlaceArea;
 import site.offload.enums.place.PlaceCategory;
 

@@ -20,7 +20,8 @@ dependencies {
 
     implementation project(path: ':offroad-cache')
     implementation project(path: ':offroad-common')
-    implementation project(path: ':offroad-db')
+    implementation project(path: ':offroad-db:db-jpa')
+    implementation project(path: ':offroad-db:db-jooq')
     implementation project(path: ':offroad-enum')
     implementation project(path: ':offroad-external')
     implementation project(path: ':offroad-support')

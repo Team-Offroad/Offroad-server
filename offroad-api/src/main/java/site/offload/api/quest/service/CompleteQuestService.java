@@ -2,10 +2,10 @@ package site.offload.api.quest.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import site.offload.db.member.entity.MemberEntity;
-import site.offload.db.quest.entity.CompleteQuestEntity;
-import site.offload.db.quest.entity.QuestEntity;
-import site.offload.db.quest.repository.CompleteQuestRepository;
+import site.offload.dbjpa.member.entity.MemberEntity;
+import site.offload.dbjpa.quest.entity.CompleteQuestEntity;
+import site.offload.dbjpa.quest.entity.QuestEntity;
+import site.offload.dbjpa.quest.repository.CompleteQuestRepository;
 
 @Service
 @RequiredArgsConstructor

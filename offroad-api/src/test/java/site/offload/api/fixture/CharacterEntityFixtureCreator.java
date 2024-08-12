@@ -1,6 +1,6 @@
 package site.offload.api.fixture;
 
-import site.offload.db.character.entity.CharacterEntity;
+import site.offload.dbjpa.character.entity.CharacterEntity;
 
 public class CharacterEntityFixtureCreator {
     public static CharacterEntity createCharacterEntity(String name,

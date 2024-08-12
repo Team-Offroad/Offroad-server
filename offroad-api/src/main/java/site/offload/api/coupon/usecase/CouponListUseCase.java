@@ -7,8 +7,8 @@ import site.offload.api.coupon.dto.AvailableCouponResponse;
 import site.offload.api.coupon.dto.CouponListResponse;
 import site.offload.api.coupon.dto.UsedCouponResponse;
 import site.offload.api.coupon.service.GainedCouponService;
-import site.offload.db.coupon.entity.CouponEntity;
-import site.offload.db.coupon.entity.GainedCouponEntity;
+import site.offload.dbjpa.coupon.entity.CouponEntity;
+import site.offload.dbjpa.coupon.entity.GainedCouponEntity;
 
 import java.util.ArrayList;
 import java.util.List;

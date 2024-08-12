@@ -6,9 +6,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import site.offload.db.quest.entity.QuestEntity;
-import site.offload.db.quest.repository.ProceedingQuestRepository;
-import site.offload.db.quest.repository.QuestRepository;
+import site.offload.dbjpa.quest.entity.QuestEntity;
+import site.offload.dbjpa.quest.repository.ProceedingQuestRepository;
+import site.offload.dbjpa.quest.repository.QuestRepository;
 import site.offload.enums.place.PlaceArea;
 import site.offload.enums.place.PlaceCategory;
 

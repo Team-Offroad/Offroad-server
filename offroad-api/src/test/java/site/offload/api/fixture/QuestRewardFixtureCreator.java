@@ -1,7 +1,7 @@
 package site.offload.api.fixture;
 
-import site.offload.db.quest.embeddable.RewardList;
-import site.offload.db.quest.entity.QuestRewardEntity;
+import site.offload.dbjpa.quest.embeddable.RewardList;
+import site.offload.dbjpa.quest.entity.QuestRewardEntity;
 
 public class QuestRewardFixtureCreator {
 

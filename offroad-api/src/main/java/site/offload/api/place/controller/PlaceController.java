@@ -17,15 +17,14 @@ import site.offload.enums.response.SuccessMessage;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/places")
 @Tag(name = "Place API", description = "장소 관련 API")
 public class PlaceController implements PlaceControllerSwagger {
 
     private final PlaceUsecase placeUsecase;
 
-    @GetMapping("/places")
+    @GetMapping
     public ResponseEntity<APISuccessResponse<RegisteredPlacesResponse>> checkRegisteredPlaces(@RequestParam double currentLatitude, @RequestParam double currentLongitude) {
-
         return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.CHECK_REGISTERED_PLACES_SUCCESS.getMessage(), placeUsecase.checkRegisteredPlaces(PrincipalHandler.getMemberIdFromPrincipal(), RegisteredPlacesRequest.of(currentLatitude, currentLongitude)));
     }
 }

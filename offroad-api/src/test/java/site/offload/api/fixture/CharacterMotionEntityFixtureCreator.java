@@ -1,7 +1,7 @@
 package site.offload.api.fixture;
 
-import site.offload.db.character.entity.CharacterEntity;
-import site.offload.db.charactermotion.entity.CharacterMotionEntity;
+import site.offload.dbjpa.character.entity.CharacterEntity;
+import site.offload.dbjpa.charactermotion.entity.CharacterMotionEntity;
 import site.offload.enums.place.PlaceCategory;
 
 public class CharacterMotionEntityFixtureCreator {

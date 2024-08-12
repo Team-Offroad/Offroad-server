@@ -8,9 +8,9 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import site.offload.db.character.entity.CharacterEntity;
-import site.offload.db.charactermotion.entity.CharacterMotionEntity;
-import site.offload.db.charactermotion.repository.CharacterMotionRepository;
+import site.offload.dbjpa.character.entity.CharacterEntity;
+import site.offload.dbjpa.charactermotion.entity.CharacterMotionEntity;
+import site.offload.dbjpa.charactermotion.repository.CharacterMotionRepository;
 import site.offload.enums.place.PlaceCategory;
 
 import java.util.ArrayList;

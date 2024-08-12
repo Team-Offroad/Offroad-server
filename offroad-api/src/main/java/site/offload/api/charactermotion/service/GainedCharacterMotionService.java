@@ -2,10 +2,10 @@ package site.offload.api.charactermotion.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import site.offload.db.charactermotion.entity.CharacterMotionEntity;
-import site.offload.db.charactermotion.entity.GainedCharacterMotionEntity;
-import site.offload.db.charactermotion.repository.GainedCharacterMotionRepository;
-import site.offload.db.member.entity.MemberEntity;
+import site.offload.dbjpa.charactermotion.entity.CharacterMotionEntity;
+import site.offload.dbjpa.charactermotion.entity.GainedCharacterMotionEntity;
+import site.offload.dbjpa.charactermotion.repository.GainedCharacterMotionRepository;
+import site.offload.dbjpa.member.entity.MemberEntity;
 
 @Component
 @RequiredArgsConstructor

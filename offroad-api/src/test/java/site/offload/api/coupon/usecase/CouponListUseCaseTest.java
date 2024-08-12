@@ -10,10 +10,10 @@ import site.offload.api.coupon.dto.AvailableCouponResponse;
 import site.offload.api.coupon.dto.CouponListResponse;
 import site.offload.api.coupon.dto.UsedCouponResponse;
 import site.offload.api.coupon.service.GainedCouponService;
-import site.offload.db.BaseTimeEntity;
-import site.offload.db.coupon.entity.CouponEntity;
-import site.offload.db.coupon.entity.GainedCouponEntity;
-import site.offload.db.member.entity.MemberEntity;
+import site.offload.dbjpa.BaseTimeEntity;
+import site.offload.dbjpa.coupon.entity.CouponEntity;
+import site.offload.dbjpa.coupon.entity.GainedCouponEntity;
+import site.offload.dbjpa.member.entity.MemberEntity;
 import site.offload.enums.member.SocialPlatform;
 
 import java.time.LocalDateTime;

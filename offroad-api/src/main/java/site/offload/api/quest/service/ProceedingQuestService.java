@@ -3,10 +3,10 @@ package site.offload.api.quest.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import site.offload.api.exception.NotFoundException;
-import site.offload.db.member.entity.MemberEntity;
-import site.offload.db.quest.entity.ProceedingQuestEntity;
-import site.offload.db.quest.entity.QuestEntity;
-import site.offload.db.quest.repository.ProceedingQuestRepository;
+import site.offload.dbjpa.member.entity.MemberEntity;
+import site.offload.dbjpa.quest.entity.ProceedingQuestEntity;
+import site.offload.dbjpa.quest.entity.QuestEntity;
+import site.offload.dbjpa.quest.repository.ProceedingQuestRepository;
 import site.offload.enums.response.ErrorMessage;
 
 @Component

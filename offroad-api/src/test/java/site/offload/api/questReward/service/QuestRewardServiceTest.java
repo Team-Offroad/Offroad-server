@@ -8,8 +8,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import site.offload.api.quest.service.QuestRewardService;
-import site.offload.db.quest.entity.QuestRewardEntity;
-import site.offload.db.quest.repository.QuestRewardRepository;
+import site.offload.dbjpa.quest.entity.QuestRewardEntity;
+import site.offload.dbjpa.quest.repository.QuestRewardRepository;
 
 import java.util.ArrayList;
 import java.util.List;

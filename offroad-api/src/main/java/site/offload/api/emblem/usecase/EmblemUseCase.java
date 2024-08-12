@@ -14,9 +14,9 @@ import site.offload.api.exception.NotFoundException;
 import site.offload.api.member.service.MemberService;
 import site.offload.api.quest.service.QuestRewardService;
 import site.offload.api.quest.service.QuestService;
-import site.offload.db.emblem.entity.GainedEmblemEntity;
-import site.offload.db.member.entity.MemberEntity;
-import site.offload.db.quest.entity.QuestRewardEntity;
+import site.offload.dbjpa.emblem.entity.GainedEmblemEntity;
+import site.offload.dbjpa.member.entity.MemberEntity;
+import site.offload.dbjpa.quest.entity.QuestRewardEntity;
 import site.offload.enums.emblem.Emblem;
 import site.offload.enums.response.ErrorMessage;
 

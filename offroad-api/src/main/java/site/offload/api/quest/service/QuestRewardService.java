@@ -3,9 +3,9 @@ package site.offload.api.quest.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import site.offload.api.exception.NotFoundException;
-import site.offload.db.quest.entity.QuestEntity;
-import site.offload.db.quest.entity.QuestRewardEntity;
-import site.offload.db.quest.repository.QuestRewardRepository;
+import site.offload.dbjpa.quest.entity.QuestEntity;
+import site.offload.dbjpa.quest.entity.QuestRewardEntity;
+import site.offload.dbjpa.quest.repository.QuestRewardRepository;
 import site.offload.enums.response.ErrorMessage;
 
 import java.util.List;

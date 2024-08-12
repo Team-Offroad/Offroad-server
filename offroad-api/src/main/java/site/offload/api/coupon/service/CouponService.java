@@ -3,8 +3,8 @@ package site.offload.api.coupon.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import site.offload.api.exception.NotFoundException;
-import site.offload.db.coupon.entity.CouponEntity;
-import site.offload.db.coupon.repository.CouponRepository;
+import site.offload.dbjpa.coupon.entity.CouponEntity;
+import site.offload.dbjpa.coupon.repository.CouponRepository;
 import site.offload.enums.response.ErrorMessage;
 
 @Component

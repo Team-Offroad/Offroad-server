@@ -7,11 +7,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import site.offload.db.BaseTimeEntity;
-import site.offload.db.coupon.entity.CouponEntity;
-import site.offload.db.coupon.entity.GainedCouponEntity;
-import site.offload.db.coupon.repository.GainedCouponRepository;
-import site.offload.db.member.entity.MemberEntity;
+import site.offload.dbjpa.BaseTimeEntity;
+import site.offload.dbjpa.coupon.entity.CouponEntity;
+import site.offload.dbjpa.coupon.entity.GainedCouponEntity;
+import site.offload.dbjpa.coupon.repository.GainedCouponRepository;
+import site.offload.dbjpa.member.entity.MemberEntity;
 import site.offload.enums.member.SocialPlatform;
 
 import java.time.LocalDateTime;

@@ -7,11 +7,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import site.offload.api.emblem.service.GainedEmblemService;
-import site.offload.api.fixture.QuestRewardFixtureCreator;
 import site.offload.api.quest.service.QuestRewardService;
-import site.offload.db.emblem.entity.GainedEmblemEntity;
-import site.offload.db.member.entity.MemberEntity;
-import site.offload.db.quest.entity.QuestRewardEntity;
+import site.offload.dbjpa.emblem.entity.GainedEmblemEntity;
+import site.offload.dbjpa.member.entity.MemberEntity;
+import site.offload.dbjpa.quest.entity.QuestRewardEntity;
 import site.offload.enums.member.SocialPlatform;
 
 import java.util.ArrayList;
