@@ -22,6 +22,9 @@ public class CharacterEntity extends BaseTimeEntity {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private String summaryDescription;
+
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
@@ -49,6 +52,9 @@ public class CharacterEntity extends BaseTimeEntity {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String notGainedCharacterThumbnailImageUrl;
 
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String characterIconImageUrl;
+
     private PlaceArea placeArea;
 
     @Column(nullable = false)
@@ -58,7 +64,7 @@ public class CharacterEntity extends BaseTimeEntity {
     private String characterSubColorCode;
 
     @Builder
-    public CharacterEntity(String name, String description, String characterBaseImageUrl, String characterSpotLightImageUrl, String characterAdventureSuccessImageUrl, String characterAdventureQRFailureImageUrl, String characterAdventureLocationFailureImageUrl, String characterSelectImageUrl, String characterCode, String notGainedCharacterThumbnailImageUrl, String characterMainColorCode, String characterSubColorCode) {
+    public CharacterEntity(String name, String description, String characterBaseImageUrl, String characterSpotLightImageUrl, String characterAdventureSuccessImageUrl, String characterAdventureQRFailureImageUrl, String characterAdventureLocationFailureImageUrl, String characterSelectImageUrl, String characterCode, String notGainedCharacterThumbnailImageUrl, String characterMainColorCode, String characterSubColorCode, String summaryDescription, String characterIconImageUrl) {
         this.name = name;
         this.description = description;
         this.characterBaseImageUrl = characterBaseImageUrl;
@@ -71,5 +77,7 @@ public class CharacterEntity extends BaseTimeEntity {
         this.notGainedCharacterThumbnailImageUrl = notGainedCharacterThumbnailImageUrl;
         this.characterMainColorCode = characterMainColorCode;
         this.characterSubColorCode = characterSubColorCode;
+        this.characterIconImageUrl = characterIconImageUrl;
+        this.summaryDescription = summaryDescription;
     }
 }

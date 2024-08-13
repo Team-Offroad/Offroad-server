@@ -47,6 +47,9 @@ public interface MemberControllerSwagger {
     @ApiResponse(responseCode = "200", description = "로그아웃 성공", content = @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponse.class)))
     ResponseEntity<APISuccessResponse<Void>> signOut(@RequestBody final SignOutRequest request);
 
+    @Operation(summary = "캐릭터 목록 조회 API", description = "캐릭터 목록 조회 API")
+    @ApiResponse(responseCode = "200", description = "캐릭터 목록 조회 성공", content = @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponse.class)))
+    public ResponseEntity<APISuccessResponse<GainedCharactersResponse>> getGainedCharacters();
 }
 
 

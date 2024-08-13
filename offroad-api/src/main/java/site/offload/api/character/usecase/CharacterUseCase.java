@@ -3,6 +3,7 @@ package site.offload.api.character.usecase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import site.offload.api.character.dto.response.CharacterDetailResponse;
 import site.offload.api.character.dto.response.CharacterListResponse;
 import site.offload.api.character.dto.response.CharacterResponse;
 import site.offload.api.character.service.CharacterService;
@@ -31,5 +32,11 @@ public class CharacterUseCase {
                         .build()
         ).toList();
         return CharacterListResponse.of(charactersList);
+    }
+
+    @Transactional(readOnly = true)
+    public CharacterDetailResponse getCharacterDetail(Integer characterId) {
+        CharacterEntity characterEntity = characterService.findById(characterId);
+        return CharacterDetailResponse.of(characterId, characterEntity.getName(), s3Service.getPresignUrl(characterEntity.getCharacterBaseImageUrl()), s3Service.getPresignUrl(characterEntity.getCharacterIconImageUrl()), characterEntity.getDescription(), characterEntity.getSummaryDescription(), characterEntity.getCharacterMainColorCode(), characterEntity.getCharacterSubColorCode());
     }
 }

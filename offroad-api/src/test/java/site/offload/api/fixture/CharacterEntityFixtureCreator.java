@@ -14,7 +14,9 @@ public class CharacterEntityFixtureCreator {
                                                         String description,
                                                         String characterAdventureLocationFailureImageUrl,
                                                         String characterMainColorCode,
-                                                        String characterSubColorCode) {
+                                                        String characterSubColorCode,
+                                                        String summaryDescription,
+                                                        String characterIconImageUrl) {
         return CharacterEntity.builder()
                 .name(name)
                 .characterCode(characterCode)
@@ -28,6 +30,8 @@ public class CharacterEntityFixtureCreator {
                 .characterAdventureLocationFailureImageUrl(characterAdventureLocationFailureImageUrl)
                 .characterMainColorCode(characterMainColorCode)
                 .characterSubColorCode(characterSubColorCode)
+                .characterIconImageUrl(characterIconImageUrl)
+                .summaryDescription(summaryDescription)
                 .build();
     }
 }

@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
+import site.offload.api.emblem.dto.response.EmblemsResponse;
 import site.offload.api.emblem.dto.response.GainedEmblemListResponse;
 import site.offload.api.response.APISuccessResponse;
 
@@ -22,4 +23,10 @@ public interface EmblemControllerSwagger {
             description = "칭호 조회 완료",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponse.class)))
     ResponseEntity<APISuccessResponse<GainedEmblemListResponse>> getGainedEmblem();
+
+    @Operation(summary = "칭호 조회 API", description = "칭호 목록을 조회하는 API 입니다.")
+    @ApiResponse(responseCode = "200",
+            description = "칭호 조회 완료",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponse.class)))
+    public ResponseEntity<APISuccessResponse<EmblemsResponse>> getEmblems();
 }
