@@ -16,14 +16,14 @@ import site.offload.enums.response.SuccessMessage;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class CharacterMotionController {
+public class CharacterMotionController implements CharacterMotionControllerSwagger {
 
     private final CharacterMotionUseCase characterMotionUseCase;
 
     @GetMapping("/motions/{characterId}")
     public ResponseEntity<APISuccessResponse<CharacterMotionsResponse>> getMotions(
             @PathVariable(value = "characterId") Integer characterId
-    ){
+    ) {
         Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
         return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.GET_MOTIONS_SUCCESS.getMessage(), characterMotionUseCase.getMotions(memberId, characterId));
     }

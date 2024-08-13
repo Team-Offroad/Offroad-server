@@ -110,7 +110,9 @@ class AuthAdventureUseCaseTest {
                 "characterDescription",
                 "characterAdventureLocationFailureImageUrl",
                 "캐릭터 메인 색깔 코드",
-                "캐릭터 서브 색깔 코드"
+                "캐릭터 서브 색깔 코드",
+                "캐릭터 요약 설명",
+                "캐릭터 아이콘 이미지"
         );
 
         QuestEntity questEntity1 = createQuest(

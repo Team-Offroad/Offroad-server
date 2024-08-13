@@ -18,6 +18,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static site.offload.api.fixture.CharacterEntityFixtureCreator.createCharacterEntity;
+import static site.offload.api.fixture.CharacterMotionEntityFixtureCreator.createCharacterMotionEntity;
 
 @ExtendWith(MockitoExtension.class)
 public class CharacterMotionServiceTest {
@@ -36,12 +37,12 @@ public class CharacterMotionServiceTest {
         CharacterEntity characterEntity = createCharacterEntity("이름", "캐릭터 코드",
                 "탐험 성공 이미지", "기본 이미지", "선택 이미지",
                 "주목 이미지", "QR 실패 이미지", "미보유 썸네일 이미지"
-                , "설명", "위치 인증 실패 이미지", "캐릭터 메인 색깔 코드", "캐릭터 서브 색깔 코드");
+                , "설명", "위치 인증 실패 이미지", "캐릭터 메인 색깔 코드", "캐릭터 서브 색깔 코드", "캐릭터 요약 설명", "캐릭터 아이콘 이미지");
 
-        CharacterMotionEntity characterMotionEntity1 = createCharacterMotionEntity(characterEntity, PlaceCategory.CAFFE, "모션 이미지1", "미보유 이미지1");
-        CharacterMotionEntity characterMotionEntity2 = createCharacterMotionEntity(characterEntity, PlaceCategory.CULTURE, "모션 이미지2", "미보유 이미지2");
-        CharacterMotionEntity characterMotionEntity3 = createCharacterMotionEntity(characterEntity, PlaceCategory.RESTAURANT, "모션 이미지3", "미보유 이미지3");
-        CharacterMotionEntity characterMotionEntity4 = createCharacterMotionEntity(characterEntity, PlaceCategory.SPORT, "모션 이미지4", "미보유 이미지4");
+        CharacterMotionEntity characterMotionEntity1 = createCharacterMotionEntity(characterEntity, PlaceCategory.CAFFE, "모션 이미지1", "미보유 이미지1", "캡쳐 이미지1");
+        CharacterMotionEntity characterMotionEntity2 = createCharacterMotionEntity(characterEntity, PlaceCategory.CULTURE, "모션 이미지2", "미보유 이미지2", "캡쳐 이미지2");
+        CharacterMotionEntity characterMotionEntity3 = createCharacterMotionEntity(characterEntity, PlaceCategory.RESTAURANT, "모션 이미지3", "미보유 이미지3", "캡쳐 이미지3");
+        CharacterMotionEntity characterMotionEntity4 = createCharacterMotionEntity(characterEntity, PlaceCategory.SPORT, "모션 이미지4", "미보유 이미지4", "캡쳐 이미지4");
 
         List<CharacterMotionEntity> characterMotionEntities = new ArrayList<CharacterMotionEntity>();
         characterMotionEntities.add(characterMotionEntity1);
@@ -59,15 +60,6 @@ public class CharacterMotionServiceTest {
         //then
 
         Assertions.assertThat(expectedResult).isEqualTo(characterMotionEntities);
-    }
-
-    CharacterMotionEntity createCharacterMotionEntity(CharacterEntity characterEntity, PlaceCategory placeCategory, String motionImageUrl, String notGainedMotionThumbnailImageUrl) {
-        return CharacterMotionEntity.builder()
-                .characterEntity(characterEntity)
-                .placeCategory(placeCategory)
-                .motionImageUrl(motionImageUrl)
-                .notGainedMotionThumbnailImageUrl(notGainedMotionThumbnailImageUrl)
-                .build();
     }
 
 
