@@ -125,7 +125,7 @@ public class MemberUseCase {
     @Transactional(readOnly = true)
     public UserInfoResponse getUserInfo(final Long memberId) {
         final MemberEntity memberEntity = memberService.findById(memberId);
-        final long elapsedDays = TimeUtil.getElapsedDay(memberEntity.getCreatedAt());
+        final Long elapsedDays = TimeUtil.getElapsedDay(memberEntity.getCreatedAt());
         return UserInfoResponse.of(
                 memberEntity.getNickName(),
                 memberEntity.getCurrentEmblemName(),
