@@ -17,6 +17,7 @@ import site.offload.api.member.dto.response.*;
 import site.offload.api.member.service.MemberService;
 import site.offload.api.place.service.VisitedPlaceService;
 import site.offload.api.quest.service.CompleteQuestService;
+import site.offload.api.util.TimeUtil;
 import site.offload.db.character.entity.CharacterEntity;
 import site.offload.db.charactermotion.entity.CharacterMotionEntity;
 import site.offload.db.member.embeddable.Birthday;
@@ -120,10 +121,11 @@ public class MemberUseCase {
 
         return GainedCharactersResponse.of(gainedCharacters, notGainedCharacters);
     }
+
     @Transactional(readOnly = true)
     public UserInfoResponse getUserInfo(final Long memberId) {
         final MemberEntity memberEntity = memberService.findById(memberId);
-        final long elapsedDays = ChronoUnit.DAYS.between(memberEntity.getCreatedAt(), LocalDateTime.now().plusDays(1));
+        final long elapsedDays = TimeUtil.getElapsedDay(memberEntity.getCreatedAt());
         return UserInfoResponse.of(
                 memberEntity.getNickName(),
                 memberEntity.getCurrentEmblemName(),
