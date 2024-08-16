@@ -10,4 +10,5 @@ public interface CompleteQuestRepository extends JpaRepository<CompleteQuestEnti
     void deleteAllByMemberEntityId(long memberId);
 
     boolean existsByQuestEntityAndMemberEntity(QuestEntity questEntity, MemberEntity memberEntity);
+    Long countByMemberEntityId(Long memberId);
 }

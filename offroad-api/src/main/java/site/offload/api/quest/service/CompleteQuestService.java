@@ -28,4 +28,8 @@ public class CompleteQuestService {
     public void deleteAllByMemberId(long memberId) {
         completeQuestRepository.deleteAllByMemberEntityId(memberId);
     }
+
+    public Long countByMember(MemberEntity entity) {
+        return completeQuestRepository.countByMemberEntityId(entity.getId());
+    }
 }
