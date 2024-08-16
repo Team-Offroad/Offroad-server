@@ -4,7 +4,7 @@ public record UserInfoResponse(
         String nickname,
         String currentEmblem,
         long elapsedDay,
-        long completedQuestCount,
+        long completeQuestCount,
         long visitedPlaceCount
 
 ) {
@@ -13,14 +13,14 @@ public record UserInfoResponse(
             String nickname,
             String currentEmblem,
             Long elapsedDay,
-            Long completedQuestCount,
+            Long completeQuestCount,
             Long visitedPlaceCount
     ) {
         return new UserInfoResponse(
                 nickname,
                 currentEmblem,
                 elapsedDay,
-                completedQuestCount,
+                completeQuestCount,
                 visitedPlaceCount
         );
     }

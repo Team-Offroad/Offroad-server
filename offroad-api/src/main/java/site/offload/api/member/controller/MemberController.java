@@ -77,7 +77,7 @@ public class MemberController implements MemberControllerSwagger {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<APISuccessResponse<>> getUserInfo() {
+    public ResponseEntity<APISuccessResponse<UserInfoResponse>> getUserInfo() {
         final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
         return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.GET_USER_INFO_SUCCESS.getMessage(), memberUseCase.getUserInfo(memberId));
     }
