@@ -1,15 +1,22 @@
 package site.offload.enums.place;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 import java.util.List;
 
 //장소 카테고리
+@RequiredArgsConstructor
+@Getter
 public enum PlaceCategory {
-    CAFFE,
-    PARK,
-    RESTAURANT,
-    CULTURE,
-    SPORT,
-    NONE;
+    CAFFE("카페"),
+    PARK("공원"),
+    RESTAURANT("식당"),
+    CULTURE("문화"),
+    SPORT("스포츠"),
+    NONE("카테고리 없음");
+
+    private final String placeCategoryName;
 
     public static boolean isExistsCategory(final String placeCategory) {
         for (PlaceCategory category : PlaceCategory.values()) {

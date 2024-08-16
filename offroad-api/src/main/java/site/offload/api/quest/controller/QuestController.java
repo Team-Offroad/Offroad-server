@@ -5,8 +5,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import site.offload.api.auth.PrincipalHandler;
+import site.offload.api.quest.dto.request.QuestDetailListRequest;
+import site.offload.api.quest.dto.response.QuestDetailListResponse;
 import site.offload.api.quest.dto.response.QuestResponse;
 import site.offload.api.quest.usecase.QuestUseCase;
 import site.offload.api.response.APISuccessResponse;
@@ -25,4 +28,11 @@ public class QuestController implements QuestControllerSwagger {
         return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.GET_QUEST_INFORMATION_SUCCESS.getMessage(), questUseCase.getQuestInformation(memberId));
     }
 
+    @GetMapping("/quests/detail")
+    public ResponseEntity<APISuccessResponse<QuestDetailListResponse>> getQuestList(@RequestParam(value = "isActive") boolean isActive) {
+        return APISuccessResponse.of(
+                HttpStatus.OK.value(),
+                SuccessMessage.GET_QUEST_DETAIL_LIST_SUCCESS.getMessage(),
+                questUseCase.getQuestDetailList(PrincipalHandler.getMemberIdFromPrincipal(), isActive));
+    }
 }

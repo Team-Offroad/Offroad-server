@@ -7,11 +7,17 @@ import site.offload.db.quest.entity.CompleteQuestEntity;
 import site.offload.db.quest.entity.QuestEntity;
 import site.offload.db.quest.repository.CompleteQuestRepository;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CompleteQuestService {
 
     private final CompleteQuestRepository completeQuestRepository;
+
+    public List<CompleteQuestEntity> findAllByMemberId(Long id) {
+        return completeQuestRepository.findAllByMemberEntityId(id);
+    }
 
     public void saveCompleteQuest(QuestEntity questEntity, MemberEntity memberEntity) {
         completeQuestRepository.save(

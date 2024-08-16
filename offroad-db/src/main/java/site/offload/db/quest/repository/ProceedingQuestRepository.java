@@ -20,4 +20,6 @@ public interface ProceedingQuestRepository extends JpaRepository<ProceedingQuest
     void deleteByQuestEntityAndMemberEntity(QuestEntity questEntity, MemberEntity memberEntity);
 
     void deleteAllByMemberEntityId(long memberId);
+
+    List<ProceedingQuestEntity> findAllByMemberEntityId(long memberId);
 }
