@@ -25,4 +25,8 @@ public class VisitedPlaceService {
     public void deleteAllByMemberId(long memberId) {
         visitedPlaceRepository.deleteAllByMemberEntityId(memberId);
     }
+
+    public Long countByMember(MemberEntity entity) {
+        return visitedPlaceRepository.countByMemberEntityId(entity.getId());
+    }
 }
