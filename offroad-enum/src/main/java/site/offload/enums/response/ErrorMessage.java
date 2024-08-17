@@ -14,6 +14,7 @@ public enum ErrorMessage {
     EMBLEM_CODE_NOTFOUND_EXCEPTION("존재하지 않는 칭호 코드입니다.", HttpStatus.BAD_REQUEST, CustomErrorCode.NOT_EXISTS_EMBLEM_CODE),
     NOT_ALLOWED_DISTANCE_EXCEPTION("탐험 인증 허용 오차 범위를 벗어났습니다.", HttpStatus.BAD_REQUEST, CustomErrorCode.TOO_FAR_DISTANCE),
     NOT_GAINED_CHARACTER("사용자가 얻은 캐릭터가 아닙니다.", HttpStatus.BAD_REQUEST, CustomErrorCode.NOT_GAINED_CHARACTER),
+    INVALID_MEMBER_DELETE_CODE("올바르지 않은 회원 탈퇴 코드입니다.", HttpStatus.BAD_REQUEST, CustomErrorCode.INVALID_MEMBER_DELETE_CODE),
     /* 401 UnAuthorized */
     FILTER_UNAUTHORIZED_EXCEPTION("허용되지 않은 필터 인증입니다.", HttpStatus.UNAUTHORIZED, CustomErrorCode.INVALID_AUTHORIZATION_FILTER),
     SOCIAL_LOGIN_UNAUTHORIZED_EXCEPTION("응답을 받는 데 실패했습니다.", HttpStatus.UNAUTHORIZED, CustomErrorCode.INVALID_AUTHORIZATION_JWT),
@@ -21,7 +22,7 @@ public enum ErrorMessage {
     INVALID_JWT_EXCEPTION("유효하지 않은 토큰입니다.", HttpStatus.UNAUTHORIZED, CustomErrorCode.INVALID_AUTHORIZATION_JWT),
     JWT_REISSUE_EXCEPTION("토큰 재발급에 실패했습니다.", HttpStatus.UNAUTHORIZED, CustomErrorCode.FAIL_REISSUE_TOKEN),
     /* 403 Forbidden */
-
+    MEMBER_STATUS_INACTIVE("회원 상태가 비활성되어 있습니다.", HttpStatus.FORBIDDEN, CustomErrorCode.INVALID_MEMBER_STATUS),
     /* 404 Not Found */
     MEMBER_NOTFOUND_EXCEPTION("해당 ID의 유저가 존재하지 않습니다.", HttpStatus.NOT_FOUND, CustomErrorCode.NOT_EXISTS_MEMBER),
     CHARACTER_NOTFOUND_EXCEPTION("해당 ID의 캐릭터가 존재하지 않습니다.", HttpStatus.NOT_FOUND, CustomErrorCode.NOT_EXISTS_CHARACTER),

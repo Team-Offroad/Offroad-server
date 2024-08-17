@@ -12,23 +12,24 @@ import site.offload.api.emblem.service.GainedEmblemService;
 import site.offload.api.exception.BadRequestException;
 import site.offload.api.exception.NotFoundException;
 import site.offload.api.member.dto.request.MemberAdventureInformationRequest;
+import site.offload.api.member.dto.request.MemberDeleteRequest;
 import site.offload.api.member.dto.request.MemberProfileUpdateRequest;
 import site.offload.api.member.dto.response.*;
 import site.offload.api.member.service.MemberService;
 import site.offload.api.place.service.VisitedPlaceService;
 import site.offload.api.quest.service.CompleteQuestService;
+import site.offload.api.util.MemberDeleteLoggingUtil;
 import site.offload.api.util.TimeUtil;
+import site.offload.cache.member.service.MemberStatusCacheService;
 import site.offload.db.character.entity.CharacterEntity;
 import site.offload.db.charactermotion.entity.CharacterMotionEntity;
 import site.offload.db.member.embeddable.Birthday;
 import site.offload.db.member.entity.MemberEntity;
+import site.offload.enums.member.MemberStatus;
 import site.offload.enums.place.PlaceCategory;
 import site.offload.enums.response.ErrorMessage;
 import site.offload.external.aws.S3Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,6 +47,9 @@ public class MemberUseCase {
     private final GainedEmblemService gainedEmblemService;
     private final CompleteQuestService completeQuestService;
     private final VisitedPlaceService visitedPlaceService;
+    private final MemberStatusCacheService memberStatusCacheService;
+
+    private static final String MEMBER_DELETE_CODE = "오프로드 회원을 탈퇴하겠습니다.";
 
     @Transactional(readOnly = true)
     public MemberAdventureInformationResponse getMemberAdventureInformation(final MemberAdventureInformationRequest request) {
@@ -132,7 +136,7 @@ public class MemberUseCase {
                 elapsedDays,
                 visitedPlaceService.countByMember(memberEntity),
                 completeQuestService.countByMember(memberEntity)
-                );
+        );
     }
 
     private String getMotionImageUrl(final PlaceCategory placeCategory, final CharacterEntity characterEntity, final MemberEntity memberEntity) {
@@ -157,6 +161,22 @@ public class MemberUseCase {
     private boolean isMemberGainedMotion(final CharacterMotionEntity characterMotionEntity, final MemberEntity memberEntity) {
         return gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotionEntity, memberEntity);
     }
+
+    @Transactional
+    public void softDeleteMemberById(final Long memberId, final MemberDeleteRequest request) {
+        if (!request.deleteCode().equals(MEMBER_DELETE_CODE)) {
+            throw new BadRequestException(ErrorMessage.INVALID_MEMBER_DELETE_CODE);
+        }
+        final MemberEntity findMember = memberService.findById(memberId);
+
+        //db
+        findMember.updateMemberStatus(MemberStatus.INACTIVE);
+
+        //cache
+        memberStatusCacheService.saveMemberStatus(MemberStatus.INACTIVE.name(), memberId);
+        MemberDeleteLoggingUtil.loggingSoftDeleteMember(findMember);
+    }
+
 
 }
 

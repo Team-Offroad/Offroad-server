@@ -81,4 +81,10 @@ public class MemberController implements MemberControllerSwagger {
         final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
         return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.GET_USER_INFO_SUCCESS.getMessage(), memberUseCase.getUserInfo(memberId));
     }
+
+    @PostMapping("/delete")
+    public ResponseEntity<APISuccessResponse<Void>> softDeleteMember(@RequestBody MemberDeleteRequest request) {
+        memberUseCase.softDeleteMemberById(PrincipalHandler.getMemberIdFromPrincipal(), request);
+        return APISuccessResponse.of(HttpStatus.ACCEPTED.value(), SuccessMessage.SOFT_DELETE_MEMBER_SUCCESS.getMessage(), null);
+    }
 }

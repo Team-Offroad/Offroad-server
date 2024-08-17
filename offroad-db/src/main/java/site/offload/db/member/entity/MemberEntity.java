@@ -10,6 +10,7 @@ import site.offload.db.BaseTimeEntity;
 import site.offload.db.member.embeddable.Birthday;
 import site.offload.enums.emblem.Emblem;
 import site.offload.enums.member.MemberGender;
+import site.offload.enums.member.MemberStatus;
 import site.offload.enums.member.SocialPlatform;
 
 //로그인 유저
@@ -20,6 +21,7 @@ import site.offload.enums.member.SocialPlatform;
 public class MemberEntity extends BaseTimeEntity {
 
     private static final java.lang.String DEFAULT_EMBLEM_NAME = Emblem.OFFROAD_STARTER.getEmblemName();
+    private static final MemberStatus DEFAULT_MEMBER_STATUS = MemberStatus.ACTIVE;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,6 +61,10 @@ public class MemberEntity extends BaseTimeEntity {
     @Embedded
     private Birthday birthday;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MemberStatus memberStatus = DEFAULT_MEMBER_STATUS;
+
     @Builder
     public MemberEntity(String name, String email, String sub, SocialPlatform socialPlatform) {
         this.name = name;
@@ -81,4 +87,7 @@ public class MemberEntity extends BaseTimeEntity {
         this.currentCharacterName = characterName;
     }
 
+    public void updateMemberStatus(MemberStatus memberStatus) {
+        this.memberStatus = memberStatus;
+    }
 }

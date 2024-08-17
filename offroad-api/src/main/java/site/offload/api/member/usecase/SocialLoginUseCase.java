@@ -10,10 +10,12 @@ import site.offload.api.emblem.service.GainedEmblemService;
 import site.offload.api.exception.OffroadException;
 import site.offload.api.member.dto.response.SocialLoginResponse;
 import site.offload.api.member.service.MemberService;
+import site.offload.cache.member.service.MemberStatusCacheService;
 import site.offload.db.member.entity.MemberEntity;
 import site.offload.enums.emblem.Emblem;
-import site.offload.enums.response.ErrorMessage;
+import site.offload.enums.member.MemberStatus;
 import site.offload.enums.member.SocialPlatform;
+import site.offload.enums.response.ErrorMessage;
 import site.offload.external.oauth.apple.AppleSocialLoginService;
 import site.offload.external.oauth.dto.SocialLoginRequest;
 import site.offload.external.oauth.google.GoogleSocialLoginService;
@@ -28,6 +30,7 @@ public class SocialLoginUseCase {
     private final AppleSocialLoginService appleSocialLoginService;
     private final GainedEmblemService gainedEmblemService;
     private final MemberService memberService;
+    private final MemberStatusCacheService memberStatusCacheService;
 
     @Transactional
     public SocialLoginResponse login(SocialLoginRequest socialLoginRequest) {
@@ -51,6 +54,7 @@ public class SocialLoginUseCase {
                         .socialPlatform(SocialPlatform.valueOf(socialLoginRequest.socialPlatform().toString()))
                         .build();
                 memberService.saveMember(memberEntity);
+                memberStatusCacheService.saveMemberStatus(MemberStatus.ACTIVE.name(), memberEntity.getId());
                 isAlreadyExist = false;
             }
         } else if (socialPlatFormRequest.equals(SocialPlatform.APPLE.getSocialPlatform())) {
@@ -70,6 +74,7 @@ public class SocialLoginUseCase {
                         .socialPlatform(SocialPlatform.valueOf(socialLoginRequest.socialPlatform().toString()))
                         .build();
                 memberService.saveMember(memberEntity);
+                memberStatusCacheService.saveMemberStatus(MemberStatus.ACTIVE.name(), memberEntity.getId());
                 isAlreadyExist = false;
             }
         }
