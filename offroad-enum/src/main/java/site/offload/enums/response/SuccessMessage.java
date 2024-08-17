@@ -10,7 +10,7 @@ public enum SuccessMessage {
     SOCIAL_LOGIN_SUCCESS("로그인 요청 성공"),
     SIGN_OUT_SUCCESS("로그아웃 성공"),
     DELETE_TEST_MEMBER_SUCCESS("테스트 회원 삭제 성공"),
-
+    CHECK_AGREE_MARKETING_SUCCESS("마케팅 정보 수신 여부 확인 완료"),
     ACCESS_TOKEN_REFRESH_SUCCESS("Access Token 재발급 성공"),
     MEMBER_ADVENTURE_INFORMATION_SUCCESS("모험 정보 조회 성공"),
     CHECK_REGISTERED_PLACES_SUCCESS("장소 리스트 정보 조회 성공"),

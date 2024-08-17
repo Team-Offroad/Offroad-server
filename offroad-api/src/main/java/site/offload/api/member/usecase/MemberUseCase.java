@@ -158,5 +158,11 @@ public class MemberUseCase {
         return gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotionEntity, memberEntity);
     }
 
+    @Transactional
+    public void updateAgreeMarketing(Long memberId, boolean isAgreeMarketing) {
+        MemberEntity findMemberEntity = memberService.findById(memberId);
+        findMemberEntity.updateAgreeMarketing(isAgreeMarketing);
+    }
+
 }
 

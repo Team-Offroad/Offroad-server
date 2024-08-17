@@ -59,6 +59,8 @@ public class MemberEntity extends BaseTimeEntity {
     @Embedded
     private Birthday birthday;
 
+    private boolean isAgreeMarketing;
+
     @Builder
     public MemberEntity(String name, String email, String sub, SocialPlatform socialPlatform) {
         this.name = name;
@@ -79,6 +81,10 @@ public class MemberEntity extends BaseTimeEntity {
 
     public void chooseCharacter(String characterName) {
         this.currentCharacterName = characterName;
+    }
+
+    public void updateAgreeMarketing(boolean isAgreeMarketing) {
+        this.isAgreeMarketing = isAgreeMarketing;
     }
 
 }
