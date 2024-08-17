@@ -16,19 +16,19 @@ import site.offload.api.response.APISuccessResponse;
 import site.offload.enums.response.SuccessMessage;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class QuestController implements QuestControllerSwagger {
 
     private final QuestUseCase questUseCase;
 
-    @GetMapping("/quests")
+    @GetMapping("/users/quests")
     public ResponseEntity<APISuccessResponse<QuestResponse>> getQuestInformation() {
         final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
         return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.GET_QUEST_INFORMATION_SUCCESS.getMessage(), questUseCase.getQuestInformation(memberId));
     }
 
-    @GetMapping("/quests/detail")
+    @GetMapping("/quests")
     public ResponseEntity<APISuccessResponse<QuestDetailListResponse>> getQuestList(@RequestParam(value = "isActive") boolean isActive) {
         return APISuccessResponse.of(
                 HttpStatus.OK.value(),
