@@ -1,4 +1,4 @@
-package site.offload.api.member.service;
+package site.offload.batch.member;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class MemberServiceBatch {
+public class MemberBatchService {
 
     private final MemberRepository memberRepository;
 

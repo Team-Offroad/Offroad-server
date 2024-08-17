@@ -15,7 +15,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
         "site.offload.external",
         "site.offload.enums",
         "site.offload.cache",
-        "site.offload.db"
+        "site.offload.db",
+        "site.offload.batch"
 }, excludeFilters = {@ComponentScan.Filter(
         type = FilterType.CUSTOM,
         classes = {TypeExcludeFilter.class}
@@ -27,5 +28,4 @@ public class OffloadserverApiApplication {
     public static void main(String[] args) {
         SpringApplication.run(OffloadserverApiApplication.class, args);
     }
-
 }

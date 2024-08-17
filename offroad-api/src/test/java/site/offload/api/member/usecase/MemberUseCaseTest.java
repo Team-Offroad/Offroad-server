@@ -1,12 +1,10 @@
 package site.offload.api.member.usecase;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import site.offload.api.exception.BadRequestException;
 import site.offload.api.member.dto.request.MemberDeleteRequest;
@@ -14,7 +12,6 @@ import site.offload.api.member.service.MemberService;
 import site.offload.cache.member.service.MemberStatusCacheService;
 import site.offload.db.member.entity.MemberEntity;
 import site.offload.enums.member.MemberStatus;
-import site.offload.enums.response.ErrorMessage;
 import site.offload.api.util.MemberDeleteLoggingUtil;
 
 import static org.mockito.BDDMockito.*;
