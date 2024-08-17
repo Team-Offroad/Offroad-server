@@ -29,6 +29,15 @@ public class QuestEntity extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private PlaceArea placeArea;
 
+    @Column(nullable = false)
+    private String clearConditionText;
+
+    @Column(nullable = false)
+    private String rewardText;
+
+    @Column(nullable = false)
+    private String description;
+
     private boolean isQuestSamePlace = false;
 
     @Column(nullable = false)
