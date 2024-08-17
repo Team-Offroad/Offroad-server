@@ -111,12 +111,12 @@ public class MemberUseCase {
 
         List<GainedCharacterResponse> gainedCharacters = characterEntities.stream()
                 .filter(characterEntity -> gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(memberEntity, characterEntity))
-                .map(characterEntity -> GainedCharacterResponse.of(characterEntity.getId(), characterEntity.getName(), s3Service.getPresignUrl(characterEntity.getCharacterBaseImageUrl()), characterEntity.getCharacterMainColorCode(), characterEntity.getCharacterSubColorCode()))
+                .map(characterEntity -> GainedCharacterResponse.of(characterEntity.getId(), characterEntity.getName(), s3Service.getPresignUrl(characterEntity.getCharacterBaseImageUrl()), characterEntity.getCharacterMainColorCode(), characterEntity.getCharacterSubColorCode(), gainedCharacterService.findByMemberEntityAndCharacterEntity(memberEntity, characterEntity).isNewGained()))
                 .collect(Collectors.toList());
 
         List<GainedCharacterResponse> notGainedCharacters = characterEntities.stream()
                 .filter(characterEntity -> !gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(memberEntity, characterEntity))
-                .map(characterEntity -> GainedCharacterResponse.of(characterEntity.getId(), characterEntity.getName(), s3Service.getPresignUrl(characterEntity.getNotGainedCharacterThumbnailImageUrl()), characterEntity.getCharacterMainColorCode(), characterEntity.getCharacterSubColorCode()))
+                .map(characterEntity -> GainedCharacterResponse.of(characterEntity.getId(), characterEntity.getName(), s3Service.getPresignUrl(characterEntity.getNotGainedCharacterThumbnailImageUrl()), characterEntity.getCharacterMainColorCode(), characterEntity.getCharacterSubColorCode(), false))
                 .collect(Collectors.toList());
 
         return GainedCharactersResponse.of(gainedCharacters, notGainedCharacters);
@@ -132,7 +132,7 @@ public class MemberUseCase {
                 elapsedDays,
                 visitedPlaceService.countByMember(memberEntity),
                 completeQuestService.countByMember(memberEntity)
-                );
+        );
     }
 
     private String getMotionImageUrl(final PlaceCategory placeCategory, final CharacterEntity characterEntity, final MemberEntity memberEntity) {

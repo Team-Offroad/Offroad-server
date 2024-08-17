@@ -34,12 +34,12 @@ public class CharacterMotionUseCase {
 
         List<CharacterMotionResponse> gainedCharacterMotions = characterMotionEntities.stream()
                 .filter(characterMotionEntity -> gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotionEntity, findMemberEntity))
-                .map(characterMotionEntity -> CharacterMotionResponse.of(characterMotionEntity.getPlaceCategory().toString(), s3Service.getPresignUrl(characterMotionEntity.getMotionCaptureImageUrl())))
+                .map(characterMotionEntity -> CharacterMotionResponse.of(characterMotionEntity.getPlaceCategory().toString(), s3Service.getPresignUrl(characterMotionEntity.getMotionCaptureImageUrl()), gainedCharacterMotionService.findByMemberEntityAndCharacterMotionEntity(findMemberEntity, characterMotionEntity).isNewGained()))
                 .toList();
 
         List<CharacterMotionResponse> notGainedCharacterMotions = characterMotionEntities.stream()
                 .filter(characterMotionEntity -> !gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotionEntity, findMemberEntity))
-                .map(characterMotionEntity -> CharacterMotionResponse.of(characterMotionEntity.getPlaceCategory().toString(), s3Service.getPresignUrl(characterMotionEntity.getNotGainedMotionThumbnailImageUrl())))
+                .map(characterMotionEntity -> CharacterMotionResponse.of(characterMotionEntity.getPlaceCategory().toString(), s3Service.getPresignUrl(characterMotionEntity.getNotGainedMotionThumbnailImageUrl()), false))
                 .toList();
 
         return CharacterMotionsResponse.of(gainedCharacterMotions, notGainedCharacterMotions);

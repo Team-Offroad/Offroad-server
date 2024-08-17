@@ -5,9 +5,10 @@ public record GainedCharacterResponse(
         String characterName,
         String characterThumbnailImageUrl,
         String characterMainColorCode,
-        String characterSubColorCode
+        String characterSubColorCode,
+        boolean isNewGained
 ) {
-    public static GainedCharacterResponse of(Integer characterId, String characterName, String characterThumbnailImageUrl, String characterMainColorCode, String characterSubColorCode) {
-        return new GainedCharacterResponse(characterId, characterName, characterThumbnailImageUrl, characterMainColorCode, characterSubColorCode);
+    public static GainedCharacterResponse of(Integer characterId, String characterName, String characterThumbnailImageUrl, String characterMainColorCode, String characterSubColorCode, boolean isNewGained) {
+        return new GainedCharacterResponse(characterId, characterName, characterThumbnailImageUrl, characterMainColorCode, characterSubColorCode, isNewGained);
     }
 }

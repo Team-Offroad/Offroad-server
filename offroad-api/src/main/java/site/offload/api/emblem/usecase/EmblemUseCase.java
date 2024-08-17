@@ -69,12 +69,12 @@ public class EmblemUseCase {
 
         List<EmblemResponse> gainedEmblems = questRewardEntitiesWithEmblems.stream()
                 .filter(questRewardEntityWithEmblem -> emblemCodes.contains(questRewardEntityWithEmblem.getRewardList().getEmblemCode()))
-                .map(questRewardEntity -> EmblemResponse.of(Emblem.getEmblemByCode(questRewardEntity.getRewardList().getEmblemCode()).getEmblemName(), questService.findById(questRewardEntity.getQuestId()).getName()))
+                .map(questRewardEntity -> EmblemResponse.of(Emblem.getEmblemByCode(questRewardEntity.getRewardList().getEmblemCode()).getEmblemName(), questService.findById(questRewardEntity.getQuestId()).getName(), gainedEmblemService.findByMemberIdAndEmblemCode(memberId, questRewardEntity.getRewardList().getEmblemCode()).isNewGained()))
                 .toList();
 
         List<EmblemResponse> notGainedEmblems = questRewardEntitiesWithEmblems.stream()
                 .filter(questRewardEntityWithEmblem -> !emblemCodes.contains(questRewardEntityWithEmblem.getRewardList().getEmblemCode()))
-                .map(questRewardEntity -> EmblemResponse.of(Emblem.getEmblemByCode(questRewardEntity.getRewardList().getEmblemCode()).getEmblemName(), questService.findById(questRewardEntity.getQuestId()).getName()))
+                .map(questRewardEntity -> EmblemResponse.of(Emblem.getEmblemByCode(questRewardEntity.getRewardList().getEmblemCode()).getEmblemName(), questService.findById(questRewardEntity.getQuestId()).getName(), false))
                 .toList();
 
         return EmblemsResponse.of(gainedEmblems, notGainedEmblems);

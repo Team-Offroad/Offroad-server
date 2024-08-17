@@ -58,21 +58,23 @@ public class GainedCharacterUseCaseTest {
 
         //when
 
+
+
         List<GainedCharacterResponse> gainedCharacters = characterEntities.stream()
                 .filter(characterEntity -> gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(memberEntity, characterEntity))
-                .map(characterEntity -> GainedCharacterResponse.of(characterEntity.getId(), characterEntity.getName(), characterEntity.getCharacterBaseImageUrl(), characterEntity.getCharacterMainColorCode(), characterEntity.getCharacterSubColorCode()))
+                .map(characterEntity -> GainedCharacterResponse.of(characterEntity.getId(), characterEntity.getName(), characterEntity.getCharacterBaseImageUrl(), characterEntity.getCharacterMainColorCode(), characterEntity.getCharacterSubColorCode(), true))
                 .collect(Collectors.toList());
 
         List<GainedCharacterResponse> notGainedCharacters = characterEntities.stream()
                 .filter(characterEntity -> !gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(memberEntity, characterEntity))
-                .map(characterEntity -> GainedCharacterResponse.of(characterEntity.getId(), characterEntity.getName(), characterEntity.getNotGainedCharacterThumbnailImageUrl(), characterEntity.getCharacterMainColorCode(), characterEntity.getCharacterSubColorCode()))
+                .map(characterEntity -> GainedCharacterResponse.of(characterEntity.getId(), characterEntity.getName(), characterEntity.getNotGainedCharacterThumbnailImageUrl(), characterEntity.getCharacterMainColorCode(), characterEntity.getCharacterSubColorCode(), false))
                 .collect(Collectors.toList());
 
 
         //then
 
-        Assertions.assertThat(gainedCharacters).contains(GainedCharacterResponse.of(characterEntity1.getId(), "이름1", "기본 이미지1",  "캐릭터 메인 색깔 코드1", "캐릭터 서브 색깔 코드1"));
-        Assertions.assertThat(notGainedCharacters).contains(GainedCharacterResponse.of(characterEntity2.getId(), "이름2", "미보유 썸네일 이미지2",  "캐릭터 메인 색깔 코드2", "캐릭터 서브 색깔 코드2"));
+        Assertions.assertThat(gainedCharacters).contains(GainedCharacterResponse.of(characterEntity1.getId(), "이름1", "기본 이미지1",  "캐릭터 메인 색깔 코드1", "캐릭터 서브 색깔 코드1", true));
+        Assertions.assertThat(notGainedCharacters).contains(GainedCharacterResponse.of(characterEntity2.getId(), "이름2", "미보유 썸네일 이미지2",  "캐릭터 메인 색깔 코드2", "캐릭터 서브 색깔 코드2", false));
 
     }
 }
