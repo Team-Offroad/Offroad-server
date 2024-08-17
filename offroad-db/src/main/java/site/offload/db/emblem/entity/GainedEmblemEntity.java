@@ -2,6 +2,7 @@ package site.offload.db.emblem.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.offload.db.BaseTimeEntity;
@@ -9,13 +10,13 @@ import site.offload.db.member.entity.MemberEntity;
 
 //사용자가 얻은 칭호
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(
         name = "gained_emblem",
         uniqueConstraints = {
         @UniqueConstraint(columnNames = {"member_id", "emblem_code"})
 })
-@Getter
 public class GainedEmblemEntity extends BaseTimeEntity {
 
     @Id
@@ -29,6 +30,9 @@ public class GainedEmblemEntity extends BaseTimeEntity {
     @Column(nullable = false)
     private String emblemCode;
 
+    private boolean isNewGained = true;
+
+    @Builder
     private GainedEmblemEntity(MemberEntity memberEntity, String emblemCode) {
         this.memberEntity = memberEntity;
         this.emblemCode = emblemCode;

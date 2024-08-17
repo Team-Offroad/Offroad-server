@@ -83,13 +83,15 @@ class CouponListUseCaseTest {
                         couponEntity4.getId(),
                         couponEntity4.getName(),
                         couponEntity4.getCouponImageUrl(),
-                        couponEntity4.getDescription()
+                        couponEntity4.getDescription(),
+                        gainedCouponEntity4.isNewGained()
                 ),
                 AvailableCouponResponse.of(
                         couponEntity3.getId(),
                         couponEntity3.getName(),
                         couponEntity3.getCouponImageUrl(),
-                        couponEntity3.getDescription()
+                        couponEntity3.getDescription(),
+                        gainedCouponEntity3.isNewGained()
                 )
         );
 

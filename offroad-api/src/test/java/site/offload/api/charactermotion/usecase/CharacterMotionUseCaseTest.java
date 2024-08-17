@@ -13,9 +13,11 @@ import site.offload.api.charactermotion.dto.CharacterMotionResponse;
 import site.offload.api.charactermotion.dto.CharacterMotionsResponse;
 import site.offload.api.charactermotion.service.CharacterMotionService;
 import site.offload.api.charactermotion.service.GainedCharacterMotionService;
+import site.offload.api.fixture.GainedCharacterMotionEntityFixtureCreator;
 import site.offload.api.member.service.MemberService;
 import site.offload.db.character.entity.CharacterEntity;
 import site.offload.db.charactermotion.entity.CharacterMotionEntity;
+import site.offload.db.charactermotion.entity.GainedCharacterMotionEntity;
 import site.offload.db.member.entity.MemberEntity;
 import site.offload.enums.member.SocialPlatform;
 import site.offload.enums.place.PlaceCategory;
@@ -65,15 +67,14 @@ public class CharacterMotionUseCaseTest {
         CharacterMotionEntity characterMotionEntity3 = createCharacterMotionEntity(characterEntity, PlaceCategory.RESTAURANT, "모션 이미지3", "미보유 이미지3", "모션 캡쳐 이미지3");
         CharacterMotionEntity characterMotionEntity4 = createCharacterMotionEntity(characterEntity, PlaceCategory.SPORT, "모션 이미지4", "미보유 이미지4", "모션 캡쳐 이미지4");
 
+        GainedCharacterMotionEntity gainedCharacterMotionEntity1 = GainedCharacterMotionEntityFixtureCreator.createGainedCharacterMotionEntity(memberEntity, characterMotionEntity1);
+        GainedCharacterMotionEntity gainedCharacterMotionEntity2 = GainedCharacterMotionEntityFixtureCreator.createGainedCharacterMotionEntity(memberEntity, characterMotionEntity2);
+
         List<CharacterMotionEntity> characterMotionEntities = new ArrayList<CharacterMotionEntity>();
         characterMotionEntities.add(characterMotionEntity1);
         characterMotionEntities.add(characterMotionEntity2);
         characterMotionEntities.add(characterMotionEntity3);
         characterMotionEntities.add(characterMotionEntity4);
-
-        List<CharacterMotionResponse> gainedCharacterMotions = new ArrayList<>();
-        gainedCharacterMotions.add(CharacterMotionResponse.of(PlaceCategory.CAFFE.name(), characterMotionEntity1.getMotionImageUrl()));
-        gainedCharacterMotions.add(CharacterMotionResponse.of(PlaceCategory.CULTURE.name(), characterMotionEntity2.getMotionImageUrl()));
 
         BDDMockito.given(memberService.findById(any())).willReturn(memberEntity);
         BDDMockito.given(characterService.findById(any())).willReturn(characterEntity);
@@ -86,16 +87,16 @@ public class CharacterMotionUseCaseTest {
         BDDMockito.given(s3Service.getPresignUrl(characterMotionEntity2.getMotionCaptureImageUrl())).willReturn("모션 캡쳐 이미지2");
         BDDMockito.given(s3Service.getPresignUrl(characterMotionEntity3.getNotGainedMotionThumbnailImageUrl())).willReturn("미보유 이미지3");
         BDDMockito.given(s3Service.getPresignUrl(characterMotionEntity4.getNotGainedMotionThumbnailImageUrl())).willReturn("미보유 이미지4");
-
+        BDDMockito.given(gainedCharacterMotionService.findByMemberEntityAndCharacterMotionEntity(memberEntity, characterMotionEntity1)).willReturn(gainedCharacterMotionEntity1);
+        BDDMockito.given(gainedCharacterMotionService.findByMemberEntityAndCharacterMotionEntity(memberEntity, characterMotionEntity2)).willReturn(gainedCharacterMotionEntity2);
 
         //when
-
         CharacterMotionsResponse characterMotionsResponse = characterMotionUseCase.getMotions(memberEntity.getId(), characterEntity.getId());
 
         //then
-
-        Assertions.assertThat(characterMotionsResponse.gainedCharacterMotions()).contains(CharacterMotionResponse.of(PlaceCategory.CAFFE.name(), characterMotionEntity1.getMotionCaptureImageUrl()));
-        Assertions.assertThat(characterMotionsResponse.gainedCharacterMotions()).doesNotContain((CharacterMotionResponse.of(PlaceCategory.RESTAURANT.name(), characterMotionEntity3.getMotionImageUrl())));
+        Assertions.assertThat(characterMotionsResponse.gainedCharacterMotions()).contains(CharacterMotionResponse.of(PlaceCategory.CAFFE.name(), characterMotionEntity1.getMotionCaptureImageUrl(), true));
+        Assertions.assertThat(characterMotionsResponse.gainedCharacterMotions()).contains(CharacterMotionResponse.of(PlaceCategory.CULTURE.name(), characterMotionEntity2.getMotionCaptureImageUrl(), true));
+        Assertions.assertThat(characterMotionsResponse.gainedCharacterMotions()).doesNotContain(CharacterMotionResponse.of(PlaceCategory.RESTAURANT.name(), characterMotionEntity3.getNotGainedMotionThumbnailImageUrl(), false));
 
     }
 

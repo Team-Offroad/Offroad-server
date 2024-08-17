@@ -29,4 +29,8 @@ public class GainedEmblemService {
     public void deleteAllByMemberId(long memberId) {
         gainedEmblemRepository.deleteAllByMemberEntityId(memberId);
     }
+
+    public GainedEmblemEntity findByMemberIdAndEmblemCode(Long memberId, String emblemCode) {
+        return gainedEmblemRepository.findByMemberEntityIdAndEmblemCode(memberId, emblemCode);
+    }
 }
