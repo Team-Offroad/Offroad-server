@@ -13,6 +13,8 @@ import site.offload.enums.member.MemberGender;
 import site.offload.enums.member.MemberStatus;
 import site.offload.enums.member.SocialPlatform;
 
+import java.time.LocalDateTime;
+
 //로그인 유저
 @Entity
 @Getter
@@ -65,6 +67,8 @@ public class MemberEntity extends BaseTimeEntity {
     @Column(nullable = false)
     private MemberStatus memberStatus = DEFAULT_MEMBER_STATUS;
 
+    private LocalDateTime inactiveSince;
+
     @Builder
     public MemberEntity(String name, String email, String sub, SocialPlatform socialPlatform) {
         this.name = name;
@@ -89,5 +93,10 @@ public class MemberEntity extends BaseTimeEntity {
 
     public void updateMemberStatus(MemberStatus memberStatus) {
         this.memberStatus = memberStatus;
+        if (memberStatus == MemberStatus.INACTIVE) {
+            this.inactiveSince = LocalDateTime.now();
+        } else {
+            this.inactiveSince = null;
+        }
     }
 }
