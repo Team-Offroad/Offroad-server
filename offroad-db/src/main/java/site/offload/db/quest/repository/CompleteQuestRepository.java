@@ -14,4 +14,6 @@ public interface CompleteQuestRepository extends JpaRepository<CompleteQuestEnti
     boolean existsByQuestEntityAndMemberEntity(QuestEntity questEntity, MemberEntity memberEntity);
 
     List<CompleteQuestEntity> findAllByMemberEntityId(long memberId);
+
+    Long countByMemberEntityId(Long memberId);
 }
