@@ -2,12 +2,12 @@ package site.offload.api.interceptor;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import site.offload.api.auth.jwt.JwtTokenProvider;
 import site.offload.api.exception.ForbiddenException;
 import site.offload.api.member.service.MemberService;
@@ -17,6 +17,7 @@ import site.offload.enums.member.MemberStatus;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class MemberStatusInterceptorTest {
 
     @Mock
@@ -36,11 +37,6 @@ class MemberStatusInterceptorTest {
 
     @InjectMocks
     private MemberStatusInterceptor memberStatusInterceptor;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     @DisplayName("Active 상태인 사용자는 인터셉터를 통과한다.")
