@@ -48,4 +48,8 @@ public class GainedCouponEntity extends BaseTimeEntity {
     public void updateIsUsed(boolean isUsed) {
         this.isUsed = isUsed;
     }
+
+    public void updateNewGainedStatus() {
+        this.isNewGained = false;
+    }
 }

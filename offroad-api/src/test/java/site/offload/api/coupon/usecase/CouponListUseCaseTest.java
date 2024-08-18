@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static site.offload.api.fixture.CouponEntityFixtureCreator.createCoupon;
@@ -75,9 +76,6 @@ class CouponListUseCaseTest {
                 .willReturn(gainedCouponList);
 
         // when
-        CouponListResponse response = couponListUseCase.getCouponList(1L);
-
-        // then
         List<AvailableCouponResponse> expectedAvailableCoupons = List.of(
                 AvailableCouponResponse.of(
                         couponEntity4.getId(),
@@ -106,8 +104,13 @@ class CouponListUseCaseTest {
                 )
         );
 
+        CouponListResponse response = couponListUseCase.getCouponList(1L);
+
+        // then
+
         assertEquals(expectedAvailableCoupons, response.availableCoupons());
         assertEquals(expectedUsedCoupons, response.usedCoupons());
+        assertFalse(gainedCouponEntity4.isNewGained());
     }
 
     private void setGainedCouponEntityCreatedAt(GainedCouponEntity entity, LocalDateTime createdAt) throws Exception {
