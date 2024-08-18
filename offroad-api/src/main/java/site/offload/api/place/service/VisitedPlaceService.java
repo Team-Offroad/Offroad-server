@@ -8,6 +8,8 @@ import site.offload.db.place.entity.PlaceEntity;
 import site.offload.db.place.entity.VisitedPlaceEntity;
 import site.offload.db.place.repository.VisitedPlaceRepository;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class VisitedPlaceService {
@@ -24,5 +26,9 @@ public class VisitedPlaceService {
 
     public void deleteAllByMemberId(long memberId) {
         visitedPlaceRepository.deleteAllByMemberEntityId(memberId);
+    }
+
+    public List<VisitedPlaceEntity> findAllByMemberId(long memberId) {
+        return visitedPlaceRepository.findTop100ByMemberEntityId(memberId);
     }
 }

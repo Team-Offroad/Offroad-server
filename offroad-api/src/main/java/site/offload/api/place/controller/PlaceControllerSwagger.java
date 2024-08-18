@@ -14,5 +14,9 @@ public interface PlaceControllerSwagger {
     @ApiResponse(responseCode = "200",
             description = "오프로드 등록 장소 조회 완료",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponse.class)))
-    public ResponseEntity<APISuccessResponse<RegisteredPlacesResponse>> checkRegisteredPlaces(@RequestParam double currentLatitude, @RequestParam double currentLongitudet);
+            ResponseEntity<APISuccessResponse<RegisteredPlacesResponse>> checkRegisteredPlaces(
+            @RequestParam double currentLatitude,
+            @RequestParam double currentLongitude,
+            @RequestParam Boolean isVisit
+    );
 }
