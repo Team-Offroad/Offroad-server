@@ -37,4 +37,8 @@ public class GainedCharacterEntity extends BaseTimeEntity {
         this.memberEntity = memberEntity;
         this.characterEntity = characterEntity;
     }
+
+    public void updateNewGainedStatus() {
+        this.isNewGained = false;
+    }
 }

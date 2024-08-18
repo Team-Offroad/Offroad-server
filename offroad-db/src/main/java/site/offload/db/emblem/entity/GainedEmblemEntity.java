@@ -15,8 +15,8 @@ import site.offload.db.member.entity.MemberEntity;
 @Table(
         name = "gained_emblem",
         uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"member_id", "emblem_code"})
-})
+                @UniqueConstraint(columnNames = {"member_id", "emblem_code"})
+        })
 public class GainedEmblemEntity extends BaseTimeEntity {
 
     @Id
@@ -40,5 +40,9 @@ public class GainedEmblemEntity extends BaseTimeEntity {
 
     public static GainedEmblemEntity create(MemberEntity memberEntity, String emblemCode) {
         return new GainedEmblemEntity(memberEntity, emblemCode);
+    }
+
+    public void updateNewGainedStatus() {
+        this.isNewGained = false;
     }
 }

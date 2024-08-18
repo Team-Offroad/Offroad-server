@@ -29,6 +29,7 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static site.offload.api.fixture.CharacterEntityFixtureCreator.createCharacterEntity;
 import static site.offload.api.fixture.CharacterMotionEntityFixtureCreator.createCharacterMotionEntity;
+import static site.offload.api.fixture.GainedCharacterMotionEntityFixtureCreator.createGainedCharacterMotionEntity;
 
 @ExtendWith(MockitoExtension.class)
 public class CharacterMotionUseCaseTest {
@@ -67,8 +68,8 @@ public class CharacterMotionUseCaseTest {
         CharacterMotionEntity characterMotionEntity3 = createCharacterMotionEntity(characterEntity, PlaceCategory.RESTAURANT, "모션 이미지3", "미보유 이미지3", "모션 캡쳐 이미지3");
         CharacterMotionEntity characterMotionEntity4 = createCharacterMotionEntity(characterEntity, PlaceCategory.SPORT, "모션 이미지4", "미보유 이미지4", "모션 캡쳐 이미지4");
 
-        GainedCharacterMotionEntity gainedCharacterMotionEntity1 = GainedCharacterMotionEntityFixtureCreator.createGainedCharacterMotionEntity(memberEntity, characterMotionEntity1);
-        GainedCharacterMotionEntity gainedCharacterMotionEntity2 = GainedCharacterMotionEntityFixtureCreator.createGainedCharacterMotionEntity(memberEntity, characterMotionEntity2);
+        GainedCharacterMotionEntity gainedCharacterMotionEntity1 = createGainedCharacterMotionEntity(memberEntity, characterMotionEntity1);
+        GainedCharacterMotionEntity gainedCharacterMotionEntity2 = createGainedCharacterMotionEntity(memberEntity, characterMotionEntity2);
 
         List<CharacterMotionEntity> characterMotionEntities = new ArrayList<CharacterMotionEntity>();
         characterMotionEntities.add(characterMotionEntity1);
@@ -98,6 +99,38 @@ public class CharacterMotionUseCaseTest {
         Assertions.assertThat(characterMotionsResponse.gainedCharacterMotions()).contains(CharacterMotionResponse.of(PlaceCategory.CULTURE.name(), characterMotionEntity2.getMotionCaptureImageUrl(), true));
         Assertions.assertThat(characterMotionsResponse.gainedCharacterMotions()).doesNotContain(CharacterMotionResponse.of(PlaceCategory.RESTAURANT.name(), characterMotionEntity3.getNotGainedMotionThumbnailImageUrl(), false));
 
+    }
+
+    @Test
+    @DisplayName("새롭게 얻은 캐릭터 모션은 캐릭터 최초 응답 이후 이전에 얻은 모션으로 바뀐다.")
+    void changeMotionFromNewToOld() {
+        //given
+        MemberEntity memberEntity = MemberEntity.builder().name("이름1").email("이메일1").sub("소셜아이디1").socialPlatform(SocialPlatform.GOOGLE).build();
+        CharacterEntity characterEntity = createCharacterEntity("이름1", "캐릭터 코드1",
+                "탐험 성공 이미지1", "기본 이미지1", "선택 이미지1",
+                "주목 이미지1", "QR 실패 이미지1", "미보유 썸네일 이미지1"
+                , "설명1", "위치 인증 실패 이미지1", "캐릭터 메인 색깔 코드1", "캐릭터 서브 색깔 코드1", "캐릭터 요약 설명1", "캐릭터 아이콘 이미지1");
+
+        CharacterMotionEntity characterMotionEntity1 = createCharacterMotionEntity(characterEntity, PlaceCategory.CAFFE, "모션 이미지1", "미보유 이미지1", "모션 캡쳐 이미지1");
+
+        GainedCharacterMotionEntity gainedCharacterMotionEntity1 = createGainedCharacterMotionEntity(memberEntity, characterMotionEntity1);
+
+        List<CharacterMotionEntity> characterMotionEntities = new ArrayList<CharacterMotionEntity>();
+        characterMotionEntities.add(characterMotionEntity1);
+
+        BDDMockito.given(memberService.findById(any())).willReturn(memberEntity);
+        BDDMockito.given(characterService.findById(any())).willReturn(characterEntity);
+        BDDMockito.given(characterMotionService.findCharacterMotionsByCharacterEntity(any())).willReturn(characterMotionEntities);
+        BDDMockito.given(gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotionEntity1, memberEntity)).willReturn(true);
+        BDDMockito.given(s3Service.getPresignUrl(characterMotionEntity1.getMotionCaptureImageUrl())).willReturn("모션 캡쳐 이미지1");
+        BDDMockito.given(gainedCharacterMotionService.findByMemberEntityAndCharacterMotionEntity(memberEntity, characterMotionEntity1)).willReturn(gainedCharacterMotionEntity1);
+
+        //when
+        boolean previousNewStatus = gainedCharacterMotionEntity1.isNewGained();
+        CharacterMotionsResponse characterMotionsResponse = characterMotionUseCase.getMotions(memberEntity.getId(), characterEntity.getId());
+
+        //then
+        Assertions.assertThat(gainedCharacterMotionEntity1.isNewGained()).isNotEqualTo(previousNewStatus);
     }
 
 }

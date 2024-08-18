@@ -35,4 +35,8 @@ public class GainedCharacterMotionEntity extends BaseTimeEntity {
         this.memberEntity = memberEntity;
         this.characterMotionEntity = characterMotionEntity;
     }
+
+    public void updateNewGainedStatus() {
+        this.isNewGained = false;
+    }
 }

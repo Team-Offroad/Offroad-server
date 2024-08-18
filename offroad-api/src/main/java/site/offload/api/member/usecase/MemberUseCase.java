@@ -19,7 +19,9 @@ import site.offload.api.place.service.VisitedPlaceService;
 import site.offload.api.quest.service.CompleteQuestService;
 import site.offload.api.util.TimeUtil;
 import site.offload.db.character.entity.CharacterEntity;
+import site.offload.db.character.entity.GainedCharacterEntity;
 import site.offload.db.charactermotion.entity.CharacterMotionEntity;
+import site.offload.db.charactermotion.entity.GainedCharacterMotionEntity;
 import site.offload.db.member.embeddable.Birthday;
 import site.offload.db.member.entity.MemberEntity;
 import site.offload.enums.place.PlaceCategory;
@@ -111,7 +113,12 @@ public class MemberUseCase {
 
         List<GainedCharacterResponse> gainedCharacters = characterEntities.stream()
                 .filter(characterEntity -> gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(memberEntity, characterEntity))
-                .map(characterEntity -> GainedCharacterResponse.of(characterEntity.getId(), characterEntity.getName(), s3Service.getPresignUrl(characterEntity.getCharacterBaseImageUrl()), characterEntity.getCharacterMainColorCode(), characterEntity.getCharacterSubColorCode(), gainedCharacterService.findByMemberEntityAndCharacterEntity(memberEntity, characterEntity).isNewGained()))
+                .map(characterEntity -> {
+                    GainedCharacterEntity gainedCharacterEntity = gainedCharacterService.findByMemberEntityAndCharacterEntity(memberEntity, characterEntity);
+                    boolean isNewGained = gainedCharacterEntity.isNewGained();
+                    gainedCharacterEntity.updateNewGainedStatus();
+                    return GainedCharacterResponse.of(characterEntity.getId(), characterEntity.getName(), s3Service.getPresignUrl(characterEntity.getCharacterBaseImageUrl()), characterEntity.getCharacterMainColorCode(), characterEntity.getCharacterSubColorCode(), isNewGained);
+                })
                 .collect(Collectors.toList());
 
         List<GainedCharacterResponse> notGainedCharacters = characterEntities.stream()
