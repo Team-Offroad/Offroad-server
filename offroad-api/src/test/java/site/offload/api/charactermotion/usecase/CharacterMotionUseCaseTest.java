@@ -102,7 +102,7 @@ public class CharacterMotionUseCaseTest {
     }
 
     @Test
-    @DisplayName("새롭게 얻은 캐릭터 모션은 캐릭터 최초 응답 이후 이전에 얻은 모션으로 바뀐다.")
+    @DisplayName("신규 획득한 캐릭터 모션은 첫 번째 조회 이후 신규 획득 여부가 변경된다.")
     void changeMotionFromNewToOld() {
         //given
         MemberEntity memberEntity = MemberEntity.builder().name("이름1").email("이메일1").sub("소셜아이디1").socialPlatform(SocialPlatform.GOOGLE).build();
