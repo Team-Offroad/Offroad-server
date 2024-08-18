@@ -82,7 +82,7 @@ public class MemberController implements MemberControllerSwagger {
         return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.GET_USER_INFO_SUCCESS.getMessage(), memberUseCase.getUserInfo(memberId));
     }
 
-    @PatchMapping("/tos")
+    @PatchMapping("/marketing")
     public ResponseEntity<APISuccessResponse<Void>> agreeMarketing(
             @RequestBody MarketingAgreeRequest marketingAgreeRequest
     ) {
