@@ -2,6 +2,7 @@ package site.offload.api.member.usecase;
 
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.offload.api.auth.jwt.JwtTokenProvider;
@@ -18,6 +19,8 @@ import site.offload.external.oauth.apple.AppleSocialLoginService;
 import site.offload.external.oauth.dto.SocialLoginRequest;
 import site.offload.external.oauth.google.GoogleSocialLoginService;
 import site.offload.external.oauth.google.response.GoogleInfoResponse;
+import site.offload.external.oauth.kakao.KakaoSocialLoginService;
+import site.offload.external.oauth.kakao.response.KakaoInfoResponse;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +29,7 @@ public class SocialLoginUseCase {
     private final GoogleSocialLoginService googleSocialLoginService;
     private final JwtTokenProvider jwtTokenProvider;
     private final AppleSocialLoginService appleSocialLoginService;
+    private final KakaoSocialLoginService kakaoSocialLoginService;
     private final GainedEmblemService gainedEmblemService;
     private final MemberService memberService;
 
@@ -33,7 +37,7 @@ public class SocialLoginUseCase {
     public SocialLoginResponse login(SocialLoginRequest socialLoginRequest) {
         MemberEntity memberEntity = null;
         boolean isAlreadyExist = false;
-        String socialPlatFormRequest = socialLoginRequest.socialPlatform().getSocialPlatform();
+        String socialPlatFormRequest = socialLoginRequest.socialPlatform();
         if (socialPlatFormRequest.equals(SocialPlatform.GOOGLE.getSocialPlatform())) {
             GoogleInfoResponse googleInfoResponse = googleSocialLoginService.login(socialLoginRequest);
             if (memberService.isExistsBySub(googleInfoResponse.id())) {
@@ -48,7 +52,7 @@ public class SocialLoginUseCase {
                         .name(googleInfoResponse.name())
                         .email(googleInfoResponse.email())
                         .sub(googleInfoResponse.id())
-                        .socialPlatform(SocialPlatform.valueOf(socialLoginRequest.socialPlatform().toString()))
+                        .socialPlatform(SocialPlatform.valueOf(socialLoginRequest.socialPlatform()))
                         .build();
                 memberService.saveMember(memberEntity);
                 isAlreadyExist = false;
@@ -67,11 +71,31 @@ public class SocialLoginUseCase {
                         .name(socialLoginRequest.name())
                         .email(appleInfoResponse.get("email", String.class))
                         .sub(appleInfoResponse.get("sub", String.class))
-                        .socialPlatform(SocialPlatform.valueOf(socialLoginRequest.socialPlatform().toString()))
+                        .socialPlatform(SocialPlatform.valueOf(socialLoginRequest.socialPlatform()))
                         .build();
                 memberService.saveMember(memberEntity);
                 isAlreadyExist = false;
             }
+        } else if (socialPlatFormRequest.equals(SocialPlatform.KAKAO.getSocialPlatform())) {
+            KakaoInfoResponse kakaoInfoResponse = kakaoSocialLoginService.login(socialLoginRequest);
+            if (memberService.isExistsBySub(kakaoInfoResponse.id())) {
+                memberEntity = memberService.findBySub(kakaoInfoResponse.id());
+                if (memberEntity.getCurrentCharacterName() == null) {
+                    isAlreadyExist = false;
+                } else {
+                    isAlreadyExist = true;
+                }
+            } else {
+                memberEntity = MemberEntity.builder()
+                        .name(kakaoInfoResponse.kakaoAccount().get("name").toString())
+                        .email(kakaoInfoResponse.kakaoAccount().get("email").toString())
+                        .sub(kakaoInfoResponse.id())
+                        .socialPlatform(SocialPlatform.valueOf(socialLoginRequest.socialPlatform()))
+                        .build();
+                memberService.saveMember(memberEntity);
+                isAlreadyExist = false;
+            }
+
         }
 
         try {

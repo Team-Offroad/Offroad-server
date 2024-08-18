@@ -45,6 +45,10 @@ apple:
   iss: ${APPLE_ISS}
   client-id: ${APPLE_CLIENT_ID}
 
+kakao:
+  client-id: ${KAKAO_CLIENT_ID_DEV}
+  redirect-uri: ${KAKAO_REDIRECT_URI_DEV}
+
 logging:
   level:
     org.springframework: DEBUG
