@@ -7,7 +7,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import site.offload.api.emblem.service.GainedEmblemService;
-import site.offload.api.fixture.QuestRewardFixtureCreator;
 import site.offload.api.quest.service.QuestRewardService;
 import site.offload.db.emblem.entity.GainedEmblemEntity;
 import site.offload.db.member.entity.MemberEntity;

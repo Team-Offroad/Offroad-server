@@ -5,7 +5,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.context.annotation.ComponentScan;
 import site.offload.db.BaseTimeEntity;
 import site.offload.db.member.entity.MemberEntity;
 

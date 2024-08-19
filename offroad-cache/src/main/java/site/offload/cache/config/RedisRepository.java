@@ -16,6 +16,10 @@ public class RedisRepository {
         redisTemplate.opsForValue().set(key, value, timeOut, TimeUnit.MILLISECONDS);
     }
 
+    public void save(String key, String value) {
+        redisTemplate.opsForValue().set(key, value);
+    }
+
     public String find(String key) {
         return redisTemplate.opsForValue().get(key);
     }

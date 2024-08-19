@@ -8,15 +8,11 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.Answer;
-import site.offload.api.exception.NotFoundException;
 import site.offload.db.character.entity.CharacterEntity;
 import site.offload.db.character.repository.CharacterRepository;
-import site.offload.enums.response.ErrorMessage;
 
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
 import static site.offload.api.fixture.CharacterEntityFixtureCreator.createCharacterEntity;
 
 @ExtendWith(MockitoExtension.class)

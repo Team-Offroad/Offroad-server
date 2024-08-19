@@ -24,7 +24,7 @@ dependencies {
     implementation project(path: ':offroad-enum')
     implementation project(path: ':offroad-external')
     implementation project(path: ':offroad-support')
-
+    implementation project(path: ':offroad-batch')
 }
 
 bootJar {
