@@ -49,8 +49,6 @@ public class QuestRewardRepositoryTest {
                 .toList();
 
         //then
-
-        System.out.println("emblems = " + emblems);
         Assertions.assertThat(emblems).contains(questRewardEntity1.getRewardList().getEmblemCode());
         Assertions.assertThat(emblems).contains(questRewardEntity4.getRewardList().getEmblemCode());
         Assertions.assertThat(emblems.size()).isEqualTo(3);

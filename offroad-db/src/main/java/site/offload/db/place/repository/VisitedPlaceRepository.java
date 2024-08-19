@@ -14,4 +14,6 @@ public interface VisitedPlaceRepository extends JpaRepository<VisitedPlaceEntity
     void deleteAllByMemberEntityId(long memberId);
 
     List<VisitedPlaceEntity> findTop100ByMemberEntityId(long memberId);
+
+    Boolean existsByMemberEntityIdAndPlaceEntityId(Long memberId, Long placeId);
 }

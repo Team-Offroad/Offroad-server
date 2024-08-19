@@ -17,4 +17,16 @@ public interface PlaceRepository extends JpaRepository<PlaceEntity, Long> {
     List<PlaceEntity> findTop100ByLatitudeBetweenAndLongitudeBetween(double minLatitude, double maxLatitude, double minLongitude, double MaxLongitude);
 
     Optional<PlaceEntity> findByCouponAuthCode(String couponAuthCode);
+
+    @Query("SELECT p FROM PlaceEntity p " +
+            "WHERE p.id NOT IN (SELECT vp.placeEntity.id FROM VisitedPlaceEntity vp WHERE vp.memberEntity.id = :memberId) " +
+            "AND p.latitude BETWEEN :latitude - :latitudeBias AND :latitude + :latitudeBias " +
+            "AND p.longitude BETWEEN :longitude - :longitudeBias AND :longitude + :longitudeBias")
+    List<PlaceEntity> findUnvisitedPlacesByMemberIdAndLocation(
+            @Param("memberId") Long memberId,
+            @Param("latitude") double latitude,
+            @Param("longitude") double longitude,
+            @Param("latitudeBias") double latitudeBias,
+            @Param("longitudeBias") double longitudeBias
+    );
 }

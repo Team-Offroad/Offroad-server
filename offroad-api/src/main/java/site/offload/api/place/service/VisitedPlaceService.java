@@ -20,7 +20,11 @@ public class VisitedPlaceService {
         return visitedPlaceRepository.save(visitedPlaceEntity).getId();
     }
 
-    public Long countByMemberAndPlace(MemberEntity memberEntity, PlaceEntity placeEntity) {
+    public Long countByMemberIdAndPlace(Long memberId, PlaceEntity placeEntity) {
+        return visitedPlaceRepository.countByMemberEntityIdAndPlaceEntityId(memberId, placeEntity.getId());
+    }
+
+    public Long countMemberAndPlace(MemberEntity memberEntity, PlaceEntity placeEntity) {
         return visitedPlaceRepository.countByMemberEntityIdAndPlaceEntityId(memberEntity.getId(), placeEntity.getId());
     }
 
@@ -34,5 +38,9 @@ public class VisitedPlaceService {
   
     public Long countByMember(MemberEntity entity) {
         return visitedPlaceRepository.countByMemberEntityId(entity.getId());
+    }
+
+    public Boolean existsByMemberAndPlace(MemberEntity memberEntity, PlaceEntity placeEntity) {
+        return visitedPlaceRepository.existsByMemberEntityIdAndPlaceEntityId(memberEntity.getId(), placeEntity.getId());
     }
 }

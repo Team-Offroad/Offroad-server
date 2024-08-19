@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import site.offload.api.auth.PrincipalHandler;
 import site.offload.api.place.dto.request.RegisteredPlacesRequest;
+import site.offload.api.place.dto.request.UnvisitedPlacesRequest;
 import site.offload.api.place.dto.response.RegisteredPlacesResponse;
+import site.offload.api.place.dto.response.UnvisitedPlacesResponse;
 import site.offload.api.place.usecase.PlaceUseCase;
 import site.offload.api.response.APISuccessResponse;
 import site.offload.enums.response.SuccessMessage;
@@ -26,13 +28,23 @@ public class PlaceController implements PlaceControllerSwagger {
     @GetMapping("/places")
     public ResponseEntity<APISuccessResponse<RegisteredPlacesResponse>> checkRegisteredPlaces(
             @RequestParam double currentLatitude,
-            @RequestParam double currentLongitude,
-            @RequestParam Boolean isVisit
-            ) {
+            @RequestParam double currentLongitude
+    ) {
         return APISuccessResponse.of(
                 HttpStatus.OK.value(),
                 SuccessMessage.CHECK_REGISTERED_PLACES_SUCCESS.getMessage(),
                 placeUsecase.checkRegisteredPlaces(PrincipalHandler.getMemberIdFromPrincipal(),
-                RegisteredPlacesRequest.of(currentLatitude, currentLongitude, isVisit)));
+                        RegisteredPlacesRequest.of(currentLatitude, currentLongitude)));
+    }
+
+    @GetMapping("/places/unvisited")
+    public ResponseEntity<APISuccessResponse<UnvisitedPlacesResponse>> getUnvisitedPlacesResponse(
+            @RequestParam double currentLatitude,
+            @RequestParam double currentLongitude
+    ) {
+        return APISuccessResponse.of(
+                HttpStatus.OK.value(),
+                SuccessMessage.CHECK_UNVISITED_PLACES_SUCCESS.getMessage(),
+                placeUsecase.checkUnvisitedPlaces(PrincipalHandler.getMemberIdFromPrincipal(), UnvisitedPlacesRequest.of(currentLatitude, currentLongitude)));
     }
 }

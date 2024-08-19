@@ -187,7 +187,7 @@ public class AuthAdventureUseCase {
 
             //'같은 장소' 여러번 방문이 조건인 퀘스트인 경우
         } else {
-            final long count = visitedPlaceService.countByMemberAndPlace(findMemberEntity, findPlaceEntity);
+            final long count = visitedPlaceService.countMemberAndPlace(findMemberEntity, findPlaceEntity);
             proceedingQuestService.updateCurrentClearCount(proceedingQuestEntity, (int) count);
         }
         return proceedingQuestEntity;
