@@ -28,4 +28,8 @@ public class GainedCharacterMotionService {
     public void deleteAllByMemberId(long memberId) {
         gainedCharacterMotionRepository.deleteAllByMemberEntityId(memberId);
     }
+
+    public GainedCharacterMotionEntity findByMemberEntityAndCharacterMotionEntity(MemberEntity memberEntity, CharacterMotionEntity characterMotionEntity) {
+        return gainedCharacterMotionRepository.findByMemberEntityAndCharacterMotionEntity(memberEntity, characterMotionEntity);
+    }
 }

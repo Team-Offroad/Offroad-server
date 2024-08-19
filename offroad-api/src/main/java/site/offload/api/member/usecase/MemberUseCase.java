@@ -13,19 +13,24 @@ import site.offload.api.exception.BadRequestException;
 import site.offload.api.exception.NotFoundException;
 import site.offload.api.member.dto.request.MemberAdventureInformationRequest;
 import site.offload.api.member.dto.request.MemberProfileUpdateRequest;
-import site.offload.api.member.dto.response.ChooseCharacterResponse;
-import site.offload.api.member.dto.response.GainedCharacterResponse;
-import site.offload.api.member.dto.response.GainedCharactersResponse;
-import site.offload.api.member.dto.response.MemberAdventureInformationResponse;
+import site.offload.api.member.dto.response.*;
 import site.offload.api.member.service.MemberService;
+import site.offload.api.place.service.VisitedPlaceService;
+import site.offload.api.quest.service.CompleteQuestService;
+import site.offload.api.util.TimeUtil;
 import site.offload.db.character.entity.CharacterEntity;
+import site.offload.db.character.entity.GainedCharacterEntity;
 import site.offload.db.charactermotion.entity.CharacterMotionEntity;
+import site.offload.db.charactermotion.entity.GainedCharacterMotionEntity;
 import site.offload.db.member.embeddable.Birthday;
 import site.offload.db.member.entity.MemberEntity;
 import site.offload.enums.place.PlaceCategory;
 import site.offload.enums.response.ErrorMessage;
 import site.offload.external.aws.S3Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,6 +46,8 @@ public class MemberUseCase {
     private final GainedCharacterService gainedCharacterService;
     private final S3Service s3Service;
     private final GainedEmblemService gainedEmblemService;
+    private final CompleteQuestService completeQuestService;
+    private final VisitedPlaceService visitedPlaceService;
 
     @Transactional(readOnly = true)
     public MemberAdventureInformationResponse getMemberAdventureInformation(final MemberAdventureInformationRequest request) {
@@ -72,29 +79,6 @@ public class MemberUseCase {
         final String baseImageUrl = findCharacterEntity.getCharacterBaseImageUrl();
         return MemberAdventureInformationResponse.of(nickname, emblemName,
                 s3Service.getPresignUrl(baseImageUrl), s3Service.getPresignUrl(motionImageUrl), findCharacterEntity.getName());
-    }
-
-    private String getMotionImageUrl(final PlaceCategory placeCategory, final CharacterEntity characterEntity, final MemberEntity memberEntity) {
-
-        // 카테고리가 없는 장소에 있을 경우 null 반환
-        if (placeCategory.equals(PlaceCategory.NONE)) {
-            return null;
-        }
-
-        // 그 외의 경우에는 특정 캐릭터, 특정 카테고리에 해당하는 모션 이미지 url 반환
-        final CharacterMotionEntity findCharacterMotionEntity = characterMotionService.findByCharacterAndPlaceCategory(characterEntity, placeCategory);
-
-        //유저가 획득한 모션인지 확인
-        if (isMemberGainedMotion(findCharacterMotionEntity, memberEntity)) {
-            return findCharacterMotionEntity.getMotionImageUrl();
-            //아니라면 null 반환
-        } else {
-            return null;
-        }
-    }
-
-    private boolean isMemberGainedMotion(final CharacterMotionEntity characterMotionEntity, final MemberEntity memberEntity) {
-        return gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotionEntity, memberEntity);
     }
 
     @Transactional
@@ -129,15 +113,63 @@ public class MemberUseCase {
 
         List<GainedCharacterResponse> gainedCharacters = characterEntities.stream()
                 .filter(characterEntity -> gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(memberEntity, characterEntity))
-                .map(characterEntity -> GainedCharacterResponse.of(characterEntity.getId(), characterEntity.getName(), s3Service.getPresignUrl(characterEntity.getCharacterBaseImageUrl()), characterEntity.getCharacterMainColorCode(), characterEntity.getCharacterSubColorCode()))
+                .map(characterEntity -> {
+                    GainedCharacterEntity gainedCharacterEntity = gainedCharacterService.findByMemberEntityAndCharacterEntity(memberEntity, characterEntity);
+                    boolean isNewGained = gainedCharacterEntity.isNewGained();
+                    gainedCharacterEntity.updateNewGainedStatus();
+                    return GainedCharacterResponse.of(characterEntity.getId(), characterEntity.getName(), s3Service.getPresignUrl(characterEntity.getCharacterBaseImageUrl()), characterEntity.getCharacterMainColorCode(), characterEntity.getCharacterSubColorCode(), isNewGained);
+                })
                 .collect(Collectors.toList());
 
         List<GainedCharacterResponse> notGainedCharacters = characterEntities.stream()
                 .filter(characterEntity -> !gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(memberEntity, characterEntity))
-                .map(characterEntity -> GainedCharacterResponse.of(characterEntity.getId(), characterEntity.getName(), s3Service.getPresignUrl(characterEntity.getNotGainedCharacterThumbnailImageUrl()), characterEntity.getCharacterMainColorCode(), characterEntity.getCharacterSubColorCode()))
+                .map(characterEntity -> GainedCharacterResponse.of(characterEntity.getId(), characterEntity.getName(), s3Service.getPresignUrl(characterEntity.getNotGainedCharacterThumbnailImageUrl()), characterEntity.getCharacterMainColorCode(), characterEntity.getCharacterSubColorCode(), false))
                 .collect(Collectors.toList());
 
         return GainedCharactersResponse.of(gainedCharacters, notGainedCharacters);
     }
+
+    @Transactional(readOnly = true)
+    public UserInfoResponse getUserInfo(final Long memberId) {
+        final MemberEntity memberEntity = memberService.findById(memberId);
+        final Long elapsedDays = TimeUtil.getElapsedDay(memberEntity.getCreatedAt());
+        return UserInfoResponse.of(
+                memberEntity.getNickName(),
+                memberEntity.getCurrentEmblemName(),
+                elapsedDays,
+                visitedPlaceService.countByMember(memberEntity),
+                completeQuestService.countByMember(memberEntity)
+        );
+    }
+
+    private String getMotionImageUrl(final PlaceCategory placeCategory, final CharacterEntity characterEntity, final MemberEntity memberEntity) {
+
+        // 카테고리가 없는 장소에 있을 경우 null 반환
+        if (placeCategory.equals(PlaceCategory.NONE)) {
+            return null;
+        }
+
+        // 그 외의 경우에는 특정 캐릭터, 특정 카테고리에 해당하는 모션 이미지 url 반환
+        final CharacterMotionEntity findCharacterMotionEntity = characterMotionService.findByCharacterAndPlaceCategory(characterEntity, placeCategory);
+
+        //유저가 획득한 모션인지 확인
+        if (isMemberGainedMotion(findCharacterMotionEntity, memberEntity)) {
+            return findCharacterMotionEntity.getMotionImageUrl();
+            //아니라면 null 반환
+        } else {
+            return null;
+        }
+    }
+
+    private boolean isMemberGainedMotion(final CharacterMotionEntity characterMotionEntity, final MemberEntity memberEntity) {
+        return gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotionEntity, memberEntity);
+    }
+
+    @Transactional
+    public void updateAgreeMarketing(Long memberId, boolean isAgreeMarketing) {
+        MemberEntity findMemberEntity = memberService.findById(memberId);
+        findMemberEntity.updateAgreeMarketing(isAgreeMarketing);
+    }
+
 }
 

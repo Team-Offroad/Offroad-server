@@ -31,4 +31,8 @@ public class VisitedPlaceService {
     public List<VisitedPlaceEntity> findAllByMemberId(long memberId) {
         return visitedPlaceRepository.findTop100ByMemberEntityId(memberId);
     }
+  
+    public Long countByMember(MemberEntity entity) {
+        return visitedPlaceRepository.countByMemberEntityId(entity.getId());
+    }
 }

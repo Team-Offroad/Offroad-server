@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.offload.api.character.dto.response.CharacterDetailResponse;
-import site.offload.api.character.dto.response.CharacterListResponse;
-import site.offload.api.character.dto.response.CharacterResponse;
+import site.offload.api.character.dto.response.StartCharactersResponse;
+import site.offload.api.character.dto.response.StartCharacterResponse;
 import site.offload.api.character.service.CharacterService;
 import site.offload.db.character.entity.CharacterEntity;
 import site.offload.external.aws.S3Service;
@@ -20,10 +20,10 @@ public class CharacterUseCase {
     private final S3Service s3Service;
 
     @Transactional(readOnly = true)
-    public CharacterListResponse getCharacters() {
+    public StartCharactersResponse getCharacters() {
         List<CharacterEntity> findCharacterEntities = characterService.findAll();
-        List<CharacterResponse> charactersList = findCharacterEntities.stream().map(
-                character -> CharacterResponse.builder()
+        List<StartCharacterResponse> charactersList = findCharacterEntities.stream().map(
+                character -> StartCharacterResponse.builder()
                         .id(character.getId())
                         .description(character.getDescription())
                         .characterCode(character.getCharacterCode())
@@ -31,7 +31,7 @@ public class CharacterUseCase {
                         .characterBaseImageUrl(s3Service.getPresignUrl(character.getCharacterSelectImageUrl()))
                         .build()
         ).toList();
-        return CharacterListResponse.of(charactersList);
+        return StartCharactersResponse.of(charactersList);
     }
 
     @Transactional(readOnly = true)

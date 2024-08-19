@@ -15,4 +15,6 @@ public interface GainedEmblemRepository extends JpaRepository<GainedEmblemEntity
     List<GainedEmblemEntity> findAllByMemberEntityId(Long memberId);
 
     void deleteAllByMemberEntityId(long memberId);
+
+    GainedEmblemEntity findByMemberEntityIdAndEmblemCode(Long memberId, String EmblemCode);
 }

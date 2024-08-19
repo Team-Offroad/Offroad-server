@@ -11,12 +11,12 @@ import site.offload.db.member.entity.MemberEntity;
 
 //사용자가 얻은 쿠폰
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "gained_coupon",
         uniqueConstraints = {
         @UniqueConstraint(columnNames = {"member_id", "coupon_id"})
 })
-@Getter
 public class GainedCouponEntity extends BaseTimeEntity {
 
     @Id
@@ -36,6 +36,8 @@ public class GainedCouponEntity extends BaseTimeEntity {
 
     private boolean isUsed = false;
 
+    private boolean isNewGained = true;
+
     @Builder
     public GainedCouponEntity(MemberEntity memberEntity, CouponEntity couponEntity, Long samePlaceRewardPlaceId) {
         this.memberEntity = memberEntity;
@@ -45,5 +47,9 @@ public class GainedCouponEntity extends BaseTimeEntity {
 
     public void updateIsUsed(boolean isUsed) {
         this.isUsed = isUsed;
+    }
+
+    public void updateNewGainedStatus() {
+        this.isNewGained = false;
     }
 }

@@ -74,6 +74,20 @@ public class MemberController implements MemberControllerSwagger {
     public ResponseEntity<APISuccessResponse<GainedCharactersResponse>> getGainedCharacters() {
         final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
         return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.GET_GAINED_CHARACTERS_SUCCESS.getMessage(), memberUseCase.getGainedCharacters(memberId));
+    }
 
+    @GetMapping("/me")
+    public ResponseEntity<APISuccessResponse<UserInfoResponse>> getUserInfo() {
+        final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
+        return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.GET_USER_INFO_SUCCESS.getMessage(), memberUseCase.getUserInfo(memberId));
+    }
+
+    @PatchMapping("/marketing")
+    public ResponseEntity<APISuccessResponse<Void>> agreeMarketing(
+            @RequestBody MarketingAgreeRequest marketingAgreeRequest
+    ) {
+        final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
+        memberUseCase.updateAgreeMarketing(memberId, marketingAgreeRequest.marketing());
+        return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.CHECK_AGREE_MARKETING_SUCCESS.getMessage(), null);
     }
 }
