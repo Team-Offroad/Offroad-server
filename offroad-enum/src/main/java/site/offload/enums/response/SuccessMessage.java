@@ -30,6 +30,7 @@ public enum SuccessMessage {
     GET_EMBLEMS_SUCCESS("칭호 조회 완료"),
     GET_MOTIONS_SUCCESS("캐릭터 모션 목록 조회 성공"),
     GET_CHARACTER_DETAIL_SUCCESS("캐릭터 상세 정보 조회 성공"),
-    GET_USER_INFO_SUCCESS("사용자 정보 조회 성공");
+    GET_USER_INFO_SUCCESS("사용자 정보 조회 성공"),
+    CHECK_UNVISITED_PLACES_SUCCESS("미방문 장소 목록 조회 성공"),;
     private final String message;
 }
