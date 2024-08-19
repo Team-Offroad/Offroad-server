@@ -21,7 +21,7 @@ public class PlaceService {
 
     // TODO: change method name
     public List<PlaceEntity> findPlaces(RegisteredPlacesRequest registeredPlacesRequest) {
-        return placeRepository.findAllByCurrentLatitudeAndCurrentLongitude(registeredPlacesRequest.currentLatitude(), registeredPlacesRequest.currentLongitude(), PlaceConstants.RANGE_LATITUDE.getRange(), PlaceConstants.RANGE_LONGITUDE.getRange());
+        return placeRepository.findTop100ByLatitudeBetweenAndLongitudeBetween(registeredPlacesRequest.currentLatitude(), registeredPlacesRequest.currentLongitude(), PlaceConstants.RANGE_LATITUDE.getRange(), PlaceConstants.RANGE_LONGITUDE.getRange());
     }
 
     public Long countVisitedPlace(Long memberId, PlaceEntity findPlaceEntity) {
@@ -39,4 +39,5 @@ public class PlaceService {
                 () -> new NotFoundException(ErrorMessage.PLACE_NOTFOUND_EXCEPTION)
         );
     }
+
 }

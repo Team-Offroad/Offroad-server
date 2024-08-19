@@ -77,7 +77,7 @@ class PlaceEntityServiceTest {
 
         when(placeRepository.findAllByCurrentLatitudeAndCurrentLongitude(anyDouble(), anyDouble(), anyDouble(), anyDouble())).thenReturn(List.of(placeEntity, placeEntity2));
 
-        RegisteredPlacesRequest request = RegisteredPlacesRequest.of(32.135, 137.123);
+        RegisteredPlacesRequest request = RegisteredPlacesRequest.of(32.135, 137.123, true);
 
         // when
         List<PlaceEntity> placeEntityList = placeService.findPlaces(request);

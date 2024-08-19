@@ -14,5 +14,7 @@ public interface PlaceRepository extends JpaRepository<PlaceEntity, Long> {
     @Query("select p from PlaceEntity p where p.latitude >= :currentLatitude - :rangeLatitude and p.latitude <= :currentLatitude + :rangeLatitude and p.longitude >= :currentLongitude - :rangeLongitude and p.longitude <= :currentLongitude + :rangeLongitude")
     List<PlaceEntity> findAllByCurrentLatitudeAndCurrentLongitude(@Param("currentLatitude") double currentLatitude, @Param("currentLongitude") double currentLongitude, @Param("rangeLatitude") double rangeLatitude, @Param("rangeLongitude") double rangeLongitude);
 
+    List<PlaceEntity> findTop100ByLatitudeBetweenAndLongitudeBetween(double minLatitude, double maxLatitude, double minLongitude, double MaxLongitude);
+
     Optional<PlaceEntity> findByCouponAuthCode(String couponAuthCode);
 }
