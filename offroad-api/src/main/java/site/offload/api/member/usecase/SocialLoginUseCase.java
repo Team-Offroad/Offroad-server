@@ -50,6 +50,7 @@ public class SocialLoginUseCase {
                 } else {
                     isAlreadyExist = true;
                 }
+                memberStatusCacheService.saveMemberStatus(MemberStatus.ACTIVE.name(), memberEntity.getId());
             } else {
                 memberEntity = MemberEntity.builder()
                         .name(googleInfoResponse.name())
@@ -60,6 +61,7 @@ public class SocialLoginUseCase {
                 memberService.saveMember(memberEntity);
                 memberStatusCacheService.saveMemberStatus(MemberStatus.ACTIVE.name(), memberEntity.getId());
                 isAlreadyExist = false;
+                memberStatusCacheService.saveMemberStatus(MemberStatus.ACTIVE.name(), memberEntity.getId());
             }
         } else if (socialPlatFormRequest.equals(SocialPlatform.APPLE.getSocialPlatform())) {
             Claims appleInfoResponse = appleSocialLoginService.login(socialLoginRequest);
@@ -70,6 +72,7 @@ public class SocialLoginUseCase {
                 } else {
                     isAlreadyExist = true;
                 }
+                memberStatusCacheService.saveMemberStatus(MemberStatus.ACTIVE.name(), memberEntity.getId());
             } else {
                 memberEntity = MemberEntity.builder()
                         .name(socialLoginRequest.name())
@@ -80,6 +83,7 @@ public class SocialLoginUseCase {
                 memberService.saveMember(memberEntity);
                 memberStatusCacheService.saveMemberStatus(MemberStatus.ACTIVE.name(), memberEntity.getId());
                 isAlreadyExist = false;
+                memberStatusCacheService.saveMemberStatus(MemberStatus.ACTIVE.name(), memberEntity.getId());
             }
         } else if (socialPlatFormRequest.equals(SocialPlatform.KAKAO.getSocialPlatform())) {
             KakaoInfoResponse kakaoInfoResponse = kakaoSocialLoginService.login(socialLoginRequest);
@@ -90,6 +94,7 @@ public class SocialLoginUseCase {
                 } else {
                     isAlreadyExist = true;
                 }
+                memberStatusCacheService.saveMemberStatus(MemberStatus.ACTIVE.name(), memberEntity.getId());
             } else {
                 memberEntity = MemberEntity.builder()
                         .name(kakaoInfoResponse.kakaoAccount().get("name").toString())
@@ -99,8 +104,8 @@ public class SocialLoginUseCase {
                         .build();
                 memberService.saveMember(memberEntity);
                 isAlreadyExist = false;
+                memberStatusCacheService.saveMemberStatus(MemberStatus.ACTIVE.name(), memberEntity.getId());
             }
-
         }
 
         try {
