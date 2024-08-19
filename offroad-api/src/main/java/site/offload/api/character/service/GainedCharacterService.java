@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import site.offload.db.character.entity.CharacterEntity;
 import site.offload.db.character.entity.GainedCharacterEntity;
 import site.offload.db.character.repository.GainedCharacterRepository;
+import site.offload.db.emblem.entity.GainedEmblemEntity;
 import site.offload.db.member.entity.MemberEntity;
 
 @Component
@@ -26,5 +27,9 @@ public class GainedCharacterService {
 
     public void deleteAllByMemberId(long memberId) {
         gainedCharacterRepository.deleteAllByMemberEntityId(memberId);
+    }
+
+    public GainedCharacterEntity findByMemberEntityAndCharacterEntity(MemberEntity memberEntity, CharacterEntity characterEntity) {
+        return gainedCharacterRepository.findByMemberEntityAndCharacterEntity(memberEntity, characterEntity);
     }
 }

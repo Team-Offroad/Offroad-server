@@ -12,4 +12,5 @@ public interface GainedCharacterRepository extends JpaRepository<GainedCharacter
 
     void deleteAllByMemberEntityId(long memberId);
 
+    GainedCharacterEntity findByMemberEntityAndCharacterEntity(MemberEntity memberEntity, CharacterEntity characterEntity);
 }

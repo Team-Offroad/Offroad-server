@@ -34,12 +34,15 @@ public class CouponListUseCase {
                 gainedCouponEntity -> {
                     if (!gainedCouponEntity.isUsed()) {
                         final CouponEntity couponEntity = gainedCouponEntity.getCouponEntity();
+                        boolean isNewGained = gainedCouponEntity.isNewGained();
+                        gainedCouponEntity.updateNewGainedStatus();
                         availableCouponList.add(
                                 AvailableCouponResponse.of(
                                         couponEntity.getId(),
                                         couponEntity.getName(),
                                         couponEntity.getCouponImageUrl(),
-                                        couponEntity.getDescription())
+                                        couponEntity.getDescription(),
+                                        isNewGained)
                         );
                     }
                 }

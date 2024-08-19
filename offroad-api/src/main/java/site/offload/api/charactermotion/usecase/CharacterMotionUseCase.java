@@ -11,6 +11,8 @@ import site.offload.api.charactermotion.service.GainedCharacterMotionService;
 import site.offload.api.member.service.MemberService;
 import site.offload.db.character.entity.CharacterEntity;
 import site.offload.db.charactermotion.entity.CharacterMotionEntity;
+import site.offload.db.charactermotion.entity.GainedCharacterMotionEntity;
+import site.offload.db.emblem.entity.GainedEmblemEntity;
 import site.offload.db.member.entity.MemberEntity;
 import site.offload.external.aws.S3Service;
 
@@ -34,12 +36,17 @@ public class CharacterMotionUseCase {
 
         List<CharacterMotionResponse> gainedCharacterMotions = characterMotionEntities.stream()
                 .filter(characterMotionEntity -> gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotionEntity, findMemberEntity))
-                .map(characterMotionEntity -> CharacterMotionResponse.of(characterMotionEntity.getPlaceCategory().toString(), s3Service.getPresignUrl(characterMotionEntity.getMotionCaptureImageUrl())))
+                .map(characterMotionEntity -> {
+                    GainedCharacterMotionEntity gainedCharacterMotionEntity = gainedCharacterMotionService.findByMemberEntityAndCharacterMotionEntity(findMemberEntity, characterMotionEntity);
+                    boolean isNewGained = gainedCharacterMotionEntity.isNewGained();
+                    gainedCharacterMotionEntity.updateNewGainedStatus();
+                    return CharacterMotionResponse.of(characterMotionEntity.getPlaceCategory().toString(), s3Service.getPresignUrl(characterMotionEntity.getMotionCaptureImageUrl()), isNewGained);
+                })
                 .toList();
 
         List<CharacterMotionResponse> notGainedCharacterMotions = characterMotionEntities.stream()
                 .filter(characterMotionEntity -> !gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotionEntity, findMemberEntity))
-                .map(characterMotionEntity -> CharacterMotionResponse.of(characterMotionEntity.getPlaceCategory().toString(), s3Service.getPresignUrl(characterMotionEntity.getNotGainedMotionThumbnailImageUrl())))
+                .map(characterMotionEntity -> CharacterMotionResponse.of(characterMotionEntity.getPlaceCategory().toString(), s3Service.getPresignUrl(characterMotionEntity.getNotGainedMotionThumbnailImageUrl()), false))
                 .toList();
 
         return CharacterMotionsResponse.of(gainedCharacterMotions, notGainedCharacterMotions);

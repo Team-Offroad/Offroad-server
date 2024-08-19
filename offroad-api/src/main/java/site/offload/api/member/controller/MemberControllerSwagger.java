@@ -8,10 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import site.offload.api.member.dto.request.AuthAdventureRequest;
-import site.offload.api.member.dto.request.AuthPositionRequest;
-import site.offload.api.member.dto.request.MemberProfileUpdateRequest;
-import site.offload.api.member.dto.request.SignOutRequest;
+import site.offload.api.member.dto.request.*;
 import site.offload.api.member.dto.response.*;
 import site.offload.api.response.APISuccessResponse;
 
@@ -50,6 +47,12 @@ public interface MemberControllerSwagger {
     @Operation(summary = "캐릭터 목록 조회 API", description = "캐릭터 목록 조회 API")
     @ApiResponse(responseCode = "200", description = "캐릭터 목록 조회 성공", content = @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponse.class)))
     public ResponseEntity<APISuccessResponse<GainedCharactersResponse>> getGainedCharacters();
+
+    @Operation(summary = "마케팅 수신 여부 API", description = "마케팅 수신 여부 API")
+    @ApiResponse(responseCode = "200", description = "마케팅 수신 여부 업데이트 성공", content = @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponse.class)))
+    public ResponseEntity<APISuccessResponse<Void>> agreeMarketing(
+            @RequestBody MarketingAgreeRequest marketingAgreeRequest
+    );
 }
 
 

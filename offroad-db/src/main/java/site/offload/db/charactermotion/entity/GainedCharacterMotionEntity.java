@@ -3,11 +3,13 @@ package site.offload.db.charactermotion.entity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.offload.db.BaseTimeEntity;
 import site.offload.db.member.entity.MemberEntity;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {"member_id", "character_motion_id"})
@@ -26,9 +28,15 @@ public class GainedCharacterMotionEntity extends BaseTimeEntity {
     @JoinColumn(name = "character_motion_id", nullable = false)
     private CharacterMotionEntity characterMotionEntity;
 
+    private boolean isNewGained = true;
+
     @Builder
     public GainedCharacterMotionEntity(MemberEntity memberEntity, CharacterMotionEntity characterMotionEntity) {
         this.memberEntity = memberEntity;
         this.characterMotionEntity = characterMotionEntity;
+    }
+
+    public void updateNewGainedStatus() {
+        this.isNewGained = false;
     }
 }

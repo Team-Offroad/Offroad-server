@@ -20,6 +20,10 @@ public class QuestService {
     private final ProceedingQuestRepository proceedingQuestRepository;
     private final QuestRepository questRepository;
 
+    public List<QuestEntity> findByIdNotIn(List<Integer> questIds) {
+        return questRepository.findByIdNotIn(questIds);
+    }
+
     public List<ProceedingQuestEntity> findProceedingQuests(Long memberId) {
         return proceedingQuestRepository.findAllByMemberEntityIdOrderByUpdatedAtDesc(memberId);
     }

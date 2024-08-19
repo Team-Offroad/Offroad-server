@@ -63,11 +63,15 @@ public class MemberEntity extends BaseTimeEntity {
     @Embedded
     private Birthday birthday;
 
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private MemberStatus memberStatus = DEFAULT_MEMBER_STATUS;
 
     private LocalDateTime inactiveSince;
+
+    private boolean isAgreeMarketing;
+
 
     @Builder
     public MemberEntity(String name, String email, String sub, SocialPlatform socialPlatform) {
@@ -91,6 +95,7 @@ public class MemberEntity extends BaseTimeEntity {
         this.currentCharacterName = characterName;
     }
 
+
     public void updateMemberStatus(MemberStatus memberStatus) {
         this.memberStatus = memberStatus;
         if (memberStatus == MemberStatus.INACTIVE) {
@@ -98,5 +103,9 @@ public class MemberEntity extends BaseTimeEntity {
         } else {
             this.inactiveSince = null;
         }
+    }
+
+    public void updateAgreeMarketing(boolean isAgreeMarketing) {
+        this.isAgreeMarketing = isAgreeMarketing;
     }
 }

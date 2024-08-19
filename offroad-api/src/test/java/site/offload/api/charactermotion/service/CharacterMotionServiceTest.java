@@ -10,7 +10,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import site.offload.db.character.entity.CharacterEntity;
 import site.offload.db.charactermotion.entity.CharacterMotionEntity;
+import site.offload.db.charactermotion.entity.GainedCharacterMotionEntity;
 import site.offload.db.charactermotion.repository.CharacterMotionRepository;
+import site.offload.db.charactermotion.repository.GainedCharacterMotionRepository;
+import site.offload.db.member.entity.MemberEntity;
+import site.offload.enums.member.SocialPlatform;
 import site.offload.enums.place.PlaceCategory;
 
 import java.util.ArrayList;
@@ -19,6 +23,7 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static site.offload.api.fixture.CharacterEntityFixtureCreator.createCharacterEntity;
 import static site.offload.api.fixture.CharacterMotionEntityFixtureCreator.createCharacterMotionEntity;
+import static site.offload.api.fixture.GainedCharacterMotionEntityFixtureCreator.createGainedCharacterMotionEntity;
 
 @ExtendWith(MockitoExtension.class)
 public class CharacterMotionServiceTest {
@@ -61,6 +66,4 @@ public class CharacterMotionServiceTest {
 
         Assertions.assertThat(expectedResult).isEqualTo(characterMotionEntities);
     }
-
-
 }

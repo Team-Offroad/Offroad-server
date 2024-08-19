@@ -8,7 +8,7 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 
     // Sentry
-    implementation 'io.sentry:sentry-spring-boot-starter:7.11.0'
+    implementation 'io.sentry:sentry-spring-boot-starter-jakarta:7.14.0'
 
     //jwt
     implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'

@@ -9,6 +9,8 @@ import site.offload.db.quest.entity.QuestEntity;
 import site.offload.db.quest.repository.ProceedingQuestRepository;
 import site.offload.enums.response.ErrorMessage;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class ProceedingQuestService {
@@ -49,5 +51,9 @@ public class ProceedingQuestService {
 
     public void deleteAllByMemberId(long memberId) {
         proceedingQuestRepository.deleteAllByMemberEntityId(memberId);
+    }
+
+    public List<ProceedingQuestEntity> findAllByMemberId(long memberId) {
+        return proceedingQuestRepository.findAllByMemberEntityId(memberId);
     }
 }

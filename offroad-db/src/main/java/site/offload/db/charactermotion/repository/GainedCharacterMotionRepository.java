@@ -10,4 +10,6 @@ public interface GainedCharacterMotionRepository extends CrudRepository<GainedCh
     boolean existsByCharacterMotionEntityAndMemberEntity(CharacterMotionEntity characterMotionEntity, MemberEntity memberEntity);
 
     void deleteAllByMemberEntityId(long memberId);
+
+    GainedCharacterMotionEntity findByMemberEntityAndCharacterMotionEntity(MemberEntity memberEntity, CharacterMotionEntity characterMotion);
 }
