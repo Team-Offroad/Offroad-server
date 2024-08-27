@@ -14,19 +14,18 @@ public interface PlaceRepository extends JpaRepository<PlaceEntity, Long> {
     @Query("select p from PlaceEntity p where p.latitude >= :currentLatitude - :rangeLatitude and p.latitude <= :currentLatitude + :rangeLatitude and p.longitude >= :currentLongitude - :rangeLongitude and p.longitude <= :currentLongitude + :rangeLongitude")
     List<PlaceEntity> findAllByCurrentLatitudeAndCurrentLongitude(@Param("currentLatitude") double currentLatitude, @Param("currentLongitude") double currentLongitude, @Param("rangeLatitude") double rangeLatitude, @Param("rangeLongitude") double rangeLongitude);
 
-    List<PlaceEntity> findTop100ByLatitudeBetweenAndLongitudeBetween(double minLatitude, double maxLatitude, double minLongitude, double MaxLongitude);
-
     Optional<PlaceEntity> findByCouponAuthCode(String couponAuthCode);
 
-    @Query("SELECT p FROM PlaceEntity p " +
-            "WHERE p.id NOT IN (SELECT vp.placeEntity.id FROM VisitedPlaceEntity vp WHERE vp.memberEntity.id = :memberId) " +
-            "AND p.latitude BETWEEN :latitude - :latitudeBias AND :latitude + :latitudeBias " +
-            "AND p.longitude BETWEEN :longitude - :longitudeBias AND :longitude + :longitudeBias")
-    List<PlaceEntity> findUnvisitedPlacesByMemberIdAndLocation(
-            @Param("memberId") Long memberId,
+    @Query(value = "SELECT id, name, latitude, longitude, " +
+            "ST_Distance_Sphere(POINT(:longitude, :latitude), POINT(longitude, latitude)) AS distance " +
+            "FROM Place " +
+            "ORDER BY distance ASC " +
+            "LIMIT :limit",
+            nativeQuery = true)
+    List<PlaceEntity> findNearestPlacesByLatitudeAndLongitude(
             @Param("latitude") double latitude,
             @Param("longitude") double longitude,
-            @Param("latitudeBias") double latitudeBias,
-            @Param("longitudeBias") double longitudeBias
+            @Param("limit") int limit
     );
+
 }
