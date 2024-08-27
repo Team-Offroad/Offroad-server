@@ -20,22 +20,10 @@ public interface PlaceControllerSwagger {
     @ApiResponse(responseCode = "200",
             description = "오프로드 등록 장소 조회 완료",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponse.class)))
-            ResponseEntity<APISuccessResponse<RegisteredPlacesResponse>> checkRegisteredPlaces(
+            ResponseEntity<APISuccessResponse<RegisteredPlacesResponse>> getPlaces(
             @RequestParam double currentLatitude,
-            @RequestParam double currentLongitude
-    );
-
-
-    @Operation(summary = "방문하지 않은 장소 조회 API", description = "방문하지 않은 장소 조회 API입니다.")
-    @ApiResponse(
-            responseCode = "200",
-            description = "방문하지 않은 장소 조회 완료",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponse.class))
-
-    )
-    @GetMapping("/places/unvisited")
-    ResponseEntity<APISuccessResponse<UnvisitedPlacesResponse>> getUnvisitedPlacesResponse(
-            @RequestParam double currentLatitude,
-            @RequestParam double currentLongitude
+            @RequestParam double currentLongitude,
+            @RequestParam int limit,
+            @RequestParam Boolean isBounded
     );
 }

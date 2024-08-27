@@ -17,12 +17,24 @@ public class PlaceService {
     private final PlaceRepository placeRepository;
 
     // TODO: change method name
-    public List<PlaceEntity> findPlaces(double currentLatitude, double currentLongitude) {
-        return placeRepository.findTop100ByLatitudeBetweenAndLongitudeBetween(currentLatitude, currentLongitude, PlaceConstants.RANGE_LATITUDE.getRange(), PlaceConstants.RANGE_LONGITUDE.getRange());
+    public List<PlaceEntity> findTopNByCurrentLatitudeAndCurrentLongitude(
+            double currentLatitude,
+            double currentLongitude,
+            int limit
+    ) {
+        return placeRepository.findNearestPlacesByLatitudeAndLongitude(currentLatitude, currentLongitude, limit);
     }
 
-    public List<PlaceEntity> findUnvisitedPlaces(final Long memberId, final double currentLatitude, final double currentLongitude) {
-        return placeRepository.findUnvisitedPlacesByMemberIdAndLocation(memberId, currentLatitude, currentLongitude, PlaceConstants.RANGE_LATITUDE.getRange(), PlaceConstants.RANGE_LONGITUDE.getRange());
+    public List<PlaceEntity> findAllByCurrentLatitudeAndCurrentLongitude(
+            double currentLatitude,
+            double currentLongitude
+    ) {
+        return placeRepository.findAllByCurrentLatitudeAndCurrentLongitude(
+                currentLatitude,
+                currentLongitude,
+                PlaceConstants.RANGE_LATITUDE.getRange(),
+                PlaceConstants.RANGE_LONGITUDE.getRange()
+        );
     }
 
     public PlaceEntity findPlaceById(final Long placeId) {

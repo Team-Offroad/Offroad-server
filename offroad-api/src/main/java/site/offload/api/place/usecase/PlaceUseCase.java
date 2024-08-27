@@ -13,6 +13,8 @@ import site.offload.api.place.service.PlaceService;
 import site.offload.api.place.service.VisitedPlaceService;
 import site.offload.external.aws.S3Service;
 
+import java.util.Objects;
+
 
 @Service
 @RequiredArgsConstructor
@@ -23,10 +25,37 @@ public class PlaceUseCase {
     private final VisitedPlaceService visitedPlaceService;
 
     @Transactional(readOnly = true)
-    public RegisteredPlacesResponse checkRegisteredPlaces(Long memberId, RegisteredPlacesRequest request) {
+    public RegisteredPlacesResponse getPlaces(
+            final Long memberId,
+            final double currentLatitude,
+            final double currentLongitude,
+            final int limit,
+            Boolean isBounded
+    ) {
+        // isBounded가 true일 경우, 현재 위치를 기준으로 반경 내에 있는 모든 장소를 조회
+        if (Objects.nonNull(isBounded) && isBounded) {
+            return RegisteredPlacesResponse.of(
+                    placeService.findAllByCurrentLatitudeAndCurrentLongitude(currentLatitude, currentLongitude)
+                            .stream()
+                            .map(findPlace -> {
+                                Long count = visitedPlaceService.countByMemberIdAndPlace(memberId, findPlace);
+                                return RegisteredPlaceResponse.of(
+                                        findPlace.getId(),
+                                        findPlace.getName(),
+                                        findPlace.getAddress(),
+                                        findPlace.getShortIntroduction(),
+                                        findPlace.getPlaceCategory(),
+                                        findPlace.getLatitude(),
+                                        findPlace.getLongitude(),
+                                        count,
+                                        s3Service.getPresignUrl(findPlace.getCategoryImageUrl())
+                                );
+                            }).toList()
+            );
+        }
 
         return RegisteredPlacesResponse.of(
-                placeService.findPlaces(request.currentLatitude(), request.currentLongitude())
+                placeService.findTopNByCurrentLatitudeAndCurrentLongitude(currentLatitude, currentLongitude, limit)
                         .stream()
                         .map(findPlace -> {
                             Long count = visitedPlaceService.countByMemberIdAndPlace(memberId, findPlace);
@@ -43,24 +72,5 @@ public class PlaceUseCase {
                             );
                         }).toList()
         );
-    }
-
-    @Transactional(readOnly = true)
-    public UnvisitedPlacesResponse checkUnvisitedPlaces(Long memberId, UnvisitedPlacesRequest request) {
-            return UnvisitedPlacesResponse.of(
-                    placeService.findUnvisitedPlaces(memberId, request.currentLatitude(), request.currentLongitude())
-                            .stream()
-                            .map(findPlace -> UnvisitedPlaceResponse.of(
-                                    findPlace.getId(),
-                                    findPlace.getName(),
-                                    findPlace.getAddress(),
-                                    findPlace.getShortIntroduction(),
-                                    findPlace.getPlaceCategory(),
-                                    findPlace.getLatitude(),
-                                    findPlace.getLongitude(),
-                                    0L,
-                                    s3Service.getPresignUrl(findPlace.getCategoryImageUrl())
-                            )).toList()
-            );
     }
 }
