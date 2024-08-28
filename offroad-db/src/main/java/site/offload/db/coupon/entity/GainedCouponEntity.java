@@ -37,8 +37,11 @@ public class GainedCouponEntity extends BaseTimeEntity {
 
     private boolean isNewGained = true;
 
+    private Long acquisitionPlaceId;
+
     @Builder
-    public GainedCouponEntity(MemberEntity memberEntity, CouponEntity couponEntity, Long samePlaceRewardPlaceId) {
+    public GainedCouponEntity(Long acquisitionPlaceId, MemberEntity memberEntity, CouponEntity couponEntity, Long samePlaceRewardPlaceId) {
+        this.acquisitionPlaceId = acquisitionPlaceId;
         this.memberEntity = memberEntity;
         this.couponEntity = couponEntity;
         this.samePlaceRewardPlaceId = samePlaceRewardPlaceId;

@@ -249,7 +249,7 @@ public class AuthAdventureUseCase {
                 if (questEntity.isQuestSamePlace()) {
                     handleSamePlaceReward(memberEntity, couponEntity, placeEntity, couponCode);
                 } else {
-                    handleNotSamePlaceReward(memberEntity, couponEntity);
+                    handleNotSamePlaceReward(memberEntity, couponEntity, placeEntity);
                 }
             }
         });
@@ -258,26 +258,27 @@ public class AuthAdventureUseCase {
 
     private void handleSamePlaceReward(final MemberEntity memberEntity, final CouponEntity couponEntity, final PlaceEntity placeEntity, final String couponCode) {
         if (SAME_PLACE_TICKET_COUPON_LIST.contains(couponCode) && PlaceCategory.isPlaceCategoryForTicketCoupon(placeEntity.getPlaceCategory())) {
-            saveGainedCoupon(memberEntity, couponEntity, placeEntity.getId());
+            saveGainedCoupon(placeEntity.getId(), memberEntity, couponEntity, placeEntity.getId());
         }
 
         if (SAME_PLACE_FIXED_DISCOUNT_COUPON_LIST.contains(couponCode) && PlaceCategory.isPlaceCategoryForFixedDiscountCoupon(placeEntity.getPlaceCategory())) {
-            saveGainedCoupon(memberEntity, couponEntity, placeEntity.getId());
+            saveGainedCoupon(placeEntity.getId(), memberEntity, couponEntity, placeEntity.getId());
         }
     }
 
-    private void handleNotSamePlaceReward(final MemberEntity memberEntity, final CouponEntity couponEntity) {
+    private void handleNotSamePlaceReward(final MemberEntity memberEntity, final CouponEntity couponEntity, final PlaceEntity placeEntity) {
         if (!gainedCouponService.isExistByMemberEntityIdAndCouponId(memberEntity.getId(), couponEntity.getId())) {
-            saveGainedCoupon(memberEntity, couponEntity, null);
+            saveGainedCoupon(placeEntity.getId(), memberEntity, couponEntity, null);
         }
     }
 
-    private void saveGainedCoupon(final MemberEntity memberEntity, final CouponEntity couponEntity, final Long samePlaceRewardPlaceId) {
+    private void saveGainedCoupon(final Long acquisitionPlaceId, final MemberEntity memberEntity, final CouponEntity couponEntity, final Long samePlaceRewardPlaceId) {
         if (!gainedCouponService.isExistByMemberEntityIdAndCouponId(memberEntity.getId(), couponEntity.getId())) {
             gainedCouponService.save(GainedCouponEntity.builder()
                     .memberEntity(memberEntity)
                     .couponEntity(couponEntity)
                     .samePlaceRewardPlaceId(samePlaceRewardPlaceId)
+                    .acquisitionPlaceId(acquisitionPlaceId)
                     .build());
         }
     }
