@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import site.offload.api.coupon.dto.AvailableCouponResponse;
 import site.offload.api.coupon.dto.CouponListResponse;
@@ -62,13 +63,12 @@ class CouponListUseCaseTest {
         gainedCouponEntity2.updateIsUsed(true);
 
 
-        GainedCouponEntity gainedCouponEntity3 = createGainedCouponEntity(memberEntity, couponEntity3);
+        GainedCouponEntity gainedCouponEntity3 = Mockito.spy(createGainedCouponEntity(memberEntity, couponEntity3));
         setGainedCouponEntityCreatedAt(gainedCouponEntity3, LocalDateTime.now().minusDays(1));
 
 
-        GainedCouponEntity gainedCouponEntity4 = createGainedCouponEntity(memberEntity, couponEntity4);
+        GainedCouponEntity gainedCouponEntity4 = Mockito.spy(createGainedCouponEntity(memberEntity, couponEntity4));
         setGainedCouponEntityCreatedAt(gainedCouponEntity4, LocalDateTime.now());
-
 
         List<GainedCouponEntity> gainedCouponList = Arrays.asList(gainedCouponEntity4, gainedCouponEntity3, gainedCouponEntity2, gainedCouponEntity1);
 
@@ -76,20 +76,26 @@ class CouponListUseCaseTest {
                 .willReturn(gainedCouponList);
 
         // when
+
+        Mockito.doReturn(1L).when(gainedCouponEntity3).getAcquisitionPlaceId();
+        Mockito.doReturn(1L).when(gainedCouponEntity4).getAcquisitionPlaceId();
+
         List<AvailableCouponResponse> expectedAvailableCoupons = List.of(
                 AvailableCouponResponse.of(
                         couponEntity4.getId(),
                         couponEntity4.getName(),
                         couponEntity4.getCouponImageUrl(),
                         couponEntity4.getDescription(),
-                        gainedCouponEntity4.isNewGained()
+                        gainedCouponEntity4.isNewGained(),
+                        gainedCouponEntity4.getAcquisitionPlaceId()
                 ),
                 AvailableCouponResponse.of(
                         couponEntity3.getId(),
                         couponEntity3.getName(),
                         couponEntity3.getCouponImageUrl(),
                         couponEntity3.getDescription(),
-                        gainedCouponEntity3.isNewGained()
+                        gainedCouponEntity3.isNewGained(),
+                        gainedCouponEntity3.getAcquisitionPlaceId()
                 )
         );
 
