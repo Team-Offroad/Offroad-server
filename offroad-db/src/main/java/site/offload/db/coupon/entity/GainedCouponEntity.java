@@ -14,8 +14,8 @@ import site.offload.db.member.entity.MemberEntity;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "gained_coupon",
         uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"member_id", "coupon_id"})
-})
+                @UniqueConstraint(columnNames = {"member_id", "coupon_id"})
+        })
 public class GainedCouponEntity extends BaseTimeEntity {
 
     @Id
@@ -37,10 +37,11 @@ public class GainedCouponEntity extends BaseTimeEntity {
 
     private boolean isNewGained = true;
 
-    private Long acquisitionPlaceId;
+    @Column(nullable = false)
+    private long acquisitionPlaceId;
 
     @Builder
-    public GainedCouponEntity(Long acquisitionPlaceId, MemberEntity memberEntity, CouponEntity couponEntity, Long samePlaceRewardPlaceId) {
+    public GainedCouponEntity(long acquisitionPlaceId, MemberEntity memberEntity, CouponEntity couponEntity, Long samePlaceRewardPlaceId) {
         this.acquisitionPlaceId = acquisitionPlaceId;
         this.memberEntity = memberEntity;
         this.couponEntity = couponEntity;

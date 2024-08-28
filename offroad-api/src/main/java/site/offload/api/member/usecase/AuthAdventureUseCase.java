@@ -272,7 +272,7 @@ public class AuthAdventureUseCase {
         }
     }
 
-    private void saveGainedCoupon(final Long acquisitionPlaceId, final MemberEntity memberEntity, final CouponEntity couponEntity, final Long samePlaceRewardPlaceId) {
+    private void saveGainedCoupon(final long acquisitionPlaceId, final MemberEntity memberEntity, final CouponEntity couponEntity, final Long samePlaceRewardPlaceId) {
         if (!gainedCouponService.isExistByMemberEntityIdAndCouponId(memberEntity.getId(), couponEntity.getId())) {
             gainedCouponService.save(GainedCouponEntity.builder()
                     .memberEntity(memberEntity)
