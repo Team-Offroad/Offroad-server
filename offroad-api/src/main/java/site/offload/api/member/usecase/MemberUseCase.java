@@ -24,7 +24,6 @@ import site.offload.cache.member.service.MemberStatusCacheService;
 import site.offload.db.character.entity.CharacterEntity;
 import site.offload.db.character.entity.GainedCharacterEntity;
 import site.offload.db.charactermotion.entity.CharacterMotionEntity;
-import site.offload.db.charactermotion.entity.GainedCharacterMotionEntity;
 import site.offload.db.member.embeddable.Birthday;
 import site.offload.db.member.entity.MemberEntity;
 import site.offload.enums.member.MemberStatus;
@@ -184,9 +183,9 @@ public class MemberUseCase {
         MemberDeleteLoggingUtil.loggingSoftDeleteMember(findMember);
     }
 
-    public void updateAgreeMarketing(Long memberId, boolean isAgreeMarketing) {
+    public void updateAgreeTerms(Long memberId, boolean isAgreeMarketing) {
         MemberEntity findMemberEntity = memberService.findById(memberId);
-        findMemberEntity.updateAgreeMarketing(isAgreeMarketing);
+        findMemberEntity.updateAgreeTerms(isAgreeMarketing);
     }
 }
 

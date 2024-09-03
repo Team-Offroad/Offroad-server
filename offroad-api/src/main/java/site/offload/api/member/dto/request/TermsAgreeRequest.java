@@ -1,6 +1,6 @@
 package site.offload.api.member.dto.request;
 
-public record MarketingAgreeRequest(
+public record TermsAgreeRequest(
         boolean marketing
 ) {
 }

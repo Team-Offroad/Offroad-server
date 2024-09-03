@@ -89,12 +89,12 @@ public class MemberController implements MemberControllerSwagger {
         return APISuccessResponse.of(HttpStatus.ACCEPTED.value(), SuccessMessage.SOFT_DELETE_MEMBER_SUCCESS.getMessage(), null);
     }
   
-    @PatchMapping("/marketing")
-    public ResponseEntity<APISuccessResponse<Void>> agreeMarketing(
-            @RequestBody MarketingAgreeRequest marketingAgreeRequest
+    @PatchMapping("/agree")
+    public ResponseEntity<APISuccessResponse<Void>> agreeTerms(
+            @RequestBody TermsAgreeRequest termsAgreeRequest
     ) {
         final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
-        memberUseCase.updateAgreeMarketing(memberId, marketingAgreeRequest.marketing());
-        return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.CHECK_AGREE_MARKETING_SUCCESS.getMessage(), null);
+        memberUseCase.updateAgreeTerms(memberId, termsAgreeRequest.marketing());
+        return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.CHECK_AGREE_TERMS_SUCCESS.getMessage(), null);
     }
 }

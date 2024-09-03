@@ -80,7 +80,7 @@ class MemberUseCaseTest {
         MemberEntity memberEntity = createMemberEntity("example sub", "example@offroad.com", SocialPlatform.GOOGLE, "이름");
         BDDMockito.given(memberService.findById(any())).willReturn(memberEntity);
         //when
-        memberUseCase.updateAgreeMarketing(1L, false);
+        memberUseCase.updateAgreeTerms(1L, false);
         //then
         Assertions.assertThat(memberEntity.isAgreeMarketing()).isEqualTo(false);
     }

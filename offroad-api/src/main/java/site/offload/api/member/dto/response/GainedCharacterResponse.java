@@ -1,7 +1,7 @@
 package site.offload.api.member.dto.response;
 
 public record GainedCharacterResponse(
-        Integer CharacterId,
+        Integer characterId,
         String characterName,
         String characterThumbnailImageUrl,
         String characterMainColorCode,
