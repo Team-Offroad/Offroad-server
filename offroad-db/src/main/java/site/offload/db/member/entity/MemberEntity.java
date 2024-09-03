@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import site.offload.db.BaseTimeEntity;
 import site.offload.db.member.embeddable.Birthday;
 import site.offload.enums.emblem.Emblem;
@@ -70,7 +71,17 @@ public class MemberEntity extends BaseTimeEntity {
 
     private LocalDateTime inactiveSince;
 
+    @ColumnDefault("false")
     private boolean isAgreeMarketing;
+
+    @ColumnDefault("false")
+    private boolean isAgreeService;
+
+    @ColumnDefault("false")
+    private boolean isAgreeInfo;
+
+    @ColumnDefault("false")
+    private boolean isAgreeLocation;
 
 
     @Builder
@@ -105,7 +116,10 @@ public class MemberEntity extends BaseTimeEntity {
         }
     }
 
-    public void updateAgreeMarketing(boolean isAgreeMarketing) {
+    public void updateAgreeTerms(boolean isAgreeMarketing) {
         this.isAgreeMarketing = isAgreeMarketing;
+        this.isAgreeService = true;
+        this.isAgreeInfo = true;
+        this.isAgreeLocation = true;
     }
 }

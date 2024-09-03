@@ -50,8 +50,8 @@ public interface MemberControllerSwagger {
 
     @Operation(summary = "마케팅 수신 여부 API", description = "마케팅 수신 여부 API")
     @ApiResponse(responseCode = "200", description = "마케팅 수신 여부 업데이트 성공", content = @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponse.class)))
-    public ResponseEntity<APISuccessResponse<Void>> agreeMarketing(
-            @RequestBody MarketingAgreeRequest marketingAgreeRequest
+    public ResponseEntity<APISuccessResponse<Void>> agreeTerms(
+            @RequestBody TermsAgreeRequest termsAgreeRequest
     );
 }
 
