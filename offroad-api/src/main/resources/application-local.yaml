@@ -5,7 +5,7 @@ spring:
       on-profile: local
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:tcp://localhost/~/offroad
+    url: jdbc:h2:tcp://localhost/~/testdb
     username: sa
     password:
   jpa:
