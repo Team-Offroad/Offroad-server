@@ -111,8 +111,9 @@ public class MemberUseCase {
     @Transactional(readOnly = true)
     public GainedCharactersResponse getGainedCharacters(Long memberId) {
         List<CharacterEntity> characterEntities = characterService.findAll();
-
         MemberEntity memberEntity = memberService.findById(memberId);
+        CharacterEntity currentCharacterEntity = characterService.findByName(memberEntity.getCurrentCharacterName());
+
 
         List<GainedCharacterResponse> gainedCharacters = characterEntities.stream()
                 .filter(characterEntity -> gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(memberEntity, characterEntity))
@@ -129,7 +130,7 @@ public class MemberUseCase {
                 .map(characterEntity -> GainedCharacterResponse.of(characterEntity.getId(), characterEntity.getName(), s3Service.getPresignUrl(characterEntity.getNotGainedCharacterThumbnailImageUrl()), characterEntity.getCharacterMainColorCode(), characterEntity.getCharacterSubColorCode(), false))
                 .collect(Collectors.toList());
 
-        return GainedCharactersResponse.of(gainedCharacters, notGainedCharacters);
+        return GainedCharactersResponse.of(gainedCharacters, notGainedCharacters, currentCharacterEntity.getId());
     }
 
     @Transactional(readOnly = true)
