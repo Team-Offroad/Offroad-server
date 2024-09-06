@@ -62,4 +62,22 @@ class QuestServiceTest {
         //then
         assertThat(expectedList).containsExactly(questEntity1, questEntity2);
     }
+
+    @Test
+    @DisplayName("모든 퀘스트 목록을 조회할 수 있다.")
+    void findAll() {
+
+        //given
+        QuestEntity questEntity1 = createQuest(false, "test", PlaceCategory.CAFFE, PlaceArea.NONE, 1);
+        QuestEntity questEntity2 = createQuest(false, "test", PlaceCategory.NONE, PlaceArea.AREA1, 1);
+
+        given(questRepository.findAll()).willReturn(List.of(questEntity1, questEntity2));
+
+        //when
+        List<QuestEntity> expectedList = questService.findAll();
+
+        //then
+        assertThat(expectedList).containsExactly(questEntity1, questEntity2);
+
+    }
 }
