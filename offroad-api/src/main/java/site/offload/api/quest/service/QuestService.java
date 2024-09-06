@@ -46,4 +46,7 @@ public class QuestService {
         );
     }
 
+    public List<QuestEntity> findAll() {
+        return questRepository.findAll();
+    }
 }

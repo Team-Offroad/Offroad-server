@@ -1,6 +1,7 @@
 package site.offload.api.quest.usecase;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.offload.api.member.service.MemberService;
@@ -23,6 +24,7 @@ import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class QuestUseCase {
 
     private final QuestService questService;
@@ -81,19 +83,22 @@ public class QuestUseCase {
         final List<QuestEntity> completedQuestList = completeQuestService.findAllByMemberId(memberId)
                 .stream()
                 .map(CompleteQuestEntity::getQuestEntity).toList();
-
         final List<Integer> completeQuestIdList = completedQuestList.stream()
                 .map(QuestEntity::getId)
                 .toList();
 
-        final List<QuestEntity> notCompletedQuestList = questService.findByIdNotIn(completeQuestIdList)
-                .stream()
-                .sorted(Comparator.comparing(QuestEntity::getId))
-                .toList();
+        List<QuestEntity> notCompletedQuestList;
+        if (completeQuestIdList.isEmpty()) {
+            notCompletedQuestList = questService.findAll();
+        } else {
+            notCompletedQuestList = questService.findByIdNotIn(completeQuestIdList)
+                    .stream()
+                    .sorted(Comparator.comparing(QuestEntity::getId))
+                    .toList();
+        }
 
         final List<QuestEntity> allQuests = new ArrayList<>(notCompletedQuestList);
         allQuests.addAll(completedQuestList);
-
         return allQuests.stream().map(
                 questEntity -> {
                     int currentClearCount = 0;
