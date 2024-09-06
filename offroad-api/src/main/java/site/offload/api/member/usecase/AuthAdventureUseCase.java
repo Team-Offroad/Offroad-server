@@ -63,7 +63,7 @@ public class AuthAdventureUseCase {
 
     // 거리 단위: meter
     private static final int RESTAURANT_CAFE_CULTURE_PERMIT_RADIUS = 45;
-    private static final int PARK_SPORT_PERMIT_RADIUS = 1200;
+    private static final int PARK_SPORT_PERMIT_RADIUS = 12000;
 
     private static final List<String> SAME_PLACE_TICKET_COUPON_LIST = List.of(
             "CP000003",
