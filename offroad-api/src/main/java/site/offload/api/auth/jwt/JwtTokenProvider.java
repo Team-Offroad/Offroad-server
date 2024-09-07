@@ -24,7 +24,7 @@ public class JwtTokenProvider {
 
     // TODO: access token 유효 기간
     // ACCESS_TOKEN : 10분
-    private static final Long ACCESS_TOKEN_EXPIRATION_TIME = 1000L * 60 * 5;
+    private static final Long ACCESS_TOKEN_EXPIRATION_TIME = 1000L * 60 * 2;
     // REFRESH_TOKEN : 7일
     private static final Long REFRESH_TOKEN_EXPIRATION_TIME = 1000L * 60 * 60 * 24 * 7;
 
