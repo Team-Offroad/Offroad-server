@@ -1,5 +1,6 @@
 package site.offload.db.place.repository;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,16 +17,12 @@ public interface PlaceRepository extends JpaRepository<PlaceEntity, Long> {
 
     Optional<PlaceEntity> findByCouponAuthCode(String couponAuthCode);
 
-    @Query(value = "SELECT id, name, latitude, longitude, " +
-            "ST_Distance_Sphere(POINT(:longitude, :latitude), POINT(longitude, latitude)) AS distance " +
-            "FROM Place " +
-            "ORDER BY distance ASC " +
-            "LIMIT :limit",
-            nativeQuery = true)
+
+    @Query(value = "SELECT * FROM place p ORDER BY ST_Distance_Sphere(POINT(p.longitude, p.latitude), POINT(:longitude, :latitude))", nativeQuery = true)
     List<PlaceEntity> findNearestPlacesByLatitudeAndLongitude(
             @Param("latitude") double latitude,
             @Param("longitude") double longitude,
-            @Param("limit") int limit
+            Pageable pageable
     );
 
 }

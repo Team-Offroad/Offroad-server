@@ -1,6 +1,8 @@
 package site.offload.api.place.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import site.offload.api.exception.NotFoundException;
 import site.offload.db.place.entity.PlaceEntity;
@@ -22,7 +24,8 @@ public class PlaceService {
             double currentLongitude,
             int limit
     ) {
-        return placeRepository.findNearestPlacesByLatitudeAndLongitude(currentLatitude, currentLongitude, limit);
+        Pageable pageable = PageRequest.of(0, limit);
+        return placeRepository.findNearestPlacesByLatitudeAndLongitude(currentLatitude, currentLongitude, pageable);
     }
 
     public List<PlaceEntity> findAllByCurrentLatitudeAndCurrentLongitude(
