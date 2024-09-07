@@ -59,11 +59,11 @@ public class MemberUseCase {
         final String emblemName = findMemberEntity.getCurrentEmblemName();
 
         if (findMemberEntity.getNickName() == null && findMemberEntity.getCurrentCharacterName() == null) {
-            return MemberAdventureInformationResponse.of(null, emblemName, null, null, null);
+            return MemberAdventureInformationResponse.of(null, emblemName, null, null, null, null);
         }
 
         if (findMemberEntity.getNickName() != null && findMemberEntity.getCurrentCharacterName() == null) {
-            return MemberAdventureInformationResponse.of(findMemberEntity.getNickName(), emblemName, null, null, null);
+            return MemberAdventureInformationResponse.of(findMemberEntity.getNickName(), emblemName, null, null, null, null);
         }
 
         final CharacterEntity findCharacterEntity = characterService.findByName(findMemberEntity.getCurrentCharacterName());
@@ -80,8 +80,9 @@ public class MemberUseCase {
         final PlaceCategory placeCategory = PlaceCategory.valueOf(request.category().toUpperCase());
         final String motionImageUrl = getMotionImageUrl(placeCategory, findCharacterEntity, findMemberEntity);
         final String baseImageUrl = findCharacterEntity.getCharacterBaseImageUrl();
+        final String motionCaptureImageUrl =  getMotionCaptureImageUrl(placeCategory, findCharacterEntity, findMemberEntity);
         return MemberAdventureInformationResponse.of(nickname, emblemName,
-                s3Service.getPresignUrl(baseImageUrl), s3Service.getPresignUrl(motionImageUrl), findCharacterEntity.getName());
+                s3Service.getPresignUrl(baseImageUrl), s3Service.getPresignUrl(motionImageUrl), findCharacterEntity.getName(), motionCaptureImageUrl);
     }
 
     @Transactional
@@ -159,6 +160,25 @@ public class MemberUseCase {
         //유저가 획득한 모션인지 확인
         if (isMemberGainedMotion(findCharacterMotionEntity, memberEntity)) {
             return findCharacterMotionEntity.getMotionImageUrl();
+            //아니라면 null 반환
+        } else {
+            return null;
+        }
+    }
+
+    private String getMotionCaptureImageUrl(final PlaceCategory placeCategory, final CharacterEntity characterEntity, final MemberEntity memberEntity) {
+
+        // 카테고리가 없는 장소에 있을 경우 null 반환
+        if (placeCategory.equals(PlaceCategory.NONE)) {
+            return null;
+        }
+
+        // 그 외의 경우에는 특정 캐릭터, 특정 카테고리에 해당하는 모션 캡쳐 이미지 url 반환
+        final CharacterMotionEntity findCharacterMotionEntity = characterMotionService.findByCharacterAndPlaceCategory(characterEntity, placeCategory);
+
+        //유저가 획득한 모션인지 확인
+        if (isMemberGainedMotion(findCharacterMotionEntity, memberEntity)) {
+            return findCharacterMotionEntity.getMotionCaptureImageUrl();
             //아니라면 null 반환
         } else {
             return null;
