@@ -4,10 +4,10 @@ spring:
     activate:
       on-profile: local
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:tcp://localhost/~/testdb
-    username: sa
-    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/testdb
+    username: root
+    password: 1234
   jpa:
     show-sql: true
     hibernate:
@@ -16,7 +16,7 @@ spring:
       hibernate:
         format_sql: true
         show_sql: true
-
+        dialect: org.hibernate.dialect.MySQLDialect
 discord:
   webhook-url: ${DISCORD_WEBHOOK_URL_DEV}
 
