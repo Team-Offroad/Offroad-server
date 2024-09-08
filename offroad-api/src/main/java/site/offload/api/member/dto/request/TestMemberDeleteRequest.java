@@ -1,11 +1,13 @@
 package site.offload.api.member.dto.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import site.offload.api.exception.BadRequestException;
 import site.offload.enums.response.ErrorMessage;
 
 import java.util.List;
 
 public record TestMemberDeleteRequest(
+        @Schema(description = "이름", example = "민성")
         String name
 ) {
     public TestMemberDeleteRequest {

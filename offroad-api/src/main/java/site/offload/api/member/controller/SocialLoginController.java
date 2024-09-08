@@ -16,7 +16,7 @@ import site.offload.external.oauth.dto.SocialLoginRequest;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/oauth/login")
-public class SocialLoginController {
+public class SocialLoginController implements SocialLoginControllerSwagger {
 
     private final SocialLoginUseCase socialLoginUseCase;
 
