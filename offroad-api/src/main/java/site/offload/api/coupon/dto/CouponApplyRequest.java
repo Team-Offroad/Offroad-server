@@ -1,4 +1,12 @@
 package site.offload.api.coupon.dto;
 
-public record CouponApplyRequest(String code, long couponId, long placeId) {
+import io.swagger.v3.oas.annotations.media.Schema;
+
+public record CouponApplyRequest(
+        @Schema(description = "쿠폰 코드", example = "couponCode")
+        String code,
+        @Schema(description = "쿠폰 ID", example = "1")
+        long couponId,
+        @Schema(description = "장소 ID", example = "1")
+        long placeId) {
 }

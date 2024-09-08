@@ -17,7 +17,6 @@ import site.offload.enums.response.SuccessMessage;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
-@Tag(name = "Place API", description = "장소 관련 API")
 public class PlaceController implements PlaceControllerSwagger {
 
     private final PlaceUseCase placeUsecase;

@@ -21,7 +21,7 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/dev/api")
 @RequiredArgsConstructor
-public class TestMemberController {
+public class TestMemberController implements TestMemberControllerSwagger {
 
     private final TestMemberDeleteUseCase testMemberDeleteUseCase;
     private final Environment environment;
