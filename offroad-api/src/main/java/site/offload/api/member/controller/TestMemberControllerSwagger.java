@@ -9,7 +9,7 @@ import site.offload.api.member.dto.request.TestMemberDeleteRequest;
 import site.offload.api.response.APISuccessResponse;
 
 
-@Tag(name = "TestMember API", description = "테스트 멤버 API(dev 환경에서만 동작합니다.)")
+@Tag(name = "[TestMember API] 테스트 멤버 API(dev 환경에서만 동작합니다.)")
 public interface TestMemberControllerSwagger {
 
     @Operation(summary = "테스트 멤버 삭제 API", description = "테스트 멤버를 삭제하는 API")

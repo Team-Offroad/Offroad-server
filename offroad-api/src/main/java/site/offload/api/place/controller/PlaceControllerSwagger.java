@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +17,15 @@ import site.offload.api.place.dto.response.UnvisitedPlacesResponse;
 import site.offload.api.response.APISuccessResponse;
 import site.offload.enums.response.SuccessMessage;
 
-@Tag(name = "Place API", description = "장소 관련 API")
-
+@Tag(name = "[Place API] 오프로드 등록 장소 관련 API")
 public interface PlaceControllerSwagger {
     @Operation(summary = "오프로드 등록 장소 조회 API", description = "오프로드 등록 장소 조회 API입니다.")
-    @ApiResponse(responseCode = "200", description = "오프로드 등록 장소 조회 완료")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "오프로드 등록 장소 조회 완료"),
+                    @ApiResponse(responseCode = "400", description = "오프로드 등록 장소 조회 실패", content = @Content(schema = @Schema(implementation = SuccessMessage.class)))
+            }
+    )
             ResponseEntity<APISuccessResponse<RegisteredPlacesResponse>> getPlaces(
             @RequestParam double currentLatitude,
             @RequestParam double currentLongitude,
