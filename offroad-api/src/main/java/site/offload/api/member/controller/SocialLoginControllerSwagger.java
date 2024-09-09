@@ -11,7 +11,7 @@ import site.offload.api.member.dto.response.SocialLoginResponse;
 import site.offload.api.response.APISuccessResponse;
 import site.offload.external.oauth.dto.SocialLoginRequest;
 
-@Tag(name = "Social Login API", description = "소셜 로그인 API")
+@Tag(name = "[SignIn API] 로그인 관련 API")
 public interface SocialLoginControllerSwagger {
 
     @Operation(summary = "소셜 로그인 API", description = "구글 및 애플 소셜 로그인 구현")

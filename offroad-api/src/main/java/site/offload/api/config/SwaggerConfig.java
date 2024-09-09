@@ -13,10 +13,10 @@ public class SwaggerConfig {
     private static final String SWAGGER_DESCRIPTION = """
     Offroad API Docs
     
-    인증/인가가 필요한 API에는
+    인증/인가가 필요한 API에는 Swagger 상에 명시되어 있지 않아도,
     Header에 Authorization: Bearer {access_token}을 추가해주세요.
     그럼에도 동작하지 않는 경우, -> 서버에게 문의해주세요.
-    
+   
     500 에러가 발생할 경우, 서버에 문제가 있을 수 있습니다. -> 서버에게 문의해주세요.
     
     """;

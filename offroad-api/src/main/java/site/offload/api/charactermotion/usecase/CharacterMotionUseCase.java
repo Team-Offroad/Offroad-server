@@ -40,13 +40,18 @@ public class CharacterMotionUseCase {
                     GainedCharacterMotionEntity gainedCharacterMotionEntity = gainedCharacterMotionService.findByMemberEntityAndCharacterMotionEntity(findMemberEntity, characterMotionEntity);
                     boolean isNewGained = gainedCharacterMotionEntity.isNewGained();
                     gainedCharacterMotionEntity.updateNewGainedStatus();
-                    return CharacterMotionResponse.of(characterMotionEntity.getPlaceCategory().toString(), s3Service.getPresignUrl(characterMotionEntity.getMotionCaptureImageUrl()), isNewGained);
+                    return CharacterMotionResponse.of(characterMotionEntity.getPlaceCategory().toString(),
+                            s3Service.getPresignUrl(characterMotionEntity.getMotionCaptureImageUrl()),
+                            isNewGained);
                 })
                 .toList();
 
         List<CharacterMotionResponse> notGainedCharacterMotions = characterMotionEntities.stream()
                 .filter(characterMotionEntity -> !gainedCharacterMotionService.isExistByCharacterMotionAndMember(characterMotionEntity, findMemberEntity))
-                .map(characterMotionEntity -> CharacterMotionResponse.of(characterMotionEntity.getPlaceCategory().toString(), s3Service.getPresignUrl(characterMotionEntity.getNotGainedMotionThumbnailImageUrl()), false))
+                .map(characterMotionEntity -> CharacterMotionResponse.of(
+                        characterMotionEntity.getPlaceCategory().toString(),
+                        s3Service.getPresignUrl(characterMotionEntity.getNotGainedMotionThumbnailImageUrl()),
+                        false))
                 .toList();
 
         return CharacterMotionsResponse.of(gainedCharacterMotions, notGainedCharacterMotions);
