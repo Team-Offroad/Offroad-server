@@ -79,12 +79,6 @@ public class CouponApplyUseCase {
             return false;
         }
 
-        // 올바르지 않은 코드를 입력했을 경우 인증 실패
-        final PlaceEntity findPlaceEntity = placeService.findPlaceById(request.placeId());
-        if (findPlaceEntity.getCouponAuthCode() == null || !findPlaceEntity.getCouponAuthCode().equals(request.code())) {
-            return false;
-        }
-
         return true;
     }
 

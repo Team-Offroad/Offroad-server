@@ -6,7 +6,5 @@ public record CouponApplyRequest(
         @Schema(description = "쿠폰 코드", example = "couponCode")
         String code,
         @Schema(description = "쿠폰 ID", example = "1")
-        long couponId,
-        @Schema(description = "장소 ID", example = "1")
-        long placeId) {
+        long couponId) {
 }
