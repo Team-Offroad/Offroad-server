@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 public record AvailableCouponResponse(
         @Schema(description = "쿠폰 ID", example = "1")
-
         long id,
         @Schema(description = "쿠폰 이름", example = "쿠폰 이름")
         String name,

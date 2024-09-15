@@ -14,8 +14,8 @@ import site.offload.external.oauth.dto.SocialLoginRequest;
 @Tag(name = "Social Login API", description = "소셜 로그인 API")
 public interface SocialLoginControllerSwagger {
 
-    @Operation(summary = "소셜 로그인 API", description = "구글 및 애플 소셜 로그인 구현")
-    @ApiResponse(responseCode = "200", description = "소셜 로그인 성공")
+    @Operation(summary = "로그인 API", description = "구글, 애플, 카카오 소셜 로그인 API입니다.")
+    @ApiResponse(responseCode = "200", description = "로그인 성공")
     ResponseEntity<APISuccessResponse<SocialLoginResponse>> login(
             @RequestBody SocialLoginRequest socialLoginRequest
     );

@@ -23,7 +23,7 @@ public class EmblemController implements EmblemControllerSwagger {
     public ResponseEntity<APISuccessResponse<Void>> updateEmblem(@RequestParam(value = "emblemCode") final String emblemCode) {
         final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
         emblemUseCase.updateCurrentEmblem(UpdateCurrentEmblemRequest.of(emblemCode, memberId));
-        return APISuccessResponse.of(HttpStatus.OK.value(),
+        return APISuccessResponse.of(HttpStatus.NO_CONTENT.value(),
                 SuccessMessage.MEMBER_CURRENT_EMBLEM_UPDATE_SUCCESS.getMessage(), null);
     }
 
