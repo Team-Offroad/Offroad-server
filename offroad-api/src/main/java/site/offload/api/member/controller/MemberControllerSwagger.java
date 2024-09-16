@@ -42,9 +42,10 @@ public interface MemberControllerSwagger {
 
     @Operation(summary = "프로필 업데이트 API", description = "프로필 업데이트 정보를 받아 멤버 업데이트")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "프로필 업데이트 성공"),
+            @ApiResponse(responseCode = "204", description = "프로필 업데이트 성공"),
             @ApiResponse(responseCode = "400", description = "프로필 업데이트 실패", content = @Content(schema = @Schema(implementation = APIErrorResponse.class)))
     })
+    @Parameter(name = "Authorization", description = "Bearer {access_token}", in = ParameterIn.HEADER, required = true, schema = @Schema(type = "string"))
     ResponseEntity<APISuccessResponse<Void>> updateMemberProfile(@RequestBody MemberProfileUpdateRequest memberProfileUpdateRequest);
 
 
@@ -53,6 +54,8 @@ public interface MemberControllerSwagger {
             @ApiResponse(responseCode = "200", description = "닉네임 중복 확인 성공"),
             @ApiResponse(responseCode = "400", description = "닉네임 중복 확인 실패", content = @Content(schema = @Schema(implementation = APIErrorResponse.class)))
     })
+    @Parameter(name = "Authorization", description = "Bearer {access_token}", in = ParameterIn.HEADER, required = true, schema = @Schema(type = "string"))
+    @Parameter(name = "nickname", description = "닉네임", in = ParameterIn.QUERY, required = true, schema = @Schema(type = "string"))
     ResponseEntity<APISuccessResponse<NicknameCheckResponse>> checkNickname(@RequestParam(value = "nickname") String nickname);
 
     @Operation(summary = "캐릭터 선택 API", description = "캐릭터를 선택하는 API")
@@ -60,6 +63,8 @@ public interface MemberControllerSwagger {
             @ApiResponse(responseCode = "200", description = "캐릭터 선택 성공"),
             @ApiResponse(responseCode = "400", description = "캐릭터 선택 실패", content = @Content(schema = @Schema(implementation = APIErrorResponse.class)))
     })
+    @Parameter(name = "Authorization", description = "Bearer {access_token}", in = ParameterIn.HEADER, required = true, schema = @Schema(type = "string"))
+    @Parameter(name = "characterId", description = "캐릭터 아이디", in = ParameterIn.PATH, required = true, schema = @Schema(type = "Integer"))
     ResponseEntity<APISuccessResponse<ChooseCharacterResponse>> chooseCharacter(@PathVariable(value = "characterId") Integer characterId);
 
     @Operation(summary = "탐험 인증 API", description = "QR코드로 탐험인증 하는 API")
@@ -67,6 +72,7 @@ public interface MemberControllerSwagger {
             @ApiResponse(responseCode = "200", description = "탐험 인증 성공"),
             @ApiResponse(responseCode = "400", description = "탐험 인증 실패", content = @Content(schema = @Schema(implementation = APIErrorResponse.class)))
     })
+    @Parameter(name = "Authorization", description = "Bearer {access_token}", in = ParameterIn.HEADER, required = true, schema = @Schema(type = "string"))
     ResponseEntity<APISuccessResponse<VerifyQrcodeResponse>> authAdventure(final @RequestBody AuthAdventureRequest request);
 
 
@@ -89,23 +95,25 @@ public interface MemberControllerSwagger {
 
     @Operation(summary = "로그아웃 API", description = "로그아웃 API")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "로그아웃 성공"),
+            @ApiResponse(responseCode = "204", description = "로그아웃 성공"),
             @ApiResponse(responseCode = "400", description = "로그아웃 실패", content = @Content(schema = @Schema(implementation = APIErrorResponse.class)))
     })
     ResponseEntity<APISuccessResponse<Void>> signOut(@RequestBody final SignOutRequest request);
 
-    @Operation(summary = "캐릭터 목록 조회 API", description = "캐릭터 목록 조회 API")
+    @Operation(summary = "전체 캐릭터 목록 조회 API", description = "전체 캐릭터 목록 조회 API")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "캐릭터 목록 조회 성공"),
             @ApiResponse(responseCode = "400", description = "캐릭터 목록 조회 실패", content = @Content(schema = @Schema(implementation = APIErrorResponse.class)))
     })
+    @Parameter(name = "Authorization", description = "Bearer {access_token}", in = ParameterIn.HEADER, required = true, schema = @Schema(type = "string"))
     ResponseEntity<APISuccessResponse<GainedCharactersResponse>> getGainedCharacters();
 
-    @Operation(summary = "마케팅 수신 여부 API", description = "마케팅 수신 여부 API")
+    @Operation(summary = "약관 동의 여부 API", description = "약관 동의 여부 API")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "마케팅 수신 여부 조회 성공"),
-            @ApiResponse(responseCode = "400", description = "마케팅 수신 여부 조회 실패", content = @Content(schema = @Schema(implementation = APIErrorResponse.class)))
+            @ApiResponse(responseCode = "204", description = "약관 동의 여부 반영 성공"),
+            @ApiResponse(responseCode = "400", description = "약관 동의 여부 반영 실패", content = @Content(schema = @Schema(implementation = APIErrorResponse.class)))
     })
+    @Parameter(name = "Authorization", description = "Bearer {access_token}", in = ParameterIn.HEADER, required = true, schema = @Schema(type = "string"))
     ResponseEntity<APISuccessResponse<Void>> agreeTerms(
             @RequestBody TermsAgreeRequest termsAgreeRequest
     );
@@ -115,6 +123,7 @@ public interface MemberControllerSwagger {
             @ApiResponse(responseCode = "200", description = "사용자 정보 조회 성공"),
             @ApiResponse(responseCode = "400", description = "사용자 정보 조회 실패", content = @Content(schema = @Schema(implementation = APIErrorResponse.class)))
     })
+    @Parameter(name = "Authorization", description = "Bearer {access_token}", in = ParameterIn.HEADER, required = true, schema = @Schema(type = "string"))
     ResponseEntity<APISuccessResponse<UserInfoResponse>> getUserInfo();
 
     @Operation(summary = "사용자 탈퇴 API", description = "사용자 탈퇴 API (소프트 딜리트)")

@@ -1,6 +1,8 @@
 package site.offload.api.place.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -26,7 +28,12 @@ public interface PlaceControllerSwagger {
                     @ApiResponse(responseCode = "400", description = "오프로드 등록 장소 조회 실패", content = @Content(schema = @Schema(implementation = SuccessMessage.class)))
             }
     )
-            ResponseEntity<APISuccessResponse<RegisteredPlacesResponse>> getPlaces(
+    @Parameter(name = "Authorization", description = "Bearer {access_token}", in = ParameterIn.HEADER, required = true, schema = @Schema(type = "string"))
+    @Parameter(name = "currentLatitude", description = "현재 위도", in = ParameterIn.QUERY, required = true, schema = @Schema(type = "double"))
+    @Parameter(name = "currentLongitude", description = "현재 경도", in = ParameterIn.QUERY, required = true, schema = @Schema(type = "double"))
+    @Parameter(name = "limit", description = "조회할 장소 개수", in = ParameterIn.QUERY, required = true, schema = @Schema(type = "int"))
+    @Parameter(name = "isBounded", description = "true일 경우 현재 위치 기준 반경 내 장소, false일 경우 전체 장소", in = ParameterIn.QUERY, required = true, schema = @Schema(type = "Boolean"))
+    ResponseEntity<APISuccessResponse<RegisteredPlacesResponse>> getPlaces(
             @RequestParam double currentLatitude,
             @RequestParam double currentLongitude,
             @RequestParam int limit,

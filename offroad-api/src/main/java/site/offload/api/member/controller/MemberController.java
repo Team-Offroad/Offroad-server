@@ -35,7 +35,7 @@ public class MemberController implements MemberControllerSwagger {
     public ResponseEntity<APISuccessResponse<Void>> updateMemberProfile(@RequestBody MemberProfileUpdateRequest memberProfileUpdateRequest) {
         final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
         memberUseCase.updateMemberProfile(memberId, memberProfileUpdateRequest);
-        return APISuccessResponse.of(HttpStatus.OK.value(),
+        return APISuccessResponse.of(HttpStatus.NO_CONTENT.value(),
                 SuccessMessage.MEMBER_PROFILE_UPDATE_SUCCESS.getMessage(), null);
     }
 
@@ -95,6 +95,6 @@ public class MemberController implements MemberControllerSwagger {
     ) {
         final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
         memberUseCase.updateAgreeTerms(memberId, termsAgreeRequest.marketing());
-        return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.CHECK_AGREE_TERMS_SUCCESS.getMessage(), null);
+        return APISuccessResponse.of(HttpStatus.NO_CONTENT.value(), SuccessMessage.CHECK_AGREE_TERMS_SUCCESS.getMessage(), null);
     }
 }
