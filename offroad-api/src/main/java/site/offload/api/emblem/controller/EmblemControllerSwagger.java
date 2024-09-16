@@ -35,6 +35,7 @@ public interface EmblemControllerSwagger {
                             }))}
     )
     @Parameter(name = "Authorization", description = "Bearer {access_token}", in = ParameterIn.HEADER, required = true, schema = @Schema(type = "string"))
+    @Parameter(name = "emblemCode", description = "칭호 코드", in = ParameterIn.QUERY, required = true, schema = @Schema(type = "string"))
     ResponseEntity<APISuccessResponse<Void>> updateEmblem(@RequestParam(value = "emblemCode") final String emblemCode);
 
     @Operation(summary = "얻은 칭호 조회 API", description = "유저가 획득한 칭호를 조회하는 API 입니다.")
@@ -46,12 +47,13 @@ public interface EmblemControllerSwagger {
     @Parameter(name = "Authorization", description = "Bearer {access_token}", in = ParameterIn.HEADER, required = true, schema = @Schema(type = "string"))
     ResponseEntity<APISuccessResponse<GainedEmblemListResponse>> getGainedEmblem();
 
-    @Operation(summary = "칭호 조회 API", description = "칭호 목록을 조회하는 API 입니다.")
+    @Operation(summary = "전체 칭호 조회 API", description = "전체 칭호 목록을 조회하는 API 입니다.")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "칭호 조회 완료"),
-                    @ApiResponse(responseCode = "400", description = "칭호 조회 실패", content = @Content(schema = @Schema(implementation = APIErrorResponse.class)))
+                    @ApiResponse(responseCode = "200", description = "전체 칭호 조회 완료"),
+                    @ApiResponse(responseCode = "400", description = "전체 칭호 조회 실패", content = @Content(schema = @Schema(implementation = APIErrorResponse.class)))
             }
     )
+    @Parameter(name = "Authorization", description = "Bearer {access_token}", in = ParameterIn.HEADER, required = true, schema = @Schema(type = "string"))
     ResponseEntity<APISuccessResponse<EmblemsResponse>> getEmblems();
 }
