@@ -34,9 +34,9 @@ public interface PlaceControllerSwagger {
     @Parameter(name = "limit", description = "조회할 장소 개수", in = ParameterIn.QUERY, required = true, schema = @Schema(type = "int"))
     @Parameter(name = "isBounded", description = "true일 경우 현재 위치 기준 반경 내 장소, false일 경우 전체 장소", in = ParameterIn.QUERY, required = true, schema = @Schema(type = "Boolean"))
     ResponseEntity<APISuccessResponse<RegisteredPlacesResponse>> getPlaces(
-            @RequestParam double currentLatitude,
-            @RequestParam double currentLongitude,
-            @RequestParam int limit,
-            @RequestParam Boolean isBounded
+            @RequestParam(value = "currentLatitude") double currentLatitude,
+            @RequestParam(value = "currentLongitude") double currentLongitude,
+            @RequestParam(value = "limit") int limit,
+            @RequestParam(value = "isBounded") Boolean isBounded
     );
 }
