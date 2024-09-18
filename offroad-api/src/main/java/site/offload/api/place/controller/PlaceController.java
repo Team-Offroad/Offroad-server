@@ -23,10 +23,10 @@ public class PlaceController implements PlaceControllerSwagger {
 
     @GetMapping("/places")
     public ResponseEntity<APISuccessResponse<RegisteredPlacesResponse>> getPlaces(
-            @RequestParam double currentLatitude,
-            @RequestParam double currentLongitude,
-            @RequestParam int limit,
-            @RequestParam Boolean isBounded
+            @RequestParam(value = "currentLatitude") double currentLatitude,
+            @RequestParam(value = "currentLongitude") double currentLongitude,
+            @RequestParam(value = "limit") int limit,
+            @RequestParam(value = "isBounded") Boolean isBounded
     ) {
         return APISuccessResponse.of(
                 HttpStatus.OK.value(),
