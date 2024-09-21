@@ -109,7 +109,7 @@ public class MemberUseCase {
         return ChooseCharacterResponse.of(s3Service.getPresignUrl(findCharacterEntity.getCharacterSpotLightImageUrl()));
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public GainedCharactersResponse getGainedCharacters(Long memberId) {
         List<CharacterEntity> characterEntities = characterService.findAll();
         MemberEntity memberEntity = memberService.findById(memberId);

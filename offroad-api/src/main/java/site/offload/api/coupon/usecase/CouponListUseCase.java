@@ -20,7 +20,7 @@ public class CouponListUseCase {
     private final GainedCouponService gainedCouponService;
 
     //쿠폰 목록은 획득 날짜의 내림차순으로 반환
-    @Transactional(readOnly = true)
+    @Transactional
     public CouponListResponse getCouponList(final long memberId) {
         final List<GainedCouponEntity> findGainedCoupontList = gainedCouponService.findAllByMemberEntityIdOrderByCreatedAtDesc(memberId);
         return CouponListResponse.of(

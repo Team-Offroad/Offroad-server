@@ -28,7 +28,7 @@ public class CharacterMotionUseCase {
     private final MemberService memberService;
     private final S3Service s3Service;
 
-    @Transactional(readOnly = true)
+    @Transactional
     public CharacterMotionsResponse getMotions(Long memberId, Integer characterId) {
         MemberEntity findMemberEntity = memberService.findById(memberId);
         CharacterEntity findCharacterEntity = characterService.findById(characterId);

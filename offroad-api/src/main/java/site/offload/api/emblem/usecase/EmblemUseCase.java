@@ -58,7 +58,7 @@ public class EmblemUseCase {
                         Emblem.getEmblemByCode(gainedEmblem.getEmblemCode()).getEmblemName())).toList());
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public EmblemsResponse getEmblems(Long memberId) {
         List<QuestRewardEntity> questRewardEntitiesWithEmblems = questRewardService.findQuestWithEmblems();
         List<GainedEmblemEntity> gainedEmblemEntities = gainedEmblemService.findAllByMemberId(memberId);
