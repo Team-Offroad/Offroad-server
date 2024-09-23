@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import site.offload.common.util.StringListConvert;
 import site.offload.db.BaseTimeEntity;
+
+import java.util.List;
 
 //공지사항
 @Entity
@@ -28,4 +31,11 @@ public class AnnouncementEntity extends BaseTimeEntity {
 
     @Column(nullable = false)
     private boolean isImportant;
+
+    @Column(nullable = false)
+    private boolean hasExternalLinks;
+
+    @Column(nullable = true)
+    @Convert(converter = StringListConvert.class)
+    private List<String> externalLinks;
 }

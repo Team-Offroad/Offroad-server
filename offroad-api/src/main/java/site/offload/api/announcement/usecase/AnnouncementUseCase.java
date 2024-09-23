@@ -18,7 +18,7 @@ public class AnnouncementUseCase {
     public AnnouncementsResponse getAnnouncements() {
         List<AnnouncementEntity> announcements = announcementService.getAnnouncements();
         List<AnnouncementDetailResponse> announcementsDetail = announcements.stream()
-                .map(announcementEntity -> AnnouncementDetailResponse.of(announcementEntity.getTitle(), announcementEntity.getContent(), announcementEntity.isImportant(), announcementEntity.getUpdatedAt()))
+                .map(announcementEntity -> AnnouncementDetailResponse.of(announcementEntity.getTitle(), announcementEntity.getContent(), announcementEntity.isImportant(), announcementEntity.getUpdatedAt(), announcementEntity.isHasExternalLinks(), announcementEntity.getExternalLinks()))
                 .toList();
         return AnnouncementsResponse.of(announcementsDetail);
     }
