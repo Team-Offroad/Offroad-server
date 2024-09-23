@@ -4,6 +4,7 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'
 
     implementation project(path: ':offroad-enum')
+    implementation project(path: ':offroad-common')
 }
 
 bootJar {
