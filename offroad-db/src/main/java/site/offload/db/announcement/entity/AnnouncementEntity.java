@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import site.offload.common.util.StringListConvert;
+import site.offload.db.util.StringListConvert;
 import site.offload.db.BaseTimeEntity;
 
 import java.util.List;
