@@ -1,4 +1,4 @@
-package site.offload.common.util;
+package site.offload.db.util;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
