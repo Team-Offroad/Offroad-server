@@ -17,7 +17,7 @@ public record RegisteredPlaceResponse(
         @Schema(description = "장소 카테고리", example = "RESTAURANT")
         PlaceCategory placeCategory,
         @Schema(description = "장소 지역", example = "SEOUL")
-        PlaceArea placeArea,
+        String placeArea,
         @Schema(description = "위도", example = "37.123456")
         double latitude,
         @Schema(description = "경도", example = "127.123456")
@@ -33,7 +33,7 @@ public record RegisteredPlaceResponse(
             String address,
             String shortIntroduction,
             PlaceCategory placeCategory,
-            PlaceArea placeArea,
+            String placeArea,
             double latitude,
             double longitude,
             Long visitCount,
