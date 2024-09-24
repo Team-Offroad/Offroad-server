@@ -12,8 +12,9 @@ public record UserInfoResponse(
         @Schema(description = "완료 퀘스트 수", example = "1")
         long completeQuestCount,
         @Schema(description = "방문한 장소 수", example = "1")
-        long visitedPlaceCount
-
+        long visitedPlaceCount,
+        @Schema(description = "현재 선택한 캐릭터의 이미지 경로", example = "example.com")
+        String characterImageUrl
 ) {
 
     public static UserInfoResponse of(
@@ -21,14 +22,16 @@ public record UserInfoResponse(
             String currentEmblem,
             Long elapsedDay,
             Long completeQuestCount,
-            Long visitedPlaceCount
+            Long visitedPlaceCount,
+            String characterImageUrl
     ) {
         return new UserInfoResponse(
                 nickname,
                 currentEmblem,
                 elapsedDay,
                 completeQuestCount,
-                visitedPlaceCount
+                visitedPlaceCount,
+                characterImageUrl
         );
     }
 }

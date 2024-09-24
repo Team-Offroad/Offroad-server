@@ -144,13 +144,15 @@ public class MemberUseCase {
     @Transactional(readOnly = true)
     public UserInfoResponse getUserInfo(final Long memberId) {
         final MemberEntity memberEntity = memberService.findById(memberId);
+        final CharacterEntity characterEntity = characterService.findByName(memberEntity.getCurrentCharacterName());
         final Long elapsedDays = TimeUtil.getElapsedDay(memberEntity.getCreatedAt());
         return UserInfoResponse.of(
                 memberEntity.getNickName(),
                 memberEntity.getCurrentEmblemName(),
                 elapsedDays,
                 visitedPlaceService.countByMember(memberEntity),
-                completeQuestService.countByMember(memberEntity)
+                completeQuestService.countByMember(memberEntity),
+                characterEntity.getCharacterBaseImageUrl()
         );
     }
 
