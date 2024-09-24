@@ -25,4 +25,6 @@ public interface PlaceRepository extends JpaRepository<PlaceEntity, Long> {
             Pageable pageable
     );
 
+    boolean existsByCouponAuthCode(String couponAuthCode);
+
 }
