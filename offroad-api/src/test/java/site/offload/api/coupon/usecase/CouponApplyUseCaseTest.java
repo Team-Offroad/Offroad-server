@@ -105,6 +105,7 @@ class CouponApplyUseCaseTest {
         given(questRewardService.findByCouponCode(anyString())).willReturn(questRewardEntity);
         given(placeService.findByCouponAuthCode(anyString())).willReturn(placeEntity);
         given(questService.findById(anyInt())).willReturn(questEntity);
+        given(placeService.isExistByCouponAuthCode(anyString())).willReturn(true);
 
         //when
         CouponApplyResponse actualResponse = couponApplyUseCase.applyCoupon(1L, couponApplyRequest);
@@ -133,6 +134,7 @@ class CouponApplyUseCaseTest {
         given(questRewardService.findByCouponCode(anyString())).willReturn(questRewardEntity);
         given(placeService.findByCouponAuthCode(anyString())).willReturn(placeEntity);
         given(questService.findById(anyInt())).willReturn(questEntity);
+        given(placeService.isExistByCouponAuthCode(anyString())).willReturn(true);
 
         //when
         CouponApplyResponse actualResponse = couponApplyUseCase.applyCoupon(1L, couponApplyRequest);
@@ -157,11 +159,13 @@ class CouponApplyUseCaseTest {
         given(gainedCouponEntity.getSamePlaceRewardPlaceId()).willReturn(placeEntity.getId());
 
         given(gainedCouponService.isExistByMemberEntityIdAndCouponId(anyLong(), anyLong())).willReturn(true);
+        given(placeService.isExistByCouponAuthCode(anyString())).willReturn(true);
         given(gainedCouponService.findByMemberEntityIdAndCouponId(anyLong(), anyLong())).willReturn(gainedCouponEntity);
         given(couponService.findById(anyLong())).willReturn(couponEntity);
         given(questRewardService.findByCouponCode(anyString())).willReturn(questRewardEntity);
         given(placeService.findByCouponAuthCode(anyString())).willReturn(placeEntity);
         given(questService.findById(anyInt())).willReturn(questEntity);
+        given(placeService.isExistByCouponAuthCode(anyString())).willReturn(true);
 
         //when
         CouponApplyResponse actualResponse = couponApplyUseCase.applyCoupon(1L, couponApplyRequest);
