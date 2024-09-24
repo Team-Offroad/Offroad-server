@@ -152,7 +152,7 @@ public class MemberUseCase {
                 elapsedDays,
                 visitedPlaceService.countByMember(memberEntity),
                 completeQuestService.countByMember(memberEntity),
-                characterEntity.getCharacterBaseImageUrl()
+                s3Service.getPresignUrl(characterEntity.getCharacterBaseImageUrl())
         );
     }
 
