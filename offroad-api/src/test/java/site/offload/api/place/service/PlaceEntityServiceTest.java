@@ -99,4 +99,18 @@ class PlaceEntityServiceTest {
         //then
         Assertions.assertThat(expectedPlaceEntity).isEqualTo(placeEntity);
     }
+
+    @Test
+    @DisplayName("쿠폰 사용 코드에 해당하는 장소가 존재하는지 확인할 수 있다")
+    void checkExistByCouponAuthCode() {
+
+        //given
+        BDDMockito.given(placeRepository.existsByCouponAuthCode(BDDMockito.anyString())).willReturn(true);
+
+        //when
+        boolean expected = placeService.isExistByCouponAuthCode("example");
+
+        //then
+        Assertions.assertThat(expected).isEqualTo(true);
+    }
 }

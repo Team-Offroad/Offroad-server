@@ -79,6 +79,11 @@ public class CouponApplyUseCase {
             return false;
         }
 
+        // 쿠폰 코드에 해당하는 장소가 없으면 인증 실패
+        if(!placeService.isExistByCouponAuthCode(request.code())) {
+            return false;
+        }
+
         return true;
     }
 

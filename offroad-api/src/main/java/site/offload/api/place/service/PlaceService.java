@@ -52,4 +52,8 @@ public class PlaceService {
         );
     }
 
+    public boolean isExistByCouponAuthCode(final String couponAuthCode) {
+        return placeRepository.existsByCouponAuthCode(couponAuthCode);
+    }
+
 }
