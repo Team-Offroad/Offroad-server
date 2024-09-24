@@ -42,8 +42,7 @@ public class CouponListUseCase {
                                         couponEntity.getName(),
                                         couponEntity.getCouponImageUrl(),
                                         couponEntity.getDescription(),
-                                        isNewGained,
-                                        gainedCouponEntity.getAcquisitionPlaceId())
+                                        isNewGained)
                         );
                     }
                 }

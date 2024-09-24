@@ -76,28 +76,19 @@ class CouponListUseCaseTest {
                 .willReturn(gainedCouponList);
 
         // when
-
-        Mockito.doReturn(1L).when(gainedCouponEntity3).getAcquisitionPlaceId();
-        Mockito.doReturn(1L).when(gainedCouponEntity4).getAcquisitionPlaceId();
-
         List<AvailableCouponResponse> expectedAvailableCoupons = List.of(
                 AvailableCouponResponse.of(
                         couponEntity4.getId(),
                         couponEntity4.getName(),
                         couponEntity4.getCouponImageUrl(),
                         couponEntity4.getDescription(),
-                        gainedCouponEntity4.isNewGained(),
-                        gainedCouponEntity4.getAcquisitionPlaceId()
-                ),
+                        gainedCouponEntity4.isNewGained()),
                 AvailableCouponResponse.of(
                         couponEntity3.getId(),
                         couponEntity3.getName(),
                         couponEntity3.getCouponImageUrl(),
                         couponEntity3.getDescription(),
-                        gainedCouponEntity3.isNewGained(),
-                        gainedCouponEntity3.getAcquisitionPlaceId()
-                )
-        );
+                        gainedCouponEntity3.isNewGained()));
 
         List<UsedCouponResponse> expectedUsedCoupons = List.of(
                 UsedCouponResponse.of(

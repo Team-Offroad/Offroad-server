@@ -13,12 +13,10 @@ public record AvailableCouponResponse(
         @Schema(description = "쿠폰 설명", example = "쿠폰 설명")
         String description,
         @Schema(description = "신규 획득 여부", example = "true")
-        boolean isNewGained,
-        @Schema(description = "장소 ID", example = "1")
-        long placeId
+        boolean isNewGained
 ) {
 
-    public static AvailableCouponResponse of(long id, String name, String couponImageUrl, String description, boolean isNewGained, long placeId) {
-        return new AvailableCouponResponse(id, name, couponImageUrl, description, isNewGained, placeId);
+    public static AvailableCouponResponse of(long id, String name, String couponImageUrl, String description, boolean isNewGained) {
+        return new AvailableCouponResponse(id, name, couponImageUrl, description, isNewGained);
     }
 }
