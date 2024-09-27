@@ -45,7 +45,6 @@ public class MemberUseCase {
     private final GainedCharacterMotionService gainedCharacterMotionService;
     private final GainedCharacterService gainedCharacterService;
     private final S3Service s3Service;
-    private final GainedEmblemService gainedEmblemService;
     private final CompleteQuestService completeQuestService;
     private final VisitedPlaceService visitedPlaceService;
     private final MemberStatusCacheService memberStatusCacheService;
@@ -80,7 +79,7 @@ public class MemberUseCase {
         final PlaceCategory placeCategory = PlaceCategory.valueOf(request.category().toUpperCase());
         final String motionImageUrl = getMotionImageUrl(placeCategory, findCharacterEntity, findMemberEntity);
         final String baseImageUrl = findCharacterEntity.getCharacterBaseImageUrl();
-        final String motionCaptureImageUrl =  getMotionCaptureImageUrl(placeCategory, findCharacterEntity, findMemberEntity);
+        final String motionCaptureImageUrl = getMotionCaptureImageUrl(placeCategory, findCharacterEntity, findMemberEntity);
         return MemberAdventureInformationResponse.of(nickname, emblemName,
                 s3Service.getPresignUrl(baseImageUrl), s3Service.getPresignUrl(motionImageUrl), findCharacterEntity.getName(), motionCaptureImageUrl);
     }
@@ -95,50 +94,6 @@ public class MemberUseCase {
     @Transactional(readOnly = true)
     public boolean checkNickname(String nickname) {
         return memberService.isExistsByNickname(nickname);
-    }
-
-    @Transactional
-    public ChooseCharacterResponse chooseCharacter(Long memberId, Integer characterId) {
-        final MemberEntity findMemberEntity = memberService.findById(memberId);
-        final CharacterEntity findCharacterEntity = characterService.findById(characterId);
-        findMemberEntity.chooseCharacter(findCharacterEntity.getName());
-        if (!gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(findMemberEntity, findCharacterEntity)) {
-            gainedCharacterService.saveGainedCharacter(findMemberEntity, findCharacterEntity);
-            gainedEmblemService.save(findMemberEntity, "TT000009");
-        }
-        return ChooseCharacterResponse.of(s3Service.getPresignUrl(findCharacterEntity.getCharacterSpotLightImageUrl()));
-    }
-
-    @Transactional
-    public GainedCharactersResponse getGainedCharacters(Long memberId) {
-        List<CharacterEntity> characterEntities = characterService.findAll();
-        MemberEntity memberEntity = memberService.findById(memberId);
-        CharacterEntity currentCharacterEntity = characterService.findByName(memberEntity.getCurrentCharacterName());
-
-
-        List<GainedCharacterResponse> gainedCharacters = characterEntities.stream()
-                .filter(characterEntity -> gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(memberEntity, characterEntity))
-                .map(characterEntity -> {
-                    GainedCharacterEntity gainedCharacterEntity = gainedCharacterService.findByMemberEntityAndCharacterEntity(memberEntity, characterEntity);
-                    boolean isNewGained = gainedCharacterEntity.isNewGained();
-                    gainedCharacterEntity.updateNewGainedStatus();
-                    return GainedCharacterResponse.of(characterEntity.getId(), characterEntity.getName(), s3Service.getPresignUrl(characterEntity.getCharacterBaseImageUrl()), characterEntity.getCharacterMainColorCode(), characterEntity.getCharacterSubColorCode(), isNewGained);
-                })
-                .collect(Collectors.toList());
-
-        List<GainedCharacterResponse> notGainedCharacters = characterEntities.stream()
-                .filter(characterEntity -> !gainedCharacterService.isExistsGainedCharacterByMemberAndCharacter(memberEntity, characterEntity))
-                .map(characterEntity -> GainedCharacterResponse.of(
-                        characterEntity.getId(),
-                        characterEntity.getName(),
-                        s3Service.getPresignUrl(characterEntity.getNotGainedCharacterThumbnailImageUrl()),
-                        characterEntity.getCharacterMainColorCode(),
-                        characterEntity.getCharacterSubColorCode(),
-                        false)
-                )
-                .collect(Collectors.toList());
-
-        return GainedCharactersResponse.of(gainedCharacters, notGainedCharacters, currentCharacterEntity.getId());
     }
 
     @Transactional(readOnly = true)

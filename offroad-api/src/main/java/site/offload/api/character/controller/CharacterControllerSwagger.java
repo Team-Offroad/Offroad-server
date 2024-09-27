@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import site.offload.api.character.dto.response.CharacterDetailResponse;
 import site.offload.api.character.dto.response.StartCharactersResponse;
+import site.offload.api.member.dto.response.ChooseCharacterResponse;
+import site.offload.api.member.dto.response.GainedCharactersResponse;
 import site.offload.api.response.APIErrorResponse;
 import site.offload.api.response.APISuccessResponse;
 
@@ -42,4 +44,21 @@ public interface CharacterControllerSwagger {
     @Parameter(name = "Authorization", description = "Bearer {access_token}", in = ParameterIn.HEADER, required = true, schema = @Schema(type = "string"))
     @Parameter(name = "characterId", description = "캐릭터 아이디", in = ParameterIn.PATH, required = true, schema = @Schema(type = "Integer"))
     ResponseEntity<APISuccessResponse<CharacterDetailResponse>> getCharacterDetail(@PathVariable(value = "characterId") Integer characterId);
+
+    @Operation(summary = "캐릭터 선택 API", description = "캐릭터를 선택하는 API")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "캐릭터 선택 성공"),
+            @ApiResponse(responseCode = "400", description = "캐릭터 선택 실패", content = @Content(schema = @Schema(implementation = APIErrorResponse.class)))
+    })
+    @Parameter(name = "Authorization", description = "Bearer {access_token}", in = ParameterIn.HEADER, required = true, schema = @Schema(type = "string"))
+    @Parameter(name = "characterId", description = "캐릭터 아이디", in = ParameterIn.PATH, required = true, schema = @Schema(type = "Integer"))
+    ResponseEntity<APISuccessResponse<ChooseCharacterResponse>> chooseCharacter(@PathVariable(value = "characterId") Integer characterId);
+
+    @Operation(summary = "전체 캐릭터 목록 조회 API", description = "전체 캐릭터 목록 조회 API")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "캐릭터 목록 조회 성공"),
+            @ApiResponse(responseCode = "400", description = "캐릭터 목록 조회 실패", content = @Content(schema = @Schema(implementation = APIErrorResponse.class)))
+    })
+    @Parameter(name = "Authorization", description = "Bearer {access_token}", in = ParameterIn.HEADER, required = true, schema = @Schema(type = "string"))
+    ResponseEntity<APISuccessResponse<GainedCharactersResponse>> getCharacters();
 }

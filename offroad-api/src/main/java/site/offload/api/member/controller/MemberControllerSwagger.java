@@ -58,56 +58,6 @@ public interface MemberControllerSwagger {
     @Parameter(name = "nickname", description = "닉네임", in = ParameterIn.QUERY, required = true, schema = @Schema(type = "string"))
     ResponseEntity<APISuccessResponse<NicknameCheckResponse>> checkNickname(@RequestParam(value = "nickname") String nickname);
 
-    @Operation(summary = "캐릭터 선택 API", description = "캐릭터를 선택하는 API")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "캐릭터 선택 성공"),
-            @ApiResponse(responseCode = "400", description = "캐릭터 선택 실패", content = @Content(schema = @Schema(implementation = APIErrorResponse.class)))
-    })
-    @Parameter(name = "Authorization", description = "Bearer {access_token}", in = ParameterIn.HEADER, required = true, schema = @Schema(type = "string"))
-    @Parameter(name = "characterId", description = "캐릭터 아이디", in = ParameterIn.PATH, required = true, schema = @Schema(type = "Integer"))
-    ResponseEntity<APISuccessResponse<ChooseCharacterResponse>> chooseCharacter(@PathVariable(value = "characterId") Integer characterId);
-
-    @Operation(summary = "탐험 인증 API", description = "QR코드로 탐험인증 하는 API")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "탐험 인증 성공"),
-            @ApiResponse(responseCode = "400", description = "탐험 인증 실패", content = @Content(schema = @Schema(implementation = APIErrorResponse.class)))
-    })
-    @Parameter(name = "Authorization", description = "Bearer {access_token}", in = ParameterIn.HEADER, required = true, schema = @Schema(type = "string"))
-    ResponseEntity<APISuccessResponse<VerifyQrcodeResponse>> authAdventure(final @RequestBody AuthAdventureRequest request);
-
-
-    @Operation(summary = "위치 정보 탐험 인증 API", description = "위치정보로 탐험인증 하는 API")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "탐험 인증 성공"),
-            @ApiResponse(responseCode = "404", description = "요청에 필요한 자원 없음",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = APIErrorResponse.class),
-                            examples = {
-                                    @ExampleObject(name = "존재하지 않는 장소", value = "{ \"message\": \"존재하지 않는 장소\", \"customErrorCode\": \"NOT_EXISTS_PLACE\" }"),
-                                    @ExampleObject(name = "존재하지 않는 캐릭터", value = "{ \"message\": \"존재하지 않는 캐릭터\", \"customErrorCode\": \"NOT_EXISTS_CHARACTER\" }"),
-                                    @ExampleObject(name = "존재하지 않는 유저", value = "{ \"message\": \"존재하지 않는 유저\", \"customErrorCode\": \"NOT_EXISTS_MEMBER\" }"),
-                                    @ExampleObject(name = "존재하지 않는 퀘스트", value = "{ \"message\": \"존재하지 않는 퀘스트\", \"customErrorCode\": \"NOT_EXISTS_QUEST\" }")
-                            }
-                    ))
-    })
-    @Parameter(name = "Authorization", description = "Bearer {access_token}", in = ParameterIn.HEADER, required = true, schema = @Schema(type = "string"))
-    ResponseEntity<APISuccessResponse<VerifyPositionDistanceResponse>> authAdventureOnlyPlace(final @RequestBody AuthPositionRequest request);
-
-    @Operation(summary = "로그아웃 API", description = "로그아웃 API")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "로그아웃 성공"),
-            @ApiResponse(responseCode = "400", description = "로그아웃 실패", content = @Content(schema = @Schema(implementation = APIErrorResponse.class)))
-    })
-    ResponseEntity<APISuccessResponse<Void>> signOut(@RequestBody final SignOutRequest request);
-
-    @Operation(summary = "전체 캐릭터 목록 조회 API", description = "전체 캐릭터 목록 조회 API")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "캐릭터 목록 조회 성공"),
-            @ApiResponse(responseCode = "400", description = "캐릭터 목록 조회 실패", content = @Content(schema = @Schema(implementation = APIErrorResponse.class)))
-    })
-    @Parameter(name = "Authorization", description = "Bearer {access_token}", in = ParameterIn.HEADER, required = true, schema = @Schema(type = "string"))
-    ResponseEntity<APISuccessResponse<GainedCharactersResponse>> getGainedCharacters();
-
     @Operation(summary = "약관 동의 여부 API", description = "약관 동의 여부 API")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "약관 동의 여부 반영 성공"),

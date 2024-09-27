@@ -14,13 +14,13 @@ import site.offload.api.response.APISuccessResponse;
 import site.offload.enums.response.SuccessMessage;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/motions")
 @RequiredArgsConstructor
 public class CharacterMotionController implements CharacterMotionControllerSwagger {
 
     private final CharacterMotionUseCase characterMotionUseCase;
 
-    @GetMapping("/motions/{characterId}")
+    @GetMapping("/{characterId}")
     public ResponseEntity<APISuccessResponse<CharacterMotionsResponse>> getMotions(
             @PathVariable(value = "characterId") Integer characterId
     ) {

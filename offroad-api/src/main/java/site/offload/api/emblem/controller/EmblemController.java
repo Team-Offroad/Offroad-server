@@ -14,12 +14,12 @@ import site.offload.enums.response.SuccessMessage;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/emblems")
 public class EmblemController implements EmblemControllerSwagger {
 
     private final EmblemUseCase emblemUseCase;
 
-    @PatchMapping("/users/emblems")
+    @PatchMapping
     public ResponseEntity<APISuccessResponse<Void>> updateEmblem(@RequestParam(value = "emblemCode") final String emblemCode) {
         final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
         emblemUseCase.updateCurrentEmblem(UpdateCurrentEmblemRequest.of(emblemCode, memberId));
@@ -27,14 +27,14 @@ public class EmblemController implements EmblemControllerSwagger {
                 SuccessMessage.MEMBER_CURRENT_EMBLEM_UPDATE_SUCCESS.getMessage(), null);
     }
 
-    @GetMapping("/users/emblems")
+    @GetMapping("/acquisition")
     public ResponseEntity<APISuccessResponse<GainedEmblemListResponse>> getGainedEmblem() {
         final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
         return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.GET_GAINED_EMBLEMS_SUCCESS.getMessage(),
                 emblemUseCase.getGainedEmblems(memberId));
     }
 
-    @GetMapping("/emblems")
+    @GetMapping
     public ResponseEntity<APISuccessResponse<EmblemsResponse>> getEmblems() {
         final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
         return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.GET_EMBLEMS_SUCCESS.getMessage(),

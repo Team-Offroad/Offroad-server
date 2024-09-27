@@ -15,12 +15,12 @@ import site.offload.enums.response.SuccessMessage;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/token")
 public class TokenController implements TokenControllerSwagger {
 
     private final TokenUseCase tokenUseCase;
 
-    @PostMapping("/auth/refresh")
+    @PostMapping("/refresh")
     public ResponseEntity<APISuccessResponse<TokenReissueResponse>> refreshToken(@RequestHeader("Authorization") String tokenHeaderValue) {
         final String refreshToken = tokenHeaderValue.substring("Bearer ".length());
         final Long memberId = PrincipalHandler.getMemberIdFromPrincipal();
