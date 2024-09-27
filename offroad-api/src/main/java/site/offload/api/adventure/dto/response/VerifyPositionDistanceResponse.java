@@ -1,4 +1,4 @@
-package site.offload.api.member.dto.response;
+package site.offload.api.adventure.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import site.offload.api.quest.dto.response.CompleteQuestResponse;
@@ -11,7 +11,6 @@ public record VerifyPositionDistanceResponse(
         @Schema(description = "캐릭터 이미지 URL", example = "https://test.com/test.jpg")
         String successCharacterImageUrl,
         @Schema(description = "완료한 퀘스트 목록")
-
         List<CompleteQuestResponse> completeQuestList) {
 
     public static VerifyPositionDistanceResponse of(boolean isValidPosition, String characterImageUrl, List<CompleteQuestResponse> completeQuestList) {

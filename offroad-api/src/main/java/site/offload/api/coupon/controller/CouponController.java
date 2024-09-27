@@ -15,20 +15,20 @@ import site.offload.enums.response.SuccessMessage;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/coupons")
 public class CouponController implements CouponControllerSwagger {
 
     private final CouponListUseCase couponListUseCase;
     private final CouponApplyUseCase couponApplyUseCase;
 
-    @GetMapping("/users/coupons")
+    @GetMapping
     public ResponseEntity<APISuccessResponse<CouponListResponse>> getCouponList() {
         return APISuccessResponse.of(HttpStatus.OK.value(),
                 SuccessMessage.GET_COUPON_LIST_SUCCESS.getMessage(),
                 couponListUseCase.getCouponList(PrincipalHandler.getMemberIdFromPrincipal()));
     }
 
-    @PostMapping("/users/coupons")
+    @PostMapping
     public ResponseEntity<APISuccessResponse<CouponApplyResponse>> useCoupon(@RequestBody CouponApplyRequest request) {
         return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.GET_COUPON_APPLY_SUCCESS.getMessage(),
         couponApplyUseCase.applyCoupon(PrincipalHandler.getMemberIdFromPrincipal(), request));

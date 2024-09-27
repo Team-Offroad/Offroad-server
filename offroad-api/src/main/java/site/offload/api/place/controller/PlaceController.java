@@ -16,12 +16,12 @@ import site.offload.enums.response.SuccessMessage;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/places")
 public class PlaceController implements PlaceControllerSwagger {
 
     private final PlaceUseCase placeUsecase;
 
-    @GetMapping("/places")
+    @GetMapping
     public ResponseEntity<APISuccessResponse<RegisteredPlacesResponse>> getPlaces(
             @RequestParam(value = "currentLatitude") double currentLatitude,
             @RequestParam(value = "currentLongitude") double currentLongitude,

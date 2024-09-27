@@ -1,4 +1,4 @@
-package site.offload.api.member.dto.response;
+package site.offload.api.adventure.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import site.offload.api.quest.dto.response.CompleteQuestResponse;

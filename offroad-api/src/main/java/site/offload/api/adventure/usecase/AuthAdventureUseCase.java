@@ -1,4 +1,4 @@
-package site.offload.api.member.usecase;
+package site.offload.api.adventure.usecase;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,10 +10,10 @@ import site.offload.api.coupon.service.CouponService;
 import site.offload.api.coupon.service.GainedCouponService;
 import site.offload.api.emblem.service.GainedEmblemService;
 import site.offload.api.exception.BadRequestException;
-import site.offload.api.member.dto.request.AuthAdventureRequest;
-import site.offload.api.member.dto.request.AuthPositionRequest;
-import site.offload.api.member.dto.response.VerifyPositionDistanceResponse;
-import site.offload.api.member.dto.response.VerifyQrcodeResponse;
+import site.offload.api.adventure.dto.request.AuthAdventureRequest;
+import site.offload.api.adventure.dto.request.AuthPositionRequest;
+import site.offload.api.adventure.dto.response.VerifyPositionDistanceResponse;
+import site.offload.api.adventure.dto.response.VerifyQrcodeResponse;
 import site.offload.api.member.service.MemberService;
 import site.offload.api.place.service.PlaceService;
 import site.offload.api.place.service.VisitedPlaceService;
