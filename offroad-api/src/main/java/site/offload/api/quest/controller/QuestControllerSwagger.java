@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
-import site.offload.api.quest.dto.request.QuestDetailListRequest;
 import site.offload.api.quest.dto.response.QuestDetailListResponse;
 import site.offload.api.quest.dto.response.QuestResponse;
 import site.offload.api.response.APIErrorResponse;
@@ -38,5 +37,7 @@ public interface QuestControllerSwagger {
             ))
     @Parameter(name = "Authorization", description = "Bearer {access_token}", in = ParameterIn.HEADER, required = true, schema = @Schema(type = "string"))
     @Parameter(name = "isActive", description = "진행중인 퀘스트 요청시 true, 전체 목록 요청시 false", in = ParameterIn.QUERY, required = true, schema = @Schema(type = "boolean"))
-    ResponseEntity<APISuccessResponse<QuestDetailListResponse>> getQuestList(@RequestParam boolean isActive);
+    ResponseEntity<APISuccessResponse<QuestDetailListResponse>> getQuestList(@RequestParam(value = "isActive") boolean isActive,
+                                                                             @RequestParam(value = "cursor") int cursor,
+                                                                             @RequestParam(value = "size") int size);
 }
