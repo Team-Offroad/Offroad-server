@@ -29,10 +29,12 @@ public class QuestController implements QuestControllerSwagger {
     }
 
     @GetMapping("/quests")
-    public ResponseEntity<APISuccessResponse<QuestDetailListResponse>> getQuestList(@RequestParam(value = "isActive") boolean isActive) {
+    public ResponseEntity<APISuccessResponse<QuestDetailListResponse>> getQuestList(@RequestParam(value = "isActive") boolean isActive,
+                                                                                    @RequestParam(value = "cursor") int cursor,
+                                                                                    @RequestParam(value = "size") int size) {
         return APISuccessResponse.of(
                 HttpStatus.OK.value(),
                 SuccessMessage.GET_QUEST_DETAIL_LIST_SUCCESS.getMessage(),
-                questUseCase.getQuestDetailList(PrincipalHandler.getMemberIdFromPrincipal(), isActive));
+                questUseCase.getQuestDetailList(PrincipalHandler.getMemberIdFromPrincipal(), QuestDetailListRequest.of(size, isActive, cursor)));
     }
 }

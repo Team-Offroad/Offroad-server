@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.offload.api.member.service.MemberService;
+import site.offload.api.quest.dto.request.QuestDetailListRequest;
 import site.offload.api.quest.dto.response.QuestDetailListResponse;
 import site.offload.api.quest.dto.response.QuestDetailResponse;
 import site.offload.api.quest.dto.response.QuestInformationResponse;
@@ -20,6 +21,7 @@ import site.offload.db.quest.entity.QuestEntity;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 @Service
@@ -68,86 +70,136 @@ public class QuestUseCase {
         return (double) current / (double) goal;
     }
 
-
     @Transactional(readOnly = true)
-    public QuestDetailListResponse getQuestDetailList(final Long memberId, final boolean isActive) {
-        if (isActive) {
-            return QuestDetailListResponse.of(getActiveQuestList(memberId));
+    public QuestDetailListResponse getQuestDetailList(final Long memberId, final QuestDetailListRequest request) {
+        if (request.isOngoing()) {
+            return QuestDetailListResponse.of(getPaginatedListOfQuestDetails(request.size(), getOngoingQuestList(memberId), request.cursor()));
         } else {
-            return QuestDetailListResponse.of(getAllQuestList(memberId));
+            return QuestDetailListResponse.of(getPaginatedListOfQuestDetails(request.size(), getOrderedQuestList(memberId), request.cursor()));
         }
     }
 
+    private List<QuestDetailResponse> getOngoingQuestList(final Long memberId) {
+        AtomicInteger cursorId = new AtomicInteger(1);
 
-    private List<QuestDetailResponse> getAllQuestList(final Long memberId) {
-        final List<QuestEntity> completedQuestList = completeQuestService.findAllByMemberId(memberId)
+        final List<ProceedingQuestEntity> proceedingQuestEntities = proceedingQuestService.findAllByMemberId(memberId);
+        return proceedingQuestEntities
                 .stream()
-                .map(CompleteQuestEntity::getQuestEntity).toList();
-        final List<Integer> completeQuestIdList = completedQuestList.stream()
+                .filter(this::isValidProceedingQuest)
+                .sorted(getOngoingQuestListComparator())
+                .map(proceedingQuestEntity -> {
+                    final QuestEntity questEntity = proceedingQuestEntity.getQuestEntity();
+                    return mapToQuestDetailResponse(questEntity, memberId, cursorId);
+                })
+                .toList();
+    }
+
+    private List<QuestDetailResponse> getOrderedQuestList(final Long memberId) {
+        final List<QuestEntity> completedQuests = getCompletedQuests(memberId);
+        final List<QuestEntity> notCompletedQuests = getNotCompletedQuests(completedQuests);
+
+        final List<QuestEntity> orderedQuests = mergeAndOrderQuests(notCompletedQuests, completedQuests);
+
+        return mapToQuestDetailResponses(orderedQuests, memberId);
+    }
+
+    private List<QuestEntity> getCompletedQuests(final Long memberId) {
+        return completeQuestService.findAllByMemberId(memberId).stream()
+                .map(CompleteQuestEntity::getQuestEntity)
+                .toList();
+    }
+
+    private List<QuestEntity> getNotCompletedQuests(final List<QuestEntity> completedQuests) {
+        final List<Integer> completedQuestIds = completedQuests.stream()
                 .map(QuestEntity::getId)
                 .toList();
 
-        List<QuestEntity> notCompletedQuestList;
-        if (completeQuestIdList.isEmpty()) {
-            notCompletedQuestList = questService.findAll();
-        } else {
-            notCompletedQuestList = questService.findByIdNotIn(completeQuestIdList)
-                    .stream()
-                    .sorted(Comparator.comparing(QuestEntity::getId))
-                    .toList();
-        }
-
-        final List<QuestEntity> allQuests = new ArrayList<>(notCompletedQuestList);
-        allQuests.addAll(completedQuestList);
-        return allQuests.stream().map(
-                questEntity -> {
-                    int currentClearCount = 0;
-                    final MemberEntity memberEntity = memberService.findById(memberId);
-
-                    if (completedQuestList.contains(questEntity)) {
-                        currentClearCount = questEntity.getTotalRequiredClearCount();
-                    }
-                    if (proceedingQuestService.existsByMemberAndQuest(memberEntity, questEntity)) {
-                        currentClearCount = proceedingQuestService.findByMemberAndQuest(memberEntity, questEntity).getCurrentClearCount();
-                    }
-
-                    return QuestDetailResponse.of(
-                            questEntity.getName(),
-                            questEntity.getDescription(),
-                            currentClearCount,
-                            questEntity.getTotalRequiredClearCount(),
-                            questEntity.getClearConditionText(),
-                            questEntity.getRewardText()
-                    );
-                }
-        ).toList();
+        return completedQuestIds.isEmpty() ? questService.findAll() : questService.findByIdNotIn(completedQuestIds)
+                .stream()
+                .sorted(getNotCompletedQuestListComparator())
+                .toList();
     }
 
+    private List<QuestEntity> mergeAndOrderQuests(final List<QuestEntity> notCompletedQuests, final List<QuestEntity> completedQuests) {
+        final List<QuestEntity> allQuests = new ArrayList<>(notCompletedQuests);
+        allQuests.addAll(completedQuests);
+        return allQuests;
+    }
 
-    private List<QuestDetailResponse> getActiveQuestList(final Long memberId) {
-        return proceedingQuestService.findAllByMemberId(memberId)
+    private boolean isValidProceedingQuest(final ProceedingQuestEntity proceedingQuestEntity) {
+        return proceedingQuestEntity.isValid();
+    }
+
+    private Comparator<ProceedingQuestEntity> getOngoingQuestListComparator() {
+        // 달성도 내림차순
+        return Comparator.comparingDouble(proceedingQuestEntity ->
+                (double) proceedingQuestEntity.getQuestEntity().getTotalRequiredClearCount() / (double) proceedingQuestEntity.getCurrentClearCount()
+        );
+    }
+
+    private List<QuestEntity> getCompletedQuestList(final Long memberId) {
+        return completeQuestService.findAllByMemberId(memberId)
                 .stream()
-                .filter(
-                        (proceedingQuestEntity) -> proceedingQuestEntity.getCurrentClearCount() > 0 &&
-                                proceedingQuestEntity.getCurrentClearCount() < proceedingQuestEntity.getQuestEntity().getTotalRequiredClearCount()
+                .map(CompleteQuestEntity::getQuestEntity).toList();
+    }
+
+    private Comparator<QuestEntity> getNotCompletedQuestListComparator() {
+        return Comparator.comparing(QuestEntity::getId);
+    }
+
+    private List<QuestDetailResponse> mapToQuestDetailResponses(final List<QuestEntity> questEntities, final Long memberId) {
+        AtomicInteger cursorId = new AtomicInteger(1);
+
+        return questEntities.stream()
+                .map(questEntity -> mapToQuestDetailResponse(questEntity, memberId, cursorId)
                 )
-                .sorted(
-                        // 달성도 내림차순
-                        Comparator.comparingDouble((proceedingQuestEntity) ->
-                                (double) proceedingQuestEntity.getQuestEntity().getTotalRequiredClearCount() / (double) proceedingQuestEntity.getCurrentClearCount()
-                        )
-                )
-                .map(proceedingQuestEntity -> {
-                    final QuestEntity questEntity = proceedingQuestEntity.getQuestEntity();
-                    return QuestDetailResponse.of(
-                            questEntity.getName(),
-                            questEntity.getDescription(),
-                            proceedingQuestEntity.getCurrentClearCount(),
-                            questEntity.getTotalRequiredClearCount(),
-                            questEntity.getClearConditionText(),
-                            questEntity.getRewardText()
-                    );
-                })
+                .toList();
+    }
+
+    private QuestDetailResponse mapToQuestDetailResponse(final QuestEntity questEntity, final Long memberId, final AtomicInteger cursorId) {
+        return QuestDetailResponse.of(
+                questEntity.getName(),
+                questEntity.getDescription(),
+                countCurrentClear(questEntity, memberId),
+                questEntity.getTotalRequiredClearCount(),
+                questEntity.getClearConditionText(),
+                questEntity.getRewardText(),
+                cursorId.getAndIncrement()
+        );
+    }
+
+    private int countCurrentClear(final QuestEntity questEntity, final Long memberId) {
+        final int currentClearCount = 0;
+        final MemberEntity memberEntity = memberService.findById(memberId);
+
+        if (doesCompletedQuestListContain(questEntity, memberId)) {
+            return questEntity.getTotalRequiredClearCount();
+        }
+
+        if (doesQuestExistInProceedingQuest(questEntity, memberEntity)) {
+            return getCurrentClearCountFromProceedingQuest(questEntity, memberEntity);
+        }
+
+        return currentClearCount;
+    }
+
+    private boolean doesCompletedQuestListContain(final QuestEntity questEntity, final Long memberId) {
+        return getCompletedQuestList(memberId).contains(questEntity);
+    }
+
+    private boolean doesQuestExistInProceedingQuest(final QuestEntity questEntity, final MemberEntity memberEntity) {
+        return proceedingQuestService.existsByMemberAndQuest(memberEntity, questEntity);
+    }
+
+    private int getCurrentClearCountFromProceedingQuest(final QuestEntity questEntity, final MemberEntity memberEntity) {
+        return proceedingQuestService.findByMemberAndQuest(memberEntity, questEntity).getCurrentClearCount();
+    }
+
+    private List<QuestDetailResponse> getPaginatedListOfQuestDetails(final int size, final List<QuestDetailResponse> questDetails, final int cursor) {
+        return questDetails.stream()
+                // 첫 요청시 cursor == 0 (클라와 합의해야되는 내용)
+                .filter(quest -> cursor == 0 || quest.getCursorId() > cursor)
+                .limit(size)
                 .toList();
     }
 }

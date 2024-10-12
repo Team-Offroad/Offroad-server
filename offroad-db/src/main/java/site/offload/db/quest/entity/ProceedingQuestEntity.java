@@ -10,7 +10,7 @@ import site.offload.db.member.entity.MemberEntity;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="proceeding_quest")
+@Table(name = "proceeding_quest")
 public class ProceedingQuestEntity extends BaseTimeEntity {
 
     private static final int DEFAULT_CLEAR_COUNT = 1;
@@ -45,5 +45,10 @@ public class ProceedingQuestEntity extends BaseTimeEntity {
 
     public void updateCurrentClearCount(int currentClearCount) {
         this.currentClearCount = currentClearCount;
+    }
+
+    public boolean isValid() {
+        return this.currentClearCount > 0 &&
+                this.currentClearCount < this.getQuestEntity().getTotalRequiredClearCount();
     }
 }

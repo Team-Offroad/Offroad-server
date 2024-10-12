@@ -16,11 +16,14 @@ public record QuestDetailResponse(
         @Schema(description = "퀘스트 완료 조건", example = "3")
         String requirement,
         @Schema(description = "퀘스트 보상", example = "~쿠폰")
-        String reward) {
+        String reward,
+        @Schema(description = "서버에 api 요청 시 'cursor' 키값에 포함시킬 id", example = "1")
+        int cursorId) {
 
     public static QuestDetailResponse of(String questName, String description,
                                          int currentCount, int totalCount, String requirement,
-                                         String reward) {
+                                         String reward,
+                                         int cursorId) {
         return QuestDetailResponse.builder()
                 .questName(questName)
                 .currentCount(currentCount)
@@ -28,6 +31,11 @@ public record QuestDetailResponse(
                 .requirement(requirement)
                 .reward(reward)
                 .description(description)
+                .cursorId(cursorId)
                 .build();
+    }
+
+    public int getCursorId() {
+        return cursorId;
     }
 }
