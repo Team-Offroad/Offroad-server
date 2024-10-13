@@ -12,10 +12,7 @@ import site.offload.db.member.entity.MemberEntity;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "gained_coupon",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"member_id", "coupon_id"})
-        })
+@Table(name = "gained_coupon")
 public class GainedCouponEntity extends BaseTimeEntity {
 
     @Id

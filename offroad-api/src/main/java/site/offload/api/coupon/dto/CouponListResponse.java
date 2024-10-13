@@ -5,13 +5,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 
 public record CouponListResponse(
-        @Schema(description = "사용 가능한 쿠폰 목록")
-        List<AvailableCouponResponse> availableCoupons,
-        @Schema(description = "사용한 쿠폰 목록")
-        List<UsedCouponResponse> usedCoupons
+        @Schema(description = "쿠폰 목록")
+        List<CouponResponse> coupons
 ) {
 
-    public static CouponListResponse of(List<AvailableCouponResponse> availableCoupons, List<UsedCouponResponse> usedCoupons) {
-        return new CouponListResponse(availableCoupons, usedCoupons);
+    public static CouponListResponse of(List<CouponResponse> coupons) {
+        return new CouponListResponse(coupons);
     }
 }
+
+

@@ -9,17 +9,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import site.offload.api.auth.PrincipalHandler;
+import org.springframework.web.bind.annotation.RequestParam;
 import site.offload.api.coupon.dto.CouponApplyRequest;
 import site.offload.api.coupon.dto.CouponApplyResponse;
 import site.offload.api.coupon.dto.CouponListResponse;
 import site.offload.api.response.APIErrorResponse;
 import site.offload.api.response.APISuccessResponse;
-import site.offload.enums.response.SuccessMessage;
 
 @Tag(name = "[Coupon API] 쿠폰 관련 API")
 public interface CouponControllerSwagger {
@@ -29,7 +25,9 @@ public interface CouponControllerSwagger {
             @ApiResponse(responseCode = "200", description = "쿠폰 목록 조회 성공"),
     })
     @Parameter(name = "Authorization", description = "Bearer {access_token}", in = ParameterIn.HEADER, required = true, schema = @Schema(type = "string"))
-    ResponseEntity<APISuccessResponse<CouponListResponse>> getCouponList();
+    ResponseEntity<APISuccessResponse<CouponListResponse>> getCouponList(@RequestParam boolean isUsed,
+                                                                         @RequestParam int size,
+                                                                         @RequestParam int cursor);
 
     @Operation(summary = "쿠폰 적용 API", description = "쿠폰 적용 API")
     @ApiResponses(value = {
