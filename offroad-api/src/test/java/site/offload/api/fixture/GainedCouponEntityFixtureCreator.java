@@ -12,4 +12,12 @@ public class GainedCouponEntityFixtureCreator {
                 .couponEntity(couponEntity)
                 .build();
     }
+
+    public static GainedCouponEntity createGainedCouponEntity(MemberEntity memberEntity, CouponEntity couponEntity, long acquisitionPlaceId) {
+        return GainedCouponEntity.builder()
+                .memberEntity(memberEntity)
+                .couponEntity(couponEntity)
+                .acquisitionPlaceId(acquisitionPlaceId)
+                .build();
+    }
 }

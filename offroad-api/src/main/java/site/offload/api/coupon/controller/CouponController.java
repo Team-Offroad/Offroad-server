@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import site.offload.api.auth.PrincipalHandler;
 import site.offload.api.coupon.dto.CouponApplyRequest;
 import site.offload.api.coupon.dto.CouponApplyResponse;
+import site.offload.api.coupon.dto.CouponListRequest;
 import site.offload.api.coupon.dto.CouponListResponse;
 import site.offload.api.coupon.usecase.CouponApplyUseCase;
 import site.offload.api.coupon.usecase.CouponListUseCase;
@@ -22,15 +23,17 @@ public class CouponController implements CouponControllerSwagger {
     private final CouponApplyUseCase couponApplyUseCase;
 
     @GetMapping("/users/coupons")
-    public ResponseEntity<APISuccessResponse<CouponListResponse>> getCouponList() {
+    public ResponseEntity<APISuccessResponse<CouponListResponse>> getCouponList(@RequestParam boolean isUsed,
+                                                                                @RequestParam int size,
+                                                                                @RequestParam int cursor) {
         return APISuccessResponse.of(HttpStatus.OK.value(),
                 SuccessMessage.GET_COUPON_LIST_SUCCESS.getMessage(),
-                couponListUseCase.getCouponList(PrincipalHandler.getMemberIdFromPrincipal()));
+                couponListUseCase.getCouponList(CouponListRequest.of(size, isUsed, cursor), PrincipalHandler.getMemberIdFromPrincipal()));
     }
 
     @PostMapping("/users/coupons")
     public ResponseEntity<APISuccessResponse<CouponApplyResponse>> useCoupon(@RequestBody CouponApplyRequest request) {
         return APISuccessResponse.of(HttpStatus.OK.value(), SuccessMessage.GET_COUPON_APPLY_SUCCESS.getMessage(),
-        couponApplyUseCase.applyCoupon(PrincipalHandler.getMemberIdFromPrincipal(), request));
+                couponApplyUseCase.applyCoupon(PrincipalHandler.getMemberIdFromPrincipal(), request));
     }
 }

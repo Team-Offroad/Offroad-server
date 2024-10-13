@@ -1,6 +1,7 @@
 package site.offload.api.coupon.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import site.offload.api.exception.NotFoundException;
 import site.offload.db.coupon.entity.GainedCouponEntity;
@@ -36,5 +37,9 @@ public class GainedCouponService {
         return gainedCouponRepository.findByMemberEntityIdAndCouponEntityId(memberId, couponId).orElseThrow(
                 () -> new NotFoundException(ErrorMessage.GAINED_COUPON_NOTFOUND_EXCEPTION)
         );
+    }
+
+    public List<GainedCouponEntity> findByMemberEntityIdAndIdLessThanAndUsedOrderByIdDesc(long memberId, long cursor, boolean isUsed, Pageable pageable) {
+        return gainedCouponRepository.findByMemberEntityIdAndIdLessThanAndIsUsedOrderByIdDesc(memberId, cursor, isUsed, pageable);
     }
 }
