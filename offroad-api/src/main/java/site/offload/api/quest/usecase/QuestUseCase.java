@@ -198,7 +198,7 @@ public class QuestUseCase {
     private List<QuestDetailResponse> getPaginatedListOfQuestDetails(final int size, final List<QuestDetailResponse> questDetails, final int cursor) {
         return questDetails.stream()
                 // 첫 요청시 cursor == 0 (클라와 합의해야되는 내용)
-                .filter(quest -> cursor == 0 || quest.getCursorId() > cursor)
+                .filter(quest -> cursor == 0 || quest.cursorId() > cursor)
                 .limit(size)
                 .toList();
     }

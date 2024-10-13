@@ -34,8 +34,4 @@ public record QuestDetailResponse(
                 .cursorId(cursorId)
                 .build();
     }
-
-    public int getCursorId() {
-        return cursorId;
-    }
 }
